@@ -1,12 +1,11 @@
 document.body.addEventListener("click", ev => {
-    if(maskOpened === false)
-        popupMenu.style.display = "none"
-    ev.preventDefault()
+    popupMenu.style.display = "none"
+    if(disableBodyPrevDef !== true)
+        ev.preventDefault()
 })
 
 document.body.addEventListener("contextmenu", ev => {
-    if(maskOpened === false)
-        popupMenu.style.display = "none"
+    popupMenu.style.display = "none"
     ev.preventDefault()
 })
 
@@ -97,7 +96,7 @@ btnSort.addEventListener("click", ev => {
 btnCreate.addEventListener("click", ev => {
     openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', inputName => { newElement('dir', inputName) })">Create directory</a>
 <a onclick="openBox('prompt', 'Enter a name for the new file :', inputName => { newElement('file', inputName) })">Create file</a>
-<a onclick="">Upload file(s)</a>
+<a onclick="uploadFiles()">Upload file(s)</a>
 `, ev)
 })
 
