@@ -111,8 +111,8 @@ openDir(currentPath)
 
 function posMenu(event = false)
 {
-    let menuWidth = popupMenu.offsetWidth
-    let menuHeight = popupMenu.offsetHeight
+    const menuWidth = popupMenu.offsetWidth
+    const menuHeight = popupMenu.offsetHeight
 
     if(event.clientX + menuWidth > window.innerWidth)
     {
@@ -202,11 +202,13 @@ function openBox(type, vals, icon = null, callback = false)
             let btn = "Ok"
             if(typeof(vals) !== "string")
             {
-                txt = vals.txt
-                btn = vals.btn
+                if(vals.txt)
+                    txt = vals.txt
+                if(vals.btn)
+                    btn = vals.btn
             }
             showBox(txt, icon, `<input type="text" class="hidden" value="">`,  `<button>${btn}</button>`, false, () => {
-                let input = popupBox.querySelector("input")
+                const input = popupBox.querySelector("input")
                 input.focus()
 
                 popupBox.querySelector("button").addEventListener("click", () => {
@@ -223,9 +225,12 @@ function openBox(type, vals, icon = null, callback = false)
             let btnNo = "No"
             if(typeof(vals) !== "string")
             {
-                txt = vals.txt
-                btnOk = vals.btnOk
-                btnNo = vals.btnNo
+                if(vals.txt)
+                    txt = vals.txt
+                if(vals.btnOk)
+                    btnOk = vals.btnOk
+                if(vals.btnNo)
+                    btnNo = vals.btnNo
             }
             showBox(txt, icon, "", `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, true, () => {
                 popupBox.querySelector("button#y").addEventListener("click", () => {
@@ -248,14 +253,21 @@ function openBox(type, vals, icon = null, callback = false)
             let btnNo = "Cancel"
             if(typeof(vals) !== "string")
             {
-                txt = vals.txt
-                value = vals.value
-                btnOk = vals.btnOk
-                btnNo = vals.btnNo
+                if(vals.txt)
+                    txt = vals.txt
+                if(vals.value)
+                    value = vals.value
+                if(vals.btnOk)
+                    btnOk = vals.btnOk
+                if(vals.btnNo)
+                    btnNo = vals.btnNo
             }
             showBox(txt, icon, `<input type="text" value="${value}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
-                let input = popupBox.querySelector("input")
+                const input = popupBox.querySelector("input")
                 input.focus()
+                const tmp = input.value
+                input.value = ""
+                input.value = tmp
 
                 popupBox.querySelector("button#y").addEventListener("click", () => {
                     callback(input.value)
@@ -294,7 +306,7 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded)
     openMenu(`<span>${name}/</span>
 <a onclick="openDir('${urlEncoded}')">Open</a>
 <a onclick="">Show (if possible)</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ʿ${name}/ʿ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}/', inputName) })">Rename</a>
+<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}/', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -310,7 +322,7 @@ function menuFile(name, pathEncoded, nameEncoded)
 <a onclick="">Show (if possible)</a>
 <a onclick="">Download</a>
 <a onclick="">Edit</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ʿ${name}ʿ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -351,9 +363,9 @@ function onMobile()
 
 let isOnMobile = onMobile()
 
-let h1Default = h1.innerHTML
-let h1Words = h1Default.split(" ")
-let h1NbWords = h1Words.length
+const h1Default = h1.innerHTML
+const h1Words = h1Default.split(" ")
+const h1NbWords = h1Words.length
 let h1Lvl = -1
 
 function effectH1Mobile(el)
