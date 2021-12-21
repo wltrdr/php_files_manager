@@ -296,6 +296,7 @@ function menuFile(name, path)
 {
     openMenu(`<span>${name}</span>
 <a onclick="">Show (if possible)</a>
+<a onclick="">Download</a>
 <a onclick="">Edit</a>
 <a onclick="">Rename</a>
 <a onclick="">Duplicate</a>
