@@ -1,10 +1,12 @@
 document.body.addEventListener("click", ev => {
-    popupHtml.style.display = "none"
+    if(maskOpened === false)
+        popupMenu.style.display = "none"
     ev.preventDefault()
 })
 
 document.body.addEventListener("contextmenu", ev => {
-    popupHtml.style.display = "none"
+    if(maskOpened === false)
+        popupMenu.style.display = "none"
     ev.preventDefault()
 })
 
@@ -18,7 +20,7 @@ btnBack.addEventListener("click", () => {
         const nbHistory = history.length
         if(nbHistory > 1)
         {
-            ajaxRequest("GET", `?${Date.now()}&dir=` + history[nbHistory - historyLevel - 2], result => {
+            ajaxRequest("POST", "", `${Date.now()}&dir=` + history[nbHistory - historyLevel - 2], result => {
                 if(result !== "false")
                 {
                     showElements(result)
@@ -41,7 +43,7 @@ btnForward.addEventListener("click", () => {
     if(btnForward.className !== "disabled" && historyLevel > 0)
     {
         const nbHistory = history.length
-        ajaxRequest("GET", `?${Date.now()}&dir=` + history[nbHistory - historyLevel], result => {
+        ajaxRequest("POST", "", `${Date.now()}&dir=` + history[nbHistory - historyLevel], result => {
             if(result !== "false")
             {
                 showElements(result)
@@ -73,7 +75,7 @@ btnHome.addEventListener("click", () => {
 })
 
 btnView.addEventListener("click", ev => {
-    openPopup("contextMenu", `<span>View :</span>
+    openMenu(`<span>View :</span>
 <a onclick="">Icons</a>
 <a onclick="">Small icons</a>
 <a onclick="">List</a>
@@ -82,7 +84,7 @@ btnView.addEventListener("click", ev => {
 })
 
 btnSort.addEventListener("click", ev => {
-    openPopup("contextMenu", `<span>Sort by :</span>
+    openMenu(`<span>Sort by :</span>
 <a onclick="">Name</a>
 <a onclick="">Date modified</a>
 <a onclick="">Size</a>
@@ -93,14 +95,14 @@ btnSort.addEventListener("click", ev => {
 })
 
 btnCreate.addEventListener("click", ev => {
-    openPopup("contextMenu", `<a onclick="openPopup('prompt', 'Enter a name for the new directory :', false, result => { alert('nom: ' + result) })">Create directory</a>
-<a onclick="openPopup('prompt', 'Enter a name for the new file :', false, result => { alert('nom: ' + result) })">Create file</a>
+    openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', inputName => { newElement('dir', inputName) })">Create directory</a>
+<a onclick="openBox('prompt', 'Enter a name for the new file :', inputName => { newElement('file', inputName) })">Create file</a>
 <a onclick="">Upload file(s)</a>
 `, ev)
 })
 
 btnConnexion.addEventListener("click", ev => {
-    ajaxRequest("GET", `?${Date.now()}&pwd=` + inputConnexion.value, result => {
+    ajaxRequest("POST", "", `${Date.now()}&pwd=` + inputConnexion.value, result => {
         if(result !== "false")
         {
             inputConnexion.className = ""
@@ -129,7 +131,7 @@ btnConnexion.addEventListener("click", ev => {
 })
 
 logout.addEventListener("click", () => {
-    ajaxRequest("GET", `?${Date.now()}&logout`, result => {
+    ajaxRequest("POST", "", `${Date.now()}&logout`, result => {
         if(result === "bye")
         {
             contents.style.display = "none"
