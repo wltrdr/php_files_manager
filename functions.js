@@ -287,14 +287,14 @@ function openBox(type, vals, icon = null, callback = false)
     }, delayMenuMs)
 }
 
-/* CONTEXT MENUS "`’ʿʾ′ˊˈꞌ‘ˋ‵ */
+/* CONTEXT MENUS */
 
 function menuDir(name, pathEncoded, nameEncoded, urlEncoded)
 {
     openMenu(`<span>${name}/</span>
 <a onclick="openDir('${urlEncoded}')">Open</a>
 <a onclick="">Show (if possible)</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}/ˈ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}/', inputName) })">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ʿ${name}/ʿ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}/', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -310,7 +310,7 @@ function menuFile(name, pathEncoded, nameEncoded)
 <a onclick="">Show (if possible)</a>
 <a onclick="">Download</a>
 <a onclick="">Edit</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}ˈ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ʿ${name}ʿ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
