@@ -289,12 +289,12 @@ function openBox(type, vals, icon = null, callback = false)
 
 /* CONTEXT MENUS "`’ʿʾ′ˊˈꞌ‘ˋ‵ */
 
-function menuDir(name, path)
+function menuDir(name, pathEncoded, nameEncoded, urlEncoded)
 {
     openMenu(`<span>${name}/</span>
-<a onclick="openDir('${path}')">Open</a>
+<a onclick="openDir('${urlEncoded}')">Open</a>
 <a onclick="">Show (if possible)</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}/ˈ</b> :', null, inputName => { renElement('${path}', '${name}/', inputName) })">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}/ˈ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}/', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -304,13 +304,13 @@ function menuDir(name, path)
     event.preventDefault()
 }
 
-function menuFile(name, path)
+function menuFile(name, pathEncoded, nameEncoded)
 {
     openMenu(`<span>${name}</span>
 <a onclick="">Show (if possible)</a>
 <a onclick="">Download</a>
 <a onclick="">Edit</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}ˈ</b> :', null, inputName => { renElement('${path}', '${name}', inputName) })">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}ˈ</b> :', null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -381,9 +381,9 @@ function leftClickDir(dir)
     event.preventDefault()
 }
 
-function rightClickDir(name, path)
+function rightClickDir(name, pathEncoded, nameEncoded, urlEncoded)
 {
-    menuDir(name, path)
+    menuDir(name, pathEncoded, nameEncoded, urlEncoded)
     event.preventDefault()
 }
 
@@ -396,14 +396,14 @@ function startClicDir()
     event.preventDefault()
 }
 
-function endClicDir(name, path)
+function endClicDir(name, pathEncoded, nameEncoded, urlEncoded)
 {
     if(isOnMobile === true && timeClicDir !== 0)
     {
         if(Date.now() - timeClicDir > mslongClic)
-            menuDir(name, path)
+            menuDir(name, pathEncoded, nameEncoded, urlEncoded)
         else
-            openDir(path)
+            openDir(urlEncoded)
         timeClicDir = 0
     }
     event.preventDefault()
@@ -443,6 +443,8 @@ function renElement(path, oldName, newName)
         openBox("alert", "Error : <b>Name can't be empty</b> !", "err")
     else
     {
+        alert(`${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`)
+        return false
         ajaxRequest("POST", "", `${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
             if(result === "renamed")
                 openDir(currentPath)
