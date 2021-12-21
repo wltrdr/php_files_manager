@@ -439,13 +439,11 @@ function renElement(path, oldName, newName)
         openBox('alert', 'Error : <b>Name can\'t be empty</b> !')
     else
     {
-        /*
-        ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}&token=${token}`, result => {
-            if(result === "created")
+        ajaxRequest("POST", "", `${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
+            if(result === "renamed")
                 openDir(currentPath)
             else
                 openBox('alert', 'Error : <b>' + result + '</b> !')
         })
-        */
     }
 }
