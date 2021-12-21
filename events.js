@@ -1,3 +1,5 @@
+/* GENERAL */
+
 document.body.addEventListener("click", ev => {
     popupMenu.style.display = "none"
     if(disableBodyPrevDef !== true)
@@ -12,6 +14,8 @@ document.body.addEventListener("contextmenu", ev => {
 window.addEventListener("resize", () => {
     isOnMobile = onMobile()
 })
+
+/* CONTROLS */
 
 btnBack.addEventListener("click", () => {
     if(btnBack.className !== "disabled")
@@ -93,6 +97,19 @@ btnSort.addEventListener("click", ev => {
 `, ev)
 })
 
+btnCreate.addEventListener("click", ev => {
+    openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', inputName => { newElement('dir', inputName) })">Create directory</a>
+<a onclick="openBox('prompt', 'Enter a name for the new file :', inputName => { newElement('file', inputName) })">Create file</a>
+<a onclick="uploadFiles()">Upload file(s)</a>
+`, ev)
+})
+
+upload.addEventListener("change", () => {
+    alert("changed!")
+})
+
+/* CONNEXION */
+
 btnConnexion.addEventListener("click", ev => {
     ajaxRequest("POST", "", `${Date.now()}&pwd=` + inputConnexion.value, result => {
         if(result !== "false")
@@ -133,15 +150,4 @@ logout.addEventListener("click", () => {
         else
             alert("Error : Logout failed")
     })
-})
-
-btnCreate.addEventListener("click", ev => {
-    openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', inputName => { newElement('dir', inputName) })">Create directory</a>
-<a onclick="openBox('prompt', 'Enter a name for the new file :', inputName => { newElement('file', inputName) })">Create file</a>
-<a onclick="uploadFiles()">Upload file(s)</a>
-`, ev)
-})
-
-upload.addEventListener("change", () => {
-    alert("changed!")
 })
