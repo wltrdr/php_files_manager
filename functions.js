@@ -455,8 +455,6 @@ function renElement(path, oldName, newName)
         openBox("alert", "Error : <b>Name can't be empty</b> !", "err")
     else
     {
-        alert(`${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`)
-        return false
         ajaxRequest("POST", "", `${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
             if(result === "renamed")
                 openDir(currentPath)
