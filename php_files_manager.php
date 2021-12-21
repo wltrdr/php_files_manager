@@ -12,7 +12,6 @@
 menu dossiers
 menu fichiers
 {
-    renommer
     supprimer
     dupliquer
     affichage (si accessible)
