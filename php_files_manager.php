@@ -49,6 +49,8 @@ session_start();
 
 $password = 'admin';
 
+/* SECURITY */
+
 function sp_crypt($str)
 {
     return sha1($_SERVER['REMOTE_ADDR'] . md5($str));
@@ -66,26 +68,40 @@ function gencode($nb)
 
 $password = sp_crypt($password);
 
+/* JAVASCRIPT INITIALIZATION */
+
 if(isset($_GET['js']) && isset ($_GET['init']))
 {
 	header('Content-Type: application/javascript');
     exit(file_get_contents('init.js'));
 }
+
+/* JAVASCRIPT FUNCTIONS */
+
 elseif(isset($_GET['js']) && isset ($_GET['functions']))
 {
 	header('Content-Type: application/javascript');
     exit(file_get_contents('functions.js'));
 }
+
+/* JAVASCRIPT EVENTS */
+
 elseif(isset($_GET['js']) && isset ($_GET['events']))
 {
 	header('Content-Type: application/javascript');
     exit(file_get_contents('events.js'));
 }
+
+/* CSS */
+
 elseif(isset($_GET['css']))
 {
 	header('Content-Type: text/css');
     exit(file_get_contents('style.css'));
 }
+
+/* LOGOUT */
+
 elseif(isset($_POST['logout']))
 {
 	header('Content-Type: text/plain');
@@ -97,15 +113,21 @@ elseif(isset($_POST) && !empty($_POST))
 	header('Content-Type: text/plain');
     if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password))
     {
+        /* SECURITY */
+
         if(!isset($_SESSION['pfm']) || $_SESSION['pfm'] !== $password)
             $_SESSION['pfm'] = $password;
 
         if(!isset($_SESSION['token']))
             $_SESSION['token'] = gencode(32);
-    
+
+        /* LOCATE CURRENT DIRECTORY */
+
         $current = '.';
         if(isset($_POST['dir']) && !empty($_POST['dir']) && $_POST['dir'] !== '.')
             $current = urldecode($_POST['dir']);
+
+        /* NEW FILE OR FOLDER */
 
         if(isset($_POST['new']))
         {
@@ -143,6 +165,8 @@ elseif(isset($_POST) && !empty($_POST))
         }
         else
         {
+            /* RETURN DIR INFORMATIONS */
+
             function css_extension($file)
             {
                 if(strpos($file, '.'))
@@ -368,7 +392,7 @@ elseif(isset($_POST) && !empty($_POST))
                 $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$url');\" oncontextmenu=\"menuFile('$elem_file', '$url');\"><span></span>$elem_file</a>\n";
             }
     
-            /* SHOW */
+            /* RETURN */
     
             exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\" . urlencode($current) . "\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements//!end!\\\\");
         }
