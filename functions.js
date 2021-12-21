@@ -232,12 +232,14 @@ function openBox(type, vals, callback = false)
                 btnOk = vals.btnOk
                 btnNo = vals.btnNo
             }
-            showBox(`<span>
-    ${txt}
-    <input type="text" value="${value}">
-</span>
-<button id="y">${btnOk}</button>
-<button id="n">${btnNo}</button>`, () => {
+            showBox(`<form>
+    <span>
+        ${txt}
+        <input type="text" value="${value}">
+    </span>
+    <button id="y">${btnOk}</button>
+    <button id="n">${btnNo}</button>
+</form>`, () => {
                 let input = popupBox.querySelector("input")
                 input.focus()
 
