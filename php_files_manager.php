@@ -10,6 +10,7 @@
 
         [>>>] upload fichier clic
 
+check addeventlisteners ajoutés avec popups ne sexecutent pas plusieurs fois
 menu dossiers
 menu fichiers
 {
