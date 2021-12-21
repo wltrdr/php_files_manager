@@ -306,12 +306,13 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded)
     openMenu(`<span>${name}/</span>
 <a onclick="openDir('${urlEncoded}')">Open</a>
 <a onclick="">Show (if possible)</a>
-<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}/', inputName) })">Rename</a>
+<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
 <a onclick="">Change chmods</a>
-<a onclick="">Delete</a>`, event)
+<a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { delElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>`
+, event)
     event.preventDefault()
 }
 
@@ -326,8 +327,9 @@ function menuFile(name, pathEncoded, nameEncoded)
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
 <a onclick="">Change chmods</a>
-<a onclick="">Delete</a>
-<a onclick="">File information</a>`, event)
+<a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { delElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
+<a onclick="">File information</a>
+`, event)
     event.preventDefault()
 }
 
@@ -460,4 +462,14 @@ function renElement(path, oldName, newName)
                 openBox("alert", "Error : <b>" + result + "</b> !", "err")
         })
     }
+}
+
+function delElement(path, name)
+{
+    ajaxRequest("POST", "", `${Date.now()}&del=${name}&dir=${path}&token=${token}`, result => {
+        if(result === "deleted")
+            openDir(currentPath)
+        else
+            openBox("alert", "Error : <b>" + result + "</b> !", "err")
+    })
 }
