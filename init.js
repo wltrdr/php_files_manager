@@ -4,7 +4,9 @@ const delayH1MobileMs = 1500
 const delayBadCnxMs = 150
 const delayBadCnxBkMs = 50
 
-const popupHtml = document.querySelector("#popupHtml")
+const popupBox = document.querySelector("#popupBox")
+const popupMask = document.querySelector("#popupMask")
+const popupMenu = document.querySelector("#popupMenu")
 const connexion = document.querySelector("#connexion")
 const formConnexion = document.querySelector("#connexion form")
 const inputConnexion = document.querySelector("#connexion form input")
@@ -28,7 +30,9 @@ const listElements = document.querySelector("#elements .list")
 
 const inputConnexionPH = inputConnexion.placeholder
 
+let token
 let currentPath = "."
 let parentPath = "false"
 let history = []
 let historyLevel = 0
+let maskOpened = false
