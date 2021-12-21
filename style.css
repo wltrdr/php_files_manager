@@ -304,6 +304,11 @@ button {
     border-radius: 0.2em;
 }
 
+#title input {
+    font-size: 0.01em;
+    opacity: 0.01;
+}
+
 h1 span {
     font-weight: normal;
 }
