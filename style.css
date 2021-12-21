@@ -24,18 +24,23 @@ body {
                 linear-gradient(336deg, rgba(127 ,255, 127, 0.8), rgba(127, 255, 127, 0) 70.71%);
 }
 
-/* DESKTOP */
+/* RESPONSIVE DESKTOP */
+
 @media screen and (max-width: 2800px) { body { font-size: 19px; } }
 @media screen and (max-width: 2400px) { body { font-size: 18px; } }
 @media screen and (max-width: 2000px) { body { font-size: 17px; } }
 @media screen and (max-width: 1600px) { body { font-size: 16px; } }
 @media screen and (max-width: 1200px) { body { font-size: 15px; } }
-/* TABLET */
+
+/* RESPONSIVE TABLET */
+
 @media screen and (max-width: 1050px) { html { min-height: 20em; } }
 @media screen and (max-width: 750px) { body { font-size: 14px; } }
 @media screen and (max-width: 650px) { html { min-height: 15em; } body { font-size: 13px; } }
 @media screen and (max-width: 600px) { body { font-size: 12px; } }
-/* MOBILE */
+
+/* RESPONSIVE MOBILE */
+
 @media screen and (max-width: 550px) { body { font-size: 13px; } }
 @media screen and (max-width: 465px) { body { font-size: 12px; } }
 @media screen and (max-width: 380px) { body { font-size: 11px; } }
@@ -74,60 +79,32 @@ button {
     border-radius: 0.25em;
 }
 
-#popupHtml {
+.list {
+    height: 0px;
+}
+
+#contents {
     display: none;
-    position: absolute;
-    z-index: 1000;
-}
-
-#contextMenu {
-    display: flex;
     flex-direction: column;
-    left: 0px;
-    top: 0px;
-    background: linear-gradient(90deg, #eee, #fff);
-    border: 1px solid #777;
-    box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.4);
+    height: 100%;
 }
 
-#contextMenu span {
-    padding: 0.6em 3.5em 0.6em 0.75em;
-    color: #222;
-    background: linear-gradient(90deg, #ccc, #ddd);
-    border: 1px solid #ccc;
-    border-top: 0px;
-    font-weight: bold;
-}
-
-    #contextMenu a {
-        padding: 0.6em 3.5em 0.6em 0.75em;
-        color: #444;
-        border: 1px solid #ccc;
-        border-top: 0px;
-    }
-
-    #contextMenu a:first-child {
-        border: 1px solid #ccc;
-    }
-
-    #contextMenu a:hover {
-        background: linear-gradient(90deg, #ddd, #eee);
-        color: #000;
-    }
-
-    #contextMenu a.gap {
-        border: 1px solid #ccc;
-        border-top: 1px solid #999;
-    }
+/* POPUPS */
 
 #popupBox {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     padding: 2em;
     color: #222;
     text-align: center;
     background: linear-gradient(90deg, #eee, #fff);
     border: 1px solid #777;
     border-radius: 0.25em;
-    box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.4);
+    z-index: 1100;
 }
 
     #popupBox span {
@@ -145,7 +122,63 @@ button {
         display: block;
         margin-top: 2em;
         padding: 1em;
+        width: 100%;
     }
+
+#popupMask {
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1010;
+}
+
+#popupMenu {
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    flex-direction: column;
+    background: linear-gradient(90deg, #eee, #fff);
+    border: 1px solid #777;
+    box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+
+#popupMenu span {
+    padding: 0.6em 3.5em 0.6em 0.75em;
+    color: #222;
+    background: linear-gradient(90deg, #ccc, #ddd);
+    border: 1px solid #ccc;
+    border-top: 0px;
+    font-weight: bold;
+}
+
+    #popupMenu a {
+        padding: 0.6em 3.5em 0.6em 0.75em;
+        color: #444;
+        border: 1px solid #ccc;
+        border-top: 0px;
+    }
+
+    #popupMenu a:first-child {
+        border: 1px solid #ccc;
+    }
+
+    #popupMenu a:hover {
+        background: linear-gradient(90deg, #ddd, #eee);
+        color: #000;
+    }
+
+    #popupMenu a.gap {
+        border: 1px solid #ccc;
+        border-top: 1px solid #999;
+    }
+
+/* CONNEXION */
 
 #connexion {
     display: none;
@@ -232,11 +265,7 @@ button {
     border: 1px solid #333;
 }
 
-#contents {
-    display: none;
-    flex-direction: column;
-    height: 100%;
-}
+/* TITLE + LOGOUT */
 
 #contentsTitleCreditsLogout {
     flex: 0;
@@ -323,6 +352,8 @@ h1 span {
 #logout a:hover {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAE8ElEQVR42u2YW28bVRSFvzMztuNLEpK6TdMEekGFtkIgRF7greIRKtQn/gYS/wHxhsQfAHFTqoqCEBKiRUVqSlXUhDall6gVRIgmcXpJ69hjz+2czYMnju1EJSRqx0g50tie45FmrbP2Xnuf4/A/H842gW0C2wS2CWwTSITA0bHXb7jFscObfrMIKf8BOXcW/PLNM1dvHnm6CvQMEu5/axPADU69RHbpdwa8RWw7wFXq6StgOzZ9/QUCbRD59+eVibCrc2TuXaFv6TcGsoqhA0PMz2ncuvf0Cezqz/DaG3uYmavy932PUJuWf33AA/pBh6iHs2Ruf0+2PkdxoJfRl/bT31vAiFBaKCWTA5m0xcGRApZjUw6EerBCQDDhWQhmUOU3Ude/oae+yO6hIsMvHKa3kMexLEQEE0VsSL4nQcAIuBHYKZuhHTkeVEO09vAWT6P/OIWzENBn/cWe4V0Ui6+Qz/ZgKYWIIMYggIm/EyHgBsL0Qp1lz6Atm4wsUf71E7hzhaKTY3j0AMXiILmeFuAtFzGRxBSIgMCySWdtAMKZaXpLM4w8t5/BwWfI9mSawI0xsXPGwOOrMZ8QActW5HszzbivSoWdQzsZHdmNisGaeIVFBGEFfCsRs1UBtmCjliJfSDXvc/leYDW+W4EbLCKVwdG1tnlJXgEbBMpLs9y9c5ZnV+I6VkBEAOHW3mMYZfHin1+3hZExJn4mEQUgm238flgqUX04CzKCEdMMIYlDxs0U2Xn/ckOdtiSWrQqwFQUgExPYe2iM8qvvIFOXEBOHR8tKH7r1BanQxYhpS+JEQ0gpSKch8Fyu/vIZt6+e4qCMYoxB0W6XqaCyxoFAMEkmsVKC7QjgU3fvoZTdcBVjGo7TmgctoKVbFGi82CdbyHH0+PtcC0ZZPvMTYjTE/k9n4eoIrZUcSYiABqoNNSxwUnHREkGtV3XpJESyhUzQaHm02htRb7YHsk7VhVXgrSGUmI1q7VOtzKGUwnYcIu02vb1poy2r3qzCbUqYJPfEGqMqKMsCFMbUVldVsTb+G+W5e5o5IcJQBgPagDZu3NuYZpisn8R0VOKEFDA6xKvdQykFShGFNcQ0QKUceH6fprjDMHHBWgO8TYGkkthedsldvIaxFcaxseYeICIUBzTH3w7pKwg//my39DstJFhRIEEbtY2hv1ptrKDAYsXFlQyWZZi8bHF9RlGrCdDS/6xxpwQV0BlDtehRKEPas0jHQOdLML9AO/DHJHFiCui0pryviltRDM9kUCudZhzXnZ7PmipMcx6VhI2KRukKYcoiwIrjeZ39QGcVjjc7iR8tihjCekR6PossQ6Q1Iqa5/12v9+mqs1HxFc6tLLm7eYwFoNqq65MGvnUXqjtk5/NYto0BIi1rWomuPp1WK59KIcpCVNRml11/vB5FhvKyh21ZoMCtCZBu2PqGXUUQ1JYqwaYJnDx348jJc6v3x8Zefm9okI82vBUKwmi55v0QRtGHUaQvJtCNbsa5BC8IvXLN+67uBx+MT0xOJ9hO/5eDYKFS8xZrfvCxF0afjp+7NJ94DmyoWhvDsust1Hz/Az+MPj9xfqrcNUn8uDAJIl2p+8GFqud/GYTRyRPnp7yuc6F1gYfh/bJbn6j5wVdBFH07PjEZda2Ndo4g0lOPqvV3g0ifH5+YDLq+DnSO09M3Jkhg/AN5blK0oe/z3wAAAABJRU5ErkJggg==');
 }
+
+/* CONTROLS + PATH */
 
 #contentsCntrlPath {
     flex: 0;
@@ -414,6 +445,8 @@ h1 span {
     padding: 0px 0.3em 0px 0.5em;
 }
 
+/* TREE + ELEMENTS */
+
 #contentsTreeElems {
     flex: 1;
     display: flex;
@@ -434,10 +467,6 @@ h1 span {
     flex-direction: column;
     width: 75%;
     overflow: auto;
-}
-
-.list {
-    height: 0px;
 }
 
 a.css span { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAABjFBMVEUAAAD/AP//M8zpQ8jmSsXnSMfqSsXoScTnSMPpR8fpRsTpScXoScPoR8XpScbpR8XqSMboSMXqSMbpSMXym97pSMXpSMbxl97xlt3xl9zylN3ylNzyk9zwktvxj9rvjtnwjdrwjNnwi9rwjNrwitnpSMXoSMXpSMXpSMTqSMbpSMXpSMTpSMXoSMbpSMXpSMbpScXpSMXykdz80fLiRr/bRLnUQbPua9DsWcvyhNn1ouPjRsDwe9b5uurcRLrfRb3lR8LoSMTqUcj6v+ztatDvc9P4tOnkRsHmR8PpScX0m+DWQrXaQ7jsYs7ubNHuh9f3rebVQrTYQ7fZQ7jeRbzgRb7hRb7kR8HnR8PnSMTpR8XpSMbqT8fgYMTsXMzubNDvddTvh9j2qOT5uerUQrTXQ7bdRLveRLzaUbzhUsHqTcfcVr7qUMjfV8HrUsjrU8jrVMnsXszhZcXsX83kZcjsYM3uaM/lbsvob83ndM3vcdLveNXwedbrfdLsftTviNjzld76we37yfD7yvCz1Tw4AAAAMXRSTlMAAw8/UlR3hpSbnJ6oq62xtLjZ4Ojo6ers7O7u7/Dy8/T19vb3+Pn6+vv7/Pz9/v7+GpRq6QAAAuNJREFUeNrt21d30zAUAOBAywwUyiirUAqFMoKL5EKcOLGd3aySbtoCXey99+aPk9GXNJYsS7rJOTm6j5KTL5KVaynnJhBoieDAVQ35i5MB8TiI/MciPi7K9o5yuMjBonJfnsdFJhaU9yG+GK/C+JjAPC+JwPg0r7v9GhKC8RlOuB8JwrzymDDMJ+9C4jCXfFgGjAf9w5ekwPiEb1iTA+MjfmEkCfadSaTB+FSnYJ9rWyKMhzoF+xqzVNiPLBf2IUuG2WXZMLMsHWaV5cOMTwwAmG3MEDBTJhGBfxHlEVj4JybL2wBh8zMZxmcB4dwTCuy5wgRgZ3aNJg+Cwbfn3mP+MSORm2yt8csi8IT9AnPLInDCtO5yy0hoyPOlL3R5CAZOOPaMx5hHQGCUWLBnnt2iyudAYLS4YJeKb6n0eRC4Otvz1nTx8acfZHwYBEaJCdO2Sg+KU/dvusXU9KMcDFyn52YfWjfcw7LB4Fr2dHLmOCFMBxCmh4IVTIvvyEin7zU1pdNlcPhjJKVXo7mx1qIXkpCwUakjbrAejwHCUZ0M65U3cHAdyGa2NmeyLh9HOpxdaW1fqbQBzrh1hNsAh4k9Cu4COEmHDTA4Qn77Wk80CQO/dMvTTanlNwhsNPJl4alrb6HeGTXkwx5PgjuxuO6dN7nhf5PkCyb/AML6KvmC1b8wcGMmU5HnhKlurDw9XpYNxzYXV/R1mxdXNX14fZ1SEdAEUibCkU7laqNTsHosdgvsutnLtGN7+7W1/Vu2DbC+EUtv2dvGNqA39NQjTPQV4KFtnQyvf4A8pr5rPO9bYZazotjBvLoVSIabD+bhJONr1W8gClawghWsYAUrWMEKVnDXwRq8q7nCl+HhUdml7KxxSHbxPmvsDHTmJl+X/gcNxugnVftcgXVDxPqmHUuQbr6XXNK1HxLeTSufC+bBxhuklyr2XIRxL/R4VsIegHD7mOqd9xwNacuyyOWx0MBeN+U/TLtmjG6vjPoAAAAASUVORK5CYII='); }
@@ -512,7 +541,8 @@ a.zip span { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
     opacity: 1;
 }
 
-/* DESKTOP + TABLET */
+/* RESPONSIVE DESKTOP + TABLET */
+
 @media screen and (max-width: 1200px) {
     #tree {
         width: 30%;
@@ -533,7 +563,8 @@ a.zip span { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
     }
 }
 
-/* TABLET */
+/* RESPONSIVE TABLET */
+
 @media screen and (max-width: 1050px) {
     #contextMenu {
         font-size: 1.25em;
@@ -566,7 +597,8 @@ a.zip span { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
 
 }
 
-/* MOBILE */
+/* RESPONSIVE MOBILE */
+
 @media screen and (max-width: 550px) {
     #contentsCredits p {
         font-size: 1em;
