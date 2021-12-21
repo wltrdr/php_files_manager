@@ -174,6 +174,49 @@ elseif(isset($_POST) && !empty($_POST))
                     else
                         exit('Not renamed');
                 }
+
+                /* DELETE ELEMENT */
+
+                elseif(isset($_POST['del']))
+                {
+                    $name = urldecode($_POST['name']);
+
+                    if(@is_file($current . $name))
+                    {
+                        if(@unlink($current . $name))
+                            exit('deleted');
+                        else
+                            exit('File not deleted');
+                    }
+                    else
+                    {
+                        function rmfulldir($dir)
+                        {
+                            if($handle = opendir($dir . '/'))
+                            {
+                                while(false !== ($entry = readdir($handle)))
+                                {
+                                    if($entry != '.' && $entry != '..')
+                                    {
+                                        if(is_dir($dir . $entry))
+                                            rmfulldir($dir . '/' . $entry);
+                                        else
+                                            unlink($dir . '/' . $entry);
+                                    }
+                                }
+                                closedir($handle);
+                                if(rmdir($dir . '/'))
+                                    return true;
+                                return false;
+                            }
+                        }
+
+                        if(@rmfulldir($current . $name))
+                            exit('deleted');
+                        else
+                            exit('Directory not deleted');
+                    }
+                }
                 else
                     exit('Unknown action');
             }
