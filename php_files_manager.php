@@ -10,19 +10,18 @@
 
         [>>>] upload fichier clic
 
-check addeventlisteners ajoutés avec popups ne sexecutent pas plusieurs fois
 menu dossiers
 menu fichiers
 {
-    supprimer
-    deplacer vers
-    copier vers
     renommer
-    chmods
+    supprimer
     dupliquer
     affichage (si accessible)
-    infos (fileperms()+stat())
     telecharger (fichier)
+    deplacer vers
+    copier vers
+    chmods
+    infos (fileperms()+stat())
     editer (fichier)
 }
 type affichage elements
