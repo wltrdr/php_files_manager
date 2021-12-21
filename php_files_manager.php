@@ -286,7 +286,7 @@ elseif(isset($_POST) && !empty($_POST))
                     $dir_default = '';
                     if($nb_dirs === 1)
                         $dir_default = ' treeDefault';
-                    $return = '<a class="dirOpen treeFirst' . $dir_default . '" style="margin-left: 1em;" onclick="openDir(\'' . urlencode($path) . '\');"><span></span>' . $name . "</a><br>\n";
+                    $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "');\"><span></span>$name</a><br>\n";
                 }
                 else
                     $return = '';
@@ -304,11 +304,11 @@ elseif(isset($_POST) && !empty($_POST))
                                 if($lvl === $nb_dirs - 1)
                                     $dir_default = ' treeDefault';
                                 
-                                $return .= '<a class="dirOpen' . $dir_default . '" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($dirs[$lvl]['path']) . "');\"><span></span>$entry</a><br>\n" . show_tree($lvl + 1);
+                                $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "');\"><span></span>$entry</a><br>\n" . show_tree($lvl + 1);
                                 $next = true;
                             }
                             else
-                                $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . '\');"><span></span>' . $entry . "</a><br>\n";
+                                $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "');\"><span></span>$entry</a><br>\n";
                         }
                     }
                     closedir($handle);
