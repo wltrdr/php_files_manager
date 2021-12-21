@@ -129,36 +129,43 @@ elseif(isset($_POST) && !empty($_POST))
 
         /* NEW FILE OR FOLDER */
 
-        if(isset($_POST['new']))
+        if(isset($_POST['token']))
         {
-            if(isset($_POST['token']) && $_POST['token'] === $_SESSION['token'])
+            if($_POST['token'] === $_SESSION['token'])
             {
-                if($current === '.')
-                    $current = '';
-                if($_POST['new'] === 'file')
+                if(isset($_POST['new']))
                 {
-                    if(@is_file($current . $_POST['name']))
-                        exit("File already exists");
+                    if($current === '.')
+                        $current = '';
+                    $new_name = urldecode($_POST['name']);
+
+                    if($_POST['new'] === 'file')
+                    {
+                        if(@is_file($current . $new_name))
+                            exit("File already exists");
+                        else
+                        {
+                            if(@file_put_contents($current . $new_name, '') !== false)
+                                exit("created");
+                            else
+                                exit("File not created");
+                        }
+                    }
                     else
                     {
-                        if(@file_put_contents($current . $_POST['name'], '') !== false)
-                            exit("created");
+                        if(@is_dir($current . $new_name))
+                            exit("Directory already exists");
                         else
-                            exit("File not created");
+                        {
+                            if(@mkdir($current . $new_name) !== false)
+                                exit("created");
+                            else
+                                exit("Directory not created");
+                        }
                     }
                 }
                 else
-                {
-                    if(@is_dir($current . $_POST['name']))
-                        exit("Directory already exists");
-                    else
-                    {
-                        if(@mkdir($current . $_POST['name']) !== false)
-                            exit("created");
-                        else
-                            exit("Directory not created");
-                    }
-                }
+                    exit("Unknown action");
             }
             else
                 exit("Refresh site");
