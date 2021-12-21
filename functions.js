@@ -1,4 +1,4 @@
-function ajaxRequest(method, url, callback)
+function ajaxRequest(method, url, data, callback)
 {
     const httpRequest = new XMLHttpRequest()
     if(!httpRequest)
@@ -15,24 +15,34 @@ function ajaxRequest(method, url, callback)
                 alert("Error : Bad request")
         }
     }
-    httpRequest.open(method, url)
-    httpRequest.send()
+    if(method === "POST")
+    {
+        httpRequest.open(method, url)
+        httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+        httpRequest.send(data)
+    }
+    else
+    {
+        httpRequest.open(method, url + "?" + data)
+        httpRequest.send()
+    }
 }
 
 function showElements(rep)
 {
-    const found = rep.match(/(.*)\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!end!\\\\(.*)/s)
+    const found = rep.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!end!\\\\(.*)/s)
     if(found)
     {
-        if(found[1] || found[7])
-            console.log(`PHP Errors :\n\n${found[1]}\n\n${found[7]}`)
+        if(found[1] || found[8])
+            console.log(`PHP Errors :\n\n${found[1]}\n\n${found[8]}`)
         connexion.style.display = "none"
         contents.style.display = "flex"
-        currentPath = found[2]
-        parentPath = found[3]
-        path.innerHTML = found[4]
-        listTree.innerHTML = found[5]
-        listElements.innerHTML = found[6]
+        token = found[2]
+        currentPath = found[3]
+        parentPath = found[4]
+        path.innerHTML = found[5]
+        listTree.innerHTML = found[6]
+        listElements.innerHTML = found[7]
         if(parentPath === "false")
             btnParent.className = "disabled"
         else
@@ -54,7 +64,7 @@ function showElements(rep)
 
 function openDir(dir)
 {
-    ajaxRequest("GET", `?${Date.now()}&dir=` + dir, result => {
+    ajaxRequest("POST", "", `${Date.now()}&dir=` + dir, result => {
         if(result !== "false")
         {
             showElements(result)
@@ -94,46 +104,63 @@ function openDir(dir)
 
 openDir(currentPath)
 
-function posPopup(event = false)
+function posMenu(event = false)
 {
-    let menuWidth = popupHtml.offsetWidth
-    let menuHeight = popupHtml.offsetHeight
+    let menuWidth = popupMenu.offsetWidth
+    let menuHeight = popupMenu.offsetHeight
 
-    if(event === false)
+    if(event.clientX + menuWidth > window.innerWidth)
     {
-        popupHtml.style.left = Math.ceil((window.innerWidth - menuWidth) / 2) + "px"
-        popupHtml.style.top = Math.ceil((window.innerHeight - menuHeight) / 2) + "px"
+        if(event.clientX - menuWidth < 0)
+            popupMenu.style.left = "0px"
+        else
+            popupMenu.style.left = (event.clientX - menuWidth) + "px"
     }
     else
+        popupMenu.style.left = event.clientX + "px"
+
+    if(event.clientY + menuHeight > window.innerHeight)
     {
-        if(event.clientX + menuWidth > window.innerWidth)
-        {
-            if(event.clientX - menuWidth < 0)
-                popupHtml.style.left = "0px"
-            else
-                popupHtml.style.left = (event.clientX - menuWidth) + "px"
-        }
+        if(event.clientY - menuHeight < 0)
+            popupMenu.style.top = "0px"
         else
-            popupHtml.style.left = event.clientX + "px"
-    
-        if(event.clientY + menuHeight > window.innerHeight)
-        {
-            if(event.clientY - menuHeight < 0)
-                popupHtml.style.top = "0px"
-            else
-                popupHtml.style.top = (event.clientY - menuHeight) + "px"
-        }
-        else
-            popupHtml.style.top = event.clientY + "px"
+            popupMenu.style.top = (event.clientY - menuHeight) + "px"
     }
+    else
+        popupMenu.style.top = event.clientY + "px"
 }
 
-function showPopup(html, callback = false, ev = false)
+function openMenu(html, ev)
 {
-    popupHtml.innerHTML =  html
+    popupMenu.style.display = "none"
+    popupMenu.innerHTML = html
     setTimeout(() => {
-        popupHtml.style.display = "flex"
-        posPopup(ev)
+        popupMenu.style.display = "flex"
+        posMenu(ev)
+        try {
+            popupMenu.querySelector("span").addEventListener("click", () => {
+                openMenu(html, ev)
+            })
+        }
+        catch {}
+    }, delayMenuMs)
+}
+
+function closeBox()
+{
+    maskOpened = false
+    popupBox.innerHTML = ""
+    popupMask.style.display = "none"
+    popupBox.style.display = "none"
+}
+
+function showBox(html, callback = false)
+{
+    popupBox.innerHTML = html
+    popupMask.style.display = "block"
+    popupBox.style.display = "block"
+    setTimeout(() => {
+        maskOpened = true
         if(callback !== false)
         {
             try {
@@ -144,150 +171,108 @@ function showPopup(html, callback = false, ev = false)
     }, delayMenuMs)
 }
 
-function reopenPopup()
+function openBox(type, vals, callback = false)
 {
-    setTimeout(() => { popupHtml.style.display = "flex" }, delayMenuMs)
-}
-
-function closePopup()
-{
-    popupHtml.innerHTML = ""
-    setTimeout(() => { popupHtml.style.display = "none" }, delayMenuMs * 2)
-}
-
-function openPopup(type, vals, ev = false, callback = false)
-{
-    popupHtml.style.display = "none"
-    if(type === "contextMenu")
-        showPopup(`<div id="contextMenu">
-    ${vals}
-</div>`, () => {
-            popupHtml.querySelector("span").addEventListener("click", () => {
-                reopenPopup()
-            })
-        }, ev)
-    else if(type === "alert") // valss (txt) || vals.txt, vals.btn
-    {
-        let txt = vals
-        let btn = "Ok"
-        if(typeof(vals) !== "string")
+    setTimeout(() => {
+        if(type === "alert") // valss (txt) || vals.txt, vals.btn
         {
-            txt = vals.txt
-            btn = vals.btn
+            let txt = vals
+            let btn = "Ok"
+            if(typeof(vals) !== "string")
+            {
+                txt = vals.txt
+                btn = vals.btn
+            }
+            showBox(`<span>
+    ${txt}
+</span>
+<button>${btn}</button>`, () => {
+                popupBox.querySelector("button").addEventListener("click", () => {
+                    closeBox()
+                })
+            })
         }
-        showPopup(`<div id="popupBox">
-    <span>
-        ${txt}
-    </span>
-    <button>${btn}</button>
-</div>`, () => {
-            popupHtml.querySelector("#popupBox").addEventListener("click", () => {
-                reopenPopup()
-            })
-
-            popupHtml.querySelector("#popupBox button").addEventListener("click", () => {
-                closePopup()
-            })
-        })
-    }
-    else if(type === "confirm") // vals (txt) || vals.txt, vals.btnOk, vals.btnNo
-    {
-        let txt = vals
-        let btnOk = "Yes"
-        let btnNo = "No"
-        if(typeof(vals) !== "string")
+        else if(type === "confirm") // vals (txt) || vals.txt, vals.btnOk, vals.btnNo
         {
-            txt = vals.txt
-            btnOk = vals.btnOk
-            btnNo = vals.btnNo
+            let txt = vals
+            let btnOk = "Yes"
+            let btnNo = "No"
+            if(typeof(vals) !== "string")
+            {
+                txt = vals.txt
+                btnOk = vals.btnOk
+                btnNo = vals.btnNo
+            }
+            showBox(`<span>
+    ${txt}
+</span>
+<button id="y">${btnOk}</button>
+<button id="n">${btnNo}</button>`, () => {
+                popupBox.querySelector("button#y").addEventListener("click", () => {
+                    callback()
+                    closeBox()
+                })
+
+                popupBox.querySelector("button#n").addEventListener("click", () => {
+                    closeBox()
+                })
+            })
         }
-        showPopup(`<div id="popupBox">
-    <span>
-        ${txt}
-    </span>
-    <button id="y">${btnOk}</button>
-    <button id="n">${btnNo}</button>
-</div>`, () => {
-            popupHtml.querySelector("#popupBox").addEventListener("click", () => {
-                reopenPopup()
-            })
-
-            popupHtml.querySelector("#popupBox button#y").addEventListener("click", () => {
-                callback()
-                closePopup()
-            })
-
-            popupHtml.querySelector("#popupBox button#n").addEventListener("click", () => {
-                closePopup()
-            })
-        })
-    }
-    else if(type === "prompt") // vals (txt) || vals.txt, vals.value, vals.btnOk, vals.btnNo
-    {
-        let txt = vals
-        let value = ""
-        let btnOk = "Ok"
-        let btnNo = "Cancel"
-        if(typeof(vals) !== "string")
+        else if(type === "prompt") // vals (txt) || vals.txt, vals.value, vals.btnOk, vals.btnNo
         {
-            txt = vals.txt
-            value = vals.value
-            btnOk = vals.btnOk
-            btnNo = vals.btnNo
+            let txt = vals
+            let value = ""
+            let btnOk = "Ok"
+            let btnNo = "Cancel"
+            if(typeof(vals) !== "string")
+            {
+                txt = vals.txt
+                value = vals.value
+                btnOk = vals.btnOk
+                btnNo = vals.btnNo
+            }
+            showBox(`<span>
+    ${txt}
+    <input type="text" value="${value}">
+</span>
+<button id="y">${btnOk}</button>
+<button id="n">${btnNo}</button>`, () => {
+                let input = popupBox.querySelector("input")
+                input.focus()
+
+                popupBox.querySelector("button#y").addEventListener("click", () => {
+                    callback(input.value)
+                    closeBox()
+                })
+
+                popupBox.querySelector("button#n").addEventListener("click", () => {
+                    closeBox()
+                })
+            })
         }
-        showPopup(`<div id="popupBox">
-    <span>
-        ${txt}
-        <input type="text" value="${value}">
-    </span>
-    <button id="y">${btnOk}</button>
-    <button id="n">${btnNo}</button>
-</div>`, () => {
-            let input = popupHtml.querySelector("#popupBox input")
-            input.focus()
+        else if(type === "path")
+        {
 
-            popupHtml.querySelector("#popupBox").addEventListener("click", () => {
-                reopenPopup()
-                setTimeout(() =>{
-                    try {
-                        input.focus()
-                    }
-                    catch {}
-                }, delayMenuMs * 2 )
-            })
+        }
+        else if(type === "edit")
+        {
 
-            popupHtml.querySelector("#popupBox button#y").addEventListener("click", () => {
-                callback(input.value)
-                closePopup()
-            })
+        }
+        else if(type === "chmods")
+        {
 
-            popupHtml.querySelector("#popupBox button#n").addEventListener("click", () => {
-                closePopup()
-            })
-        })
-    }
-    else if(type === "path")
-    {
-
-    }
-    else if(type === "edit")
-    {
-
-    }
-    else if(type === "chmods")
-    {
-
-    }
-    else
-    {
-        alert("Error : Unknown type")
-        return false
-    }
+        }
+        else
+        {
+            alert("Error : Unknown type")
+            return false
+        }
+    }, delayMenuMs)
 }
 
 function menuDir(name, path)
 {
-    openPopup("contextMenu", `<span>${name}/</span>
+    openMenu(`<span>${name}/</span>
 <a onclick="openDir('${path}')">Open</a>
 <a onclick="">Show (if possible)</a>
 <a onclick="">Rename</a>
@@ -297,11 +282,12 @@ function menuDir(name, path)
 <a onclick="">Delete</a>
 <a onclick="">Change chmods</a>
 `, event)
+    event.preventDefault()
 }
 
 function menuFile(name, path)
 {
-    openPopup("contextMenu", `<span>${name}</span>
+    openMenu(`<span>${name}</span>
 <a onclick="">Show (if possible)</a>
 <a onclick="">Edit</a>
 <a onclick="">Rename</a>
@@ -397,4 +383,20 @@ function endClicDir(name, path)
         timeClicDir = 0
     }
     event.preventDefault()
+}
+
+function newElement(type, name)
+{
+    if(name === "")
+        openBox('alert', 'Error : Name can\'t be empty !')
+    else
+    {
+        ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}`, result => {
+            if(result === "created")
+                openDir(currentPath)
+            else
+                openBox('alert', 'Error : ' + result)
+        })
+    }
+    return true
 }
