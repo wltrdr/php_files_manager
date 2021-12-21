@@ -12,12 +12,12 @@
 [>>>] empecher creer fichier avec apostrophe
 
 upload fichier clic
-menu dossiers
-menu fichiers
+menu fichiers + dossiers
 {
-    dupliquer
     affichage (si accessible)
     telecharger (fichier)
+
+    dupliquer
     deplacer vers
     copier vers
     chmods
