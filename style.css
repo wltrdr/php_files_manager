@@ -24,34 +24,6 @@ body {
                 linear-gradient(336deg, rgba(127 ,255, 127, 0.8), rgba(127, 255, 127, 0) 70.71%);
 }
 
-/* RESPONSIVE DESKTOP */
-
-@media screen and (max-width: 2800px) { body { font-size: 19px; } }
-@media screen and (max-width: 2400px) { body { font-size: 18px; } }
-@media screen and (max-width: 2000px) { body { font-size: 17px; } }
-@media screen and (max-width: 1600px) { body { font-size: 16px; } }
-@media screen and (max-width: 1200px) { body { font-size: 15px; } }
-
-/* RESPONSIVE TABLET */
-
-@media screen and (max-width: 1050px) { html { min-height: 20em; } }
-@media screen and (max-width: 750px) { body { font-size: 14px; } }
-@media screen and (max-width: 650px) { html { min-height: 15em; } body { font-size: 13px; } }
-@media screen and (max-width: 600px) { body { font-size: 12px; } }
-
-/* RESPONSIVE MOBILE */
-
-@media screen and (max-width: 550px) { body { font-size: 13px; } }
-@media screen and (max-width: 465px) { body { font-size: 12px; } }
-@media screen and (max-width: 380px) { body { font-size: 11px; } }
-@media screen and (max-width: 360px) { body { font-size: 10px; } }
-@media screen and (max-width: 340px) { body { font-size: 9px; } }
-@media screen and (max-width: 320px) { body { font-size: 8px; } }
-@media screen and (max-width: 300px) { html { min-height: 10em; } body { font-size: 7px; } }
-@media screen and (max-width: 225px) { body { font-size: 5px; } }
-@media screen and (max-width: 175px) { body { font-size: 3px; } }
-@media screen and (max-width: 125px) { body { font-size: 1px; } }
-
 a {
     color: #935;
     text-decoration: none;
@@ -88,6 +60,34 @@ button {
     flex-direction: column;
     height: 100%;
 }
+
+/* RESPONSIVE DESKTOP */
+
+@media screen and (max-width: 2800px) { body { font-size: 19px; } }
+@media screen and (max-width: 2400px) { body { font-size: 18px; } }
+@media screen and (max-width: 2000px) { body { font-size: 17px; } }
+@media screen and (max-width: 1600px) { body { font-size: 16px; } }
+@media screen and (max-width: 1200px) { body { font-size: 15px; } }
+
+/* RESPONSIVE TABLET */
+
+@media screen and (max-width: 1050px) { html { min-height: 20em; } }
+@media screen and (max-width: 750px) { body { font-size: 14px; } }
+@media screen and (max-width: 650px) { html { min-height: 15em; } body { font-size: 13px; } }
+@media screen and (max-width: 600px) { body { font-size: 12px; } }
+
+/* RESPONSIVE MOBILE */
+
+@media screen and (max-width: 550px) { body { font-size: 13px; } }
+@media screen and (max-width: 465px) { body { font-size: 12px; } }
+@media screen and (max-width: 380px) { body { font-size: 11px; } }
+@media screen and (max-width: 360px) { body { font-size: 10px; } }
+@media screen and (max-width: 340px) { body { font-size: 9px; } }
+@media screen and (max-width: 320px) { body { font-size: 8px; } }
+@media screen and (max-width: 300px) { html { min-height: 10em; } body { font-size: 7px; } }
+@media screen and (max-width: 225px) { body { font-size: 5px; } }
+@media screen and (max-width: 175px) { body { font-size: 3px; } }
+@media screen and (max-width: 125px) { body { font-size: 1px; } }
 
 /* POPUPS */
 
