@@ -6,8 +6,10 @@
         affichage du chemin courant et de l'arborescense des fichiers depuis la racine (accessible) du serveur
         boutons de controle : historique back forward, dossier parent, retour a l'accueil, boutons de rafraifhissement
         création de nouveaux dossiers et fichiers
+        protection scripts malicieux par url connue masquée
 
         [>>>] upload fichier clic
+
 menu dossiers
 menu fichiers
 {
@@ -22,14 +24,15 @@ menu fichiers
     telecharger (fichier)
     editer (fichier)
 }
+type affichage elements
+ordonner par
 drag drop upload
 drag drop upload dans dossier
-drag drop deplacement dans dossier
-affichage elements
-ordonner par
-protection scripts malicieux par url connue masquée
 supprimer partie historique si trop long
+drag drop deplacement dans dossier
+multi select > deplacement dans dossier
 clic droit zone elements
+
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
 */
 
