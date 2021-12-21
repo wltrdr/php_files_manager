@@ -8,11 +8,12 @@
         création de nouveaux dossiers et fichiers
         protection scripts malicieux par url connue masquée
 
-[>>>] upload fichier clic
+[>>>] empecher creet fichier avec apostrophe
+
+upload fichier clic
 menu dossiers
 menu fichiers
 {
-    supprimer
     dupliquer
     affichage (si accessible)
     telecharger (fichier)
@@ -179,7 +180,7 @@ elseif(isset($_POST) && !empty($_POST))
 
                 elseif(isset($_POST['del']))
                 {
-                    $name = urldecode($_POST['name']);
+                    $name = urldecode($_POST['del']);
 
                     if(@is_file($current . $name))
                     {
@@ -198,7 +199,7 @@ elseif(isset($_POST) && !empty($_POST))
                                 {
                                     if($entry != '.' && $entry != '..')
                                     {
-                                        if(is_dir($dir . $entry))
+                                        if(is_dir($dir . '/' . $entry))
                                             rmfulldir($dir . '/' . $entry);
                                         else
                                             unlink($dir . '/' . $entry);
