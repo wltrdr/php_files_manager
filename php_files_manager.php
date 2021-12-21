@@ -358,6 +358,7 @@ elseif(isset($_POST) && !empty($_POST))
             $link = $current;
             if($current === '.')
                 $link = '';
+            $dir_enc = urlencode($link);
     
             $elems_dirs = array();
             $elems_files = array();
@@ -381,15 +382,18 @@ elseif(isset($_POST) && !empty($_POST))
             foreach($elems_dirs as $elem_dir)
             {
                 if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $script_dirs[$nb_dirs]['name'])
-                    $url = path_parents($cur_rmvs - 1);
+                    $url_enc = urlencode(path_parents($cur_rmvs - 1));
                 else
-                    $url = urlencode($link . $elem_dir . '/');
-                $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url');\" oncontextmenu=\"rightClickDir('$elem_dir', '$url');\" onmousedown=\"startClicDir();\" onmouseup=\"endClicDir('$elem_dir', '$url');\"><span></span>$elem_dir</a>\n";
+                    $url_enc = urlencode($link . $elem_dir . '/');
+
+                $el_enc = urlencode($elem_dir);
+                $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc');\" oncontextmenu=\"rightClickDir('$elem_dir', '$dir_enc', '$el_enc', '$url_enc');\" onmousedown=\"startClicDir();\" onmouseup=\"endClicDir('$elem_dir', '$dir_enc', '$el_enc', '$url_enc');\"><span></span>$elem_dir</a>\n";
             }
+
             foreach($elems_files as $elem_file)
             {
-                $url = urlencode($link . $elem_file);
-                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$url');\" oncontextmenu=\"menuFile('$elem_file', '$url');\"><span></span>$elem_file</a>\n";
+                $el_enc = urlencode($elem_file);
+                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$dir_enc', '$el_enc');\" oncontextmenu=\"menuFile('$elem_file', '$dir_enc', '$el_enc');\"><span></span>$elem_file</a>\n";
             }
     
             /* RETURN */
