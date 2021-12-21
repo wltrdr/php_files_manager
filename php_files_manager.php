@@ -131,13 +131,13 @@ elseif(isset($_POST) && !empty($_POST))
         {
             if($_POST['token'] === $_SESSION['token'])
             {
+                if($current === '.')
+                    $current = '';
 
                 /* NEW FILE OR FOLDER */
 
                 if(isset($_POST['new']))
                 {
-                    if($current === '.')
-                        $current = '';
                     $new_name = urldecode($_POST['name']);
 
                     if($_POST['new'] === 'file')
@@ -158,7 +158,7 @@ elseif(isset($_POST) && !empty($_POST))
                             exit('Directory already exists');
                         else
                         {
-                            if(@mkdir($current . $new_name) !== false)
+                            if(@mkdir($current . $new_name))
                                 exit('created');
                             else
                                 exit('Directory not created');
@@ -168,9 +168,12 @@ elseif(isset($_POST) && !empty($_POST))
 
                 /* RENAME ELEMENT */
 
-                elseif()
+                elseif(isset($_POST['ren']))
                 {
-                    
+                    if(@rename($current . urldecode($_POST['ren']), $current . urldecode($_POST['name'])))
+                        exit('renamed');
+                    else
+                        exit('Not renamed');
                 }
                 else
                     exit('Unknown action');
