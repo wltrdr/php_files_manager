@@ -127,7 +127,7 @@ btnConnexion.addEventListener("click", ev => {
             btnConnexion.className = "err"
             inputConnexion.value = ""
             let i = 0
-            let clign = setInterval(() => {
+            const clign = setInterval(() => {
                 inputConnexion.placeholder = "" 
                 setTimeout(() => { inputConnexion.placeholder = "Bad password" }, delayBadCnxBkMs)
                 i++
