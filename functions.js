@@ -28,6 +28,8 @@ function ajaxRequest(method, url, data, callback)
     }
 }
 
+/* EXPLORER */
+
 function showElements(rep)
 {
     const found = rep.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!end!\\\\(.*)/s)
@@ -105,6 +107,8 @@ function openDir(dir)
 
 openDir(currentPath)
 
+/* CONTEXT MENU */
+
 function posMenu(event = false)
 {
     let menuWidth = popupMenu.offsetWidth
@@ -146,6 +150,8 @@ function openMenu(html, ev)
         catch {}
     }, delayMenuMs)
 }
+
+/* POPUP BOX */
 
 function closeBox()
 {
@@ -277,12 +283,14 @@ function openBox(type, vals, callback = false)
     }, delayMenuMs)
 }
 
+/* CONTEXT MENUS "`’ʿʾ′ˊˈꞌ‘ˋ‵ */
+
 function menuDir(name, path)
 {
     openMenu(`<span>${name}/</span>
 <a onclick="openDir('${path}')">Open</a>
 <a onclick="">Show (if possible)</a>
-<a onclick="">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}/ˈ</b> :', inputName => { renElement('${path}', '${name}/', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -298,7 +306,7 @@ function menuFile(name, path)
 <a onclick="">Show (if possible)</a>
 <a onclick="">Download</a>
 <a onclick="">Edit</a>
-<a onclick="">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}ˈ</b> :', inputName => { renElement('${path}', '${name}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -308,6 +316,8 @@ function menuFile(name, path)
 `, event)
     event.preventDefault()
 }
+
+/* MOBILE */
 
 function onMobile()
 {
@@ -358,6 +368,8 @@ function effectH1Mobile(el)
 
 effectH1Mobile(h1)
 
+/* CLICS ON ELEMENTS */
+
 function leftClickDir(dir)
 {
     if(isOnMobile === false)
@@ -393,6 +405,8 @@ function endClicDir(name, path)
     event.preventDefault()
 }
 
+/* GLOBAL ACTIONS */
+
 function newElement(type, name)
 {
     if(name === "")
@@ -406,7 +420,6 @@ function newElement(type, name)
                 openBox('alert', 'Error : <b>' + result + '</b> !')
         })
     }
-    return true
 }
 
 function uploadFiles()
@@ -416,4 +429,23 @@ function uploadFiles()
         upload.click()
         disableBodyPrevDef = false
     }, delayMenuMs)
+}
+
+/* ELEMENTS ACTIONS */
+
+function renElement(path, oldName, newName)
+{
+    if(newName === "")
+        openBox('alert', 'Error : <b>Name can\'t be empty</b> !')
+    else
+    {
+        /*
+        ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}&token=${token}`, result => {
+            if(result === "created")
+                openDir(currentPath)
+            else
+                openBox('alert', 'Error : <b>' + result + '</b> !')
+        })
+        */
+    }
 }
