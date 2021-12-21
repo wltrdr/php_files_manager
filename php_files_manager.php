@@ -30,8 +30,16 @@ drag drop upload
 drag drop upload dans dossier
 supprimer partie historique si trop long
 drag drop deplacement dans dossier
-multi select > deplacement dans dossier
+si multi select > deplacement dans dossier + copie coupe colle
 clic droit zone elements
+{
+    afficher (si accessible)
+    type voir
+    type sort
+    nouveau dir
+    nouveau file
+    coller
+}
 
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
 */
