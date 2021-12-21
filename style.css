@@ -125,6 +125,16 @@ button {
         width: 100%;
     }
 
+    #popupBox .hidden {
+        display: inline-block;
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+
 #popupMask {
     display: none;
     position: absolute;
