@@ -160,8 +160,23 @@ function closeBox()
     popupBox.style.display = "none"
 }
 
-function showBox(html, callback = false)
+function showBox(txt, icon, inputs, buttons, noForm = true, callback = false)
 {
+
+    let html = `<div class="popupBox">
+    <div class="n1">
+        <div class="n3">
+            <span class="icon ${icon}"></span>
+            <span class="txt">${txt}</span>
+        </div>
+    </div>
+    ${inputs}
+    <div class="n2">
+        ${buttons}
+    </div>
+</div>`
+    if(noForm !== true)
+        html = "<form>\n" + html + "</form>"
     popupBox.innerHTML = html
     popupMask.style.display = "block"
     popupBox.style.display = "block"
@@ -190,20 +205,7 @@ function openBox(type, vals, icon = null, callback = false)
                 txt = vals.txt
                 btn = vals.btn
             }
-            showBox(`<form>
-    <div class="popupBox">
-        <div class="n1">
-            <div class="n3">
-                <span class="icon ${icon}"></span>
-                <span class="txt">${txt}</span>
-            </div>
-        </div>
-        <input type="text" class="hidden" value="">
-        <div class="n2">
-            <button>${btn}</button>
-        </div>
-    </div>
-</form>`, () => {
+            showBox(txt, icon, `<input type="text" class="hidden" value="">`,  `<button>${btn}</button>`, false, () => {
                 let input = popupBox.querySelector("input")
                 input.focus()
 
@@ -225,18 +227,7 @@ function openBox(type, vals, icon = null, callback = false)
                 btnOk = vals.btnOk
                 btnNo = vals.btnNo
             }
-            showBox(`<div class="popupBox">
-    <div class="n1">
-        <div class="n3">
-            <span class="icon ${icon}"></span>
-            <span class="txt">${txt}</span>
-        </div>
-    </div>
-    <div class="n2">
-        <button id="y">${btnOk}</button>
-        <button id="n">${btnNo}</button>
-    </div>
-</div>`, () => {
+            showBox(txt, icon, "", `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, true, () => {
                 popupBox.querySelector("button#y").addEventListener("click", () => {
                     callback()
                     closeBox()
@@ -262,21 +253,7 @@ function openBox(type, vals, icon = null, callback = false)
                 btnOk = vals.btnOk
                 btnNo = vals.btnNo
             }
-            showBox(`<form>
-    <div class="popupBox">
-        <div class="n1">
-            <div class="n3">
-                <span class="icon ${icon}"></span>
-                <span class="txt">${txt}</span>
-            </div>
-        </div>
-        <input type="text" value="${value}">
-        <div class="n2">
-            <button id="y">${btnOk}</button>
-            <button id="n">${btnNo}</button>
-        </div>
-    </div>
-</form>`, () => {
+            showBox(txt, icon, `<input type="text" value="${value}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
                 let input = popupBox.querySelector("input")
                 input.focus()
 
