@@ -46,10 +46,20 @@ function crypter($str)
 
 $password = crypter($password);
 
-if(isset($_GET['js']))
+if(isset($_GET['js']) && isset ($_GET['init']))
 {
 	header('Content-Type: application/javascript');
-    exit(file_get_contents('script.js'));
+    exit(file_get_contents('init.js'));
+}
+elseif(isset($_GET['js']) && isset ($_GET['functions']))
+{
+	header('Content-Type: application/javascript');
+    exit(file_get_contents('functions.js'));
+}
+elseif(isset($_GET['js']) && isset ($_GET['events']))
+{
+	header('Content-Type: application/javascript');
+    exit(file_get_contents('events.js'));
 }
 elseif(isset($_GET['css']))
 {
