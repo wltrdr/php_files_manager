@@ -134,6 +134,7 @@ logout.addEventListener("click", () => {
     ajaxRequest("POST", "", `${Date.now()}&logout`, result => {
         if(result === "bye")
         {
+            token = ""
             contents.style.display = "none"
             connexion.style.display = "flex"
         }
