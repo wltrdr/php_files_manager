@@ -149,7 +149,6 @@ function openMenu(html, ev)
 
 function closeBox()
 {
-    maskOpened = false
     popupBox.innerHTML = ""
     popupMask.style.display = "none"
     popupBox.style.display = "none"
@@ -161,7 +160,6 @@ function showBox(html, callback = false)
     popupMask.style.display = "block"
     popupBox.style.display = "block"
     setTimeout(() => {
-        maskOpened = true
         if(callback !== false)
         {
             try {
@@ -193,7 +191,7 @@ function openBox(type, vals, callback = false)
 </form>`, () => {
                 let input = popupBox.querySelector("input")
                 input.focus()
-                
+
                 popupBox.querySelector("button").addEventListener("click", () => {
                     closeBox()
                 })
@@ -408,4 +406,13 @@ function newElement(type, name)
         })
     }
     return true
+}
+
+function uploadFiles()
+{
+    disableBodyPrevDef = true
+    setTimeout(() => {
+        upload.click()
+        disableBodyPrevDef = false
+    }, delayMenuMs)
 }
