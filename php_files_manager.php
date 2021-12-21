@@ -6,6 +6,8 @@
         affichage du chemin courant et de l'arborescense des fichiers depuis la racine (accessible) du serveur
         boutons de controle : historique back forward, dossier parent, retour a l'accueil, boutons de rafraifhissement
 
+        [>>>] context menu -> context && popup + mask
+
 ajout dossier
 ajout fichier
 upload fichier clic
@@ -39,12 +41,22 @@ session_start();
 
 $password = 'admin';
 
-function crypter($str)
+function sp_crypt($str)
 {
     return sha1($_SERVER['REMOTE_ADDR'] . md5($str));
 }
 
-$password = crypter($password);
+function gencode($nb)
+{
+    $cars = 'azertyuiopqsdfghjklmwxcvbn0123456789';
+    $mt_max = strlen($cars) - 1;
+    $return = '';
+    for($i = 0; $i < $nb; $i++)
+        $return .= $cars[mt_rand(0, $mt_max)];
+    return $return;
+}
+
+$password = sp_crypt($password);
 
 if(isset($_GET['js']) && isset ($_GET['init']))
 {
@@ -66,19 +78,22 @@ elseif(isset($_GET['css']))
 	header('Content-Type: text/css');
     exit(file_get_contents('style.css'));
 }
-elseif(isset($_GET['logout']))
+elseif(isset($_POST['logout']))
 {
 	header('Content-Type: text/plain');
 	unset($_SESSION['pfm']);
     exit('bye');
 }
-elseif(isset($_GET) && !empty($_GET))
+elseif(isset($_POST) && !empty($_POST))
 {
 	header('Content-Type: text/plain');
-    if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_GET['pwd']) && crypter($_GET['pwd']) === $password))
+    if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password))
     {
         if(!isset($_SESSION['pfm']) || $_SESSION['pfm'] !== $password)
             $_SESSION['pfm'] = $password;
+
+        if(!isset($_SESSION['token']))
+            $_SESSION['token'] = gencode(32);
 
         function css_extension($file)
         {
@@ -119,8 +134,8 @@ elseif(isset($_GET) && !empty($_GET))
         }
 
         $current = '.';
-        if(isset($_GET['dir']) && !empty($_GET['dir']) && $_GET['dir'] !== '.')
-            $current = urldecode($_GET['dir']);
+        if(isset($_POST['dir']) && !empty($_POST['dir']) && $_POST['dir'] !== '.')
+            $current = urldecode($_POST['dir']);
 
         $script_path = $_SERVER['SCRIPT_FILENAME'];
 
@@ -311,7 +326,7 @@ elseif(isset($_GET) && !empty($_GET))
 
         /* SHOW */
 
-        exit('//!current!\\\\' . urlencode($current) . "\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements//!end!\\\\");
+        exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\" . urlencode($current) . "\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements//!end!\\\\");
     }
     else
         exit('false');
