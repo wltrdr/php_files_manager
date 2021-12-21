@@ -82,8 +82,7 @@ btnView.addEventListener("click", ev => {
 <a onclick="">Icons</a>
 <a onclick="">Small icons</a>
 <a onclick="">List</a>
-<a onclick="">Details</a>
-`, ev)
+<a onclick="">Details</a>`, ev)
 })
 
 btnSort.addEventListener("click", ev => {
@@ -93,15 +92,13 @@ btnSort.addEventListener("click", ev => {
 <a onclick="">Size</a>
 <a onclick="">Type</a>
 <a class="gap" onclick="">Ascending</a>
-<a class="" onclick="">Descending</a>
-`, ev)
+<a class="" onclick="">Descending</a>`, ev)
 })
 
 btnCreate.addEventListener("click", ev => {
     openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
 <a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
-<a onclick="uploadFiles()">Upload file(s)</a>
-`, ev)
+<a onclick="uploadFiles()">Upload file(s)</a>`, ev)
 })
 
 upload.addEventListener("change", () => {
