@@ -225,12 +225,18 @@ function openBox(type, vals, icon = null, callback = false)
                 btnOk = vals.btnOk
                 btnNo = vals.btnNo
             }
-            showBox(`<div>
-    <span class="icon ${icon}"></span>
-    <span class="txt">${txt}</span>
-</div>
-<button id="y">${btnOk}</button>
-<button id="n">${btnNo}</button>`, () => {
+            showBox(`<div class="popupBox">
+    <div class="n1">
+        <div class="n3">
+            <span class="icon ${icon}"></span>
+            <span class="txt">${txt}</span>
+        </div>
+    </div>
+    <div class="n2">
+        <button id="y">${btnOk}</button>
+        <button id="n">${btnNo}</button>
+    </div>
+</div>`, () => {
                 popupBox.querySelector("button#y").addEventListener("click", () => {
                     callback()
                     closeBox()
