@@ -6,9 +6,10 @@
         affichage du chemin courant et de l'arborescense des fichiers depuis la racine (accessible) du serveur
         boutons de controle : historique back forward, dossier parent, retour a l'accueil, boutons de rafraifhissement
         création de nouveaux dossiers et fichiers
+        renommage et suppression des fichiers et dossiers
         protection scripts malicieux par url connue masquée
 
-[>>>] empecher creet fichier avec apostrophe
+[>>>] empecher creer fichier avec apostrophe
 
 upload fichier clic
 menu dossiers
