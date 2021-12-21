@@ -310,9 +310,8 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded)
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
-<a onclick="">Delete</a>
 <a onclick="">Change chmods</a>
-`, event)
+<a onclick="">Delete</a>`, event)
     event.preventDefault()
 }
 
@@ -326,10 +325,9 @@ function menuFile(name, pathEncoded, nameEncoded)
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
-<a onclick="">Delete</a>
 <a onclick="">Change chmods</a>
-<a onclick="">File information</a>
-`, event)
+<a onclick="">Delete</a>
+<a onclick="">File information</a>`, event)
     event.preventDefault()
 }
 
