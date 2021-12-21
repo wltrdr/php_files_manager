@@ -8,8 +8,7 @@
         création de nouveaux dossiers et fichiers
         protection scripts malicieux par url connue masquée
 
-        [>>>] upload fichier clic
-
+[>>>] upload fichier clic
 menu dossiers
 menu fichiers
 {
@@ -40,10 +39,9 @@ clic droit zone elements
     nouveau file
     coller
 }
-
+’ʿ
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
 */
-
 
 session_start();
 
@@ -142,33 +140,33 @@ elseif(isset($_POST) && !empty($_POST))
                     if($_POST['new'] === 'file')
                     {
                         if(@is_file($current . $new_name))
-                            exit("File already exists");
+                            exit('File already exists');
                         else
                         {
                             if(@file_put_contents($current . $new_name, '') !== false)
-                                exit("created");
+                                exit('created');
                             else
-                                exit("File not created");
+                                exit('File not created');
                         }
                     }
                     else
                     {
                         if(@is_dir($current . $new_name))
-                            exit("Directory already exists");
+                            exit('Directory already exists');
                         else
                         {
                             if(@mkdir($current . $new_name) !== false)
-                                exit("created");
+                                exit('created');
                             else
-                                exit("Directory not created");
+                                exit('Directory not created');
                         }
                     }
                 }
                 else
-                    exit("Unknown action");
+                    exit('Unknown action');
             }
             else
-                exit("Refresh site");
+                exit('Refresh site');
         }
         else
         {
