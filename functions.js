@@ -18,7 +18,7 @@ function ajaxRequest(method, url, data, callback)
     if(method === "POST")
     {
         httpRequest.open(method, url)
-        httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+        httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
         httpRequest.send(data)
     }
     else
@@ -176,11 +176,13 @@ function showBox(html, callback = false)
     }, delayMenuMs)
 }
 
-function openBox(type, vals, callback = false)
+function openBox(type, vals, icon = null, callback = false)
 {
     setTimeout(() => {
         if(type === "alert") // valss (txt) || vals.txt, vals.btn
         {
+            if(icon === null)
+                icon = "info"
             let txt = vals
             let btn = "Ok"
             if(typeof(vals) !== "string")
@@ -189,11 +191,18 @@ function openBox(type, vals, callback = false)
                 btn = vals.btn
             }
             showBox(`<form>
-    <span>
-        ${txt}
+    <div class="popupBox">
+        <div class="n1">
+            <div class="n3">
+                <span class="icon ${icon}"></span>
+                <span class="txt">${txt}</span>
+            </div>
+        </div>
         <input type="text" class="hidden" value="">
-    </span>
-    <button>${btn}</button>
+        <div class="n2">
+            <button>${btn}</button>
+        </div>
+    </div>
 </form>`, () => {
                 let input = popupBox.querySelector("input")
                 input.focus()
@@ -205,6 +214,8 @@ function openBox(type, vals, callback = false)
         }
         else if(type === "confirm") // vals (txt) || vals.txt, vals.btnOk, vals.btnNo
         {
+            if(icon === null)
+                icon = "ask"
             let txt = vals
             let btnOk = "Yes"
             let btnNo = "No"
@@ -214,9 +225,10 @@ function openBox(type, vals, callback = false)
                 btnOk = vals.btnOk
                 btnNo = vals.btnNo
             }
-            showBox(`<span>
-    ${txt}
-</span>
+            showBox(`<div>
+    <span class="icon ${icon}"></span>
+    <span class="txt">${txt}</span>
+</div>
 <button id="y">${btnOk}</button>
 <button id="n">${btnNo}</button>`, () => {
                 popupBox.querySelector("button#y").addEventListener("click", () => {
@@ -231,6 +243,8 @@ function openBox(type, vals, callback = false)
         }
         else if(type === "prompt") // vals (txt) || vals.txt, vals.value, vals.btnOk, vals.btnNo
         {
+            if(icon === null)
+                icon = "ask"
             let txt = vals
             let value = ""
             let btnOk = "Ok"
@@ -243,12 +257,19 @@ function openBox(type, vals, callback = false)
                 btnNo = vals.btnNo
             }
             showBox(`<form>
-    <span>
-        ${txt}
+    <div class="popupBox">
+        <div class="n1">
+            <div class="n3">
+                <span class="icon ${icon}"></span>
+                <span class="txt">${txt}</span>
+            </div>
+        </div>
         <input type="text" value="${value}">
-    </span>
-    <button id="y">${btnOk}</button>
-    <button id="n">${btnNo}</button>
+        <div class="n2">
+            <button id="y">${btnOk}</button>
+            <button id="n">${btnNo}</button>
+        </div>
+    </div>
 </form>`, () => {
                 let input = popupBox.querySelector("input")
                 input.focus()
@@ -290,7 +311,7 @@ function menuDir(name, path)
     openMenu(`<span>${name}/</span>
 <a onclick="openDir('${path}')">Open</a>
 <a onclick="">Show (if possible)</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}/ˈ</b> :', inputName => { renElement('${path}', '${name}/', inputName) })">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}/ˈ</b> :', null, inputName => { renElement('${path}', '${name}/', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -306,7 +327,7 @@ function menuFile(name, path)
 <a onclick="">Show (if possible)</a>
 <a onclick="">Download</a>
 <a onclick="">Edit</a>
-<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}ˈ</b> :', inputName => { renElement('${path}', '${name}', inputName) })">Rename</a>
+<a onclick="openBox('prompt', 'Enter the new name for <b>ˈ${name}ˈ</b> :', null, inputName => { renElement('${path}', '${name}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
@@ -410,14 +431,14 @@ function endClicDir(name, path)
 function newElement(type, name)
 {
     if(name === "")
-        openBox('alert', 'Error : <b>Name can\'t be empty</b> !')
+        openBox("alert", "Error : <b>Name can't be empty</b> !", "err")
     else
     {
         ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}&token=${token}`, result => {
             if(result === "created")
                 openDir(currentPath)
             else
-                openBox('alert', 'Error : <b>' + result + '</b> !')
+                openBox("alert", "Error : <b>" + result + "</b> !", "err")
         })
     }
 }
@@ -436,14 +457,14 @@ function uploadFiles()
 function renElement(path, oldName, newName)
 {
     if(newName === "")
-        openBox('alert', 'Error : <b>Name can\'t be empty</b> !')
+        openBox("alert", "Error : <b>Name can't be empty</b> !", "err")
     else
     {
         ajaxRequest("POST", "", `${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
             if(result === "renamed")
                 openDir(currentPath)
             else
-                openBox('alert', 'Error : <b>' + result + '</b> !')
+                openBox("alert", "Error : <b>" + result + "</b> !", "err")
         })
     }
 }
