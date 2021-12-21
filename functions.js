@@ -184,10 +184,16 @@ function openBox(type, vals, callback = false)
                 txt = vals.txt
                 btn = vals.btn
             }
-            showBox(`<span>
-    ${txt}
-</span>
-<button>${btn}</button>`, () => {
+            showBox(`<form>
+    <span>
+        ${txt}
+        <input type="text" class="hidden" value="">
+    </span>
+    <button>${btn}</button>
+</form>`, () => {
+                let input = popupBox.querySelector("input")
+                input.focus()
+                
                 popupBox.querySelector("button").addEventListener("click", () => {
                     closeBox()
                 })
