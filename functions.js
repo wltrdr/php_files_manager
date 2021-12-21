@@ -96,6 +96,7 @@ function openDir(dir)
         }
         else
         {
+            token = ""
             contents.style.display = "none"
             connexion.style.display = "flex"
         }
