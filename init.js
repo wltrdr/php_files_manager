@@ -1,8 +1,8 @@
-const mslongClic = 1500
-const delayMenuMs = 50
-const delayH1MobileMs = 1500
-const delayBadCnxMs = 150
-const delayBadCnxBkMs = 50
+const mslongClic = 1500         // LONG CLIC ON MOBILE
+const delayMenuMs = 50          // INCREASE IF BUGS ON CONTEXT MENU OR POPUP BOX
+const delayH1MobileMs = 1500    // H1 BLINK SPEED ON MOBILE
+const delayBadCnxMs = 150       // INPUT BLINK SPEED IF BAD PASSWORD
+const delayBadCnxBkMs = 50      // INPUT HIDING SPEED DURING BLINK IF BAD PASSWORD
 
 const popupBox = document.querySelector("#popupBox")
 const popupMask = document.querySelector("#popupMask")
