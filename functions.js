@@ -389,14 +389,14 @@ function endClicDir(name, path)
 function newElement(type, name)
 {
     if(name === "")
-        openBox('alert', 'Error : Name can\'t be empty !')
+        openBox('alert', 'Error : <b>Name can\'t be empty</b> !')
     else
     {
-        ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}`, result => {
+        ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}&token=${token}`, result => {
             if(result === "created")
                 openDir(currentPath)
             else
-                openBox('alert', 'Error : ' + result)
+                openBox('alert', 'Error : <b>' + result + '</b> !')
         })
     }
     return true
