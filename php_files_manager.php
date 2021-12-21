@@ -125,12 +125,15 @@ elseif(isset($_POST) && !empty($_POST))
         if(isset($_POST['dir']) && !empty($_POST['dir']) && $_POST['dir'] !== '.')
             $current = urldecode($_POST['dir']);
 
-        /* NEW FILE OR FOLDER */
+        /* ACTIONS */
 
         if(isset($_POST['token']))
         {
             if($_POST['token'] === $_SESSION['token'])
             {
+
+                /* NEW FILE OR FOLDER */
+
                 if(isset($_POST['new']))
                 {
                     if($current === '.')
@@ -161,6 +164,13 @@ elseif(isset($_POST) && !empty($_POST))
                                 exit('Directory not created');
                         }
                     }
+                }
+
+                /* RENAME ELEMENT */
+
+                elseif()
+                {
+                    
                 }
                 else
                     exit('Unknown action');
