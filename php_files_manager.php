@@ -9,9 +9,8 @@
         renommage et suppression des fichiers et dossiers
         protection scripts malicieux par url connue masquée
 
-[>>>] empecher creer fichier avec apostrophe
-
-upload fichier clic + loader durant l'upload + checker les sizes avant l'envoi
+[>>>]upload fichier clic + loader durant l'upload + checker les sizes avant l'envoi
+encadrer [] retours php
 {
     affichage (si accessible)
     telecharger (fichier)
