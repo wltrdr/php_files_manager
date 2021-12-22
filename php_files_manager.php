@@ -1,29 +1,27 @@
 <?php
-/*
-        design 100% responsive
-        chargement des elements en ajax
-        protection par mot de passe
-        affichage du chemin courant et de l'arborescense des fichiers depuis la racine (accessible) du serveur
-        boutons de controle : historique back forward, dossier parent, retour a l'accueil, boutons de rafraifhissement
-        création de nouveaux dossiers et fichiers
-        renommage et suppression des fichiers et dossiers
-        protection scripts malicieux par url connue masquée
+session_start();
 
-[>>>]encadrer [] retours php
+/*
+    design 100% responsive
+    chargement des elements en ajax
+    protection par mot de passe
+    affichage du chemin courant et de l'arborescense des fichiers depuis la racine (accessible) du serveur
+    boutons de controle : historique back forward, dossier parent, retour a l'accueil, boutons de rafraifhissement
+    création de nouveaux dossiers et fichiers
+    renommage et suppression des fichiers et dossiers
+    protection scripts malicieux par url connue masquée
+[>>] encadrer [] retours php
 affichage (fichier/dossier si accessible)
 telecharger (fichier)
 supprimer partie historique si trop long
-
 type affichage elements
 ordonner par
-{
-    dupliquer
-    deplacer vers
-    copier vers
-    chmods
-    infos (fileperms()+stat())
-    editer (fichier)
-}
+dupliquer (fichier/dossier)
+deplacer vers (fichier/dossier)
+copier vers (fichier/dossier)
+chmods (fichier/dossier)
+infos (fileperms()+stat())
+editer (fichier)
 drag drop upload
 drag drop upload dans dossier
 drag drop deplacement dans dossier
@@ -40,10 +38,7 @@ clic droit zone elements
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
 chercher traces francais
 ’ʿ
-
 */
-
-session_start();
 
 $password = 'admin';
 
