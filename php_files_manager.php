@@ -9,13 +9,11 @@
         renommage et suppression des fichiers et dossiers
         protection scripts malicieux par url connue masquée
 
-[>>>] upload fichier clic
-encadrer [] retours php
-{
-    affichage (si accessible)
-    telecharger (fichier)
-}
+[>>>]encadrer [] retours php
+affichage (fichier/dossier si accessible)
+telecharger (fichier)
 supprimer partie historique si trop long
+
 type affichage elements
 ordonner par
 {
@@ -244,43 +242,26 @@ elseif(isset($_POST) && !empty($_POST))
 
                 elseif(isset($_FILES['upload']))
                 {
+                    $return = '';
                     $nb_files = count($_FILES['upload']['name']);
-                    exit('upload en cours' . $nb_files);
-                    /*
                     for($i = 0; $i < $nb_files; $i++)
                     {
-                        if($_FILES['upload']['error'][$i] == '0')
+                        $name = $_FILES["upload"]["name"][$i];
+                        if($_FILES['upload']['error'][$i] === 0)
                         {
-                            $nom_fichier = $_FILES["upload"]["name"][$i];
-                            if(preg_match('#^(.+)\.([^\.]+)$#', $nom_fichier, $matches))
-                            {
-                                $nom_fichier = $matches[1];
-                                $extension = $matches[2];
-                            }
+                            if(@is_file($current . $name))
+                                $return .= "\n" . $name . "</b> already exists<b><br><br>";
                             else
-                                $extension = '';
-                            $nom_fichier = preg_replace('#[^a-z0-9_]#i', '_', $nom_fichier);
-                            while(strpos('__', $nom_fichier))
-                                $nom_fichier = str_replace('__', '_', $nom_fichier);
-                            if($nom_fichier[0] == '_')
-                                $nom_fichier = substr($nom_fichier, 1, strlen($nom_fichier));
-                            if($nom_fichier[strlen($nom_fichier) - 1] == '_')
-                                $nom_fichier = substr($nom_fichier, 0, strlen($nom_fichier) - 1);
-                            $nv_nom_fichier = $nom_fichier;
-                            if(file_exists("../uploads/$nom_fichier.$extension"))
-                            {
-                                $j = 1;
-                                $nv_nom_fichier .= "_$j";
-                                while(file_exists("../uploads/$nom_fichier" . "_$j.$extension"))
-                                {
-                                    $j++;
-                                    $nv_nom_fichier = $nom_fichier . "_$j";
-                                }
-                            }
-                            move_uploaded_file($_FILES["upload"]["tmp_name"][$i], "../uploads/$nv_nom_fichier.$extension");
+                                move_uploaded_file($_FILES["upload"]["tmp_name"][$i], $current . $name);
                         }
+                        else
+                            $return .= "\n" . $name . "</b> cannot be uploaded<b><br><br>";
                     }
-                    */
+                    if(empty($return))
+                        $return = 'uploaded';
+                    else
+                        $return = substr($return, 0, strlen($return) - 8);
+                    exit($return);
                 }
 
                 else
@@ -320,7 +301,7 @@ elseif(isset($_POST) && !empty($_POST))
     
             function path_parents($nb)
             {
-                if($nb == 0)
+                if($nb === 0)
                     return '.';
                 else
                 {
