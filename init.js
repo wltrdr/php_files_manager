@@ -4,6 +4,7 @@ const delayH1MobileMs = 1500    // H1 BLINK SPEED ON MOBILE
 const delayBadCnxMs = 150       // INPUT BLINK SPEED IF BAD PASSWORD
 const delayBadCnxBkMs = 50      // INPUT HIDING SPEED DURING BLINK IF BAD PASSWORD
 
+const loading = document.querySelector("#loading")
 const popupBox = document.querySelector("#popupBox")
 const popupMask = document.querySelector("#popupMask")
 const popupMenu = document.querySelector("#popupMenu")
