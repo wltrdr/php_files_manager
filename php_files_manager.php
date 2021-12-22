@@ -12,11 +12,14 @@
 [>>>] empecher creer fichier avec apostrophe
 
 upload fichier clic
-menu fichiers + dossiers
 {
     affichage (si accessible)
     telecharger (fichier)
-
+}
+supprimer partie historique si trop long
+type affichage elements
+ordonner par
+{
     dupliquer
     deplacer vers
     copier vers
@@ -24,16 +27,13 @@ menu fichiers + dossiers
     infos (fileperms()+stat())
     editer (fichier)
 }
-type affichage elements
-ordonner par
 drag drop upload
 drag drop upload dans dossier
-supprimer partie historique si trop long
 drag drop deplacement dans dossier
 si multi select > deplacement dans dossier + copie coupe colle
 clic droit zone elements
 {
-    afficher (si accessible)
+    afficher ce dossier (si accessible)
     type voir
     type sort
     nouveau dir
