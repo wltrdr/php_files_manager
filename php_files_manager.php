@@ -42,6 +42,21 @@ clic droit zone elements
 }
 ’ʿ
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
+
+
+function parse_size($size)
+{
+    $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+    $size = preg_replace('/[^0-9\.]/', '', $size);
+    if($unit)
+        return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+    else
+        return round($size);
+}
+
+$size_max_all_uploads = parse_size(ini_get('upload_max_filesize'));
+$size_max_file_upload = parse_size(ini_get('upload_max_filesize'));
+
 */
 
 session_start();
@@ -224,6 +239,50 @@ elseif(isset($_POST) && !empty($_POST))
                             exit('Directory not deleted');
                     }
                 }
+
+                /* UPLOAD */
+
+                elseif(isset($_POST['upload']))
+                {
+                    $nb_files = count($_FILES['upload']['name']);
+                    exit('upload en cours' . $_nb_files);
+                    /*
+                    for($i = 0; $i < $nb_files; $i++)
+                    {
+                        if($_FILES['upload']['error'][$i] == '0')
+                        {
+                            $nom_fichier = $_FILES["upload"]["name"][$i];
+                            if(preg_match('#^(.+)\.([^\.]+)$#', $nom_fichier, $matches))
+                            {
+                                $nom_fichier = $matches[1];
+                                $extension = $matches[2];
+                            }
+                            else
+                                $extension = '';
+                            $nom_fichier = preg_replace('#[^a-z0-9_]#i', '_', $nom_fichier);
+                            while(strpos('__', $nom_fichier))
+                                $nom_fichier = str_replace('__', '_', $nom_fichier);
+                            if($nom_fichier[0] == '_')
+                                $nom_fichier = substr($nom_fichier, 1, strlen($nom_fichier));
+                            if($nom_fichier[strlen($nom_fichier) - 1] == '_')
+                                $nom_fichier = substr($nom_fichier, 0, strlen($nom_fichier) - 1);
+                            $nv_nom_fichier = $nom_fichier;
+                            if(file_exists("../uploads/$nom_fichier.$extension"))
+                            {
+                                $j = 1;
+                                $nv_nom_fichier .= "_$j";
+                                while(file_exists("../uploads/$nom_fichier" . "_$j.$extension"))
+                                {
+                                    $j++;
+                                    $nv_nom_fichier = $nom_fichier . "_$j";
+                                }
+                            }
+                            move_uploaded_file($_FILES["upload"]["tmp_name"][$i], "../uploads/$nv_nom_fichier.$extension");
+                        }
+                    }
+                    */
+                }
+
                 else
                     exit('Unknown action');
             }
