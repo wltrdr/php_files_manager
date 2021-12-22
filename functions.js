@@ -433,7 +433,10 @@ function newElement(type, name)
             if(result === "created")
                 openDir(currentPath)
             else
+            {
+                openDir(currentPath)
                 openBox("alert", "Error : <b>" + result + "</b> !", "err")
+            }
         })
     }
 }
@@ -442,7 +445,7 @@ function uploadFiles()
 {
     disableBodyPrevDef = true
     setTimeout(() => {
-        upload.click()
+        inputUpload.click()
         disableBodyPrevDef = false
     }, delayMenuMs)
 }
@@ -459,7 +462,10 @@ function renElement(path, oldName, newName)
             if(result === "renamed")
                 openDir(currentPath)
             else
+            {
+                openDir(currentPath)
                 openBox("alert", "Error : <b>" + result + "</b> !", "err")
+            }
         })
     }
 }
@@ -470,6 +476,9 @@ function delElement(path, name)
         if(result === "deleted")
             openDir(currentPath)
         else
+        {
+            openDir(currentPath)
             openBox("alert", "Error : <b>" + result + "</b> !", "err")
+        }
     })
 }
