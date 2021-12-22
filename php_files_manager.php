@@ -246,16 +246,16 @@ elseif(isset($_POST) && !empty($_POST))
                     $nb_files = count($_FILES['upload']['name']);
                     for($i = 0; $i < $nb_files; $i++)
                     {
-                        $name = $_FILES["upload"]["name"][$i];
+                        $name = $_FILES['upload']['name'][$i];
                         if($_FILES['upload']['error'][$i] === 0)
                         {
                             if(@is_file($current . $name))
-                                $return .= "\n" . $name . "</b> already exists<b><br><br>";
+                                $return .= "\n" . $name . '</b> already exists<b><br><br>';
                             else
-                                move_uploaded_file($_FILES["upload"]["tmp_name"][$i], $current . $name);
+                                move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name);
                         }
                         else
-                            $return .= "\n" . $name . "</b> cannot be uploaded<b><br><br>";
+                            $return .= "\n" . $name . '</b> cannot be uploaded<b><br><br>';
                     }
                     if(empty($return))
                         $return = 'uploaded';
