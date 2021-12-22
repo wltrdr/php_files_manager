@@ -10,9 +10,8 @@ session_start();
     création de nouveaux dossiers et fichiers
     renommage et suppression des fichiers et dossiers
     protection scripts malicieux par url connue masquée
-[>>] encadrer [] retours php
-separer css
-affichage (fichier/dossier si accessible)
+
+[>>] affichage (fichier/dossier si accessible)
 telecharger (fichier)
 supprimer partie historique si trop long
 type affichage elements
@@ -62,24 +61,18 @@ function gencode($nb)
 
 $password = sp_crypt($password);
 
-/* JAVASCRIPT INITIALIZATION */
+/* JAVASCRIPT */
 
 if(isset($_GET['js']) && isset ($_GET['init']))
 {
 	header('Content-Type: application/javascript');
     exit(file_get_contents('init.js'));
 }
-
-/* JAVASCRIPT FUNCTIONS */
-
 elseif(isset($_GET['js']) && isset ($_GET['functions']))
 {
 	header('Content-Type: application/javascript');
     exit(file_get_contents('functions.js'));
 }
-
-/* JAVASCRIPT EVENTS */
-
 elseif(isset($_GET['js']) && isset ($_GET['events']))
 {
 	header('Content-Type: application/javascript');
@@ -88,10 +81,15 @@ elseif(isset($_GET['js']) && isset ($_GET['events']))
 
 /* CSS */
 
-elseif(isset($_GET['css']))
+elseif(isset($_GET['css']) && isset ($_GET['style']))
 {
 	header('Content-Type: text/css');
     exit(file_get_contents('style.css'));
+}
+elseif(isset($_GET['css']) && isset ($_GET['images']))
+{
+	header('Content-Type: text/css');
+    exit(file_get_contents('images.css'));
 }
 
 /* LOGOUT */
@@ -135,7 +133,7 @@ elseif(isset($_POST) && !empty($_POST))
                     return round($size);
             }
             
-            exit('[' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
+            exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
         }
         elseif(isset($_POST['token']))
         {
@@ -247,11 +245,11 @@ elseif(isset($_POST) && !empty($_POST))
                         {
                             if(@is_file($current . $name))
                                 $return .= "\n" . $name . '</b> already exists<b><br><br>';
-                            else
-                                move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name);
+                            elseif(@!move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name))
+                                $return .= "\n" . $name . '</b> cannot be uploaded (#1)<b><br><br>';
                         }
                         else
-                            $return .= "\n" . $name . '</b> cannot be uploaded<b><br><br>';
+                            $return .= "\n" . $name . '</b> cannot be uploaded (#2)<b><br><br>';
                     }
                     if(empty($return))
                         $return = 'uploaded';
@@ -272,7 +270,7 @@ elseif(isset($_POST) && !empty($_POST))
 
             function css_extension($file)
             {
-                if(strpos($file, '.'))
+                if(strpos($file, '.') !== false)
                 {
                     $extension = explode('.', $file);
                     $extension = $extension[sizeof($extension) - 1];
@@ -354,7 +352,7 @@ elseif(isset($_POST) && !empty($_POST))
             if(!empty($current_dirs) && $current_dirs !== '.')
             {
                 $current_dirs = substr($current_dirs, 0, strlen($current_dirs) - 1);
-                if(strpos($current_dirs, '/'))
+                if(strpos($current_dirs, '/') !== false)
                 {
                     $current_dirs = explode('/', $current_dirs);
                     $cur_adds = sizeof($current_dirs);
