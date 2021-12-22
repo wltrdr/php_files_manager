@@ -40,9 +40,9 @@ clic droit zone elements
     nouveau file
     coller
 }
-’ʿ
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
-
+chercher traces francais
+’ʿ
 
 function parse_size($size)
 {
