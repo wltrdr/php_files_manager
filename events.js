@@ -106,24 +106,26 @@ btnCreate.addEventListener("click", ev => {
 
 inputUpload.addEventListener("change", ev => {
     console.log(inputUpload.files)
+    const formData = new FormData(formUpload);
+    
+    let request = $.ajax({
+        data: formData,
+        contentType: false,
+        cache: false,
+        processData: false
+    });
 
-    /*
-    formUpload.addEventListener("submit", ev => {
-        alert("ok")
-        disableBodyPrevDef = false
-        /*
-        ajaxRequest("POST", "", `${Date.now()}&upload=${inputUpload.value}&dir=${path}&token=${token}`, result => {
-            if(result === "uploaded")
-                openDir(currentPath)
-            else
-            {
-                openDir(currentPath)
-                openBox("alert", "Error : <b>" + result + "</b> !", "err")
-            }
-        })
-        ev.preventDefault()
+    ajaxRequest("POST", "", `${Date.now()}&dir=${path}&token=${token}&${formData}`, result => {
+        if(result === "uploaded")
+            openDir(currentPath)
+        else
+        {
+            openDir(currentPath)
+            openBox("alert", "Error : <b>" + result + "</b> !", "err")
+        }
     })
-    */
+
+    ev.preventDefault()
 })
 
 /* CONNEXION */
