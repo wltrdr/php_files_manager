@@ -11,6 +11,7 @@ session_start();
     renommage et suppression des fichiers et dossiers
     protection scripts malicieux par url connue masquée
 [>>] encadrer [] retours php
+separer css
 affichage (fichier/dossier si accessible)
 telecharger (fichier)
 supprimer partie historique si trop long
