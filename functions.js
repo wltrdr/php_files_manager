@@ -17,8 +17,13 @@ function ajaxRequest(method, url, data, callback)
     }
     if(method === "POST")
     {
-        httpRequest.open(method, url)
+        httpRequest.open("POST", url)
         httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        httpRequest.send(data)
+    }
+    else if(method === "FILES")
+    {
+        httpRequest.open("POST", url)
         httpRequest.send(data)
     }
     else
@@ -30,9 +35,9 @@ function ajaxRequest(method, url, data, callback)
 
 /* EXPLORER */
 
-function showElements(rep)
+function showElements(result)
 {
-    const found = rep.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!end!\\\\(.*)/s)
+    const found = result.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!end!\\\\(.*)/s)
     if(found)
     {
         if(found[1] || found[8])
@@ -60,7 +65,7 @@ function showElements(rep)
     else
     {
         alert("Error : Bad regex")
-        console.log(rep)
+        console.log(result)
     }
 }
 
@@ -440,6 +445,34 @@ function newElement(type, name)
         })
     }
 }
+
+function getUploadSizes(callback = false)
+{
+    if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
+    {
+        ajaxRequest("POST", "", `${Date.now()}&get_upload_sizes`, result => {
+            const found = result.match(/\[([0-9]+)\|([0-9]+)\]/)
+            if(found)
+            {
+                uploadMaxFileSize = parseInt(found[1], 10)
+                uploadMaxTotalSize = parseInt(found[2], 10)
+                if(callback)
+                {
+                    if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
+                        callback(false)
+                    else
+                        callback(true)
+                }
+            }
+            else if(callback)
+                callback(false)
+        })
+    }
+    else if(callback)
+        callback(true)
+}
+
+getUploadSizes()
 
 function uploadFiles()
 {
