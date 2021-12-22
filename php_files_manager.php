@@ -9,7 +9,7 @@
         renommage et suppression des fichiers et dossiers
         protection scripts malicieux par url connue masquée
 
-[>>>]upload fichier clic + loader durant l'upload + checker les sizes avant l'envoi
+[>>>] upload fichier clic
 encadrer [] retours php
 {
     affichage (si accessible)
@@ -42,12 +42,6 @@ clic droit zone elements
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
 chercher traces francais
 ’ʿ
-
-print_r($_POST);
-echo"\n\n";
-print_r($_FILES);
-echo"\n\n";
-exit();
 
 */
 
