@@ -499,7 +499,7 @@ elseif(isset($_POST) && !empty($_POST))
     
             /* RETURN */
     
-            exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\" . urlencode($current) . "\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements//!end!\\\\");
+            exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements//!end!\\\\");
         }
     }
     else
