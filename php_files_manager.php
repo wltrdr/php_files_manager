@@ -139,39 +139,44 @@ elseif(isset($_POST) && !empty($_POST))
 
                 if(isset($_POST['new']))
                 {
-                    $new_name = urldecode($_POST['name']);
-
-                    if($_POST['new'] === 'file')
+                    if(strpos($_POST['name'], "'") === false)
                     {
-                        if(@is_file($current . $new_name))
-                            exit('File already exists');
+                        $new_name = $_POST['name'];
+    
+                        if($_POST['new'] === 'file')
+                        {
+                            if(@is_file($current . $new_name))
+                                exit('File already exists');
+                            else
+                            {
+                                if(@file_put_contents($current . $new_name, '') !== false)
+                                    exit('created');
+                                else
+                                    exit('File not created');
+                            }
+                        }
                         else
                         {
-                            if(@file_put_contents($current . $new_name, '') !== false)
-                                exit('created');
+                            if(@is_dir($current . $new_name))
+                                exit('Directory already exists');
                             else
-                                exit('File not created');
+                            {
+                                if(@mkdir($current . $new_name))
+                                    exit('created');
+                                else
+                                    exit('Directory not created');
+                            }
                         }
                     }
                     else
-                    {
-                        if(@is_dir($current . $new_name))
-                            exit('Directory already exists');
-                        else
-                        {
-                            if(@mkdir($current . $new_name))
-                                exit('created');
-                            else
-                                exit('Directory not created');
-                        }
-                    }
+                        exit('Apostrophe prohibited');
                 }
 
                 /* RENAME ELEMENT */
 
                 elseif(isset($_POST['ren']))
                 {
-                    if(@rename($current . urldecode($_POST['ren']), $current . urldecode($_POST['name'])))
+                    if(@rename($current . urldecode($_POST['ren']), $current . $_POST['name']))
                         exit('renamed');
                     else
                         exit('Not renamed');
