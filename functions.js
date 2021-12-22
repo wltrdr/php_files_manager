@@ -456,7 +456,7 @@ function getUploadSizes(callback = false)
             {
                 uploadMaxFileSize = parseInt(found[1], 10)
                 uploadMaxTotalSize = parseInt(found[2], 10)
-                if(callback)
+                if(callback !== false)
                 {
                     if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
                         callback(false)
@@ -464,11 +464,11 @@ function getUploadSizes(callback = false)
                         callback(true)
                 }
             }
-            else if(callback)
+            else if(callback !== false)
                 callback(false)
         })
     }
-    else if(callback)
+    else if(callback !== false)
         callback(true)
 }
 
