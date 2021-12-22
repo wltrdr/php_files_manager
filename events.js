@@ -110,30 +110,61 @@ inputUpload.addEventListener("change", ev => {
             openBox("alert", "Error : <b>Cannot get server uploads limits</b> !", "err")
         else
         {
-            const formData = new FormData()
             const inputFiles = inputUpload.files
-            let maxSize = 0
-            let totalSize = 0
-            for(let i = 0; i < inputFiles.length; i++) {
-                const size = inputFiles[i].size
-                totalSize += size
-                if(maxSize < size)
-                    maxSize = size
-                formData.append("upload[]", inputFiles[i])
-            }
-            formData.append(Date.now(), "")
-            formData.append("dir", currentPath)
-            formData.append("token", token)
+            const nbFiles = inputFiles.length
+            if(nbFiles !== 0)
+            {
+                const formData = new FormData()
+                const maxSizeExceeded = []
+                let totalSize = 0
 
-            ajaxRequest("FILES", "", formData, result => {
-                if(result === "uploaded")
-                    openDir(currentPath)
+                for(let i = 0; i < nbFiles; i++)
+                {
+                    const size = inputFiles[i].size
+                    totalSize += size
+                    if(size > uploadMaxFileSize)
+                        maxSizeExceeded.push(inputFiles[i].name)
+                    formData.append("upload[]", inputFiles[i])
+                }
+    
+                if(maxSizeExceeded.length > 0 || totalSize > uploadMaxTotalSize)
+                {
+                    let txtErr = ""
+    
+                    if(totalSize > uploadMaxTotalSize)
+                        txtErr = "Upload size exceeded"
+    
+                    for(let i = 0; i < maxSizeExceeded.length; i++)
+                    {
+                        if(i === 0 && txtErr !== "")
+                            txtErr += "<br><br>\n\n"
+                        txtErr += maxSizeExceeded[i] + "</b> is too big<b><br><br>\n\n"
+                    }
+    
+                    inputFiles.value = ""
+                    openBox("alert", "Error : <b>" + txtErr + "</b>", "err")
+                }
                 else
                 {
-                    openDir(currentPath)
-                    openBox("alert", "Error : <b>" + result + "</b> !", "err")
+                    loading.style.display = "block"
+                    formData.append(Date.now(), "")
+                    formData.append("dir", currentPath)
+                    formData.append("token", token)
+        
+                    ajaxRequest("FILES", "", formData, result => {
+                        inputFiles.value = ""
+                        loading.style.display = "none"
+    
+                        if(result === "uploaded")
+                            openDir(currentPath)
+                        else
+                        {
+                            openDir(currentPath)
+                            openBox("alert", "Error : <b>" + result + "</b> !", "err")
+                        }
+                    })
                 }
-            })
+            }
         }
     })
     ev.preventDefault()
