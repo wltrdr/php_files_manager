@@ -11,7 +11,7 @@
 
 [>>>] empecher creer fichier avec apostrophe
 
-upload fichier clic
+upload fichier clic + loader durant l'upload + checker les sizes avant l'envoi
 {
     affichage (si accessible)
     telecharger (fichier)
@@ -44,18 +44,11 @@ si possible sans chgmt url : history push a chaque requete ajax (sauf login)
 chercher traces francais
 ’ʿ
 
-function parse_size($size)
-{
-    $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
-    $size = preg_replace('/[^0-9\.]/', '', $size);
-    if($unit)
-        return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-    else
-        return round($size);
-}
-
-$size_max_all_uploads = parse_size(ini_get('upload_max_filesize'));
-$size_max_file_upload = parse_size(ini_get('upload_max_filesize'));
+print_r($_POST);
+echo"\n\n";
+print_r($_FILES);
+echo"\n\n";
+exit();
 
 */
 
@@ -143,7 +136,21 @@ elseif(isset($_POST) && !empty($_POST))
 
         /* ACTIONS */
 
-        if(isset($_POST['token']))
+        if(isset($_POST['get_upload_sizes']))
+        {
+            function parse_size($size)
+            {
+                $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+                $size = preg_replace('/[^0-9\.]/', '', $size);
+                if($unit)
+                    return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+                else
+                    return round($size);
+            }
+            
+            exit('[' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
+        }
+        elseif(isset($_POST['token']))
         {
             if($_POST['token'] === $_SESSION['token'])
             {
@@ -242,10 +249,10 @@ elseif(isset($_POST) && !empty($_POST))
 
                 /* UPLOAD */
 
-                elseif(isset($_POST['upload']))
+                elseif(isset($_FILES['upload']))
                 {
                     $nb_files = count($_FILES['upload']['name']);
-                    exit('upload en cours' . $_nb_files);
+                    exit('upload en cours' . $nb_files);
                     /*
                     for($i = 0; $i < $nb_files; $i++)
                     {
