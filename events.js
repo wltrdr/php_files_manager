@@ -132,17 +132,13 @@ inputUpload.addEventListener("change", ev => {
                     let txtErr = ""
     
                     if(totalSize > uploadMaxTotalSize)
-                        txtErr = "Upload size exceeded"
+                        txtErr = "Upload size exceeded<br><br>"
     
                     for(let i = 0; i < maxSizeExceeded.length; i++)
-                    {
-                        if(i === 0 && txtErr !== "")
-                            txtErr += "<br><br>\n\n"
-                        txtErr += maxSizeExceeded[i] + "</b> is too big<b><br><br>\n\n"
-                    }
+                        txtErr += "\n" + maxSizeExceeded[i] + "</b> is too big<b><br><br>"
     
-                    inputFiles.value = ""
-                    openBox("alert", "Error : <b>" + txtErr + "</b>", "err")
+                    inputUpload.value = ""
+                    openBox("alert", "Error : <b>" + txtErr.substring(0, txtErr.length - 8) + "</b> !", "err")
                 }
                 else
                 {
@@ -152,7 +148,7 @@ inputUpload.addEventListener("change", ev => {
                     formData.append("token", token)
         
                     ajaxRequest("FILES", "", formData, result => {
-                        inputFiles.value = ""
+                        inputUpload.value = ""
                         loading.style.display = "none"
     
                         if(result === "uploaded")
@@ -193,7 +189,7 @@ btnConnexion.addEventListener("click", ev => {
                 inputConnexion.placeholder = "" 
                 setTimeout(() => { inputConnexion.placeholder = "Bad password" }, delayBadCnxBkMs)
                 i++
-                if(i == 3)
+                if(i === 3)
                     clearInterval(clign)
             }, delayBadCnxMs)
         }
