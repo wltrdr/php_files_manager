@@ -290,6 +290,7 @@ button {
 #connexion button {
     align-items: center;
     width: 3em;
+    aspect-ratio: 1/1;
     background: linear-gradient(#dadada, #eaeaea);
 }
 
