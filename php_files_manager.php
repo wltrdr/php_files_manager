@@ -526,7 +526,7 @@ elseif(isset($_POST) && !empty($_POST))
                     $dir_default = '';
                     if($nb_dirs === 1)
                         $dir_default = ' treeDefault';
-                    $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "');\"><span></span>$name</a><br>\n";
+                    $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "');\"><span class=\"icon\"></span>$name</a><br>\n";
                 }
                 else
                     $return = '';
@@ -544,11 +544,11 @@ elseif(isset($_POST) && !empty($_POST))
                                 if($lvl === $nb_dirs - 1)
                                     $dir_default = ' treeDefault';
                                 
-                                $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "');\"><span></span>$entry</a><br>\n" . show_tree($lvl + 1);
+                                $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "');\"><span class=\"icon\"></span>$entry</a><br>\n" . show_tree($lvl + 1);
                                 $next = true;
                             }
                             else
-                                $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "');\"><span></span>$entry</a><br>\n";
+                                $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "');\"><span class=\"icon\"></span>$entry</a><br>\n";
                         }
                     }
                     closedir($handle);
@@ -562,6 +562,24 @@ elseif(isset($_POST) && !empty($_POST))
             $tree = show_tree();
     
             /* ELEMENTS */
+
+            function size_of_file($file)
+            {
+                $size = filesize($file);
+                if($size < 1024)
+                    return $size . ' o';
+                else
+                {
+                    $m = pow(1024, 2);
+                    $g = pow(1024, 3);
+                    if($size < $m)
+                        return round($size / 1024, 1) . ' Ko';
+                    elseif($size < $g)
+                        return round($size / $m, 1) . ' Mo';
+                    else
+                        return round($size / $g, 1) . ' Go';
+                }
+            }
 
             $script_dirs = substr($server_infos['script'], 1);
             if(strpos($script_dirs, '/') === false)
@@ -628,7 +646,7 @@ elseif(isset($_POST) && !empty($_POST))
                     $web_url = 'false';
 
                 $el_enc = urlencode($elem_dir);
-                $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc');\" oncontextmenu=\"rightClickDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url);\" onmousedown=\"startClicDir();\" onmouseup=\"endClicDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url);\"><span></span>$elem_dir</a>\n";
+                $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc');\" oncontextmenu=\"rightClickDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url);\" onmousedown=\"startClicDir();\" onmouseup=\"endClicDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url);\"><span class=\"icon\"></span><span class=\"txt\">$elem_dir</span></a>\n";
             }
 
             foreach($elems_files as $elem_file)
@@ -640,7 +658,7 @@ elseif(isset($_POST) && !empty($_POST))
                 else
                     $web_url = 'false';
 
-                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\" oncontextmenu=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\"><span></span>$elem_file</a>\n";
+                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\" oncontextmenu=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\"><span class=\"icon\"></span><span class=\"txt\">$elem_file</span><span class=\"size\">" . size_of_file($link . $elem_file) . "</span></a>\n";
             }
     
             /* RETURN */
