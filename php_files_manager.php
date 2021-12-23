@@ -1,50 +1,5 @@
 <?php
 session_start();
-/*
-    design 100% responsive
-    chargement des elements en ajax
-    protection par mot de passe
-    affichage du chemin courant et de l'arborescense des fichiers depuis la racine (accessible) du serveur
-    boutons de controle : historique back forward, dossier parent, retour a l'accueil, boutons de rafraifhissement
-    création de nouveaux dossiers et fichiers
-    renommage et suppression des fichiers et dossiers
-    protection scripts malicieux par url connue masquée
-⤵
-affichage (fichier/dossier si accessible)
-gestion erreurs fatales [fatal=Unable to get server information]
-loading sur les clics dirs (apres 1sec reglable)
-telecharger (fichier)
-supprimer partie historique si trop long
-⤵
-type affichage elements
-ordonner par
-⤵
-dupliquer (fichier/dossier)
-deplacer vers (fichier/dossier)
-copier vers (fichier/dossier)
-chmods (fichier/dossier)
-infos (fileperms()+stat())
-editer (fichier)
-⤵
-drag drop upload
-drag drop upload dans dossier
-drag drop deplacement dans dossier
-si multi select > deplacement dans dossier + copie coupe colle
-⤵
-clic droit zone elements
-↘
-    afficher ce dossier (si accessible)
-    type voir
-    type sort
-    nouveau dir
-    nouveau file
-    coller
-    creer htaccess
-generateur .htaccess + .htpasswd (affiche si existe deja)
-si possible sans chgmt url : history push a chaque requete ajax (sauf login)
-chercher traces francais
-ʿ’
-*/
 
 $password = 'admin';
 
@@ -405,7 +360,7 @@ elseif(isset($_POST) && !empty($_POST))
                     return false;
 
                 $return['web_root'] = $web_root;
-                $return['web_http'] = $web_root;
+                $return['web_http'] = $web_http;
                 $return['server_root'] = $server_root;
                 $return['script'] = $script_name;
                 return $return;
@@ -565,31 +520,33 @@ elseif(isset($_POST) && !empty($_POST))
     
             /* ELEMENTS */
 
-            $script_dirs = explode(substr($server_infos['script'], 1), '/');
-            $nb_script_dirs = sizeof($script_dirs) - 1;
-            unset($script_dirs[$nb_script_dirs]);
+            $script_dirs = substr($server_infos['script'], 1);
+            if(strpos($script_dirs, '/') === false)
+            {
+                $script_dirs = array();
+                $nb_script_dirs = 0;
+            }
+            else
+            {
+                $script_dirs = explode('/', $script_dirs);
+                $nb_script_dirs = sizeof($script_dirs) - 1;
+                unset($script_dirs[$nb_script_dirs]);
+            }
 
-            /*
+            if($cur_rmvs > $nb_script_dirs)
+                $web_view = false;
+            else
+            {
+                $web_view = $server_infos['web_http'] . $server_infos['web_root'] . '/';
 
-            $server_infos['server_root'] (const)    c:/xampp/htdocs
-            $server_infos['web_http'] (const)       https://
-            $server_infos['web_root'] (const)       localhost
-            $server_infos['script'] (const)         /php_files_manager/php_files_manager.php
-            $script_path (const)                    c:/xampp/htdocs/php_files_manager/php_files_manager.php
-
-            $server_dirs[$i]['name'] (const)        [ C: xampp htdocs php_files_manager ]
-            $nb_server_dirs (const)                 4
-            $script_dirs (const)                    [ php_files_manager ]
-            $nb_script_dirs (const)                 1
-
-            $current                                ../../dir1/dir2/
-            $cur_rmvs                               2
-            $adds_dirs                              [ dir1 dir2 ]
-            $cur_adds                               2
-            $dirs[$i]['name']                       [ C: xampp dir1 dir2 ]
-            $nb_dirs                                4
-
-            */
+                $web_dirs = array();
+                for($i = 0; $i < $nb_script_dirs - $cur_rmvs; $i++)
+                    $web_dirs[] = $script_dirs[$i];
+                foreach($adds_dirs as $add_dir)
+                    $web_dirs[] = $add_dir;
+                foreach($web_dirs as $web_dir)
+                    $web_view .= $web_dir . '/';
+            }
     
             $cur_enc = urlencode($current);
             $link = $current;
@@ -622,14 +579,25 @@ elseif(isset($_POST) && !empty($_POST))
                 else
                     $url_enc = urlencode($link . $elem_dir . '/');
 
+                if($web_view !== false)
+                    $web_url = "'" . $web_view . $elem_dir . "/'";
+                else
+                    $web_url = 'false';
+
                 $el_enc = urlencode($elem_dir);
-                $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc');\" oncontextmenu=\"rightClickDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc');\" onmousedown=\"startClicDir();\" onmouseup=\"endClicDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc');\"><span></span>$elem_dir</a>\n";
+                $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc');\" oncontextmenu=\"rightClickDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url);\" onmousedown=\"startClicDir();\" onmouseup=\"endClicDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url);\"><span></span>$elem_dir</a>\n";
             }
 
             foreach($elems_files as $elem_file)
             {
                 $el_enc = urlencode($elem_file);
-                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$cur_enc', '$el_enc');\" oncontextmenu=\"menuFile('$elem_file', '$cur_enc', '$el_enc');\"><span></span>$elem_file</a>\n";
+
+                if($web_view !== false)
+                    $web_url = "'" . $web_view . $elem_file . "'";
+                else
+                    $web_url = 'false';
+
+                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\" oncontextmenu=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\"><span></span>$elem_file</a>\n";
             }
     
             /* RETURN */
