@@ -565,7 +565,7 @@ elseif(isset($_POST) && !empty($_POST))
 
             function size_of_file($file)
             {
-                $size = filesize($file);
+                $size = @filesize($file);
                 if($size < 1024)
                     return $size . ' o';
                 else
@@ -608,6 +608,8 @@ elseif(isset($_POST) && !empty($_POST))
                 foreach($web_dirs as $web_dir)
                     $web_view .= $web_dir . '/';
             }
+
+            $order = 'default';
     
             $cur_enc = urlencode($current);
             $link = $current;
@@ -658,12 +660,12 @@ elseif(isset($_POST) && !empty($_POST))
                 else
                     $web_url = 'false';
 
-                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\" oncontextmenu=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\"><span class=\"icon\"></span><span class=\"txt\">$elem_file</span><span class=\"size\">" . size_of_file($link . $elem_file) . "</span></a>\n";
+                $elements .= '<a class="'. css_extension($elem_file) . "\" onclick=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\" oncontextmenu=\"menuFile('$elem_file', '$cur_enc', '$el_enc', $web_url);\"><span class=\"icon\"></span><span class=\"txt\">$elem_file</span><span class=\"size\">" . size_of_file($link . $elem_file) . '</span><span class="date">' . @date('d/m/Y H:i:s', filemtime($link . $elem_file)) . "</span></a>\n";
             }
     
             /* RETURN */
     
-            exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements//!end!\\\\");
+            exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!order!\\\\$order\n//!end!\\\\");
         }
     }
     else
