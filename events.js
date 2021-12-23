@@ -107,7 +107,7 @@ btnCreate.addEventListener("click", ev => {
 inputUpload.addEventListener("change", ev => {
     getUploadSizes(result => {
         if(result === false)
-            openBox("alert", "Error : <b>Cannot get server uploads limits</b> !", "err")
+            openBox("alert", "Error : <b>Cannot get server uploads limits</b>", "err")
         else
         {
             const inputFiles = inputUpload.files
@@ -138,7 +138,7 @@ inputUpload.addEventListener("change", ev => {
                         txtErr += "\n" + maxSizeExceeded[i] + "</b> is too big<b><br><br>"
     
                     inputUpload.value = ""
-                    openBox("alert", "Error : <b>" + txtErr.substring(0, txtErr.length - 8) + "</b> !", "err")
+                    openBox("alert", "Error : <b>" + txtErr.substring(0, txtErr.length - 8) + "</b>", "err")
                 }
                 else
                 {
@@ -156,7 +156,7 @@ inputUpload.addEventListener("change", ev => {
                         else
                         {
                             openDir(currentPath)
-                            openBox("alert", "Error : <b>" + result + "</b> !", "err")
+                            openBox("alert", "Error : <b>" + result + "</b>", "err")
                         }
                     })
                 }
