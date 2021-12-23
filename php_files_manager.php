@@ -37,7 +37,7 @@ function sp_crypt($str)
         $user_agent = '';
 
     if(empty($remote_addr) && empty($user_agent))
-        exit('[fatal=Unable to get user information]');
+        exit('Error : <b>Unable to get user information</b>');
 
     return sha1($remote_addr . md5($str) . $user_agent);
 }
