@@ -89,7 +89,7 @@ function changeView(oldView, newView)
 }
 
 btnView.addEventListener("click", ev => {
-    const choices = ["Icons", "Small icons", "List", "Details"]
+    const choices = ["Icons", "Small icons", "Details"]
     let html = ""
 
     choices.forEach((type, i) => {
