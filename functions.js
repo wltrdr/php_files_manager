@@ -306,11 +306,15 @@ function openBox(type, vals, icon = null, callback = false)
 
 /* CONTEXT MENUS */
 
-function menuDir(name, pathEncoded, nameEncoded, urlEncoded)
+function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 {
+    if(webUrl === false)
+        webUrl = ''
+    else
+        webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
     openMenu(`<span>${name}/</span>
 <a onclick="openDir('${urlEncoded}')">Open</a>
-<a onclick="">Show (if possible)</a>
+${webUrl}
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
@@ -321,11 +325,15 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded)
     event.preventDefault()
 }
 
-function menuFile(name, pathEncoded, nameEncoded)
+function menuFile(name, pathEncoded, nameEncoded, webUrl)
 {
+    if(webUrl === false)
+        webUrl = ''
+    else
+        webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
     openMenu(`<span>${name}</span>
-<a onclick="">Show (if possible)</a>
 <a onclick="">Download</a>
+${webUrl}
 <a onclick="">Edit</a>
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
@@ -398,9 +406,9 @@ function leftClickDir(dir)
     event.preventDefault()
 }
 
-function rightClickDir(name, pathEncoded, nameEncoded, urlEncoded)
+function rightClickDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 {
-    menuDir(name, pathEncoded, nameEncoded, urlEncoded)
+    menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
     event.preventDefault()
 }
 
@@ -413,12 +421,12 @@ function startClicDir()
     event.preventDefault()
 }
 
-function endClicDir(name, pathEncoded, nameEncoded, urlEncoded)
+function endClicDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 {
     if(isOnMobile === true && timeClicDir !== 0)
     {
         if(Date.now() - timeClicDir > mslongClic)
-            menuDir(name, pathEncoded, nameEncoded, urlEncoded)
+            menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
         else
             openDir(urlEncoded)
         timeClicDir = 0
