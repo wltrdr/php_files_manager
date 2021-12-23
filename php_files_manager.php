@@ -26,6 +26,7 @@ drag drop upload
 drag drop upload dans dossier
 drag drop deplacement dans dossier
 si multi select > deplacement dans dossier + copie coupe colle
+generateur .htaccess + .htpasswd (affiche si existe deja)
 clic droit zone elements
 {
     afficher ce dossier (si accessible)
@@ -305,8 +306,76 @@ elseif(isset($_POST) && !empty($_POST))
                     return $return;
                 }
             }
-    
-            $script_path = $_SERVER['SCRIPT_FILENAME'];
+
+            function server_infos()
+            {
+                $web_http = 'http';
+                if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+                    $web_http .= 's';
+                elseif(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+                    $web_http .= 's';
+                elseif(isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https')
+                    $web_http .= 's';
+                $web_http .= '://';
+
+                if(isset($_SERVER['HTTP_HOST']))
+                    $web_root = $_SERVER['HTTP_HOST'];
+                elseif(isset($_SERVER['SERVER_NAME']))
+                    $web_root = $_SERVER['SERVER_NAME'];
+                else
+                    $web_root = 'domain-not-found';
+
+                if(isset($_SERVER['SCRIPT_NAME']))
+                    $script_name = $_SERVER['SCRIPT_NAME'];
+                elseif(isset($_SERVER['PHP_SELF']))
+                    $script_name = $_SERVER['PHP_SELF'];
+                else
+                    $script_name = false;
+
+                if(isset($_SERVER['DOCUMENT_ROOT']))
+                {
+                    $server_root = $_SERVER['DOCUMENT_ROOT'];
+                    if($script_name === false)
+                    {
+                        if(isset($_SERVER['SCRIPT_FILENAME']))
+                        {
+                            $script_filename = $_SERVER['SCRIPT_FILENAME'];
+                            if(strpos($script_filename, $server_root) === 0)
+                                $script_name = substr($script_filename, strlen($server_root));
+                            else
+                                return false;
+                        }
+                        else
+                            return false;
+                    }
+                }
+                elseif(isset($_SERVER['SCRIPT_FILENAME']))
+                {
+                    $script_filename = $_SERVER['SCRIPT_FILENAME'];
+                    if($script_name !== false)
+                    {
+                        $lng_script_filename = strlen($script_filename);
+                        $lng_script_name = strlen($script_name);
+                        if(strpos($script_filename, $script_name) === $lng_script_filename - $lng_script_name)
+                            $server_root = substr($script_filename, 0, $lng_script_filename - $lng_script_name);
+                        else
+                            return false;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return false;
+
+                $return['web_root'] = $web_root;
+                $return['web_http'] = $web_root;
+                $return['server_root'] = $server_root;
+                $return['dir'] = $script_name;
+                return $return;
+            }
+
+            $server_infos = server_infos();
+            $script_path = $server_infos['server_root'] . $server_infos['dir'];
     
             $win_fs = true;
     
@@ -455,7 +524,25 @@ elseif(isset($_POST) && !empty($_POST))
             $tree = show_tree();
     
             /* ELEMENTS */
+
+            /*
+
+            $server_infos['server_root'] (fixe) = c:/xampp/htdocs
+            $server_infos['web_http'] (fixe) = https://
+            $server_infos['web_root'] (fixe) = localhost
+            $server_infos['dir'] (fixe) = /php_files_manager/php_files_manager.php
+
+            $current = ../../tst1/tst2/
+            $cur_rmvs = 2
+            $cur_adds = 2
+            
+            $script_dirs[$i]['name'] (fixe) = C: xampp htdocs php_files_manager
+            $current_dirs = tst1 tst2
+            $dirs = C: xampp tst1 tst2
+
+            */
     
+            $cur_enc = urlencode($current);
             $link = $current;
             if($current === '.')
                 $link = '';
@@ -478,7 +565,6 @@ elseif(isset($_POST) && !empty($_POST))
             }
     
             $elements = '';
-            $cur_enc = urlencode($current);
     
             foreach($elems_dirs as $elem_dir)
             {
