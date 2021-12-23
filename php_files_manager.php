@@ -403,7 +403,7 @@ elseif(isset($_POST) && !empty($_POST))
                 $return['web_root'] = $web_root;
                 $return['web_http'] = $web_root;
                 $return['server_root'] = $server_root;
-                $return['dir'] = $script_name;
+                $return['script'] = $script_name;
                 return $return;
             }
 
@@ -411,60 +411,60 @@ elseif(isset($_POST) && !empty($_POST))
             if(!$server_infos)
                 exit('[fatal=Unable to get server information]');
 
-            $script_path = $server_infos['server_root'] . $server_infos['dir'];
+            $script_path = $server_infos['server_root'] . $server_infos['script'];
     
             $win_fs = true;
     
             if(strpos($script_path, '/') === false)
             {
                 $win_fs = false;
-                $script_dirs[0]['name'] = '/';
-                $script_dirs[0]['path'] = '.';
-                $nb_script_dirs = 1;
+                $server_dirs[0]['name'] = '/';
+                $server_dirs[0]['path'] = '.';
+                $nb_server_dirs = 1;
             }
             else
             {
                 if($script_path[0] === '/')
                     $win_fs = false;
     
-                $script_dirs = explode('/', $script_path);
-                $nb_script_dirs = sizeof($script_dirs) - 1;
-                unset($script_dirs[$nb_script_dirs]);
+                $server_dirs = explode('/', $script_path);
+                $nb_server_dirs = sizeof($server_dirs) - 1;
+                unset($server_dirs[$nb_server_dirs]);
     
-                for($i = 0; $i < $nb_script_dirs; $i++)
+                for($i = 0; $i < $nb_server_dirs; $i++)
                 {
-                    if($i === 0 && empty($script_dirs[0]))
+                    if($i === 0 && empty($server_dirs[0]))
                         $tmp = '/';
                     else
-                        $tmp = $script_dirs[$i];
+                        $tmp = $server_dirs[$i];
     
-                    $script_dirs[$i] = null;
-                    $script_dirs[$i]['name'] = $tmp;
-                    $script_dirs[$i]['path'] = path_parents($nb_script_dirs - ($i + 1));
+                    $server_dirs[$i] = null;
+                    $server_dirs[$i]['name'] = $tmp;
+                    $server_dirs[$i]['path'] = path_parents($nb_server_dirs - ($i + 1));
                 }
             }
     
             $cur_rmvs = 0;
             $cur_adds = 0;
             
-            $current_dirs = $current;
-            while(strpos($current_dirs, '../') === 0)
+            $adds_dirs = $current;
+            while(strpos($adds_dirs, '../') === 0)
             {
                 $cur_rmvs++;
-                $current_dirs = substr($current_dirs, 3);
+                $adds_dirs = substr($adds_dirs, 3);
             }
     
-            if(!empty($current_dirs) && $current_dirs !== '.')
+            if(!empty($adds_dirs) && $adds_dirs !== '.')
             {
-                $current_dirs = substr($current_dirs, 0, strlen($current_dirs) - 1);
-                if(strpos($current_dirs, '/') !== false)
+                $adds_dirs = substr($adds_dirs, 0, strlen($adds_dirs) - 1);
+                if(strpos($adds_dirs, '/') !== false)
                 {
-                    $current_dirs = explode('/', $current_dirs);
-                    $cur_adds = sizeof($current_dirs);
+                    $adds_dirs = explode('/', $adds_dirs);
+                    $cur_adds = sizeof($adds_dirs);
                 }
                 else
                 {
-                    $current_dirs = array($current_dirs);
+                    $adds_dirs = array($adds_dirs);
                     $cur_adds = 1;
                 }
             }
@@ -472,10 +472,10 @@ elseif(isset($_POST) && !empty($_POST))
             $nb_dirs = 0;
             $cur_tmp = '';
     
-            for($i = 0; $i < $nb_script_dirs - $cur_rmvs; $i++)
+            for($i = 0; $i < $nb_server_dirs - $cur_rmvs; $i++)
             {
-                $dirs[$i]['name'] = $script_dirs[$i]['name'];
-                $dirs[$i]['path'] = $cur_tmp = $script_dirs[$i]['path'];
+                $dirs[$i]['name'] = $server_dirs[$i]['name'];
+                $dirs[$i]['path'] = $cur_tmp = $server_dirs[$i]['path'];
                 $nb_dirs++;
             }
     
@@ -484,7 +484,7 @@ elseif(isset($_POST) && !empty($_POST))
     
             if($cur_adds !== 0)
             {
-                foreach($current_dirs as $cur_dir)
+                foreach($adds_dirs as $cur_dir)
                 {
                     $cur_tmp .= $cur_dir .'/';
                     $dirs[$nb_dirs]['name'] = $cur_dir;
@@ -562,19 +562,18 @@ elseif(isset($_POST) && !empty($_POST))
             /* ELEMENTS */
 
             /*
+            $server_infos['server_root'] (const)    c:/xampp/htdocs
+            $server_infos['web_http'] (const)       https://
+            $server_infos['web_root'] (const)       localhost
+            $server_infos['script'] (const)         /php_files_manager/php_files_manager.php
+            $script_path (const)                    c:/xampp/htdocs/php_files_manager/php_files_manager.php
 
-            $server_infos['server_root'] (fixe) = c:/xampp/htdocs
-            $server_infos['web_http'] (fixe) = https://
-            $server_infos['web_root'] (fixe) = localhost
-            $server_infos['dir'] (fixe) = /php_files_manager/php_files_manager.php
-
-            $current = ../../tst1/tst2/
-            $cur_rmvs = 2
-            $cur_adds = 2
-            
-            $script_dirs[$i]['name'] (fixe) = C: xampp htdocs php_files_manager
-            $current_dirs = tst1 tst2
-            $dirs = C: xampp tst1 tst2
+            $server_dirs[$i]['name'] (const)        [ C: xampp htdocs php_files_manager ]
+            $current                                ../../dir1/dir2/
+            $adds_dirs                              [ dir1 dir2 ]
+            $dirs                                   [ C: xampp dir1 dir2 ]
+            $cur_rmvs                               2
+            $cur_adds                               2
 
             */
     
@@ -604,7 +603,7 @@ elseif(isset($_POST) && !empty($_POST))
     
             foreach($elems_dirs as $elem_dir)
             {
-                if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $script_dirs[$nb_dirs]['name'])
+                if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $server_dirs[$nb_dirs]['name'])
                     $url_enc = urlencode(path_parents($cur_rmvs - 1));
                 else
                     $url_enc = urlencode($link . $elem_dir . '/');
