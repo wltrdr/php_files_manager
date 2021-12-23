@@ -359,7 +359,7 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 <a onclick="openDir('${urlEncoded}')">Open</a>
 ${webUrl}
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
-<a onclick="">Duplicate</a>
+<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
 <a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
@@ -379,7 +379,7 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl)
 ${webUrl}
 <a onclick="">Edit</a>
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
-<a onclick="">Duplicate</a>
+<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
 <a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
@@ -531,6 +531,11 @@ function uploadFiles()
 
 /* ELEMENTS ACTIONS */
 
+function downloadElement(path, name)
+{
+    window.open(`?${Date.now()}&download=${name}&dir=${path}&token=${token}`)
+}
+
 function renameElement(path, oldName, newName)
 {
     if(newName === "")
@@ -549,6 +554,19 @@ function renameElement(path, oldName, newName)
     }
 }
 
+function duplicateElement(path, name)
+{
+    ajaxRequest("POST", "", `${Date.now()}&duplicate=${name}&dir=${path}&token=${token}`, result => {
+        if(result === "duplicated")
+            openDir(currentPath)
+        else
+        {
+            openDir(currentPath)
+            openBox("alert", "Error : <b>" + result + "</b>", "err")
+        }
+    })
+}
+
 function deleteElement(path, name)
 {
     ajaxRequest("POST", "", `${Date.now()}&delete=${name}&dir=${path}&token=${token}`, result => {
@@ -560,9 +578,4 @@ function deleteElement(path, name)
             openBox("alert", "Error : <b>" + result + "</b>", "err")
         }
     })
-}
-
-function downloadElement(path, name)
-{
-    window.open(`?${Date.now()}&download=${name}&dir=${path}&token=${token}`)
 }
