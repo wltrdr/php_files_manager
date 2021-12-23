@@ -77,25 +77,14 @@ btnHome.addEventListener("click", () => {
     openDir(".")
 })
 
-function changeView(oldView, newView)
-{
-    if(oldView !== newView)
-    {
-        typeView = newView
-        if(oldView !== 0)
-            elements.classList.remove("view" + oldView)
-        elements.classList.add("view" + newView)
-    }
-}
-
 btnView.addEventListener("click", ev => {
     const choices = ["Icons", "Small icons", "Details"]
     let html = ""
 
     choices.forEach((type, i) => {
-        curView = ''
+        curView = ""
         if(typeView === i)
-            curView = '&#8226; '
+            curView = "&#8226; "
         html += `<a onclick="changeView(${typeView}, ${i})">${curView}${type}</a>\n`
     })
 
@@ -105,13 +94,26 @@ ${html}
 })
 
 btnSort.addEventListener("click", ev => {
+    const choices = ["Name", "Date modified", "Size", "Type"]
+    let html = ""
+
+    choices.forEach((type, i) => {
+        curOrder = ""
+        if(typeOrder === i)
+            curOrder = "&#8226; "
+        html += `<a onclick="openDir(currentPath, ${i}, false)">${curOrder}${type}</a>\n`
+    })
+
+    let curAsc = ""
+    let curDesc = ""
+    if(typeOrderDesc === true)
+        curDesc = "&#8226; "
+    else
+        curAsc = "&#8226; "
     openMenu(`<span>Sort by :</span>
-<a onclick="">Name</a>
-<a onclick="">Date modified</a>
-<a onclick="">Size</a>
-<a onclick="">Type</a>
-<a class="gap" onclick="">Ascending</a>
-<a class="" onclick="">Descending</a>
+${html}
+<a class="gap" onclick="openDir(currentPath, null, false)">${curAsc}Ascending</a>
+<a class="" onclick="openDir(currentPath, null, true)">${curDesc}Descending</a>
 `, ev)
 })
 
