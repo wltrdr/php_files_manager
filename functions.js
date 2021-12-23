@@ -37,11 +37,11 @@ function ajaxRequest(method, url, data, callback)
 
 function showElements(result)
 {
-    const found = result.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!order!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
+    const found = result.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\n\/\/!order!\\\\(.*)\n\/\/!desc!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
     if(found)
     {
-        if(found[1] || found[9])
-            console.log(`PHP Errors :\n\n${found[1].replace(/<[^>]+>/g, '')}\n\n${found[8].replace(/<[^>]+>/g, '')}`)
+        if(found[1] || found[10])
+            console.log(`PHP Errors :\n\n${found[1].replace(/<[^>]+>/g, '')}\n\n${found[10].replace(/<[^>]+>/g, '')}`)
         connexion.style.display = "none"
         contents.style.display = "flex"
         token = found[2]
@@ -50,6 +50,8 @@ function showElements(result)
         path.innerHTML = found[5]
         listTree.innerHTML = found[6]
         listElements.innerHTML = found[7]
+        typeOrder = parseInt(found[8], 10)
+        typeOrderDesc = parseInt(found[9], 10)
         if(parentPath === "false")
             btnParent.className = "disabled"
         else
@@ -79,14 +81,23 @@ function showElements(result)
     }
 }
 
-function openDir(dir, order = null, desc = false)
+function openDir(dir, order = "", desc = "")
 {
     dirLoaded = false
     setTimeout(() => {
         if(dirLoaded === false)
             loading.style.display = "block"
     }, delayLoadingMs)
-    ajaxRequest("POST", "", `${Date.now()}&dir=` + dir, result => {
+    if(order !== "")
+        order = "&order=" + order
+    if(desc !== "")
+    {
+        if(desc === false)
+            desc = "&desc=0"
+        else
+            desc = "&desc=1"
+    }
+    ajaxRequest("POST", "", `${Date.now()}&dir=` + dir + order + desc, result => {
         dirLoaded = true
         loading.style.display = "none"
         if(result !== "false")
