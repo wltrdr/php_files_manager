@@ -636,7 +636,6 @@ h1 span {
     word-break: break-word;
     opacity: 0.87;
     user-select: text;
-    /* border: 1px solid red; */
 }
 
 #elements .list a span.icon {
@@ -644,17 +643,14 @@ h1 span {
     margin: 0.5em;
     margin-top: 0px;
     width: 6em;
+    min-width: 6em;
     height: 6em;
     background-size: contain;
     background-position: left;
     background-repeat: no-repeat;
 }
 
-/* #elements .list a span.txt {
-    border: 1px solid green;
-} */
-
-#elements .list a span.size {
+#elements .list a span.size, #elements .list a span.date {
     display: none;
 }
 
@@ -694,7 +690,13 @@ h1 span {
 
 #elements.view2 .list a span.size {
     display: block;
-    padding: 0px 1.5em;
+    padding: 0px 1em;
+    align-self: center;
+}
+
+#elements.view2 .list a span.date {
+    display: block;
+    padding: 0px 1.5em 0px 0px;
     align-self: center;
 }
 
