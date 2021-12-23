@@ -174,9 +174,9 @@ elseif(isset($_POST) && !empty($_POST))
 
                 /* RENAME ELEMENT */
 
-                elseif(isset($_POST['ren']))
+                elseif(isset($_POST['rename']))
                 {
-                    if(@rename($current . urldecode($_POST['ren']), $current . $_POST['name']))
+                    if(@rename($current . urldecode($_POST['rename']), $current . $_POST['name']))
                         exit('renamed');
                     else
                         exit('Not renamed');
@@ -184,9 +184,9 @@ elseif(isset($_POST) && !empty($_POST))
 
                 /* DELETE ELEMENT */
 
-                elseif(isset($_POST['del']))
+                elseif(isset($_POST['delete']))
                 {
-                    $name = urldecode($_POST['del']);
+                    $name = urldecode($_POST['delete']);
 
                     if(@is_file($current . $name))
                     {
@@ -249,6 +249,13 @@ elseif(isset($_POST) && !empty($_POST))
                     else
                         $return = substr($return, 0, strlen($return) - 8);
                     exit($return);
+                }
+
+                /* DOWNLOAD */
+
+                elseif(isset($_GET['download']))
+                {
+
                 }
 
                 else
