@@ -49,4 +49,4 @@ let dirLoaded
 let h1Lvl = -1
 let typeView = 0
 let typeOrder = 0
-let typeOrderDesc = false
+let typeOrderDesc = 0
