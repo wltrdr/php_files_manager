@@ -106,14 +106,14 @@ btnSort.addEventListener("click", ev => {
 
     let curAsc = ""
     let curDesc = ""
-    if(typeOrderDesc === true)
+    if(typeOrderDesc === 1)
         curDesc = "&#8226; "
     else
         curAsc = "&#8226; "
     openMenu(`<span>Sort by :</span>
 ${html}
-<a class="gap" onclick="openDir(currentPath, null, false)">${curAsc}Ascending</a>
-<a class="" onclick="openDir(currentPath, null, true)">${curDesc}Descending</a>
+<a class="gap" onclick="openDir(currentPath, '', false)">${curAsc}Ascending</a>
+<a class="" onclick="openDir(currentPath, '', true)">${curDesc}Descending</a>
 `, ev)
 })
 
