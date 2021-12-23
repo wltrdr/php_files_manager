@@ -64,8 +64,10 @@ function showElements(result)
     }
     else
     {
-        alert("Error : Bad regex")
-        console.log(result)
+        const fatal = result.match(/(.*)\[fatal=([^\]]+)\](.*)/s)
+        alert("Error : " + fatal[2])
+        if(fatal[1] || fatal[3])
+            console.log(`PHP Errors :\n\n${fatal[1]}\n\n${fatal[3]}`)
     }
 }
 
@@ -439,7 +441,7 @@ function endClicDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 function newElement(type, name)
 {
     if(name === "")
-        openBox("alert", "Error : <b>Name can't be empty</b> !", "err")
+        openBox("alert", "Error : <b>Name can't be empty</b>", "err")
     else
     {
         ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}&token=${token}`, result => {
@@ -448,7 +450,7 @@ function newElement(type, name)
             else
             {
                 openDir(currentPath)
-                openBox("alert", "Error : <b>" + result + "</b> !", "err")
+                openBox("alert", "Error : <b>" + result + "</b>", "err")
             }
         })
     }
@@ -496,7 +498,7 @@ function uploadFiles()
 function renElement(path, oldName, newName)
 {
     if(newName === "")
-        openBox("alert", "Error : <b>Name can't be empty</b> !", "err")
+        openBox("alert", "Error : <b>Name can't be empty</b>", "err")
     else
     {
         ajaxRequest("POST", "", `${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
@@ -505,7 +507,7 @@ function renElement(path, oldName, newName)
             else
             {
                 openDir(currentPath)
-                openBox("alert", "Error : <b>" + result + "</b> !", "err")
+                openBox("alert", "Error : <b>" + result + "</b>", "err")
             }
         })
     }
@@ -519,7 +521,7 @@ function delElement(path, name)
         else
         {
             openDir(currentPath)
-            openBox("alert", "Error : <b>" + result + "</b> !", "err")
+            openBox("alert", "Error : <b>" + result + "</b>", "err")
         }
     })
 }
