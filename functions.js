@@ -41,7 +41,7 @@ function showElements(result)
     if(found)
     {
         if(found[1] || found[8])
-            console.log(`PHP Errors :\n\n${found[1]}\n\n${found[8]}`)
+            console.log(`PHP Errors :\n\n${found[1].replace(/<[^>]+>/g, '')}\n\n${found[8].replace(/<[^>]+>/g, '')}`)
         connexion.style.display = "none"
         contents.style.display = "flex"
         token = found[2]
@@ -67,7 +67,7 @@ function showElements(result)
         const fatal = result.match(/(.*)\[fatal=([^\]]+)\](.*)/s)
         alert("Error : " + fatal[2])
         if(fatal[1] || fatal[3])
-            console.log(`PHP Errors :\n\n${fatal[1]}\n\n${fatal[3]}`)
+            console.log(`PHP Errors :\n\n${fatal[1].replace(/<[^>]+>/g, '')}\n\n${fatal[3].replace(/<[^>]+>/g, '')}`)
     }
 }
 
