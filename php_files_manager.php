@@ -427,6 +427,8 @@ elseif(isset($_POST) && !empty($_POST))
                     $cur_adds = 1;
                 }
             }
+            else
+                $adds_dirs = array();
     
             $nb_dirs = 0;
             $cur_tmp = '';
