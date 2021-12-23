@@ -33,6 +33,9 @@ const elements = document.querySelector("#elements")
 const listElements = document.querySelector("#elements .list")
 
 const inputConnexionPH = inputConnexion.placeholder
+const h1Default = h1.innerHTML
+const h1Words = h1Default.split(" ")
+const h1NbWords = h1Words.length
 
 let token
 let currentPath = "."
@@ -42,3 +45,6 @@ let historyLevel = 0
 let disableBodyPrevDef = false
 let uploadMaxFileSize = 0
 let uploadMaxTotalSize = 0
+let dirLoaded
+let h1Lvl = -1
+let typeView = 0
