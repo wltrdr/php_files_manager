@@ -71,8 +71,6 @@ function showElements(result)
     }
 }
 
-let dirLoaded
-
 function openDir(dir)
 {
     dirLoaded = false
@@ -390,11 +388,6 @@ function onMobile()
 }
 
 let isOnMobile = onMobile()
-
-const h1Default = h1.innerHTML
-const h1Words = h1Default.split(" ")
-const h1NbWords = h1Words.length
-let h1Lvl = -1
 
 function effectH1Mobile(el)
 {
