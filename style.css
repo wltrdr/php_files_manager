@@ -392,7 +392,7 @@ button {
     background: linear-gradient(#dadada, #eaeaea);
 }
 
-#connexion button span {
+#connexion button span.icon {
     width: 1.5em;
     height: 1.5em;
     background-size: contain;
@@ -614,7 +614,7 @@ h1 span {
     margin-top: 1em;
 }
 
-#tree .list a span {
+#tree .list a span.icon {
     display: inline-block;
     margin-right: 1em;
     width: 2em;
@@ -636,9 +636,10 @@ h1 span {
     word-break: break-word;
     opacity: 0.87;
     user-select: text;
+    /* border: 1px solid red; */
 }
 
-#elements .list a span {
+#elements .list a span.icon {
     display: block;
     margin: 0.5em;
     margin-top: 0px;
@@ -649,16 +650,52 @@ h1 span {
     background-repeat: no-repeat;
 }
 
+/* #elements .list a span.txt {
+    border: 1px solid green;
+} */
+
+#elements .list a span.size {
+    display: none;
+}
+
 #elements.view1 .list a {
     font-size: 0.80em;
 }
 
-#elements.view2 .list a {
-    font-size: 0.5em;
+#elements.view2 .list {
+    display: flex;
+    flex-direction: column;
 }
 
-#elements.view3 .list a {
-    font-size: 0.25em;
+#elements.view2 .list a {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    padding: 0px 0px 1.5em 1.5em;
+    width: 100%;
+}
+
+#elements.view2 .list a:first-child {
+    margin-top: 1.5em;
+}
+
+#elements.view2 .list span.icon {
+    margin: 0px;
+    font-size: 0.4em;
+}
+
+#elements.view2 .list span.txt {
+    display: block;
+    flex: 1;
+    padding-left: 1em;
+    align-self: center;
+    text-align: left;
+}
+
+#elements.view2 .list a span.size {
+    display: block;
+    padding: 0px 1.5em;
+    align-self: center;
 }
 
 #tree .list a:hover, #elements .list a:hover {
