@@ -71,9 +71,18 @@ function showElements(result)
     }
 }
 
+let dirLoaded
+
 function openDir(dir)
 {
+    dirLoaded = false
+    setTimeout(() => {
+        if(dirLoaded === false)
+            loading.style.display = "block"
+    }, delayLoadingMs)
     ajaxRequest("POST", "", `${Date.now()}&dir=` + dir, result => {
+        dirLoaded = true
+        loading.style.display = "none"
         if(result !== "false")
         {
             showElements(result)
