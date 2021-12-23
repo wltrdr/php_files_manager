@@ -590,15 +590,10 @@ h1 span {
 #tree {
     margin-right: 1em;
     width: 25%;
-    height: 100%;
-    max-height: 100%;
     overflow-y: auto;
 }
 
 #elements {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     width: 75%;
     overflow: auto;
 }
@@ -652,6 +647,18 @@ h1 span {
     background-size: contain;
     background-position: left;
     background-repeat: no-repeat;
+}
+
+#elements.view1 .list a {
+    font-size: 0.80em;
+}
+
+#elements.view2 .list a {
+    font-size: 0.5em;
+}
+
+#elements.view3 .list a {
+    font-size: 0.25em;
 }
 
 #tree .list a:hover, #elements .list a:hover {
