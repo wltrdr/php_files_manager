@@ -37,10 +37,10 @@ function ajaxRequest(method, url, data, callback)
 
 function showElements(result)
 {
-    const found = result.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!end!\\\\(.*)/s)
+    const found = result.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\/\/!order!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
     if(found)
     {
-        if(found[1] || found[8])
+        if(found[1] || found[9])
             console.log(`PHP Errors :\n\n${found[1].replace(/<[^>]+>/g, '')}\n\n${found[8].replace(/<[^>]+>/g, '')}`)
         connexion.style.display = "none"
         contents.style.display = "flex"
@@ -65,13 +65,21 @@ function showElements(result)
     else
     {
         const fatal = result.match(/(.*)\[fatal=([^\]]+)\](.*)/s)
-        alert("Error : " + fatal[2])
-        if(fatal[1] || fatal[3])
-            console.log(`PHP Errors :\n\n${fatal[1].replace(/<[^>]+>/g, '')}\n\n${fatal[3].replace(/<[^>]+>/g, '')}`)
+        if(fatal)
+        {
+            if(fatal[1] || fatal[3])
+                console.log(`PHP Errors :\n\n${fatal[1].replace(/<[^>]+>/g, '')}\n\n${fatal[3].replace(/<[^>]+>/g, '')}`)
+            alert("Error : " + fatal[2])
+        }
+        else
+        {
+            alert("Error : Bad regex")
+            console.log(result)
+        }
     }
 }
 
-function openDir(dir)
+function openDir(dir, order = null, desc = false)
 {
     dirLoaded = false
     setTimeout(() => {
@@ -93,7 +101,7 @@ function openDir(dir)
                 if(history.length > historyMax)
                     history.splice(0, 1)
             }
-            else 
+            else
             {
                 if(dir !== history[nbHistory - historyLevel - 1]) // ISN'T A REFRESH
                 {
@@ -124,6 +132,17 @@ function openDir(dir)
 }
 
 openDir(currentPath)
+
+function changeView(oldView, newView)
+{
+    if(oldView !== newView)
+    {
+        typeView = newView
+        if(oldView !== 0)
+            elements.classList.remove("view" + oldView)
+        elements.classList.add("view" + newView)
+    }
+}
 
 /* CONTEXT MENU */
 
@@ -442,7 +461,7 @@ function endClicDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
     event.preventDefault()
 }
 
-/* GLOBAL ACTIONS */
+/* ADD ACTIONS */
 
 function newElement(type, name)
 {
