@@ -92,10 +92,12 @@ function openDir(dir)
                 history.push(dir)
                 btnForward.className = "disabled"
                 btnBack.className = "disabled"
+                if(history.length > historyMax)
+                    history.splice(0, 1)
             }
             else 
             {
-                if(dir !== history[nbHistory - historyLevel - 1])
+                if(dir !== history[nbHistory - historyLevel - 1]) // ISN'T A REFRESH
                 {
                     if(historyLevel > 0)
                     {
@@ -109,6 +111,8 @@ function openDir(dir)
                     historyLevel = 0
                     btnForward.className = "disabled"
                     btnBack.className = ""
+                    if(history.length > historyMax)
+                        history.splice(0, 1)
                 }
             }
         }
