@@ -384,7 +384,6 @@ ${webUrl}
 <a onclick="">Move to</a>
 <a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
 <a onclick="">Change chmods</a>
-<a onclick="">File information</a>
 `, event)
     event.preventDefault()
 }
