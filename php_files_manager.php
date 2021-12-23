@@ -54,6 +54,9 @@ function gencode($nb)
 
 $password = sp_crypt($password);
 
+if(!isset($_SESSION['token']))
+    $_SESSION['token'] = gencode(32);
+
 /* JAVASCRIPT */
 
 if(isset($_GET['js']) && isset ($_GET['init']))
@@ -85,6 +88,46 @@ elseif(isset($_GET['css']) && isset ($_GET['images']))
     exit(file_get_contents('images.css'));
 }
 
+/* DOWNLOAD FILE */
+
+elseif(isset($_GET['download']))
+{
+    if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password))
+    {
+        if(isset($_GET['token']) && $_GET['token'] === $_SESSION['token'])
+        {
+            if(isset($_GET['dir']))
+            {
+                $dir = urldecode($_GET['dir']);
+                if($dir === '.')
+                    $dir = '';
+                $file = $dir . urldecode($_GET['download']);
+                if(is_file($file))
+                {
+                    header('Content-Description: File Transfer');
+                    header('Content-Type: application/octet-stream');
+                    header("Cache-Control: no-cache, must-revalidate");
+                    header("Expires: 0");
+                    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+                    header('Content-Length: ' . filesize($file));
+                    header('Pragma: public');
+                    flush();
+                    readfile($file);
+                    die();
+                }
+                else
+                    exit('Error : <b>File "' . $file . '" not found</b>');
+            }
+            else
+                exit('Error : <b>Undefined directory</b>');
+        }
+        else
+            exit('Error : <b>Bad token</b>');
+    }
+    else
+        exit('Error : <b>Session expired</b>');
+}
+
 /* LOGOUT */
 
 elseif(isset($_POST['logout']))
@@ -102,9 +145,6 @@ elseif(isset($_POST) && !empty($_POST))
 
         if(!isset($_SESSION['pfm']) || $_SESSION['pfm'] !== $password)
             $_SESSION['pfm'] = $password;
-
-        if(!isset($_SESSION['token']))
-            $_SESSION['token'] = gencode(32);
 
         /* LOCATE CURRENT DIRECTORY */
 
@@ -249,13 +289,6 @@ elseif(isset($_POST) && !empty($_POST))
                     else
                         $return = substr($return, 0, strlen($return) - 8);
                     exit($return);
-                }
-
-                /* DOWNLOAD */
-
-                elseif(isset($_GET['download']))
-                {
-
                 }
 
                 else
