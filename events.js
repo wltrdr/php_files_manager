@@ -77,12 +77,30 @@ btnHome.addEventListener("click", () => {
     openDir(".")
 })
 
+function changeView(oldView, newView)
+{
+    if(oldView !== newView)
+    {
+        typeView = newView
+        if(oldView !== 0)
+            elements.classList.remove("view" + oldView)
+        elements.classList.add("view" + newView)
+    }
+}
+
 btnView.addEventListener("click", ev => {
+    const choices = ["Icons", "Small icons", "List", "Details"]
+    let html = ""
+
+    choices.forEach((type, i) => {
+        curView = ''
+        if(typeView === i)
+            curView = '&#8226; '
+        html += `<a onclick="changeView(${typeView}, ${i})">${curView}${type}</a>\n`
+    })
+
     openMenu(`<span>View :</span>
-<a onclick="">Icons</a>
-<a onclick="">Small icons</a>
-<a onclick="">List</a>
-<a onclick="">Details</a>
+${html}
 `, ev)
 })
 
