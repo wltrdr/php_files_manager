@@ -52,6 +52,17 @@ function gencode($nb)
     return $return;
 }
 
+function file_extension($filename)
+{
+    if(strpos($filename, '.') === false)
+        return '';
+    else
+    {
+        $filename = explode('.', $filename);
+        return $filename[sizeof($filename) - 1];
+    }
+}
+
 $password = sp_crypt($password);
 
 if(!isset($_SESSION['token']))
@@ -184,22 +195,17 @@ elseif(isset($_POST) && !empty($_POST))
                     {
                         $new_name = $_POST['name'];
     
-                        if($_POST['new'] === 'file')
+                        if(@file_exists($current . $new_name))
+                            exit('File or directory already exists');
+                        else
                         {
-                            if(@is_file($current . $new_name))
-                                exit('File already exists');
-                            else
+                            if($_POST['new'] === 'file')
                             {
                                 if(@file_put_contents($current . $new_name, '') !== false)
                                     exit('created');
                                 else
                                     exit('File not created');
                             }
-                        }
-                        else
-                        {
-                            if(@is_dir($current . $new_name))
-                                exit('Directory already exists');
                             else
                             {
                                 if(@mkdir($current . $new_name))
@@ -236,34 +242,52 @@ elseif(isset($_POST) && !empty($_POST))
                         else
                             exit('File not deleted');
                     }
-                    else
+                    elseif(@is_dir($current . $name))
                     {
-                        function rmfulldir($dir)
+
+                        function rm_full_dir($directory)
                         {
-                            if($handle = opendir($dir . '/'))
+                            $long = strlen($directory);
+                            if($long > 0 && $directory[$long - 1] === '/')
+                                $directory = substr($directory, 0, $long - 1);
+                        
+                            if($handle = opendir($directory . '/'))
                             {
                                 while(false !== ($entry = readdir($handle)))
                                 {
                                     if($entry != '.' && $entry != '..')
                                     {
-                                        if(is_dir($dir . '/' . $entry))
-                                            rmfulldir($dir . '/' . $entry);
+                                        if(is_dir($directory . '/' . $entry))
+                                        {
+                                            if(!rm_full_dir($directory . '/' . $entry))
+                                                return false;
+                                        }
+                                        elseif(is_file($directory . '/' . $entry))
+                                        {
+                                            if(!unlink($directory . '/' . $entry))
+                                                return false;
+                                        }
                                         else
-                                            unlink($dir . '/' . $entry);
+                                            return false;
                                     }
                                 }
                                 closedir($handle);
-                                if(rmdir($dir . '/'))
+                                if(rmdir($directory . '/'))
                                     return true;
-                                return false;
+                                else
+                                    return false;
                             }
+                            else
+                                return false;
                         }
 
-                        if(@rmfulldir($current . $name))
+                        if(@rm_full_dir($current . $name))
                             exit('deleted');
                         else
                             exit('Directory not deleted');
                     }
+                    else
+                        exit('File not found');
                 }
 
                 /* UPLOAD */
@@ -277,7 +301,7 @@ elseif(isset($_POST) && !empty($_POST))
                         $name = $_FILES['upload']['name'][$i];
                         if($_FILES['upload']['error'][$i] === 0)
                         {
-                            if(@is_file($current . $name))
+                            if(@file_exists($current . $name))
                                 $return .= "\n" . $name . '</b> already exists<b><br><br>';
                             elseif(@!move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name))
                                 $return .= "\n" . $name . '</b> cannot be uploaded (#1)<b><br><br>';
@@ -291,6 +315,83 @@ elseif(isset($_POST) && !empty($_POST))
                         $return = substr($return, 0, strlen($return) - 8);
                     exit($return);
                 }
+
+                /*
+                function move_file($source, $dest)
+                {
+                    if(is_file($source))
+                    {
+                        if(copy($source, $dest))
+                        {
+                            if(unlink($source))
+                                return true;
+                            else
+                                return false;
+                        }
+                        else return false;
+                    }
+                    else
+                        return false;
+                }
+
+                function copy_move_dir($source, $dest, $move = false)
+                {
+                    $lng_source = strlen($source);
+                    if($lng_source > 0 && $source[$lng_source - 1] === '/')
+                        $source = substr($source, 0, $lng_source - 1);
+
+                    $lng_dest = strlen($dest);
+                    if($lng_dest > 0 && $dest[$lng_dest - 1] === '/')
+                        $dest = substr($dest, 0, $lng_dest - 1);
+
+                    if($handle = opendir($source . '/'))
+                    {
+                        if(mkdir($dest))
+                        {
+                            while(false !== ($entry = readdir($handle)))
+                            {
+                                if($entry != '.' && $entry != '..')
+                                {
+                                    if(is_dir($source . '/' . $entry))
+                                    {
+                                        if(!copy_move_dir($source . '/' . $entry, $dest . '/' . $entry, $move))
+                                            return false;
+                                    }
+                                    elseif(is_file($source . '/' . $entry))
+                                    {
+                                        if(copy($source . '/' . $entry, $dest . '/' . $entry))
+                                        {
+                                            if($move === true)
+                                            {
+                                                if(!unlink($source . '/' . $entry))
+                                                    return false;
+                                            }
+                                        }
+                                        else
+                                            return false;
+                                    }
+                                    else
+                                        return false;
+                                }
+                            }
+                            closedir($handle);
+                            if($move === true)
+                            {
+                                if(rmdir($source . '/'))
+                                    return true;
+                                else
+                                    return false;
+                            }
+                            else
+                                return true;
+                        }
+                        else
+                            return false;
+                    }
+                    else
+                        return false;
+                }
+                */
 
                 else
                     exit('Unknown action');
@@ -324,21 +425,54 @@ elseif(isset($_POST) && !empty($_POST))
                 }
                 return 'nc';
             }
-    
-            /* PATH */
-    
-            function path_parents($nb)
+
+            function size_of_file($size)
             {
-                if($nb === 0)
-                    return '.';
+                if($size < 1024)
+                    return $size . ' o';
                 else
                 {
-                    $return = '';
-                    for($i = 0; $i < $nb; $i++)
-                        $return .= '../';
-                    return $return;
+                    $m = pow(1024, 2);
+                    $g = pow(1024, 3);
+                    if($size < $m)
+                        return round($size / 1024, 1) . ' Ko';
+                    elseif($size < $g)
+                        return round($size / $m, 1) . ' Mo';
+                    else
+                        return round($size / $g, 1) . ' Go';
                 }
             }
+
+            function array_sort($array, $on, $order = 'SORT_ASC')
+            {
+                $new_array = array();
+                $sortable_array = array();
+                if(count($array) > 0)
+                {
+                    foreach($array as $k => $v)
+                    {
+                        if (is_array($v))
+                        {
+                            foreach($v as $k2 => $v2)
+                            {
+                                if ($k2 == $on)
+                                    $sortable_array[$k] = $v2;
+                            }
+                        }
+                        else
+                            $sortable_array[$k] = $v;
+                    }
+                    if($order === 'SORT_ASC')
+                        asort($sortable_array);
+                    else
+                        arsort($sortable_array);
+                    foreach($sortable_array as $k => $v)
+                        $new_array[$k] = $array[$k];
+                }
+                return $new_array;
+            }
+    
+            /* PATH */
 
             function server_infos()
             {
@@ -405,6 +539,19 @@ elseif(isset($_POST) && !empty($_POST))
                 $return['server_root'] = $server_root;
                 $return['script'] = $script_name;
                 return $return;
+            }
+    
+            function path_parents($nb)
+            {
+                if($nb === 0)
+                    return '.';
+                else
+                {
+                    $return = '';
+                    for($i = 0; $i < $nb; $i++)
+                        $return .= '../';
+                    return $return;
+                }
             }
 
             $server_infos = server_infos();
@@ -562,63 +709,6 @@ elseif(isset($_POST) && !empty($_POST))
             $tree = show_tree();
     
             /* ELEMENTS */
-
-            function size_of_file($size)
-            {
-                if($size < 1024)
-                    return $size . ' o';
-                else
-                {
-                    $m = pow(1024, 2);
-                    $g = pow(1024, 3);
-                    if($size < $m)
-                        return round($size / 1024, 1) . ' Ko';
-                    elseif($size < $g)
-                        return round($size / $m, 1) . ' Mo';
-                    else
-                        return round($size / $g, 1) . ' Go';
-                }
-            }
-
-            function file_extension($filename)
-            {
-                if(strpos($filename, '.') === false)
-                    return '';
-                else
-                {
-                    $filename = explode('.', $filename);
-                    return $filename[sizeof($filename) - 1];
-                }
-            }
-
-            function array_sort($array, $on, $order = 'SORT_ASC')
-            {
-                $new_array = array();
-                $sortable_array = array();
-                if(count($array) > 0)
-                {
-                    foreach($array as $k => $v)
-                    {
-                        if (is_array($v))
-                        {
-                            foreach($v as $k2 => $v2)
-                            {
-                                if ($k2 == $on)
-                                    $sortable_array[$k] = $v2;
-                            }
-                        }
-                        else
-                            $sortable_array[$k] = $v;
-                    }
-                    if($order === 'SORT_ASC')
-                        asort($sortable_array);
-                    else
-                        arsort($sortable_array);
-                    foreach($sortable_array as $k => $v)
-                        $new_array[$k] = $array[$k];
-                }
-                return $new_array;
-            }
 
             $script_dirs = substr($server_infos['script'], 1);
             if(strpos($script_dirs, '/') === false)
