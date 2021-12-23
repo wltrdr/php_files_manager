@@ -104,6 +104,7 @@ elseif(isset($_GET['download']))
                 $file = $dir . urldecode($_GET['download']);
                 if(is_file($file))
                 {
+                    clearstatcache();
                     header('Content-Description: File Transfer');
                     header('Content-Type: application/octet-stream');
                     header("Cache-Control: no-cache, must-revalidate");
@@ -112,7 +113,7 @@ elseif(isset($_GET['download']))
                     header('Content-Length: ' . filesize($file));
                     header('Pragma: public');
                     flush();
-                    readfile($file);
+                    readfile($file, true);
                     die();
                 }
                 else
