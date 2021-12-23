@@ -362,9 +362,9 @@ ${webUrl}
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
+<a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
 <a onclick="">Change chmods</a>
-<a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>`
-, event)
+`, event)
     event.preventDefault()
 }
 
@@ -382,8 +382,8 @@ ${webUrl}
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
-<a onclick="">Change chmods</a>
 <a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
+<a onclick="">Change chmods</a>
 <a onclick="">File information</a>
 `, event)
     event.preventDefault()
