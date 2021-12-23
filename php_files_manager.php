@@ -758,6 +758,9 @@ elseif(isset($_POST) && !empty($_POST))
             }
     
             $tree = show_tree();
+
+            if(!isset($_POST['tree_only']))
+            {
     
             /* ELEMENTS */
 
@@ -897,6 +900,10 @@ elseif(isset($_POST) && !empty($_POST))
             /* RETURN */
     
             exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
+
+            }
+            else
+                exit("//!tree!\\\\$tree\n//!end!\\\\");
         }
     }
     else
