@@ -330,12 +330,12 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
     openMenu(`<span>${name}/</span>
 <a onclick="openDir('${urlEncoded}')">Open</a>
 ${webUrl}
-<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
 <a onclick="">Change chmods</a>
-<a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { delElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>`
+<a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>`
 , event)
     event.preventDefault()
 }
@@ -350,12 +350,12 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl)
 <a onclick="">Download</a>
 ${webUrl}
 <a onclick="">Edit</a>
-<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="">Duplicate</a>
 <a onclick="">Copy to</a>
 <a onclick="">Move to</a>
 <a onclick="">Change chmods</a>
-<a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { delElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
+<a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
 <a onclick="">File information</a>
 `, event)
     event.preventDefault()
@@ -508,13 +508,13 @@ function uploadFiles()
 
 /* ELEMENTS ACTIONS */
 
-function renElement(path, oldName, newName)
+function renameElement(path, oldName, newName)
 {
     if(newName === "")
         openBox("alert", "Error : <b>Name can't be empty</b>", "err")
     else
     {
-        ajaxRequest("POST", "", `${Date.now()}&ren=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
+        ajaxRequest("POST", "", `${Date.now()}&rename=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
             if(result === "renamed")
                 openDir(currentPath)
             else
@@ -526,9 +526,9 @@ function renElement(path, oldName, newName)
     }
 }
 
-function delElement(path, name)
+function deleteElement(path, name)
 {
-    ajaxRequest("POST", "", `${Date.now()}&del=${name}&dir=${path}&token=${token}`, result => {
+    ajaxRequest("POST", "", `${Date.now()}&delete=${name}&dir=${path}&token=${token}`, result => {
         if(result === "deleted")
             openDir(currentPath)
         else
