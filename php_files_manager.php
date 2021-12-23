@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 /*
     design 100% responsive
     chargement des elements en ajax
@@ -10,36 +9,41 @@ session_start();
     création de nouveaux dossiers et fichiers
     renommage et suppression des fichiers et dossiers
     protection scripts malicieux par url connue masquée
-
-[>>] affichage (fichier/dossier si accessible)
+⤵
+affichage (fichier/dossier si accessible)
 gestion erreurs fatales [fatal=Unable to get server information]
+loading sur les clics dirs (apres 1sec reglable)
 telecharger (fichier)
 supprimer partie historique si trop long
+⤵
 type affichage elements
 ordonner par
+⤵
 dupliquer (fichier/dossier)
 deplacer vers (fichier/dossier)
 copier vers (fichier/dossier)
 chmods (fichier/dossier)
 infos (fileperms()+stat())
 editer (fichier)
+⤵
 drag drop upload
 drag drop upload dans dossier
 drag drop deplacement dans dossier
 si multi select > deplacement dans dossier + copie coupe colle
-generateur .htaccess + .htpasswd (affiche si existe deja)
+⤵
 clic droit zone elements
-{
+↘
     afficher ce dossier (si accessible)
     type voir
     type sort
     nouveau dir
     nouveau file
     coller
-}
+    creer htaccess
+generateur .htaccess + .htpasswd (affiche si existe deja)
 si possible sans chgmt url : history push a chaque requete ajax (sauf login)
 chercher traces francais
-’ʿ
+ʿ’
 */
 
 $password = 'admin';
@@ -561,7 +565,12 @@ elseif(isset($_POST) && !empty($_POST))
     
             /* ELEMENTS */
 
+            $script_dirs = explode(substr($server_infos['script'], 1), '/');
+            $nb_script_dirs = sizeof($script_dirs) - 1;
+            unset($script_dirs[$nb_script_dirs]);
+
             /*
+
             $server_infos['server_root'] (const)    c:/xampp/htdocs
             $server_infos['web_http'] (const)       https://
             $server_infos['web_root'] (const)       localhost
@@ -569,11 +578,16 @@ elseif(isset($_POST) && !empty($_POST))
             $script_path (const)                    c:/xampp/htdocs/php_files_manager/php_files_manager.php
 
             $server_dirs[$i]['name'] (const)        [ C: xampp htdocs php_files_manager ]
+            $nb_server_dirs (const)                 4
+            $script_dirs (const)                    [ php_files_manager ]
+            $nb_script_dirs (const)                 1
+
             $current                                ../../dir1/dir2/
-            $adds_dirs                              [ dir1 dir2 ]
-            $dirs                                   [ C: xampp dir1 dir2 ]
             $cur_rmvs                               2
+            $adds_dirs                              [ dir1 dir2 ]
             $cur_adds                               2
+            $dirs[$i]['name']                       [ C: xampp dir1 dir2 ]
+            $nb_dirs                                4
 
             */
     
