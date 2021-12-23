@@ -347,7 +347,7 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl)
     else
         webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
     openMenu(`<span>${name}</span>
-<a onclick="">Download</a>
+<a onclick="downloadElement('${pathEncoded}', '${nameEncoded}')">Download</a>
 ${webUrl}
 <a onclick="">Edit</a>
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
@@ -537,4 +537,9 @@ function deleteElement(path, name)
             openBox("alert", "Error : <b>" + result + "</b>", "err")
         }
     })
+}
+
+function downloadElement(path, name)
+{
+    window.open(`?${Date.now()}&download=${name}&dir=${path}&token=${token}`)
 }
