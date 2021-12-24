@@ -766,146 +766,144 @@ elseif(isset($_POST) && !empty($_POST))
 
             if(!isset($_POST['tree_only']))
             {
-    
-            /* ELEMENTS */
+                /* ELEMENTS */
 
-            $script_dirs = substr($server_infos['script'], 1);
-            if(strpos($script_dirs, '/') === false)
-            {
-                $script_dirs = array();
-                $nb_script_dirs = 0;
-            }
-            else
-            {
-                $script_dirs = explode('/', $script_dirs);
-                $nb_script_dirs = sizeof($script_dirs) - 1;
-                unset($script_dirs[$nb_script_dirs]);
-            }
-
-            if($cur_rmvs > $nb_script_dirs)
-                $web_view = false;
-            else
-            {
-                $web_view = $server_infos['web_http'] . $server_infos['web_root'] . '/';
-
-                $web_dirs = array();
-                for($i = 0; $i < $nb_script_dirs - $cur_rmvs; $i++)
-                    $web_dirs[] = $script_dirs[$i];
-                foreach($adds_dirs as $add_dir)
-                    $web_dirs[] = $add_dir;
-                foreach($web_dirs as $web_dir)
-                    $web_view .= $web_dir . '/';
-            }
-
-            $cur_enc = urlencode($current);
-            $link = $current;
-            if($current === '.')
-                $link = '';
-
-            $order = '0';
-            if(isset($_POST['order']))
-            {
-                $order = $_POST['order'];
-                $_SESSION['order_' . $cur_enc] = $order;
-            }
-            elseif(isset($_SESSION['order_' . $cur_enc]))
-                $order = $_SESSION['order_' . $cur_enc];
-
-            $desc = '0';
-            if(isset($_POST['desc']))
-            {
-                $desc = $_POST['desc'];
-                $_SESSION['desc_' . $cur_enc] = $desc;
-            }
-            elseif(isset($_SESSION['desc_' . $cur_enc]))
-                $desc = $_SESSION['desc_' . $cur_enc];
-
-            $desc_dirs = '0';
-            if($order === '0')
-                $desc_dirs = $desc;
-    
-            $elems_dirs = array();
-            $nb_files = 0;
-            if($handle = opendir($current))
-            {
-                while(false !== ($entry = readdir($handle)))
+                $script_dirs = substr($server_infos['script'], 1);
+                if(strpos($script_dirs, '/') === false)
                 {
-                    if($entry != '.' && $entry != '..')
+                    $script_dirs = array();
+                    $nb_script_dirs = 0;
+                }
+                else
+                {
+                    $script_dirs = explode('/', $script_dirs);
+                    $nb_script_dirs = sizeof($script_dirs) - 1;
+                    unset($script_dirs[$nb_script_dirs]);
+                }
+
+                if($cur_rmvs > $nb_script_dirs)
+                    $web_view = false;
+                else
+                {
+                    $web_view = $server_infos['web_http'] . $server_infos['web_root'] . '/';
+
+                    $web_dirs = array();
+                    for($i = 0; $i < $nb_script_dirs - $cur_rmvs; $i++)
+                        $web_dirs[] = $script_dirs[$i];
+                    foreach($adds_dirs as $add_dir)
+                        $web_dirs[] = $add_dir;
+                    foreach($web_dirs as $web_dir)
+                        $web_view .= $web_dir . '/';
+                }
+
+                $cur_enc = urlencode($current);
+                $link = $current;
+                if($current === '.')
+                    $link = '';
+
+                $order = '0';
+                if(isset($_POST['order']))
+                {
+                    $order = $_POST['order'];
+                    $_SESSION['order_' . $cur_enc] = $order;
+                }
+                elseif(isset($_SESSION['order_' . $cur_enc]))
+                    $order = $_SESSION['order_' . $cur_enc];
+
+                $desc = '0';
+                if(isset($_POST['desc']))
+                {
+                    $desc = $_POST['desc'];
+                    $_SESSION['desc_' . $cur_enc] = $desc;
+                }
+                elseif(isset($_SESSION['desc_' . $cur_enc]))
+                    $desc = $_SESSION['desc_' . $cur_enc];
+
+                $desc_dirs = '0';
+                if($order === '0')
+                    $desc_dirs = $desc;
+        
+                $elems_dirs = array();
+                $nb_files = 0;
+                if($handle = opendir($current))
+                {
+                    while(false !== ($entry = readdir($handle)))
                     {
-                        if(is_dir($link . $entry))
-                            $elems_dirs[] = $entry;
-                        else
+                        if($entry != '.' && $entry != '..')
                         {
-                            $elems_files[$nb_files]['name'] = $entry;
-                            $elems_files[$nb_files]['time'] = @filemtime($link . $entry);
-                            $elems_files[$nb_files]['size'] = @filesize($link . $entry);
-                            $elems_files[$nb_files]['type'] = file_extension($entry)[1];
-                            $nb_files++;
+                            if(is_dir($link . $entry))
+                                $elems_dirs[] = $entry;
+                            else
+                            {
+                                $elems_files[$nb_files]['name'] = $entry;
+                                $elems_files[$nb_files]['time'] = @filemtime($link . $entry);
+                                $elems_files[$nb_files]['size'] = @filesize($link . $entry);
+                                $elems_files[$nb_files]['type'] = file_extension($entry)[1];
+                                $nb_files++;
+                            }
                         }
                     }
+                    closedir($handle);
                 }
-                closedir($handle);
-            }
-    
-            $elements = '';
-    
-            if($desc_dirs === '1')
-                $elems_dirs = array_reverse($elems_dirs);
+        
+                $elements = '';
+        
+                if($desc_dirs === '1')
+                    $elems_dirs = array_reverse($elems_dirs);
 
-            foreach($elems_dirs as $elem_dir)
-            {
-                if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $server_dirs[$nb_dirs]['name'])
-                    $url_enc = urlencode(path_parents($cur_rmvs - 1));
+                foreach($elems_dirs as $elem_dir)
+                {
+                    if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $server_dirs[$nb_dirs]['name'])
+                        $url_enc = urlencode(path_parents($cur_rmvs - 1));
+                    else
+                        $url_enc = urlencode($link . $elem_dir . '/');
+
+                    if($web_view !== false)
+                        $web_url = "'" . $web_view . $elem_dir . "/'";
+                    else
+                        $web_url = 'false';
+
+                    $el_enc = urlencode($elem_dir);
+                    $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc')\" oncontextmenu=\"rightClickDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$elem_dir</span></a>\n";
+                }
+
+                if($order === '0')
+                {
+                    if($desc === '1')
+                        $elems_files = array_reverse($elems_files);
+                }
                 else
-                    $url_enc = urlencode($link . $elem_dir . '/');
+                {
+                    if($order === '1')
+                        $arr_order = 'time';
+                    elseif($order === '2')
+                        $arr_order = 'size';
+                    else
+                        $arr_order = 'type';
 
-                if($web_view !== false)
-                    $web_url = "'" . $web_view . $elem_dir . "/'";
-                else
-                    $web_url = 'false';
+                    if($desc === '0')
+                        $arr_desc = 'SORT_ASC';
+                    else
+                        $arr_desc = 'SORT_DESC';
 
-                $el_enc = urlencode($elem_dir);
-                $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc')\" oncontextmenu=\"rightClickDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$elem_dir</span></a>\n";
-            }
+                    $elems_files = array_sort($elems_files, $arr_order, $arr_desc);
+                }
 
-            if($order === '0')
-            {
-                if($desc === '1')
-                    $elems_files = array_reverse($elems_files);
-            }
-            else
-            {
-                if($order === '1')
-                    $arr_order = 'time';
-                elseif($order === '2')
-                    $arr_order = 'size';
-                else
-                    $arr_order = 'type';
+                foreach($elems_files as $elem_file)
+                {
+                    $el_enc = urlencode($elem_file['name']);
 
-                if($desc === '0')
-                    $arr_desc = 'SORT_ASC';
-                else
-                    $arr_desc = 'SORT_DESC';
+                    if($web_view !== false)
+                        $web_url = "'" . $web_view . $elem_file['name'] . "'";
+                    else
+                        $web_url = 'false';
 
-                $elems_files = array_sort($elems_files, $arr_order, $arr_desc);
-            }
+                    $elements .= '<a class="'. css_extension($elem_file['name']) . '" onclick="menuFile(\'' . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('" . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">" . $elem_file['name'] . '</span><span class="size">' . @size_of_file($elem_file['size']) . '</span><span class="date">' . @date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+                }
 
-            foreach($elems_files as $elem_file)
-            {
-                $el_enc = urlencode($elem_file['name']);
-
-                if($web_view !== false)
-                    $web_url = "'" . $web_view . $elem_file['name'] . "'";
-                else
-                    $web_url = 'false';
-
-                $elements .= '<a class="'. css_extension($elem_file['name']) . '" onclick="menuFile(\'' . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('" . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">" . $elem_file['name'] . '</span><span class="size">' . @size_of_file($elem_file['size']) . '</span><span class="date">' . @date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
-            }
-
-            /* RETURN */
-    
-            exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
-
+                /* RETURN */
+        
+                exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
             }
             else
                 exit("//!tree!\\\\$tree\n//!end!\\\\");
