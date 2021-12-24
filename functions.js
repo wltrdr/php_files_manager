@@ -358,7 +358,39 @@ function openBox(type, vals, icon = null, callback = false)
         }
         else if(type === "edit")
         {
+            if(icon === null)
+                icon = "edit"
+            let txt = vals
+            let value = ""
+            let btnOk = "Ok"
+            let btnNo = "Cancel"
+            if(typeof(vals) !== "string")
+            {
+                if(vals.txt)
+                    txt = vals.txt
+                if(vals.value)
+                    value = vals.value
+                if(vals.btnOk)
+                    btnOk = vals.btnOk
+                if(vals.btnNo)
+                    btnNo = vals.btnNo
+            }
+            showBox(txt, icon, `<textarea>${value}</textarea>`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+                const input = popupBox.querySelector("input")
+                input.focus()
+                const tmp = input.value
+                input.value = ""
+                input.value = tmp
 
+                popupBox.querySelector("button#y").addEventListener("click", () => {
+                    callback(input.value)
+                    closeBox()
+                })
+
+                popupBox.querySelector("button#n").addEventListener("click", () => {
+                    closeBox()
+                })
+            })
         }
         else if(type === "chmods")
         {
