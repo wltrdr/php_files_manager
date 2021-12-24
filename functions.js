@@ -376,7 +376,7 @@ function openBox(type, vals, icon = null, callback = false)
                     btnNo = vals.btnNo
             }
             showBox(txt, icon, `<textarea>${value}</textarea>`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
-                const input = popupBox.querySelector("input")
+                const input = popupBox.querySelector("textarea")
                 input.focus()
                 const tmp = input.value
                 input.value = ""
@@ -444,3 +444,10 @@ ${webUrl}
 `, event)
     event.preventDefault()
 }
+
+
+
+
+
+// openBox('path', 'texte', null, inputPath => { alert("ok=" + inputPath); })
+openBox('edit', 'texte', null, inputEdit => { alert("ok=" + inputEdit); })
