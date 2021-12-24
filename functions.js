@@ -329,7 +329,32 @@ function openBox(type, vals, icon = null, callback = false)
         }
         else if(type === "path")
         {
+            if(icon === null)
+                icon = "path"
+            let txt = vals
+            let btnOk = "Ok"
+            let btnNo = "Cancel"
+            if(typeof(vals) !== "string")
+            {
+                if(vals.txt)
+                    txt = vals.txt
+                if(vals.btnOk)
+                    btnOk = vals.btnOk
+                if(vals.btnNo)
+                    btnNo = vals.btnNo
+            }
+            showBox(txt, icon, `ICI LE PATH EXPLORER => <input type="text" readonly="readonly">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+                const input = popupBox.querySelector("input")
 
+                popupBox.querySelector("button#y").addEventListener("click", () => {
+                    callback(input.value)
+                    closeBox()
+                })
+
+                popupBox.querySelector("button#n").addEventListener("click", () => {
+                    closeBox()
+                })
+            })
         }
         else if(type === "edit")
         {
@@ -360,8 +385,8 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 ${webUrl}
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-<a onclick="">Copy to</a>
-<a onclick="">Move to</a>
+<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
 <a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
 <a onclick="">Change chmods</a>
 `, event)
@@ -380,8 +405,8 @@ ${webUrl}
 <a onclick="">Edit</a>
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-<a onclick="">Copy to</a>
-<a onclick="">Move to</a>
+<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
 <a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
 <a onclick="">Change chmods</a>
 `, event)
