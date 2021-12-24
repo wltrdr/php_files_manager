@@ -343,16 +343,18 @@ function openBox(type, vals, icon = null, callback = false)
                 if(vals.btnNo)
                     btnNo = vals.btnNo
             }
-            showBox(txt, icon, `ICI LE PATH EXPLORER => <input type="text" readonly="readonly">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
-                const input = popupBox.querySelector("input")
+            ajaxRequest("POST", "", `${Date.now()}&dir=` + currentPath + "&tree_only", result => {
+                showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+                    const input = popupBox.querySelector("input")
 
-                popupBox.querySelector("button#y").addEventListener("click", () => {
-                    callback(input.value)
-                    closeBox()
-                })
+                    popupBox.querySelector("button#y").addEventListener("click", () => {
+                        callback(input.value)
+                        closeBox()
+                    })
 
-                popupBox.querySelector("button#n").addEventListener("click", () => {
-                    closeBox()
+                    popupBox.querySelector("button#n").addEventListener("click", () => {
+                        closeBox()
+                    })
                 })
             })
         }
@@ -449,4 +451,4 @@ ${webUrl}
 
 
 
-// openBox('path', 'texte', null, inputPath => { alert("ok=" + inputPath); })
+openBox('path', 'texte', null, inputPath => { alert("ok=" + inputPath); })
