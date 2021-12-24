@@ -269,6 +269,17 @@ button {
         height: 50vh;
     }
 
+    #popupBox #boxPath {
+        display: block;
+        margin-top: 2em;
+        padding: 1em;
+        min-width: 20em;
+        width: 50vw;
+        height: 50vh;
+        overflow: auto;
+        border: 1px solid red;
+    }
+
     #popupBox .hidden {
         display: inline-block;
         margin: 0px;
@@ -599,12 +610,12 @@ h1 span {
 #tree {
     margin-right: 1em;
     width: 25%;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 #elements {
     width: 75%;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 #tree .list a {
