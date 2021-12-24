@@ -906,7 +906,7 @@ elseif(isset($_POST) && !empty($_POST))
                 exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
             }
             else
-                exit("//!tree!\\\\$tree\n//!end!\\\\");
+                exit($tree);
         }
     }
     else
