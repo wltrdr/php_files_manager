@@ -450,4 +450,3 @@ ${webUrl}
 
 
 // openBox('path', 'texte', null, inputPath => { alert("ok=" + inputPath); })
-openBox('edit', 'texte', null, inputEdit => { alert("ok=" + inputEdit); })
