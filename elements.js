@@ -41,7 +41,7 @@ function newElement(type, name)
         openBox("alert", "Error : <b>Name can't be empty</b>", "err")
     else
     {
-        ajaxRequest("POST", "", `${Date.now()}&new=${type}&name=${name}&dir=${currentPath}&token=${token}`, result => {
+        ajaxRequest("POST", "", `${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, result => {
             if(result === "created")
                 openDir(currentPath)
             else
