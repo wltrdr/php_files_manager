@@ -90,7 +90,7 @@ function uploadFiles()
     }, delayMenuMs)
 }
 
-/* OTHERS ACTIONS */
+/* OTHER ACTIONS */
 
 function downloadElement(path, name)
 {
