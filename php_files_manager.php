@@ -93,6 +93,11 @@ elseif(isset($_GET['js']) && isset ($_GET['functions']))
 	header('Content-Type: application/javascript');
     exit(file_get_contents('functions.js'));
 }
+elseif(isset($_GET['js']) && isset ($_GET['elements']))
+{
+	header('Content-Type: application/javascript');
+    exit(file_get_contents('elements.js'));
+}
 elseif(isset($_GET['js']) && isset ($_GET['events']))
 {
 	header('Content-Type: application/javascript');
