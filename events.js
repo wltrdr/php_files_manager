@@ -1,5 +1,3 @@
-/* GENERAL */
-
 document.body.addEventListener("click", ev => {
     popupMenu.style.display = "none"
     if(disableBodyPrevDef !== true)
