@@ -260,6 +260,15 @@ button {
         width: 100%;
     }
 
+    #popupBox textarea {
+        display: block;
+        margin-top: 2em;
+        padding: 1em;
+        min-width: 20em;
+        width: 50vw;
+        height: 50vh;
+    }
+
     #popupBox .hidden {
         display: inline-block;
         margin: 0px;
