@@ -85,22 +85,27 @@ if(!isset($_SESSION['token']))
 
 if(isset($_GET['js']) && isset ($_GET['init']))
 {
-	header('Content-Type: application/javascript');
+	header('Content-Type: application/javascript; charset=utf-8');
     exit(file_get_contents('init.js'));
 }
 elseif(isset($_GET['js']) && isset ($_GET['functions']))
 {
-	header('Content-Type: application/javascript');
+	header('Content-Type: application/javascript; charset=utf-8');
     exit(file_get_contents('functions.js'));
+}
+elseif(isset($_GET['js']) && isset ($_GET['boxes']))
+{
+	header('Content-Type: application/javascript; charset=utf-8');
+    exit(file_get_contents('boxes.js'));
 }
 elseif(isset($_GET['js']) && isset ($_GET['elements']))
 {
-	header('Content-Type: application/javascript');
+	header('Content-Type: application/javascript; charset=utf-8');
     exit(file_get_contents('elements.js'));
 }
 elseif(isset($_GET['js']) && isset ($_GET['events']))
 {
-	header('Content-Type: application/javascript');
+	header('Content-Type: application/javascript; charset=utf-8');
     exit(file_get_contents('events.js'));
 }
 
@@ -108,12 +113,12 @@ elseif(isset($_GET['js']) && isset ($_GET['events']))
 
 elseif(isset($_GET['css']) && isset ($_GET['style']))
 {
-	header('Content-Type: text/css');
+	header('Content-Type: text/css; charset=utf-8');
     exit(file_get_contents('style.css'));
 }
 elseif(isset($_GET['css']) && isset ($_GET['images']))
 {
-	header('Content-Type: text/css');
+	header('Content-Type: text/css; charset=utf-8');
     exit(file_get_contents('images.css'));
 }
 
@@ -162,13 +167,13 @@ elseif(isset($_GET['download']))
 
 elseif(isset($_POST['logout']))
 {
-	header('Content-Type: text/plain');
+	header('Content-Type: text/plain; charset=utf-8');
 	unset($_SESSION['pfm']);
     exit('bye');
 }
 elseif(isset($_POST) && !empty($_POST))
 {
-	header('Content-Type: text/plain');
+	header('Content-Type: text/plain; charset=utf-8');
     if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password))
     {
         /* SECURITY */
@@ -942,6 +947,6 @@ elseif(isset($_POST) && !empty($_POST))
 }
 else
 {
-	header('Content-Type: text/html');
+	header('Content-Type: text/html; charset=utf-8');
     exit(file_get_contents('template.html'));
 }
