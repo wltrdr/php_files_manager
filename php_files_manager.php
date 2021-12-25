@@ -709,7 +709,7 @@ elseif(isset($_POST) && !empty($_POST))
                 if($i === 0 && $win_fs === false)
                     $name = '';
     
-                $path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . $name . "<span class=\"gap\">/</span></a>\n";
+                $path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
             }
     
             /* TREE */
@@ -723,6 +723,7 @@ elseif(isset($_POST) && !empty($_POST))
             {
                 global $dirs;
                 global $nb_dirs;
+                global $tree_only;
                 $name = $dirs[$lvl - 1]['name'];
                 $path = $link = $dirs[$lvl - 1]['path'];
     
@@ -734,10 +735,13 @@ elseif(isset($_POST) && !empty($_POST))
                     $dir_default = '';
                     if($nb_dirs === 1)
                         $dir_default = ' treeDefault';
+
+                    $name_html = htmlentities($name, ENT_QUOTES);
+
                     if($tree_only === false)
-                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name</a><br>\n";
+                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name_html</a><br>\n";
                     else
-                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"\"><span class=\"icon\"></span>$name</a><br>\n";
+                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"document.querySelector('#popupBox input').value = '" . htmlentities($path, ENT_QUOTES) . "'\"><span class=\"icon\"></span>$name_html</a><br>\n";
                 }
                 else
                     $return = '';
@@ -749,24 +753,26 @@ elseif(isset($_POST) && !empty($_POST))
                     {
                         if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/'))
                         {
+                            $entry_html = htmlentities($entry, ENT_QUOTES);
+
                             if(isset($dirs[$lvl]['name']) && $entry === $dirs[$lvl]['name'])
                             {
                                 $dir_default = '';
                                 if($lvl === $nb_dirs - 1)
                                     $dir_default = ' treeDefault';
-                                
+
                                 if($tree_only === false)
-                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry</a><br>\n" . show_tree($lvl + 1);
+                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
                                 else
-                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"\"><span class=\"icon\"></span>$entry</a><br>\n" . show_tree($lvl + 1);
+                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . 'em;" onclick="document.querySelector(\'#popupBox input\').value = \'' . htmlentities($dirs[$lvl]['path'], ENT_QUOTES) . "'\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
                                 $next = true;
                             }
                             else
                             {
                                 if($tree_only === false)
-                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "')\"><span class=\"icon\"></span>$entry</a><br>\n";
+                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "'\"><span class=\"icon\"></span>$entry_html</a><br>\n";
                                 else
-                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"\"><span class=\"icon\"></span>$entry</a><br>\n";
+                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="document.querySelector(\'#popupBox input\').value = \'' . htmlentities($link . $entry . '/', ENT_QUOTES) . "'\"><span class=\"icon\"></span>$entry_html</a><br>\n";
                             }
                         }
                     }
@@ -869,18 +875,20 @@ elseif(isset($_POST) && !empty($_POST))
 
                 foreach($elems_dirs as $elem_dir)
                 {
+                    $el_enc = urlencode($elem_dir);
+                    $el_html = htmlentities($elem_dir, ENT_QUOTES);
+
                     if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $server_dirs[$nb_dirs]['name'])
                         $url_enc = urlencode(path_parents($cur_rmvs - 1));
                     else
                         $url_enc = urlencode($link . $elem_dir . '/');
 
                     if($web_view !== false)
-                        $web_url = "'" . $web_view . $elem_dir . "/'";
+                        $web_url = "'" . $web_view . $el_html . "/'";
                     else
                         $web_url = 'false';
 
-                    $el_enc = urlencode($elem_dir);
-                    $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc')\" oncontextmenu=\"rightClickDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$elem_dir', '$cur_enc', '$el_enc', '$url_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$elem_dir</span></a>\n";
+                    $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc')\" oncontextmenu=\"rightClickDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
                 }
 
                 if($order === '0')
@@ -910,13 +918,14 @@ elseif(isset($_POST) && !empty($_POST))
                     foreach($elems_files as $elem_file)
                     {
                         $el_enc = urlencode($elem_file['name']);
-    
+                        $el_html = htmlentities($elem_file['name'], ENT_QUOTES);
+
                         if($web_view !== false)
-                            $web_url = "'" . $web_view . $elem_file['name'] . "'";
+                            $web_url = "'" . $web_view . $el_html . "'";
                         else
                             $web_url = 'false';
-    
-                        $elements .= '<a class="'. css_extension($elem_file['name']) . '" onclick="menuFile(\'' . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('" . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">" . $elem_file['name'] . '</span><span class="size">' . @size_of_file($elem_file['size']) . '</span><span class="date">' . @date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+
+                        $elements .= '<a class="'. htmlentities(css_extension($elem_file['name']), ENT_QUOTES) . "\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . @size_of_file($elem_file['size']) . '</span><span class="date">' . @date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
                     }
                 }
 
