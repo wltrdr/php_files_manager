@@ -274,10 +274,13 @@ button {
         margin-top: 2em;
         padding: 1em;
         min-width: 20em;
-        width: 50vw;
+        width: 100%;
+        min-width: 50vw;
         height: 50vh;
         overflow: auto;
-        border: 1px solid red;
+        text-align: left;
+        background-color: #fff;
+        box-shadow: 0px 0px 0.75em rgba(0, 0, 0, 0.2);
     }
 
     #popupBox .hidden {
@@ -618,7 +621,7 @@ h1 span {
     overflow-y: auto;
 }
 
-#tree .list a {
+#tree .list a, #boxPath .list a {
     display: inline-block;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -630,11 +633,11 @@ h1 span {
     user-select: text;
 }
 
-#tree .list a:first-child {
+#tree .list a:first-child, #boxPath .list a:first-child {
     margin-top: 1em;
 }
 
-#tree .list a span.icon {
+#tree .list a span.icon, #boxPath .list a span.icon {
     display: inline-block;
     margin-right: 1em;
     width: 2em;
@@ -720,7 +723,7 @@ h1 span {
     align-self: center;
 }
 
-#tree .list a:hover, #elements .list a:hover {
+#tree .list a:hover, #elements .list a:hover, #boxPath .list a:hover {
     opacity: 1;
 }
 
