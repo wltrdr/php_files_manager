@@ -41,7 +41,8 @@ function showElements(result)
     if(found)
     {
         if(found[1] || found[10])
-            console.log(`PHP Errors :\n\n${found[1].replace(/<[^>]+>/g, '')}\n\n${found[10].replace(/<[^>]+>/g, '')}`)
+            console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, '')}\n\n${found[10].replace(/<[^>]+>/g, '')}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
+
         connexion.style.display = "none"
         contents.style.display = "flex"
         token = found[2]
@@ -60,7 +61,7 @@ function showElements(result)
             tree.scrollTop = document.querySelector(".treeDefault").offsetTop - (listTree.offsetTop + parseInt(window.getComputedStyle(document.querySelector(".treeFirst"), null).getPropertyValue("margin-top"), 10))
         }
         catch {
-            console.log("Error : Unable to access parent")
+            console.log("%cError : %cUnable to access parent", "color: red;", "color: auto;")
         }
         elements.scrollTop = 0
     }
@@ -70,7 +71,7 @@ function showElements(result)
         if(fatal)
         {
             if(fatal[1] || fatal[3])
-                console.log(`PHP Errors :\n\n${fatal[1].replace(/<[^>]+>/g, '')}\n\n${fatal[3].replace(/<[^>]+>/g, '')}`)
+                console.log(`%cPHP Errors :\n\n%c${fatal[1].replace(/<[^>]+>/g, '')}\n\n${fatal[3].replace(/<[^>]+>/g, '')}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
             alert("Error : " + fatal[2])
         }
         else
