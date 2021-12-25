@@ -330,15 +330,17 @@ elseif(isset($_POST) && !empty($_POST))
                     for($i = 0; $i < $nb_files; $i++)
                     {
                         $name = $_FILES['upload']['name'][$i];
+                        $name_html = htmlentities($name, ENT_QUOTES);
+
                         if($_FILES['upload']['error'][$i] === 0)
                         {
                             if(@file_exists($current . $name))
-                                $return .= "\n" . $name . '</b> already exists<b><br><br>';
+                                $return .= "\n" . $name_html . '</b> already exists<b><br><br>';
                             elseif(@!move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name))
-                                $return .= "\n" . $name . '</b> cannot be uploaded (#1)<b><br><br>';
+                                $return .= "\n" . $name_html . '</b> cannot be uploaded (#1)<b><br><br>';
                         }
                         else
-                            $return .= "\n" . $name . '</b> cannot be uploaded (#2)<b><br><br>';
+                            $return .= "\n" . $name_html . '</b> cannot be uploaded (#2)<b><br><br>';
                     }
                     if(empty($return))
                         $return = 'uploaded';
