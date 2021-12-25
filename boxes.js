@@ -183,7 +183,7 @@ function openBox(type, vals, icon = null, callback = false)
                 if(vals.btnNo)
                     btnNo = vals.btnNo
             }
-            ajaxRequest("POST", "", `${Date.now()}&dir=` + currentPath + "&tree_only", result => {
+            ajaxRequest("POST", "", `${Date.now()}&dir=${currentPath}&tree_only`, result => {
                 showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
                     const input = popupBox.querySelector("input")
 
@@ -207,7 +207,7 @@ function openBox(type, vals, icon = null, callback = false)
         else if(type === "edit")
         {
             if(icon === null)
-                icon = "lock"
+                icon = "edit"
             let txt = vals
             let value = ""
             let btnOk = "Ok"
@@ -242,7 +242,38 @@ function openBox(type, vals, icon = null, callback = false)
         }
         else if(type === "chmods")
         {
+            if(icon === null)
+                icon = "lock"
+            let txt = `Change chmods for <b>ʿ${vals.name}/ʿ</b> :`
+            let btnOk = "Ok"
+            let btnNo = "Cancel"
+            if(vals.txt)
+                txt = vals.txt
+            if(vals.btnOk)
+                btnOk = vals.btnOk
+            if(vals.btnNo)
+                btnNo = vals.btnNo
+            ajaxRequest("POST", "", `${Date.now()}&get_chmods=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
+                const found = result.match(/\[chmods=([0-9]+)\]/)
+                if(found)
+                {
+                    showBox(txt, icon, `AFFICHAGE DES CHMODS SELON ${found[1]}`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
 
+                        popupBox.querySelector("button#y").addEventListener("click", () => {
+                            
+                            // function change mods selon inputs
+
+                            closeBox()
+                        })
+
+                        popupBox.querySelector("button#n").addEventListener("click", () => {
+                            closeBox()
+                        })
+                    })
+                }
+                else
+                    openBox("alert", `Error : <b>${result}</b>`, "err")
+            })
         }
         else
         {
