@@ -450,9 +450,3 @@ ${webUrl}
 `, event)
     event.preventDefault()
 }
-
-
-
-
-
-openBox('path', 'texte', null, inputPath => { alert("ok=" + inputPath); })
