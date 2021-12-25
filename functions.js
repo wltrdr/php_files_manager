@@ -426,7 +426,7 @@ ${webUrl}
 <a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
 <a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
 <a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
-<a onclick="">Change chmods</a>
+<a onclick="openBox('chmods', { path: '${pathEncoded}', name: '${nameEncoded}' })">Change chmods</a>
 `, event)
     event.preventDefault()
 }
@@ -440,13 +440,13 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl)
     openMenu(`<span>${name}</span>
 <a onclick="downloadElement('${pathEncoded}', '${nameEncoded}')">Download</a>
 ${webUrl}
-<a onclick="">Edit</a>
+<a onclick="openBox('edit', 'Edit <b>ʿ${name}ʿ</b> :', null, inputPath => { editElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Edit</a>
 <a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 <a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
 <a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
 <a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
 <a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
-<a onclick="">Change chmods</a>
+<a onclick="openBox('chmods', { path: '${pathEncoded}', name: '${nameEncoded}' })">Change chmods</a>
 `, event)
     event.preventDefault()
 }
