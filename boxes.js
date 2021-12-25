@@ -207,7 +207,7 @@ function openBox(type, vals, icon = null, callback = false)
         else if(type === "edit")
         {
             if(icon === null)
-                icon = "edit"
+                icon = "lock"
             let txt = vals
             let value = ""
             let btnOk = "Ok"
