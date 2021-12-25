@@ -351,7 +351,7 @@ elseif(isset($_POST) && !empty($_POST))
 
                 /* NEW FILE OR FOLDER */
 
-                elseif(isset($_POST['new']))
+                elseif(isset($_POST['new']) && isset($_POST['name']))
                 {
                     if(strpos($_POST['name'], "'") === false)
                     {
@@ -383,7 +383,7 @@ elseif(isset($_POST) && !empty($_POST))
 
                 /* RENAME ELEMENT */
 
-                elseif(isset($_POST['rename']))
+                elseif(isset($_POST['rename']) && isset($_POST['name']))
                 {
                     if(@rename($current . urldecode($_POST['rename']), $current . $_POST['name']))
                         exit('renamed');
@@ -451,6 +451,53 @@ elseif(isset($_POST) && !empty($_POST))
                             exit('deleted');
                         else
                             exit('Directory not deleted');
+                    }
+                    else
+                        exit('File not found');
+                }
+
+                /* EDIT ELEMENT */
+
+                elseif(isset($_POST['read_file']))
+                {
+                }
+
+                elseif(isset($_POST['edit_file']))
+                {
+                }
+
+                /* CHANGE CHMODS */
+
+                elseif(isset($_POST['get_chmods']))
+                {
+                    $name = urldecode($_POST['get_chmods']);
+
+                    function find_chmods($filename) // 33060 => 0444
+                    {
+                        return substr(sprintf('%o', fileperms($filename)), -4);
+                    }
+
+                    if(@file_exists($current . $name))
+                    {
+                        if($fileperms = @find_chmods($current . $name))
+                            exit("[chmods=$fileperms]");
+                        else
+                            exit('Chmods not found');
+                    }
+                    else
+                        exit('File not found');
+                }
+
+                elseif(isset($_POST['change_chmods']) && isset($_POST['name']))
+                {
+                    $name = urldecode($_POST['name']);
+
+                    if(@file_exists($current . $name))
+                    {
+                        if(chmod($filename, octdec($_POST['change_chmods'])))
+                            exit("Chmods updated");
+                        else
+                            exit('Chmods not updated');
                     }
                     else
                         exit('File not found');
