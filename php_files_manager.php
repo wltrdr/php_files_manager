@@ -777,7 +777,7 @@ elseif(isset($_POST) && !empty($_POST))
                             else
                             {
                                 if($tree_only === false)
-                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . ")'\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
                                 else
                                     $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="document.querySelector(\'#popupBox input\').value = \'' . htmlentities($link . $entry . '/', ENT_QUOTES) . "'\"><span class=\"icon\"></span>$entry_html</a><br>\n";
                             }
