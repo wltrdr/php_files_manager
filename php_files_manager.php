@@ -713,7 +713,12 @@ elseif(isset($_POST) && !empty($_POST))
             }
     
             /* TREE */
-    
+
+            $tree_only = false;
+
+            if(isset($_POST['tree_only']))
+                $tree_only = true;
+
             function show_tree($lvl = 1)
             {
                 global $dirs;
@@ -729,7 +734,10 @@ elseif(isset($_POST) && !empty($_POST))
                     $dir_default = '';
                     if($nb_dirs === 1)
                         $dir_default = ' treeDefault';
-                    $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name</a><br>\n";
+                    if($tree_only === false)
+                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name</a><br>\n";
+                    else
+                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"\"><span class=\"icon\"></span>$name</a><br>\n";
                 }
                 else
                     $return = '';
@@ -747,11 +755,19 @@ elseif(isset($_POST) && !empty($_POST))
                                 if($lvl === $nb_dirs - 1)
                                     $dir_default = ' treeDefault';
                                 
-                                $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry</a><br>\n" . show_tree($lvl + 1);
+                                if($tree_only === false)
+                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry</a><br>\n" . show_tree($lvl + 1);
+                                else
+                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"\"><span class=\"icon\"></span>$entry</a><br>\n" . show_tree($lvl + 1);
                                 $next = true;
                             }
                             else
-                                $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "')\"><span class=\"icon\"></span>$entry</a><br>\n";
+                            {
+                                if($tree_only === false)
+                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "')\"><span class=\"icon\"></span>$entry</a><br>\n";
+                                else
+                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"\"><span class=\"icon\"></span>$entry</a><br>\n";
+                            }
                         }
                     }
                     closedir($handle);
@@ -764,7 +780,7 @@ elseif(isset($_POST) && !empty($_POST))
     
             $tree = show_tree();
 
-            if(!isset($_POST['tree_only']))
+            if($tree_only === false)
             {
                 /* ELEMENTS */
 
