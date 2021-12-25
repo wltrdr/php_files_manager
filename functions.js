@@ -98,7 +98,7 @@ function openDir(dir, order = "", desc = "")
         else
             desc = "&desc=1"
     }
-    ajaxRequest("POST", "", `${Date.now()}&dir=` + dir + order + desc, result => {
+    ajaxRequest("POST", "", `${Date.now()}&dir=${dir}${order}${desc}`, result => {
         dirLoaded = true
         loading.style.display = "none"
         if(result !== "false")
