@@ -889,16 +889,19 @@ elseif(isset($_POST) && !empty($_POST))
                     $elems_files = array_sort($elems_files, $arr_order, $arr_desc);
                 }
 
-                foreach($elems_files as $elem_file)
+                if(isset($elems_files))
                 {
-                    $el_enc = urlencode($elem_file['name']);
-
-                    if($web_view !== false)
-                        $web_url = "'" . $web_view . $elem_file['name'] . "'";
-                    else
-                        $web_url = 'false';
-
-                    $elements .= '<a class="'. css_extension($elem_file['name']) . '" onclick="menuFile(\'' . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('" . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">" . $elem_file['name'] . '</span><span class="size">' . @size_of_file($elem_file['size']) . '</span><span class="date">' . @date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+                    foreach($elems_files as $elem_file)
+                    {
+                        $el_enc = urlencode($elem_file['name']);
+    
+                        if($web_view !== false)
+                            $web_url = "'" . $web_view . $elem_file['name'] . "'";
+                        else
+                            $web_url = 'false';
+    
+                        $elements .= '<a class="'. css_extension($elem_file['name']) . '" onclick="menuFile(\'' . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('" . $elem_file['name'] . "', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">" . $elem_file['name'] . '</span><span class="size">' . @size_of_file($elem_file['size']) . '</span><span class="date">' . @date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+                    }
                 }
 
                 /* RETURN */
