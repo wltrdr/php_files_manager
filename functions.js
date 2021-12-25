@@ -208,7 +208,7 @@ function closeBox()
     popupBox.style.display = "none"
 }
 
-function showBox(txt, icon, inputs, buttons, noForm = true, callback = false)
+function showBox(txt, icon, inputs, buttons, noForm = true, callback = false, init = false)
 {
 
     let html = `<div class="popupBox">
@@ -229,13 +229,10 @@ function showBox(txt, icon, inputs, buttons, noForm = true, callback = false)
     popupMask.style.display = "block"
     popupBox.style.display = "block"
     setTimeout(() => {
+        if(init !== false)
+            init()
         if(callback !== false)
-        {
-            try {
-                callback()
-            }
-            catch {}
-        }
+            callback()
     }, delayMenuMs)
 }
 
@@ -355,6 +352,12 @@ function openBox(type, vals, icon = null, callback = false)
                     popupBox.querySelector("button#n").addEventListener("click", () => {
                         closeBox()
                     })
+                }, () => {
+                    try {
+                        const boxPath = document.querySelector("#boxPath")
+                        boxPath.scrollTop = boxPath.querySelector(".treeDefault").offsetTop - boxPath.querySelector(".list").offsetTop
+                    }
+                    catch {}
                 })
             })
         }
