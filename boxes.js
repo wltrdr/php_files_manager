@@ -205,43 +205,50 @@ function openBox(type, vals, icon = null, callback = false)
         {
             if(icon === null)
                 icon = "edit"
-            let txt = vals
-            let value = ""
+            let txt = `Edit <b>ʿ${vals.name}ʿ</b> :`
             let btnOk = "Ok"
             let btnNo = "Cancel"
-            if(typeof(vals) !== "string")
-            {
-                if(vals.txt)
-                    txt = vals.txt
-                if(vals.value)
-                    value = vals.value
-                if(vals.btnOk)
-                    btnOk = vals.btnOk
-                if(vals.btnNo)
-                    btnNo = vals.btnNo
-            }
-            showBox(txt, icon, `<textarea>${value}</textarea>`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
-                const input = popupBox.querySelector("textarea")
-                input.focus()
-                const tmp = input.value
-                input.value = ""
-                input.value = tmp
+            if(vals.txt)
+                txt = vals.txt
+            if(vals.btnOk)
+                btnOk = vals.btnOk
+            if(vals.btnNo)
+                btnNo = vals.btnNo
+            ajaxRequest("POST", "", `${Date.now()}&read_file=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
+                if(result === "[file_edit_not_found]")
+                    openBox("alert", `Error : <b>File not found</b>`, "err")
+                else
+                    showBox(txt, icon, `<textarea>${result}</textarea>`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+                        const input = popupBox.querySelector("textarea")
+                        input.focus()
+                        const tmp = input.value
+                        input.value = ""
+                        input.value = tmp
 
-                popupBox.querySelector("button#y").addEventListener("click", () => {
-                    callback(input.value)
-                    closeBox()
-                })
+                        popupBox.querySelector("button#y").addEventListener("click", () => {
+                            ajaxRequest("POST", "", `${Date.now()}&edit_file=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
+                                if(result === "edited")
+                                    openDir(currentPath)
+                                else
+                                {
+                                    openDir(currentPath)
+                                    openBox("alert", "Error : <b>" + result + "</b>", "err")
+                                }
+                            })
+                            closeBox()
+                        })
 
-                popupBox.querySelector("button#n").addEventListener("click", () => {
-                    closeBox()
-                })
+                        popupBox.querySelector("button#n").addEventListener("click", () => {
+                            closeBox()
+                        })
+                    })
             })
         }
         else if(type === "chmods")
         {
             if(icon === null)
                 icon = "lock"
-            let txt = `Change chmods for <b>ʿ${vals.name}/ʿ</b> :`
+            let txt = `Change chmods for <b>ʿ${vals.name}ʿ</b> :`
             let btnOk = "Ok"
             let btnNo = "Cancel"
             if(vals.txt)
