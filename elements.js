@@ -147,6 +147,32 @@ function renameElement(path, oldName, newName)
     }
 }
 
+function copyElement(path, name, newPath)
+{
+    ajaxRequest("POST", "", `${Date.now()}&copy=${name}&dir=${path}&path=${newPath}&token=${token}`, result => {
+        if(result === "copied")
+            openDir(currentPath)
+        else
+        {
+            openDir(currentPath)
+            openBox("alert", "Error : <b>" + result + "</b>", "err")
+        }
+    })
+}
+
+function moveElement(path, name, newPath)
+{
+    ajaxRequest("POST", "", `${Date.now()}&move=${name}&dir=${path}&path=${newPath}&token=${token}`, result => {
+        if(result === "moved")
+            openDir(currentPath)
+        else
+        {
+            openDir(currentPath)
+            openBox("alert", "Error : <b>" + result + "</b>", "err")
+        }
+    })
+}
+
 function duplicateElement(path, name)
 {
     ajaxRequest("POST", "", `${Date.now()}&duplicate=${name}&dir=${path}&token=${token}`, result => {
