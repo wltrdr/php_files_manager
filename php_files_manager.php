@@ -474,12 +474,16 @@ elseif(isset($_POST) && !empty($_POST))
 
                     function find_chmods($filename) // 33060 => 0444
                     {
-                        return substr(sprintf('%o', fileperms($filename)), -4);
+                        if($fileperms = fileperms($filename))
+                            return substr(sprintf('%o', $fileperms), -4);
+                        else
+                            return false;
                     }
 
                     if(@file_exists($current . $name))
                     {
-                        if($fileperms = @find_chmods($current . $name))
+                        $fileperms = @find_chmods($current . $name);
+                        if($fileperms !== false)
                             exit("[chmods=$fileperms]");
                         else
                             exit('Chmods not found');
@@ -488,14 +492,14 @@ elseif(isset($_POST) && !empty($_POST))
                         exit('File not found');
                 }
 
-                elseif(isset($_POST['change_chmods']) && isset($_POST['name']))
+                elseif(isset($_POST['set_chmods']) && isset($_POST['name']))
                 {
                     $name = urldecode($_POST['name']);
 
                     if(@file_exists($current . $name))
                     {
-                        if(chmod($filename, octdec($_POST['change_chmods'])))
-                            exit("Chmods updated");
+                        if(@chmod($filename, octdec($_POST['set_chmods'])))
+                            exit("chmoded");
                         else
                             exit('Chmods not updated');
                     }
@@ -942,7 +946,7 @@ elseif(isset($_POST) && !empty($_POST))
                     else
                         $web_url = 'false';
 
-                    $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc')\" oncontextmenu=\"rightClickDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+                    $elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc')\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
                 }
 
                 if($order === '0')
