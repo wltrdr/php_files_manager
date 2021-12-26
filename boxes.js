@@ -51,29 +51,26 @@ function closeBox()
     popupBox.style.display = "none"
 }
 
-function showBox(txt, icon, inputs, buttons, noForm = true, callback = false, init = false)
+function showBox(txt, icon, inputs, buttons, noForm = true, callback = false)
 {
-
     let html = `<div class="popupBox">
-    <div class="n1">
-        <div class="n3">
-            <span class="icon ${icon}"></span>
-            <span class="txt">${txt}</span>
+        <div class="n1">
+            <div class="n3">
+                <span class="icon ${icon}"></span>
+                <span class="txt">${txt}</span>
+            </div>
         </div>
-    </div>
-    ${inputs}
-    <div class="n2">
-        ${buttons}
-    </div>
-</div>`
+        ${inputs}
+        <div class="n2">
+            ${buttons}
+        </div>
+    </div>`
     if(noForm !== true)
         html = "<form>\n" + html + "</form>"
     popupBox.innerHTML = html
     popupMask.style.display = "block"
     popupBox.style.display = "block"
     setTimeout(() => {
-        if(init !== false)
-            init()
         if(callback !== false)
             callback()
     }, delayMenuMs)
@@ -185,6 +182,12 @@ function openBox(type, vals, icon = null, callback = false)
             }
             ajaxRequest("POST", "", `${Date.now()}&dir=${currentPath}&tree_only`, result => {
                 showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+                    try {
+                        const boxPath = document.querySelector("#boxPath")
+                        boxPath.scrollTop = boxPath.querySelector(".treeDefault").offsetTop - boxPath.querySelector(".list").offsetTop
+                    }
+                    catch {}
+
                     const input = popupBox.querySelector("input")
 
                     popupBox.querySelector("button#y").addEventListener("click", () => {
@@ -195,12 +198,6 @@ function openBox(type, vals, icon = null, callback = false)
                     popupBox.querySelector("button#n").addEventListener("click", () => {
                         closeBox()
                     })
-                }, () => {
-                    try {
-                        const boxPath = document.querySelector("#boxPath")
-                        boxPath.scrollTop = boxPath.querySelector(".treeDefault").offsetTop - boxPath.querySelector(".list").offsetTop
-                    }
-                    catch {}
                 })
             })
         }
@@ -257,12 +254,109 @@ function openBox(type, vals, icon = null, callback = false)
                 const found = result.match(/\[chmods=([0-9]+)\]/)
                 if(found)
                 {
-                    showBox(txt, icon, `AFFICHAGE DES CHMODS SELON ${found[1]}`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+                    function chmods2checkboxes(chmods, el, input)
+                    {
+                        chmods = chmods.toString()
+                        while(chmods.length < 4)
+                        {
+                            chmods = "0" + chmods
+                            input.value = chmods
+                        }
+
+                        const octs = []
+                        for(let i = 0; i < 4; i++)
+                        {
+                            let nb = parseInt(chmods[i], 10)
+                            let r = w = x = false
+                            if(nb >= 4)
+                            {
+                                r = true
+                                nb -= 4
+                            }
+                            if(nb >= 2)
+                            {
+                                w = true
+                                nb -= 2
+                            }
+                            if(nb == 1)
+                                x = true
+                            octs.push([r, w, x])
+                        }
+
+                        octs.forEach((oct, i) => {
+                            oct.forEach((val, j) => {
+                                if(val === true)
+                                    el.querySelector(`#chmod_${i}_${j}`).checked = "checked"
+                                else
+                                    el.querySelector(`#chmod_${i}_${j}`).checked = null
+                            })
+                        })
+                    }
+
+                    function checkboxes2chmods(el, input)
+                    {
+                        let chmods = ""
+                        for(let i = 0; i < 4; i++)
+                        {
+                            let val = 0
+                            if(el.querySelector(`#chmod_${i}_0`).checked !== false)
+                                val += 4
+                            if(el.querySelector(`#chmod_${i}_1`).checked !== false)
+                                val += 2
+                            if(el.querySelector(`#chmod_${i}_2`).checked !== false)
+                                val ++
+                            chmods += val.toString()
+                        }
+                        input.value = chmods
+                    }
+
+                    showBox(txt, icon, `<div id="boxChmods">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div class="center">Owner :</div>
+                        <div class="center">Group :</div>
+                        <div class="center">Others :</div>
+
+                        <div><label for="chmod_0_0">Set UID :</label></div>
+                        <div><input type="checkbox" id="chmod_0_0"></div>
+                        <div>Read :</div>
+                        <div class="center"><input type="checkbox" id="chmod_1_0"></div>
+                        <div class="center"><input type="checkbox" id="chmod_2_0"></div>
+                        <div class="center"><input type="checkbox" id="chmod_3_0"></div>
+
+                        <div><label for="chmod_0_1">Set GID :</label></div>
+                        <div><input type="checkbox" id="chmod_0_1"></div>
+                        <div>Write :</div>
+                        <div class="center"><input type="checkbox" id="chmod_1_1"></div>
+                        <div class="center"><input type="checkbox" id="chmod_2_1"></div>
+                        <div class="center"><input type="checkbox" id="chmod_3_1"></div>
+
+                        <div><label for="chmod_0_2">Sticky bit :</label></div>
+                        <div><input type="checkbox" id="chmod_0_2"></div>
+                        <div>Execute :</div>
+                        <div class="center"><input type="checkbox" id="chmod_1_2"></div>
+                        <div class="center"><input type="checkbox" id="chmod_2_2"></div>
+                        <div class="center"><input type="checkbox" id="chmod_3_2"></div>
+                    </div>
+                    <input type="text" value="${found[1]}">
+                    `, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+                        const input = popupBox.querySelector("input[type=\"text\"]")
+
+                        chmods2checkboxes(found[1], popupBox, input)
+
+                        input.addEventListener("change", () => {
+                            chmods2checkboxes(input.value, popupBox, input)
+                        })
+
+                        popupBox.querySelectorAll("input[type=\"checkbox\"]").forEach(checkbox => {
+                            checkbox.addEventListener("click", () => {
+                                checkboxes2chmods(popupBox, input)
+                            })
+                        })
 
                         popupBox.querySelector("button#y").addEventListener("click", () => {
-                            
-                            // function change mods selon inputs
-
+                            // change chmods selon input
                             closeBox()
                         })
 
