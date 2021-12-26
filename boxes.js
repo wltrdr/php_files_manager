@@ -96,8 +96,9 @@ function openBox(type, vals, icon = null, callback = false)
                 const input = popupBox.querySelector("input")
                 input.focus()
 
-                popupBox.querySelector("button").addEventListener("click", () => {
+                popupBox.querySelector("button").addEventListener("click", ev => {
                     closeBox()
+                    ev.preventDefault()
                 })
             })
         }
@@ -118,13 +119,15 @@ function openBox(type, vals, icon = null, callback = false)
                     btnNo = vals.btnNo
             }
             showBox(txt, icon, "", `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, true, () => {
-                popupBox.querySelector("button#y").addEventListener("click", () => {
+                popupBox.querySelector("button#y").addEventListener("click", ev => {
                     callback()
                     closeBox()
+                    ev.preventDefault()
                 })
 
-                popupBox.querySelector("button#n").addEventListener("click", () => {
+                popupBox.querySelector("button#n").addEventListener("click", ev => {
                     closeBox()
+                    ev.preventDefault()
                 })
             })
         }
@@ -154,13 +157,15 @@ function openBox(type, vals, icon = null, callback = false)
                 input.value = ""
                 input.value = tmp
 
-                popupBox.querySelector("button#y").addEventListener("click", () => {
+                popupBox.querySelector("button#y").addEventListener("click", ev => {
                     callback(input.value)
                     closeBox()
+                    ev.preventDefault()
                 })
 
-                popupBox.querySelector("button#n").addEventListener("click", () => {
+                popupBox.querySelector("button#n").addEventListener("click", ev => {
                     closeBox()
+                    ev.preventDefault()
                 })
             })
         }
@@ -190,13 +195,15 @@ function openBox(type, vals, icon = null, callback = false)
 
                     const input = popupBox.querySelector("input")
 
-                    popupBox.querySelector("button#y").addEventListener("click", () => {
+                    popupBox.querySelector("button#y").addEventListener("click", ev => {
                         callback(input.value)
                         closeBox()
+                        ev.preventDefault()
                     })
 
-                    popupBox.querySelector("button#n").addEventListener("click", () => {
+                    popupBox.querySelector("button#n").addEventListener("click", ev => {
                         closeBox()
+                        ev.preventDefault()
                     })
                 })
             })
@@ -225,7 +232,7 @@ function openBox(type, vals, icon = null, callback = false)
                         input.value = ""
                         input.value = tmp
 
-                        popupBox.querySelector("button#y").addEventListener("click", () => {
+                        popupBox.querySelector("button#y").addEventListener("click", ev => {
                             ajaxRequest("POST", "", `${Date.now()}&edit_file=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
                                 if(result === "edited")
                                     openDir(currentPath)
@@ -236,10 +243,12 @@ function openBox(type, vals, icon = null, callback = false)
                                 }
                             })
                             closeBox()
+                            ev.preventDefault()
                         })
 
-                        popupBox.querySelector("button#n").addEventListener("click", () => {
+                        popupBox.querySelector("button#n").addEventListener("click", ev => {
                             closeBox()
+                            ev.preventDefault()
                         })
                     })
             })
@@ -362,7 +371,7 @@ function openBox(type, vals, icon = null, callback = false)
                             })
                         })
 
-                        popupBox.querySelector("button#y").addEventListener("click", () => {
+                        popupBox.querySelector("button#y").addEventListener("click", ev => {
                             ajaxRequest("POST", "", `${Date.now()}&set_chmods=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
                                 if(result === "chmoded")
                                     openDir(currentPath)
@@ -373,10 +382,12 @@ function openBox(type, vals, icon = null, callback = false)
                                 }
                             })
                             closeBox()
+                            ev.preventDefault()
                         })
 
-                        popupBox.querySelector("button#n").addEventListener("click", () => {
+                        popupBox.querySelector("button#n").addEventListener("click", ev => {
                             closeBox()
+                            ev.preventDefault()
                         })
                     })
                 }
