@@ -356,7 +356,15 @@ function openBox(type, vals, icon = null, callback = false)
                         })
 
                         popupBox.querySelector("button#y").addEventListener("click", () => {
-                            // change chmods selon input
+                            ajaxRequest("POST", "", `${Date.now()}&set_chmods=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
+                                if(result === "chmoded")
+                                    openDir(currentPath)
+                                else
+                                {
+                                    openDir(currentPath)
+                                    openBox("alert", "Error : <b>" + result + "</b>", "err")
+                                }
+                            })
                             closeBox()
                         })
 
