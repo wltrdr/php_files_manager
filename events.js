@@ -158,15 +158,12 @@ inputUpload.addEventListener("change", () => {
                 }
                 else
                 {
-                    loading.style.display = "block"
                     formData.append(Date.now(), "")
                     formData.append("dir", currentPath)
                     formData.append("token", token)
         
                     ajaxRequest("FILES", "", formData, result => {
                         inputUpload.value = ""
-                        loading.style.display = "none"
-    
                         if(result === "uploaded")
                             openDir(currentPath)
                         else
