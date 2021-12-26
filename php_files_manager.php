@@ -391,7 +391,7 @@ elseif(isset($_POST) && !empty($_POST))
                         exit('Not renamed');
                 }
 
-                /* DUPLICATE ELEMENT */
+                /* DUPLICATE ELEMENT * /
 
                 elseif(isset($_POST['duplicate']))
                 {
