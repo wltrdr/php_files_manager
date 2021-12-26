@@ -393,7 +393,6 @@ elseif(isset($_POST) && !empty($_POST))
 
                 /* DUPLICATE ELEMENT */
 
-
                 elseif(isset($_POST['duplicate']))
                 {
                     $name = urldecode($_POST['duplicate']);
@@ -423,10 +422,68 @@ elseif(isset($_POST) && !empty($_POST))
 
                         $new_name = $name . " ($i)";
 
-                        if(copy_move_dir($current . $name, $current . $new_name))
+                        if(@copy_move_dir($current . $name, $current . $new_name))
                             exit('duplicated');
                         else
                             exit('Directory not duplicated');
+                    }
+                    else
+                        exit('File not found');
+                }
+
+                /* COPY ELEMENT */
+
+                elseif(isset($_POST['copy']) && isset($_POST['path']))
+                {
+                    $name = urldecode($_POST['copy']);
+
+                    if($_POST['path'] === '.')
+                        $path = '';
+                    else
+                        $path = $_POST['path'];
+
+                    if(@is_file($current . $name))
+                    {
+                        if(@copy($current . $name, $path . $name))
+                            exit('copied');
+                        else
+                            exit('File not copied');
+                    }
+                    elseif(@is_dir($current . $name))
+                    {
+                        if(@copy_move_dir($current . $name, $path . $name))
+                            exit('copied');
+                        else
+                            exit('Directory not copied');
+                    }
+                    else
+                        exit('File not found');
+                }
+
+                /* MOVE ELEMENT */
+
+                elseif(isset($_POST['move']) && isset($_POST['path']))
+                {
+                    $name = urldecode($_POST['move']);
+
+                    if($_POST['path'] === '.')
+                        $path = '';
+                    else
+                        $path = $_POST['path'];
+
+                    if(@is_file($current . $name))
+                    {
+                        if(@move_file($current . $name, $path . $name))
+                            exit('moved');
+                        else
+                            exit('File not moved');
+                    }
+                    elseif(@is_dir($current . $name))
+                    {
+                        if(@copy_move_dir($current . $name, $path . $name, true))
+                            exit('moved');
+                        else
+                            exit('Directory not moved');
                     }
                     else
                         exit('File not found');
