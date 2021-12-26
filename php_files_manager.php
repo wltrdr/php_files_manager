@@ -207,8 +207,40 @@ elseif(isset($_POST) && !empty($_POST))
         {
             function move_file($source, $dest)
             {
+                if($dest === '.')
+                    $dest = '';
+
                 if(is_file($source))
                 {
+                    if(!empty($dest) && $dest[strlen($dest) - 1] !== '/')
+                        $dest .= '/';
+                    
+                    $renammed = false;
+                    if(file_exists($dest . $source))
+                    {
+                        /*
+                        $name_tmp = gencode(32);
+                        file_extension() => retourne : '../../path/', 'nom.de.la.musique', 'mp3'
+
+                        $new_name = file_extension($source);
+                        $extension = $new_name[1];
+                        $new_name = $new_name[0];
+        
+                        $i = 1;
+                        while(@file_exists($dest . $new_name . " ($i)." . $extension))
+                            $i++;
+        
+                        $new_name .= " ($i)." . $extension;
+
+                        $renammed = true;*/
+                        // renomme source en rand
+                        // cherche nouveau nom
+                        // copie rand dans dest
+                        // renomme rand en nom origine
+                        // renomme dest en nom tuning
+                    }
+
+
                     if(copy($source, $dest))
                     {
                         if(unlink($source))
