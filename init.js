@@ -45,7 +45,7 @@ let historyLevel = 0
 let disableBodyPrevDef = false
 let uploadMaxFileSize = 0
 let uploadMaxTotalSize = 0
-let dirLoaded
+let ajaxLoaded
 let typeView = 0
 let typeOrder = 0
 let typeOrderDesc = 0
