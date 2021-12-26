@@ -41,7 +41,7 @@ function showElements(result)
     if(found)
     {
         if(found[1] || found[10])
-            console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, '')}\n\n${found[10].replace(/<[^>]+>/g, '')}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
+            console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[10].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 
         connexion.style.display = "none"
         contents.style.display = "flex"
@@ -71,7 +71,7 @@ function showElements(result)
         if(fatal)
         {
             if(fatal[1] || fatal[3])
-                console.log(`%cPHP Errors :\n\n%c${fatal[1].replace(/<[^>]+>/g, '')}\n\n${fatal[3].replace(/<[^>]+>/g, '')}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
+                console.log(`%cPHP Errors :\n\n%c${fatal[1].replace(/<[^>]+>/g, "")}\n\n${fatal[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
             alert("Error : " + fatal[2])
         }
         else
