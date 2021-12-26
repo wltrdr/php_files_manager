@@ -1,5 +1,11 @@
 function ajaxRequest(method, url, data, callback)
 {
+    ajaxLoaded = false
+    setTimeout(() => {
+        if(ajaxLoaded === false)
+            loading.style.display = "block"
+    }, delayLoadingMs)
+
     const httpRequest = new XMLHttpRequest()
     if(!httpRequest)
     {
@@ -9,6 +15,9 @@ function ajaxRequest(method, url, data, callback)
     httpRequest.onreadystatechange = function() {
         if(httpRequest.readyState === XMLHttpRequest.DONE)
         {
+            ajaxLoaded = true
+            loading.style.display = "none"
+
             if(httpRequest.status === 200)
                 callback(httpRequest.responseText)
             else
@@ -84,11 +93,6 @@ function showElements(result)
 
 function openDir(dir, order = "", desc = "")
 {
-    dirLoaded = false
-    setTimeout(() => {
-        if(dirLoaded === false)
-            loading.style.display = "block"
-    }, delayLoadingMs)
     if(order !== "")
         order = "&order=" + order
     if(desc !== "")
@@ -99,8 +103,6 @@ function openDir(dir, order = "", desc = "")
             desc = "&desc=1"
     }
     ajaxRequest("POST", "", `${Date.now()}&dir=${dir}${order}${desc}`, result => {
-        dirLoaded = true
-        loading.style.display = "none"
         if(result !== "false")
         {
             showElements(result)
