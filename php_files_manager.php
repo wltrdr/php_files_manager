@@ -460,10 +460,27 @@ elseif(isset($_POST) && !empty($_POST))
 
                 elseif(isset($_POST['read_file']))
                 {
+                    $name = urldecode($_POST['read_file']);
+
+                    if(@is_file($current . $name))
+                        exit('' . file_get_contents($current . $name));
+                    else
+                        exit('[file_edit_not_found]');
                 }
 
-                elseif(isset($_POST['edit_file']))
+                elseif(isset($_POST['edit_file']) && isset($_POST['name']))
                 {
+                    $name = urldecode($_POST['name']);
+
+                    if(@is_file($current . $name))
+                    {
+                        if(@file_put_contents($current . $name, $_POST['edit_file']))
+                            exit('edited');
+                        else
+                            exit('File not edited');
+                    }
+                    else
+                        exit('File not found');
                 }
 
                 /* CHANGE CHMODS */
