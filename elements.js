@@ -1,29 +1,3 @@
-function leftClickDir(dir)
-{
-    if(isOnMobile === false)
-        openDir(dir)
-}
-
-let timeClicDir = 0
-
-function startClicDir()
-{
-    if(isOnMobile === true)
-        timeClicDir = Date.now()
-}
-
-function endClicDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
-{
-    if(isOnMobile === true && timeClicDir !== 0)
-    {
-        if(Date.now() - timeClicDir > mslongClic)
-            menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
-        else
-            openDir(urlEncoded)
-        timeClicDir = 0
-    }
-}
-
 /* CONTEXT MENUS */
 
 function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
@@ -61,6 +35,34 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl)
     <a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
     <a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
     `, event)
+}
+
+/* CLICK ON ELEMENTS */
+
+function leftClickDir(dir)
+{
+    if(isOnMobile === false)
+        openDir(dir)
+}
+
+let timeClicDir = 0
+
+function startClicDir()
+{
+    if(isOnMobile === true)
+        timeClicDir = Date.now()
+}
+
+function endClicDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
+{
+    if(isOnMobile === true && timeClicDir !== 0)
+    {
+        if(Date.now() - timeClicDir > mslongClic)
+            menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
+        else
+            openDir(urlEncoded)
+        timeClicDir = 0
+    }
 }
 
 /* ADD ACTIONS */
