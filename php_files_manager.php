@@ -7,10 +7,10 @@ $password = 'admin';
 
 function get_user_ip()
 {
-    if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
+    if(isset($_SERVER['HTTP_CF_CONNECTING_IP']))
     {
-        $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-        $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
+        $_SERVER['HTTP_CLIENT_IP'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
     }
 
     $client = @$_SERVER['HTTP_CLIENT_IP'];
@@ -141,8 +141,8 @@ elseif(isset($_GET['download']))
                     clearstatcache();
                     header('Content-Description: File Transfer');
                     header('Content-Type: application/octet-stream');
-                    header("Cache-Control: no-cache, must-revalidate");
-                    header("Expires: 0");
+                    header('Cache-Control: no-cache, must-revalidate');
+                    header('Expires: 0');
                     header('Content-Disposition: attachment; filename="'.basename($file).'"');
                     header('Content-Length: ' . filesize($file));
                     header('Pragma: public');
@@ -573,7 +573,7 @@ elseif(isset($_POST) && !empty($_POST))
                     if(@file_exists($current . $name))
                     {
                         if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
-                            exit("chmoded");
+                            exit('chmoded');
                         else
                             exit('Chmods not updated');
                     }
