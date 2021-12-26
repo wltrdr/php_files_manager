@@ -3,7 +3,7 @@
 function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 {
     if(webUrl === false)
-        webUrl = ''
+        webUrl = ""
     else
         webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
     openMenu(`<span>${name}/</span>
@@ -21,7 +21,7 @@ function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
 function menuFile(name, pathEncoded, nameEncoded, webUrl)
 {
     if(webUrl === false)
-        webUrl = ''
+        webUrl = ""
     else
         webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
     openMenu(`<span>${name}</span>
@@ -44,8 +44,6 @@ function leftClickDir(dir)
     if(isOnMobile === false)
         openDir(dir)
 }
-
-let timeClicDir = 0
 
 function startClicDir()
 {
