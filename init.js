@@ -49,6 +49,7 @@ let dirLoaded
 let typeView = 0
 let typeOrder = 0
 let typeOrderDesc = 0
+let timeClicDir = 0
 let h1Lvl = -1
 
 function onMobile()
