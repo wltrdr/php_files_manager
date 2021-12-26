@@ -498,7 +498,7 @@ elseif(isset($_POST) && !empty($_POST))
 
                     if(@file_exists($current . $name))
                     {
-                        if(@chmod($filename, octdec($_POST['set_chmods'])))
+                        if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
                             exit("chmoded");
                         else
                             exit('Chmods not updated');
