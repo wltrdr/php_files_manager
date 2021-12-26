@@ -1,7 +1,5 @@
-document.body.addEventListener("click", ev => {
+document.body.addEventListener("click", () => {
     popupMenu.style.display = "none"
-    if(disableBodyPrevDef !== true)
-        ev.preventDefault()
 })
 
 document.body.addEventListener("contextmenu", ev => {
@@ -109,20 +107,20 @@ btnSort.addEventListener("click", ev => {
     else
         curAsc = "&#8226; "
     openMenu(`<span>Sort by :</span>
-${html}
-<a class="gap" onclick="openDir(currentPath, '', false)">${curAsc}Ascending</a>
-<a class="" onclick="openDir(currentPath, '', true)">${curDesc}Descending</a>
-`, ev)
+    ${html}
+    <a class="gap" onclick="openDir(currentPath, '', false)">${curAsc}Ascending</a>
+    <a class="" onclick="openDir(currentPath, '', true)">${curDesc}Descending</a>
+    `, ev)
 })
 
 btnCreate.addEventListener("click", ev => {
     openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
-<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
-<a onclick="uploadFiles()">Upload file(s)</a>
-`, ev)
+    <a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
+    <a onclick="uploadFiles()">Upload file(s)</a>
+    `, ev)
 })
 
-inputUpload.addEventListener("change", ev => {
+inputUpload.addEventListener("change", () => {
     getUploadSizes(result => {
         if(result === false)
             openBox("alert", "Error : <b>Cannot get server uploads limits</b>", "err")
@@ -181,7 +179,6 @@ inputUpload.addEventListener("change", ev => {
             }
         }
     })
-    ev.preventDefault()
 })
 
 /* CONNEXION */
