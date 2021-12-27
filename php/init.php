@@ -50,10 +50,16 @@ function show_js_css($type, $name)
 {
     if(isset($_GET[$type]) && isset($_GET[$name]))
     {
-        if($type === 'js')
-            header('Content-Type: application/javascript; charset=utf-8');
-        else
+        if($type === 'css')
+        {
             header('Content-Type: text/css; charset=utf-8');
-        exit(file_get_contents($type . "/$name." . $type));
+            $dir = 'template';
+        }
+        else
+        {
+            header('Content-Type: application/javascript; charset=utf-8');
+            $dir = 'js';
+        }
+        exit(file_get_contents($dir . "/$name." . $type));
     }
 }
