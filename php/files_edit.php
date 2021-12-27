@@ -61,26 +61,25 @@ function copy_move_file($source, $dest, $move = false)
             $dest .= '/';
         $dest_exists = false;
 
-        $name_src_tmp = $name_dst_tmp = $source_name;
-
         if(file_exists($dest . $source_name . $source_extension))
         {
-            $name_src_tmp = $name_dst_tmp = gencode(32);
             $new_name = $source_name;
             $i = 1;
             while(file_exists($dest . $new_name . " ($i)" . $source_extension))
                 $i++;
             $new_name .= " ($i)";
 
-            if($source_path === $dest)
+            if($source_path === $dest && $move === true)
+                return false;
+            elseif($source_path === $dest)
             {
-                if($move === true)
-                    return false;
                 $name_src_tmp = $source_name;
                 $name_dst_tmp = $new_name;
             }
             else
             {
+                $name_src_tmp = $name_dst_tmp = gencode(32);
+
                 if(rename($source, $source_path . $name_src_tmp . $source_extension))
                     $dest_exists = true;
                 else
