@@ -92,3 +92,15 @@ function split_filename($filename)
 
     return array('path' => $path, 'name' => $filename, 'extension' => $extension, 'dot_extension' => $dot);
 }
+
+function show_js_css($type, $name)
+{
+    if(isset($_GET[$type]) && isset($_GET[$name]))
+    {
+        if($type === 'js')
+            header('Content-Type: application/javascript; charset=utf-8');
+        else
+            header('Content-Type: text/css; charset=utf-8');
+        exit(file_get_contents($name . '.' . $type));
+    }
+}
