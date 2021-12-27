@@ -79,7 +79,6 @@ function copy_move_file($source, $dest, $move = false)
             else
             {
                 $name_src_tmp = $name_dst_tmp = gencode(32);
-
                 if(rename($source, $source_path . $name_src_tmp . $source_extension))
                     $dest_exists = true;
                 else
@@ -122,19 +121,17 @@ function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR
             $dest .= '/';
 
         $new_name = $source_name;
-        if(file_exists($dest . $source_name . '/'))
+        if(file_exists($dest . $source_name))
         {
             $i = 1;
-            while(file_exists($dest . $new_name . " ($i)/"))
+            while(file_exists($dest . $new_name . " ($i)"))
                 $i++;
             $new_name .= " ($i)";
-
-            $dest_exists = true;
         }
 
-        if($handle = opendir($source_path . $source_name . '/'))
+        if($handle = opendir($source_path . $source_name))
         {
-            if(mkdir($dest . $new_name . '/'))
+            if(mkdir($dest . $new_name))
             {
                 while(false !== ($entry = readdir($handle)))
                 {
@@ -142,7 +139,7 @@ function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR
                     {
                         if(is_dir($source_path . $source_name . '/' . $entry))
                         {
-                            if(!copy_move_dir($source_path . $source_name . '/' . $entry, $dest . $new_name . '/', $move))
+                            if(!copy_move_dir($source_path . $source_name . '/' . $entry, $dest . $new_name, $move))
                                 return false;
                         }
                         elseif(is_file($source_path . $source_name . '/' . $entry))
@@ -155,7 +152,7 @@ function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR
                     }
                 }
                 closedir($handle);
-                if($move === true && !rm_full_dir($source_path . $source_name . '/'))
+                if($move === true && !rm_full_dir($source_path . $source_name))
                     return false;
                 else
                     return true;
