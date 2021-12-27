@@ -12,50 +12,19 @@ $password = sp_crypt($password);
 if(!isset($_SESSION['token']))
     $_SESSION['token'] = gencode(32);
 
-/* JAVASCRIPT */
+/* JAVASCRIPT & CSS */
 
-if(isset($_GET['js']) && isset ($_GET['init']))
-{
-	header('Content-Type: application/javascript; charset=utf-8');
-    exit(file_get_contents('init.js'));
-}
-elseif(isset($_GET['js']) && isset ($_GET['functions']))
-{
-	header('Content-Type: application/javascript; charset=utf-8');
-    exit(file_get_contents('functions.js'));
-}
-elseif(isset($_GET['js']) && isset ($_GET['boxes']))
-{
-	header('Content-Type: application/javascript; charset=utf-8');
-    exit(file_get_contents('boxes.js'));
-}
-elseif(isset($_GET['js']) && isset ($_GET['elements']))
-{
-	header('Content-Type: application/javascript; charset=utf-8');
-    exit(file_get_contents('elements.js'));
-}
-elseif(isset($_GET['js']) && isset ($_GET['events']))
-{
-	header('Content-Type: application/javascript; charset=utf-8');
-    exit(file_get_contents('events.js'));
-}
-
-/* CSS */
-
-elseif(isset($_GET['css']) && isset ($_GET['style']))
-{
-	header('Content-Type: text/css; charset=utf-8');
-    exit(file_get_contents('style.css'));
-}
-elseif(isset($_GET['css']) && isset ($_GET['images']))
-{
-	header('Content-Type: text/css; charset=utf-8');
-    exit(file_get_contents('images.css'));
-}
+show_js_css('js', 'init');
+show_js_css('js', 'functions');
+show_js_css('js', 'boxes');
+show_js_css('js', 'elements');
+show_js_css('js', 'events');
+show_js_css('css', 'style');
+show_js_css('css', 'images');
 
 /* GET UPLOAD SIZES */
 
-elseif(isset($_GET['get_upload_sizes']))
+if(isset($_GET['get_upload_sizes']))
 {    
     exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
 }
