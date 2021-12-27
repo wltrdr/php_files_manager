@@ -5,7 +5,8 @@ $password = 'admin';
 
 /* SECURITY */
 
-include('init_functions.php');
+include('func_init.php');
+include('func_files_init.php');
 
 $password = sp_crypt($password);
 
@@ -98,7 +99,7 @@ elseif(isset($_POST) && !empty($_POST))
 
         if(isset($_POST['token']))
         {
-            include('actions_functions.php');
+            include('func_files_edit.php');
 
             if($_POST['token'] === $_SESSION['token'])
             {
@@ -319,7 +320,7 @@ elseif(isset($_POST) && !empty($_POST))
         {
             /* RETURN DIR INFORMATIONS */
 
-            include('return_functions.php');
+            include('func_show_elements.php');
 
             /* PATH */
 
