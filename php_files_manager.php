@@ -26,9 +26,7 @@ show_js_css('css', 'images');
 
 include('php/files_init.php');
 if(isset($_GET['get_upload_sizes']))
-{    
     exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
-}
 
 /* DOWNLOAD FILE */
 
