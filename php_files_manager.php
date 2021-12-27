@@ -345,7 +345,7 @@ elseif(isset($_POST) && !empty($_POST))
                     return false;
             }
 
-            function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR EMPTY, USE '../current'
+            function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR EMPTY, USE '../current' INSTEAD
             {
                 $source = no_end_slash($source);
                 if(!empty($source) && $source !== '.' && is_dir($source))
@@ -371,7 +371,6 @@ elseif(isset($_POST) && !empty($_POST))
                         $dest_exists = true;
                     }
 
-                    $unlinks = array();
                     if($handle = opendir($source_path . $source_name))
                     {
                         if(mkdir($dest . $new_name))
@@ -387,12 +386,7 @@ elseif(isset($_POST) && !empty($_POST))
                                     }
                                     elseif(is_file($source_path . $source_name . $entry))
                                     {
-                                        if(copy($source_path . $source_name . $entry, $dest . $new_name . $entry))
-                                        {
-                                            if($move === true)
-                                                $unlinks[] = $source_path . $source_name . $entry;
-                                        }
-                                        else
+                                        if(!copy($source_path . $source_name . $entry, $dest . $new_name . $entry))
                                             return false;
                                     }
                                     else
@@ -400,18 +394,8 @@ elseif(isset($_POST) && !empty($_POST))
                                 }
                             }
                             closedir($handle);
-                            if($move === true)
-                            {
-                                foreach($unlinks as $unlink_file)
-                                {
-                                    if(!unlink($unlink_file))
-                                        return false;
-                                }
-                                if(rmdir($source_path . $source_name))
-                                    return true;
-                                else
-                                    return false;
-                            }
+                            if($move === true && !rm_full_dir($source_path . $source_name))
+                                return false;
                             else
                                 return true;
                         }
@@ -498,46 +482,6 @@ elseif(isset($_POST) && !empty($_POST))
                         exit('renamed');
                     else
                         exit('Not renamed');
-                }
-
-                /* DUPLICATE ELEMENT * /
-
-                elseif(isset($_POST['duplicate']))
-                {
-                    $name = urldecode($_POST['duplicate']);
-
-                    if(@is_file($current . $name))
-                    {
-                        $new_name = split_filename($name);
-                        $extension = $new_name['dot_extension'];
-                        $new_name = $new_name['name'];
-
-                        $i = 1;
-                        while(@file_exists($current . $new_name . " ($i)" . $extension))
-                            $i++;
-
-                        $new_name .= " ($i)" . $extension;
-
-                        if(@copy($current . $name, $current . $new_name))
-                            exit('duplicated');
-                        else
-                            exit('File not duplicated');
-                    }
-                    elseif(@is_dir($current . $name))
-                    {
-                        $i = 1;
-                        while(@file_exists($current . $name . " ($i)"))
-                            $i++;
-
-                        $new_name = $name . " ($i)";
-
-                        if(@copy_move_dir($current . $name, $current . $new_name))
-                            exit('duplicated');
-                        else
-                            exit('Directory not duplicated');
-                    }
-                    else
-                        exit('File not found');
                 }
 
                 /* COPY ELEMENT */
