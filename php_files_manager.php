@@ -162,6 +162,23 @@ elseif(isset($_GET['css']) && isset ($_GET['images']))
     exit(file_get_contents('images.css'));
 }
 
+/* GET UPLOAD SIZES */
+
+elseif(isset($_GET['get_upload_sizes']))
+{
+    function parse_size($size)
+    {
+        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+        $size = preg_replace('/[^0-9\.]/', '', $size);
+        if($unit)
+            return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+        else
+            return round($size);
+    }
+    
+    exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
+}
+
 /* DOWNLOAD FILE */
 
 elseif(isset($_GET['download']))
@@ -229,21 +246,7 @@ elseif(isset($_POST) && !empty($_POST))
 
         /* ACTIONS */
 
-        if(isset($_POST['get_upload_sizes']))
-        {
-            function parse_size($size)
-            {
-                $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
-                $size = preg_replace('/[^0-9\.]/', '', $size);
-                if($unit)
-                    return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-                else
-                    return round($size);
-            }
-            
-            exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
-        }
-        elseif(isset($_POST['token']))
+        if(isset($_POST['token']))
         {
             function rm_full_dir($directory)
             {
@@ -342,7 +345,7 @@ elseif(isset($_POST) && !empty($_POST))
                     return false;
             }
 
-            function copy_move_dir($source, $dest, $move = false) // source cant be empty or '.' => ../current
+            function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR EMPTY, USE '../current'
             {
                 // ajouter array unlink / rmdir pour supprimer a la fin
 
@@ -370,6 +373,7 @@ elseif(isset($_POST) && !empty($_POST))
                         $dest_exists = true;
                     }
 
+                    $unlinks = array();
                     if($handle = opendir($source_path . $source_name))
                     {
                         if(mkdir($dest . $new_name))
@@ -387,8 +391,8 @@ elseif(isset($_POST) && !empty($_POST))
                                     {
                                         if(copy($source_path . $source_name . $entry, $dest . $new_name . $entry))
                                         {
-                                            if($move === true && !unlink($source_path . $source_name . $entry))
-                                                return false;
+                                            if($move === true)
+                                                $unlinks[] = $source_path . $source_name . $entry;
                                         }
                                         else
                                             return false;
@@ -400,6 +404,11 @@ elseif(isset($_POST) && !empty($_POST))
                             closedir($handle);
                             if($move === true)
                             {
+                                foreach($unlinks as $unlink_file)
+                                {
+                                    if(!unlink($unlink_file))
+                                        return false;
+                                }
                                 if(rmdir($source_path . $source_name))
                                     return true;
                                 else
