@@ -180,6 +180,7 @@ elseif(isset($_POST) && !empty($_POST))
                 elseif(isset($_POST['copy']) && isset($_POST['path']))
                 {
                     $name = urldecode($_POST['copy']);
+                    $path = $_POST['path'];
 
                     if(@is_file($current . $name))
                     {
@@ -204,6 +205,7 @@ elseif(isset($_POST) && !empty($_POST))
                 elseif(isset($_POST['move']) && isset($_POST['path']))
                 {
                     $name = urldecode($_POST['move']);
+                    $path = $_POST['path'];
 
                     if(@is_file($current . $name))
                     {
