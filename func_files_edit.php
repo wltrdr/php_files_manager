@@ -171,7 +171,7 @@ function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR
         return false;
 }
 
-function find_chmods($filename) // 33060 => 0444
+function find_chmods($filename)
 {
     if($fileperms = fileperms($filename))
         return substr(sprintf('%o', $fileperms), -4);
