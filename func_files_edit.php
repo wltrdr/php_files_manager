@@ -114,7 +114,7 @@ function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR
     {
         $source_infos = split_dirname($source);
         $source_path = $source_infos['path'];
-        $source_name = $source_infos['name'] . '/';
+        $source_name = $source_infos['name'];
 
         $dest = no_end_slash($dest);
         if(empty($dest) || $dest === '.')
@@ -123,32 +123,32 @@ function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR
             $dest .= '/';
 
         $new_name = $source_name;
-        if(file_exists($dest . $source_name))
+        if(file_exists($dest . $source_name . '/'))
         {
             $i = 1;
-            while(file_exists($dest . $new_name . " ($i)"))
+            while(file_exists($dest . $new_name . " ($i)/"))
                 $i++;
-            $new_name .= " ($i)/";
+            $new_name .= " ($i)";
 
             $dest_exists = true;
         }
 
-        if($handle = opendir($source_path . $source_name))
+        if($handle = opendir($source_path . $source_name . '/'))
         {
-            if(mkdir($dest . $new_name))
+            if(mkdir($dest . $new_name . '/'))
             {
                 while(false !== ($entry = readdir($handle)))
                 {
                     if($entry != '.' && $entry != '..')
                     {
-                        if(is_dir($source_path . $source_name . $entry))
+                        if(is_dir($source_path . $source_name . '/' . $entry))
                         {
-                            if(!copy_move_dir($source_path . $source_name . $entry, $dest . $new_name, $move))
+                            if(!copy_move_dir($source_path . $source_name . '/' . $entry, $dest . $new_name . '/', $move))
                                 return false;
                         }
-                        elseif(is_file($source_path . $source_name . $entry))
+                        elseif(is_file($source_path . $source_name . '/' . $entry))
                         {
-                            if(!copy($source_path . $source_name . $entry, $dest . $new_name . $entry))
+                            if(!copy($source_path . $source_name . '/' . $entry, $dest . $new_name . '/' . $entry))
                                 return false;
                         }
                         else
@@ -156,7 +156,7 @@ function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR
                     }
                 }
                 closedir($handle);
-                if($move === true && !rm_full_dir($source_path . $source_name))
+                if($move === true && !rm_full_dir($source_path . $source_name . '/'))
                     return false;
                 else
                     return true;
