@@ -347,8 +347,6 @@ elseif(isset($_POST) && !empty($_POST))
 
             function copy_move_dir($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR EMPTY, USE '../current'
             {
-                // ajouter array unlink / rmdir pour supprimer a la fin
-
                 $source = no_end_slash($source);
                 if(!empty($source) && $source !== '.' && is_dir($source))
                 {
