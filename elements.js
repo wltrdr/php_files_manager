@@ -87,7 +87,7 @@ function getUploadSizes(callback = false)
 {
     if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
     {
-        ajaxRequest("POST", "", `${Date.now()}&get_upload_sizes`, result => {
+        ajaxRequest("GET", "", `${Date.now()}&get_upload_sizes`, result => {
             const found = result.match(/\[max_upload_sizes=([0-9]+)\|([0-9]+)\]/)
             if(found)
             {
