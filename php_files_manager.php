@@ -657,5 +657,5 @@ elseif(isset($_POST) && !empty($_POST))
 else
 {
 	header('Content-Type: text/html; charset=utf-8');
-    exit(file_get_contents('template.html'));
+    exit(file_get_contents('template/template.html'));
 }
