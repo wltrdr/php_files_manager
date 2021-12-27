@@ -79,7 +79,7 @@ function showBox(txt, icon, inputs, buttons, noForm = true, callback = false)
 function openBox(type, vals, icon = null, callback = false)
 {
     setTimeout(() => {
-        if(type === "alert") // valss (txt) || vals.txt, vals.btn
+        if(type === "alert")
         {
             if(icon === null)
                 icon = "info"
@@ -102,7 +102,7 @@ function openBox(type, vals, icon = null, callback = false)
                 })
             })
         }
-        else if(type === "confirm") // vals (txt) || vals.txt, vals.btnOk, vals.btnNo
+        else if(type === "confirm")
         {
             if(icon === null)
                 icon = "ask"
@@ -131,7 +131,7 @@ function openBox(type, vals, icon = null, callback = false)
                 })
             })
         }
-        else if(type === "prompt") // vals (txt) || vals.txt, vals.value, vals.btnOk, vals.btnNo
+        else if(type === "prompt")
         {
             if(icon === null)
                 icon = "ask"
