@@ -90,30 +90,41 @@ function copy_move_file($source, $dest, $move = false)
             $dest .= '/';
         $dest_exists = false;
 
-        $name_tmp = $source_name;
+        $name_src_tmp = $name_dst_tmp = $source_name;
+
         if(file_exists($dest . $source_name . $source_extension))
         {
-            $name_tmp = gencode(32);
+            $name_src_tmp = $name_dst_tmp = gencode(32);
             $new_name = $source_name;
             $i = 1;
             while(file_exists($dest . $new_name . " ($i)" . $source_extension))
                 $i++;
             $new_name .= " ($i)";
 
-            if(rename($source, $source_path . $name_tmp . $source_extension))
-                $dest_exists = true;
+            if($source_path === $dest)
+            {
+                if($move === true)
+                    return false;
+                $name_src_tmp = $source_name;
+                $name_dst_tmp = $new_name;
+            }
             else
-                return false;
+            {
+                if(rename($source, $source_path . $name_src_tmp . $source_extension))
+                    $dest_exists = true;
+                else
+                    return false;
+            }
         }
 
-        if(copy($source_path . $name_tmp . $source_extension, $dest . $name_tmp . $source_extension))
+        if(copy($source_path . $name_src_tmp . $source_extension, $dest . $name_dst_tmp . $source_extension))
         {
-            if($dest_exists === true && !rename($dest . $name_tmp . $source_extension, $dest . $new_name . $source_extension))
+            if($dest_exists === true && !rename($dest . $name_src_tmp . $source_extension, $dest . $new_name . $source_extension))
                 return false;
 
-            if($move === true && !unlink($source_path . $name_tmp . $source_extension))
+            if($move === true && !unlink($source_path . $name_src_tmp . $source_extension))
                 return false;
-            elseif($move === false && $dest_exists === true && !rename($source_path . $name_tmp . $source_extension, $source))
+            elseif($move === false && $dest_exists === true && !rename($source_path . $name_src_tmp . $source_extension, $source))
                 return false;
             else
                 return true;
