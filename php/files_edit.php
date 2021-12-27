@@ -78,10 +78,10 @@ function copy_move_file($source, $dest, $move = false)
             }
             else
             {
+                $dest_exists = true;
                 $name_src_tmp = $name_dst_tmp = gencode(32);
-                if(rename($source, $source_path . $name_src_tmp . $source_extension))
-                    $dest_exists = true;
-                else
+
+                if(!rename($source, $source_path . $name_src_tmp . $source_extension))
                     return false;
             }
         }
