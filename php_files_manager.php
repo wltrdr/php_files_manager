@@ -456,29 +456,33 @@ elseif(isset($_POST) && !empty($_POST))
 								if($lvl === $nb_dirs - 1)
 									$dir_default = ' treeDefault';
 
-								$dir_enc = urlencode($dirs[$lvl]['path']);
+								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 
-								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
-									
 								$next = true;
 							}
 							else
 							{
+								/* MODIFIER */
 								if(isset($server_dirs[$lvl]['name']) && $server_dirs[$lvl]['name'] === $entry)
 									$dir = $server_dirs[$lvl]['path'];
 								else
 									$dir = $link . $entry . '/';
+								/* MODIFIER */
 
-								$dir_enc = urlencode($dir);
-
-								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"$func_js('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dir) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
 						}
 					}
 					closedir($handle);
 				}
 				if($next === false && isset($dirs[$lvl]['name']))
-					$return .= show_tree($lvl + 1);
+				{
+					$dir_default = '';
+					if($lvl === $nb_dirs - 1)
+						$dir_default = ' treeDefault';
+
+					$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dirs[$lvl]['path']) . '\')"><span class="icon"></span>' . htmlentities($dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n" . show_tree($lvl + 1);
+				}
 
 				return $return;
 			}
