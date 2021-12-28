@@ -610,9 +610,9 @@ elseif(isset($_POST) && !empty($_POST))
 						$arr_order = 'type';
 
 					if($desc === '0')
-						$arr_desc = 'SORT_ASC';
+						$arr_desc = 'ASC';
 					else
-						$arr_desc = 'SORT_DESC';
+						$arr_desc = 'DESC';
 
 					$elems_files = array_sort($elems_files, $arr_order, $arr_desc);
 				}
