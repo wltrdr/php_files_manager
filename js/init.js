@@ -38,7 +38,6 @@ const h1Words = h1Default.split(" ")
 const h1NbWords = h1Words.length
 
 let token
-let currentPath = "."
 let parentPath = "false"
 let history = []
 let historyLevel = 0
