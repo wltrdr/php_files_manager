@@ -467,6 +467,6 @@ else
 	header('Content-Type: text/html; charset=utf-8');
 	$dir = '.';
 	if(isset($_GET['dir']))
-		$dir = htmlentities(($_GET['dir'], ENT_QUOTES);
+		$dir = htmlentities(($_GET['dir'], ENT_QUOTES));
 	exit(str_replace('/*javascript*/', "let currentPath = '$dir'", file_get_contents('template/template.html')));
 }
