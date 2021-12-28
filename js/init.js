@@ -1,10 +1,10 @@
-const mslongClic = 1500		 // TIME OF LONG CLIC ON MOBILE
-const delayLoadingMs = 500	  // TIME BEFORE SHOWING LOADING DURING NAVIGATION
-const delayMenuMs = 50		  // INCREASE IF BUGS ON CONTEXT MENU OR POPUP BOX
+const mslongClic = 1500			// TIME OF LONG CLIC ON MOBILE
+const delayLoadingMs = 500		// TIME BEFORE SHOWING LOADING DURING NAVIGATION
+const delayMenuMs = 50			// INCREASE IF BUGS ON CONTEXT MENU OR POPUP BOX
 const delayH1MobileMs = 1500	// H1 BLINK SPEED ON MOBILE
-const delayBadCnxMs = 150	   // INPUT BLINK SPEED IF BAD PASSWORD
-const delayBadCnxBkMs = 50	  // INPUT HIDING SPEED DURING BLINK IF BAD PASSWORD
-const historyMax = 50		   // MAX ENTRIES IN HISTORY
+const delayBadCnxMs = 150		// INPUT BLINK SPEED IF BAD PASSWORD
+const delayBadCnxBkMs = 50		// INPUT HIDING SPEED DURING BLINK IF BAD PASSWORD
+const historyMax = 50			// MAX ENTRIES IN HISTORY
 
 const loading = document.querySelector("#loading")
 const popupBox = document.querySelector("#popupBox")
