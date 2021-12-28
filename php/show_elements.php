@@ -22,7 +22,7 @@ function css_extension($file)
 	return 'nc';
 }
 
-function array_sort($array, $on, $order = 'SORT_ASC')
+function array_sort($array, $case, $order = 'ASC')
 {
 	$new_array = array();
 	$sortable_array = array();
@@ -30,18 +30,18 @@ function array_sort($array, $on, $order = 'SORT_ASC')
 	{
 		foreach($array as $k => $v)
 		{
-			if (is_array($v))
+			if(is_array($v))
 			{
 				foreach($v as $k2 => $v2)
 				{
-					if ($k2 == $on)
+					if($k2 === $case)
 						$sortable_array[$k] = $v2;
 				}
 			}
 			else
 				$sortable_array[$k] = $v;
 		}
-		if($order === 'SORT_ASC')
+		if($order === 'ASC')
 			asort($sortable_array);
 		else
 			arsort($sortable_array);
