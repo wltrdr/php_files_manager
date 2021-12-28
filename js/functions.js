@@ -1,8 +1,9 @@
 function ajaxRequest(method, url, data, callback)
 {
-	ajaxLoaded = false
+	onLoading = true
+    willBeOnLoading = true
 	setTimeout(() => {
-		if(ajaxLoaded === false)
+		if(onLoading === true)
 			loading.style.display = "block"
 	}, delayLoadingMs)
 
@@ -15,7 +16,8 @@ function ajaxRequest(method, url, data, callback)
 	httpRequest.onreadystatechange = function() {
 		if(httpRequest.readyState === XMLHttpRequest.DONE)
 		{
-			ajaxLoaded = true
+			onLoading = false
+            willBeOnLoading = false
 			loading.style.display = "none"
 
 			if(httpRequest.status === 200)
