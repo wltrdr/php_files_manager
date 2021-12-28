@@ -436,6 +436,7 @@ elseif(isset($_POST) && !empty($_POST))
                 global $dirs;
                 global $nb_dirs;
                 global $tree_only;
+                global $server_dirs;
                 $name = $dirs[$lvl - 1]['name'];
                 $path = $link = $dirs[$lvl - 1]['path'];
     
@@ -453,7 +454,7 @@ elseif(isset($_POST) && !empty($_POST))
                     if($tree_only === false)
                         $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name_html</a><br>\n";
                     else
-                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"document.querySelector('#popupBox input').value = '" . htmlentities($path, ENT_QUOTES) . "'\"><span class=\"icon\"></span>$name_html</a><br>\n";
+                        $return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"boxPathNavigate('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name_html</a><br>\n";
                 }
                 else
                     $return = '';
@@ -473,18 +474,25 @@ elseif(isset($_POST) && !empty($_POST))
                                 if($lvl === $nb_dirs - 1)
                                     $dir_default = ' treeDefault';
 
+                                $url_enc = urlencode($dirs[$lvl]['path']);
                                 if($tree_only === false)
-                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
                                 else
-                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . 'em;" onclick="document.querySelector(\'#popupBox input\').value = \'' . htmlentities($dirs[$lvl]['path'], ENT_QUOTES) . "'\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+                                    $return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
                                 $next = true;
                             }
                             else
                             {
-                                if($tree_only === false)
-                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="openDir(\'' . urlencode($link . $entry . '/') . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+                                if(isset($server_dirs[$lvl]['name']) && $server_dirs[$lvl]['name'] === $entry)
+                                    $dir = $server_dirs[$lvl]['path'];
                                 else
-                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . 'em;" onclick="document.querySelector(\'#popupBox input\').value = \'' . htmlentities($link . $entry . '/', ENT_QUOTES) . "'\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+                                    $dir = $link . $entry . '/';
+
+                                $url_enc = urlencode($dir);
+                                if($tree_only === false)
+                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"openDir('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+                                else
+                                    $return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
                             }
                         }
                     }
