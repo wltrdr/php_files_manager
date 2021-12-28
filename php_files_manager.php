@@ -230,6 +230,7 @@ elseif(isset($_POST) && !empty($_POST))
 				global $dirs;
 				global $nb_dirs;
 				global $cur_rmvs;
+				global $server_dirs;
 				global $nb_server_dirs;
 				$name = $dirs[$lvl - 1]['name'];
 				$path = $link = $dirs[$lvl - 1]['path'];
@@ -271,10 +272,21 @@ elseif(isset($_POST) && !empty($_POST))
 							}
 							else
 							{
-								if($lvl < $nb_server_dirs - $cur_rmvs && $dirs[$lvl]['name'] === $entry)
-									$dir = $dirs[$lvl]['path'];
-								else
-									$dir = $link . $entry . '/';
+								$dir = $link . $entry . '/';
+								if(isset($server_dirs[$lvl]['name']))
+								{
+									if($server_dirs[$lvl]['name'] === $entry)
+									{
+										$parent_on_srv_dirs = true;
+										for($i = 0; $i < $lvl; $i++)
+										{
+											if($server_dirs[$i]['name'] !== $dirs[$i]['name'])
+												$parent_on_srv_dirs = false;
+										}
+										if($parent_on_srv_dirs == true)
+											$dir = $server_dirs[$lvl]['path'];
+									}
+								}
 
 								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dir) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
