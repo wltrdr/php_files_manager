@@ -402,3 +402,11 @@ function openBox(type, vals, icon = null, callback = false)
         }
     }, delayMenuMs)
 }
+
+function boxPathNavigate(dir)
+{
+    document.querySelector("#popupBox input").value = dir
+    ajaxRequest("POST", "", `${Date.now()}&dir=${dir}&tree_only`, result => {
+        document.querySelector("#boxPath .list").innerHTML = result
+    })
+}
