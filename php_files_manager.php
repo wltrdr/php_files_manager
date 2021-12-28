@@ -229,7 +229,8 @@ elseif(isset($_POST) && !empty($_POST))
 				global $tree_only;
 				global $dirs;
 				global $nb_dirs;
-				global $server_dirs;
+				global $cur_rmvs;
+				global $nb_server_dirs;
 				$name = $dirs[$lvl - 1]['name'];
 				$path = $link = $dirs[$lvl - 1]['path'];
 
@@ -266,17 +267,14 @@ elseif(isset($_POST) && !empty($_POST))
 									$dir_default = ' treeDefault';
 
 								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
-
 								$next = true;
 							}
 							else
 							{
-								/* MODIFIER */
-								if(isset($server_dirs[$lvl]['name']) && $server_dirs[$lvl]['name'] === $entry)
-									$dir = $server_dirs[$lvl]['path'];
+								if($lvl < $nb_server_dirs - $cur_rmvs && $dirs[$lvl]['name'] === $entry)
+									$dir = $dirs[$lvl]['path'];
 								else
 									$dir = $link . $entry . '/';
-								/* MODIFIER */
 
 								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dir) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
