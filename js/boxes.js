@@ -185,8 +185,15 @@ function openBox(type, vals, icon = null, callback = false)
 				if(vals.btnNo)
 					btnNo = vals.btnNo
 			}
+            let pathDecoded
+            try {
+                pathDecoded = decodeURIComponent(currentPath)
+            }
+            catch {
+                pathDecoded = currentPath
+            }
 			ajaxRequest("POST", "", `${Date.now()}&dir=${currentPath}&tree_only`, result => {
-				showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" id="pathDecoded" value="${decodeURI(currentPath)}"><input type="hidden" id="pathEncoded" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+				showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" id="pathDecoded" value="${pathDecoded}"><input type="hidden" id="pathEncoded" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
 					try {
 						const boxPath = document.querySelector("#boxPath")
 						boxPath.scrollTop = boxPath.querySelector(".treeDefault").offsetTop - boxPath.querySelector(".list").offsetTop
