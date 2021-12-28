@@ -186,17 +186,27 @@ function openBox(type, vals, icon = null, callback = false)
 					btnNo = vals.btnNo
 			}
 			ajaxRequest("POST", "", `${Date.now()}&dir=${currentPath}&tree_only`, result => {
-				showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+				showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" id="pathDecoded" value="${decodeURI(currentPath)}"><input type="hidden" id="pathEncoded" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
 					try {
 						const boxPath = document.querySelector("#boxPath")
 						boxPath.scrollTop = boxPath.querySelector(".treeDefault").offsetTop - boxPath.querySelector(".list").offsetTop
 					}
 					catch {}
 
-					const input = popupBox.querySelector("input")
+					const inputEncoded = popupBox.querySelector("input#pathEncoded")
+					const inputDecoded = popupBox.querySelector("input#pathDecoded")
+
+                    inputDecoded.addEventListener("input", () => {
+                        try {
+                            inputEncoded.value = encodeURIComponent(inputDecoded.value)
+                        }
+                        catch {
+                            inputEncoded.value = inputDecoded.value
+                        }
+                    })
 
 					popupBox.querySelector("button#y").addEventListener("click", ev => {
-						callback(input.value)
+						callback(inputEncoded.value)
 						closeBox()
 						ev.preventDefault()
 					})
@@ -405,7 +415,14 @@ function openBox(type, vals, icon = null, callback = false)
 
 function boxPathNavigate(dir)
 {
-	document.querySelector("#popupBox input").value = dir
+	document.querySelector("#popupBox input#pathEncoded").value = dir
+    const inputDecoded = document.querySelector("#popupBox input#pathDecoded")
+    try {
+        inputDecoded.value = decodeURIComponent(dir)
+    }
+    catch {
+        inputDecoded.value = dir
+    }
 	ajaxRequest("POST", "", `${Date.now()}&dir=${dir}&tree_only`, result => {
 		document.querySelector("#boxPath .list").innerHTML = result
 	})
