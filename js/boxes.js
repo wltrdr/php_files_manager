@@ -185,24 +185,24 @@ function openBox(type, vals, icon = null, callback = false)
 				if(vals.btnNo)
 					btnNo = vals.btnNo
 			}
-            let pathDecoded
-            try {
-                pathDecoded = decodeURIComponent(currentPath)
-            }
-            catch {
-                pathDecoded = currentPath
-            }
+			let pathDecoded
+			try {
+				pathDecoded = decodeURIComponent(currentPath)
+			}
+			catch {
+				pathDecoded = currentPath
+			}
 			ajaxRequest("POST", "", `${Date.now()}&dir=${currentPath}&tree_only`, result => {
-                const found = result.match(/(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
-                if(found)
-                {
-                    if(found[1] || found[3])
-                        console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
-        
-                    result = found[2]
-                }
-                else
-                    result = "Error : <b>Try to refresh site</b>"
+				const found = result.match(/(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
+				if(found)
+				{
+					if(found[1] || found[3])
+						console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
+		
+					result = found[2]
+				}
+				else
+					result = "Error : <b>Try to refresh site</b>"
 				showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" id="pathDecoded" value="${pathDecoded}"><input type="hidden" id="pathEncoded" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
 					try {
 						const boxPath = document.querySelector("#boxPath")
@@ -213,14 +213,14 @@ function openBox(type, vals, icon = null, callback = false)
 					const inputEncoded = popupBox.querySelector("input#pathEncoded")
 					const inputDecoded = popupBox.querySelector("input#pathDecoded")
 
-                    inputDecoded.addEventListener("input", () => {
-                        try {
-                            inputEncoded.value = encodeURIComponent(inputDecoded.value)
-                        }
-                        catch {
-                            inputEncoded.value = inputDecoded.value
-                        }
-                    })
+					inputDecoded.addEventListener("input", () => {
+						try {
+							inputEncoded.value = encodeURIComponent(inputDecoded.value)
+						}
+						catch {
+							inputEncoded.value = inputDecoded.value
+						}
+					})
 
 					popupBox.querySelector("button#y").addEventListener("click", ev => {
 						callback(inputEncoded.value)
@@ -433,24 +433,24 @@ function openBox(type, vals, icon = null, callback = false)
 function boxPathNavigate(dir)
 {
 	document.querySelector("#popupBox input#pathEncoded").value = dir
-    const inputDecoded = document.querySelector("#popupBox input#pathDecoded")
-    try {
-        inputDecoded.value = decodeURIComponent(dir)
-    }
-    catch {
-        inputDecoded.value = dir
-    }
+	const inputDecoded = document.querySelector("#popupBox input#pathDecoded")
+	try {
+		inputDecoded.value = decodeURIComponent(dir)
+	}
+	catch {
+		inputDecoded.value = dir
+	}
 	ajaxRequest("POST", "", `${Date.now()}&dir=${dir}&tree_only`, result => {
-        const found = result.match(/(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
-        if(found)
-        {
-            if(found[1] || found[3])
-                console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
+		const found = result.match(/(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
+		if(found)
+		{
+			if(found[1] || found[3])
+				console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 
-            result = found[2]
-        }
-        else
-            result = "Error : <b>Try to refresh site</b>"
+			result = found[2]
+		}
+		else
+			result = "Error : <b>Try to refresh site</b>"
 		document.querySelector("#boxPath .list").innerHTML = result
 	})
 }
