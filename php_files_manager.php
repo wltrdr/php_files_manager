@@ -427,21 +427,19 @@ elseif(isset($_POST) && !empty($_POST))
 				if($link === '.')
 					$link = '';
 
+				$func_js = 'openDir';
+				if($tree_only !== false)
+					$func_js = 'boxPathNavigate';
+
+				$return = '';
 				if($lvl === 1)
 				{
 					$dir_default = '';
 					if($nb_dirs === 1)
 						$dir_default = ' treeDefault';
 
-					$name_html = htmlentities($name, ENT_QUOTES);
-
-					if($tree_only === false)
-						$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"openDir('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name_html</a><br>\n";
-					else
-						$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"boxPathNavigate('" . urlencode($path) . "')\"><span class=\"icon\"></span>$name_html</a><br>\n";
+					$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"$func_js('" . urlencode($path) . '\')"><span class="icon"></span>' . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
 				}
-				else
-					$return = '';
 
 				$next = false;
 				if($handle = opendir($path))
@@ -459,10 +457,9 @@ elseif(isset($_POST) && !empty($_POST))
 									$dir_default = ' treeDefault';
 
 								$dir_enc = urlencode($dirs[$lvl]['path']);
-								if($tree_only === false)
-									$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
-								else
-									$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+
+								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+									
 								$next = true;
 							}
 							else
@@ -473,10 +470,8 @@ elseif(isset($_POST) && !empty($_POST))
 									$dir = $link . $entry . '/';
 
 								$dir_enc = urlencode($dir);
-								if($tree_only === false)
-									$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"openDir('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
-								else
-									$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+
+								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"$func_js('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
 						}
 					}
