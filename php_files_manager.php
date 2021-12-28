@@ -374,14 +374,12 @@ elseif(isset($_POST) && !empty($_POST))
 
 			$nb_dirs = 0;
 			$cur_tmp = '';
-
 			for($i = 0; $i < $nb_server_dirs - $cur_rmvs; $i++)
 			{
 				$dirs[$i]['name'] = $server_dirs[$i]['name'];
 				$dirs[$i]['path'] = $cur_tmp = $server_dirs[$i]['path'];
 				$nb_dirs++;
 			}
-
 			if($cur_tmp === '.')
 				$cur_tmp = '';
 
@@ -396,10 +394,6 @@ elseif(isset($_POST) && !empty($_POST))
 				}
 			}
 
-			$parent = 'false';
-			if($nb_dirs > 1)
-				$parent = $dirs[$nb_dirs - 2]['path'];
-
 			$path = '';
 			for($i = 0; $i < $nb_dirs; $i++)
 			{
@@ -410,6 +404,10 @@ elseif(isset($_POST) && !empty($_POST))
 				$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
 			}
 
+			$parent = 'false';
+			if($nb_dirs > 1)
+				$parent = $dirs[$nb_dirs - 2]['path'];
+
 			/* TREE */
 
 			$tree_only = false;
@@ -419,9 +417,9 @@ elseif(isset($_POST) && !empty($_POST))
 
 			function show_tree($lvl = 1)
 			{
+				global $tree_only;
 				global $dirs;
 				global $nb_dirs;
-				global $tree_only;
 				global $server_dirs;
 				$name = $dirs[$lvl - 1]['name'];
 				$path = $link = $dirs[$lvl - 1]['path'];
@@ -460,11 +458,11 @@ elseif(isset($_POST) && !empty($_POST))
 								if($lvl === $nb_dirs - 1)
 									$dir_default = ' treeDefault';
 
-								$url_enc = urlencode($dirs[$lvl]['path']);
+								$dir_enc = urlencode($dirs[$lvl]['path']);
 								if($tree_only === false)
-									$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+									$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"openDir('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 								else
-									$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+									$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 								$next = true;
 							}
 							else
@@ -474,11 +472,11 @@ elseif(isset($_POST) && !empty($_POST))
 								else
 									$dir = $link . $entry . '/';
 
-								$url_enc = urlencode($dir);
+								$dir_enc = urlencode($dir);
 								if($tree_only === false)
-									$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"openDir('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+									$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"openDir('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 								else
-									$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$url_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+									$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"boxPathNavigate('$dir_enc')\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
 						}
 					}
@@ -585,16 +583,16 @@ elseif(isset($_POST) && !empty($_POST))
 					$el_html = htmlentities($elem_dir, ENT_QUOTES);
 
 					if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $server_dirs[$nb_dirs]['name'])
-						$url_enc = urlencode(path_parents($cur_rmvs - 1));
+						$full_path_enc = urlencode(path_parents($cur_rmvs - 1));
 					else
-						$url_enc = urlencode($link . $elem_dir . '/');
+						$full_path_enc = urlencode($link . $elem_dir . '/');
 
 					if($web_view !== false)
 						$web_url = "'" . $web_view . $el_html . "/'";
 					else
 						$web_url = 'false';
 
-					$elements .= "<a class=\"dir\" onclick=\"leftClickDir('$url_enc')\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$url_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+					$elements .= "<a class=\"dir\" onclick=\"leftClickDir('$full_path_enc')\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
 				if($order === '0')
