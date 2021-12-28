@@ -38,13 +38,15 @@ const h1Words = h1Default.split(" ")
 const h1NbWords = h1Words.length
 
 let token
+let currentPath = '.'
 let parentPath = "false"
 let history = []
 let historyLevel = 0
 let disableBodyPrevDef = false
 let uploadMaxFileSize = 0
 let uploadMaxTotalSize = 0
-let ajaxLoaded
+let onLoading = false
+let willBeOnLoading = false
 let typeView = 0
 let typeOrder = 0
 let typeOrderDesc = 0
