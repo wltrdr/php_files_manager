@@ -1,13 +1,13 @@
 /* CONTEXT MENUS */
 
-function menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
+function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl)
 {
 	if(webUrl === false)
 		webUrl = ""
 	else
 		webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
 	openMenu(`<span>${name}/</span>
-	<a onclick="openDir('${urlEncoded}')">Open</a>
+	<a onclick="openDir('${fullPathEncoded}')">Open</a>
 	${webUrl}
 	<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 	<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -51,14 +51,14 @@ function startClicDir()
 		timeClicDir = Date.now()
 }
 
-function endClicDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
+function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl)
 {
 	if(isOnMobile === true && timeClicDir !== 0)
 	{
 		if(Date.now() - timeClicDir > mslongClic)
-			menuDir(name, pathEncoded, nameEncoded, urlEncoded, webUrl)
+			menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl)
 		else
-			openDir(urlEncoded)
+			openDir(fullPathEncoded)
 		timeClicDir = 0
 	}
 }
