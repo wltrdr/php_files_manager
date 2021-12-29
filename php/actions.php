@@ -78,7 +78,7 @@ elseif(isset($_POST['copy']) && isset($_POST['path']))
 
 	if(@file_exists($current . $name))
 	{
-		if(@copy_or_move($current . $name, $path))
+		if(@copy_or_move($current . $name, $path, false))
 			exit('copied');
 		else
 			exit('File or directory not copied');
