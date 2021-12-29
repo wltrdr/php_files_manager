@@ -55,7 +55,7 @@ function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl)
 {
 	if(isOnMobile === true && timeClicDir !== 0)
 	{
-		if(Date.now() - timeClicDir > mslongClic)
+		if(Date.now() - timeClicDir > longClicMs)
 			menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl)
 		else
 			openDir(fullPathEncoded)
