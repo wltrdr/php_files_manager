@@ -45,7 +45,7 @@ function rm_full_dir($directory)
 		return false;
 }
 
-function copy_or_move($source, $dest, $move = false) // SOURCE CANNOT BE '.' OR EMPTY, USE '../current' INSTEAD
+function copy_or_move($source, $dest, $move = false, $if_exists = 0) // $source CANNOT BE '.' OR EMPTY => USE '../current' INSTEAD // IF FILE EXISTS : $if_exists => 0 : DELETE OLD FILE | 1 : RENAME NEW FILE | 2 : RETURN FALSE
 {
 	$source = no_end_slash($source);
 	if(is_file($source))
