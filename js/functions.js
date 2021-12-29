@@ -1,11 +1,14 @@
-function ajaxRequest(method, url, data, callback)
+function ajaxRequest(method, url, data, callback, disableLoading = false)
 {
-	onLoading = true
-	willBeOnLoading = true
-	setTimeout(() => {
-		if(onLoading === true)
-			loading.style.display = "block"
-	}, delayLoadingMs)
+	if(disableLoading === false)
+	{
+		onLoading = true
+		willBeOnLoading = true
+		setTimeout(() => {
+			if(onLoading === true)
+				loading.style.display = "block"
+		}, delayLoadingMs)
+	}
 
 	const httpRequest = new XMLHttpRequest()
 	if(!httpRequest)
@@ -16,9 +19,12 @@ function ajaxRequest(method, url, data, callback)
 	httpRequest.onreadystatechange = function() {
 		if(httpRequest.readyState === XMLHttpRequest.DONE)
 		{
-			onLoading = false
-			willBeOnLoading = false
-			loading.style.display = "none"
+			if(disableLoading === false)
+			{
+				onLoading = false
+				willBeOnLoading = false
+				loading.style.display = "none"
+			}
 
 			if(httpRequest.status === 200)
 				callback(httpRequest.responseText)
@@ -46,7 +52,7 @@ function ajaxRequest(method, url, data, callback)
 
 /* EXPLORER */
 
-function showElements(result)
+function showElements(result, disableFocus = false)
 {
 	const found = result.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\n\/\/!order!\\\\(.*)\n\/\/!desc!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
 	if(found)
@@ -68,11 +74,14 @@ function showElements(result)
 			btnParent.className = "disabled"
 		else
 			btnParent.className = ""
-		try {
-			tree.scrollTop = document.querySelector(".treeDefault").offsetTop - (listTree.offsetTop + parseInt(window.getComputedStyle(document.querySelector(".treeFirst"), null).getPropertyValue("margin-top"), 10))
-		}
-		catch {
-			console.log("%cError : %cUnable to access parent", "color: red;", "color: auto;")
+		if(disableFocus === false)
+		{
+			try {
+				tree.scrollTop = document.querySelector(".treeDefault").offsetTop - (listTree.offsetTop + parseInt(window.getComputedStyle(document.querySelector(".treeFirst"), null).getPropertyValue("margin-top"), 10))
+			}
+			catch {
+				console.log("%cError : %cUnable to access parent", "color: red;", "color: auto;")
+			}
 		}
 		elements.scrollTop = 0
 	}
@@ -93,8 +102,9 @@ function showElements(result)
 	}
 }
 
-function openDir(dir, order = "", desc = "")
+function openDir(dir, order = "", desc = "", disableLoadingFocus = false)
 {
+	timeDirOpened = Date.now()
 	if(order !== "")
 		order = "&order=" + order
 	if(desc !== "")
@@ -107,7 +117,7 @@ function openDir(dir, order = "", desc = "")
 	ajaxRequest("POST", "", `${Date.now()}&dir=${dir}${order}${desc}`, result => {
 		if(result !== "false")
 		{
-			showElements(result)
+			showElements(result, disableLoadingFocus)
 			let nbHistory = history.length
 			if(nbHistory === 0)
 			{
@@ -144,10 +154,15 @@ function openDir(dir, order = "", desc = "")
 			contents.style.display = "none"
 			connexion.style.display = "flex"
 		}
-	})
+	}, disableLoadingFocus)
 }
 
 openDir(currentPath)
+
+setInterval(() => {
+	if(timeDirOpened < Date.now() - BtwRefreshesMs)
+		openDir(currentPath, "", "", true)
+}, checkIntervMs)
 
 function changeView(oldView, newView)
 {
