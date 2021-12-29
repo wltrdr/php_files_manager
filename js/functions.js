@@ -102,7 +102,7 @@ function showElements(result, disableFocus = false)
 	}
 }
 
-function openDir(dir, order = "", desc = "", disableLoadingFocus = false)
+function openDir(dir, disableFocus = false, disableLoading = false, order = "", desc = "")
 {
 	timeDirOpened = Date.now()
 	if(order !== "")
@@ -117,7 +117,7 @@ function openDir(dir, order = "", desc = "", disableLoadingFocus = false)
 	ajaxRequest("POST", "", `${Date.now()}&dir=${dir}${order}${desc}`, result => {
 		if(result !== "false")
 		{
-			showElements(result, disableLoadingFocus)
+			showElements(result, disableFocus)
 			let nbHistory = history.length
 			if(nbHistory === 0)
 			{
@@ -154,14 +154,14 @@ function openDir(dir, order = "", desc = "", disableLoadingFocus = false)
 			contents.style.display = "none"
 			connexion.style.display = "flex"
 		}
-	}, disableLoadingFocus)
+	}, disableLoading)
 }
 
 openDir(currentPath)
 
 setInterval(() => {
 	if(timeDirOpened < Date.now() - BtwRefreshesMs)
-		openDir(currentPath, "", "", true)
+		openDir(currentPath, true, true)
 }, checkIntervMs)
 
 function changeView(oldView, newView)
