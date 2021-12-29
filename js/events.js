@@ -114,9 +114,21 @@ btnSort.addEventListener("click", ev => {
 })
 
 btnCreate.addEventListener("click", ev => {
+	const choices = ["Ask", "Replace", "Rename", "Do nothing"]
+	let html = ""
+
+	choices.forEach((type, i) => {
+		curUpload = ""
+		if(typeUploadExists === i)
+			curUpload = "&#8226; "
+		html += `<a onclick="typeUploadExists = ${i}">${curUpload}${type}</a>\n`
+	})
+
 	openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
 	<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
 	<a onclick="uploadFiles()">Upload file(s)</a>
+	<span class="simple">If file exists :</span>
+	${html}
 	`, ev)
 })
 
