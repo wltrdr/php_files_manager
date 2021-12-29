@@ -262,10 +262,10 @@ function openBox(type, vals, icon = null, callback = false)
 						popupBox.querySelector("button#y").addEventListener("click", ev => {
 							ajaxRequest("POST", "", `${Date.now()}&edit_file=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
 								if(result === "edited")
-									openDir(currentPath)
+									openDir(currentPath, true, true)
 								else
 								{
-									openDir(currentPath)
+									openDir(currentPath, true, true)
 									openBox("alert", "Error : <b>" + result + "</b>", "err")
 								}
 							})
@@ -401,10 +401,10 @@ function openBox(type, vals, icon = null, callback = false)
 						popupBox.querySelector("button#y").addEventListener("click", ev => {
 							ajaxRequest("POST", "", `${Date.now()}&set_chmods=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
 								if(result === "chmoded")
-									openDir(currentPath)
+									openDir(currentPath, true, true)
 								else
 								{
-									openDir(currentPath)
+									openDir(currentPath, true, true)
 									openBox("alert", "Error : <b>" + result + "</b>", "err")
 								}
 							})
