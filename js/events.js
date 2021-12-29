@@ -97,7 +97,7 @@ btnSort.addEventListener("click", ev => {
 		curOrder = ""
 		if(typeOrder === i)
 			curOrder = "&#8226; "
-		html += `<a onclick="openDir(currentPath, ${i}, false)">${curOrder}${type}</a>\n`
+		html += `<a onclick="openDir(currentPath, false, false, ${i}, false)">${curOrder}${type}</a>\n`
 	})
 
 	let curAsc = ""
@@ -108,8 +108,8 @@ btnSort.addEventListener("click", ev => {
 		curAsc = "&#8226; "
 	openMenu(`<span>Sort by :</span>
 	${html}
-	<a class="gap" onclick="openDir(currentPath, '', false)">${curAsc}Ascending</a>
-	<a class="" onclick="openDir(currentPath, '', true)">${curDesc}Descending</a>
+	<a class="gap" onclick="openDir(currentPath, false, false, '', false)">${curAsc}Ascending</a>
+	<a class="" onclick="openDir(currentPath, false, false, '', true)">${curDesc}Descending</a>
 	`, ev)
 })
 
