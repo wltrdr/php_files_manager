@@ -46,10 +46,26 @@ function rm_full_dir($directory)
 }
 
 /*
-$source CANNOT BE '.' OR EMPTY => USE '../current' INSTEAD
-$dest_file_exists : IF FILE EXISTS WHERE THE FILE MUST BE COPIED => 0 : RETURN FALSE | 1 : RENAME NEW FILE | 2 : DELETE OLD FILE
-$dest_dir_exists : IF DIR EXISTS WHERE THE FILE MUST BE COPIED => 0 : RETURN FALSE | 1 : RENAME NEW FILE | 2 : DELETE OLD DIR
-$fusion_dirs : IF DIR EXISTS WHERE THE DIR MUST BE COPIED => 0 : RETURN FALSE | 1 : RENAME NEW FILE | 2 : DELETE OLD DIR (ONLY FOR COPYING DIRS)
+$source :
+	CANNOT BE '.' OR EMPTY => USE '../current' INSTEAD
+$dest_file_exists :
+	(IF TYPE = DIR, ONLY IF $fusion_dirs == 1)
+	IF FILE EXISTS WHERE THE FILE MUST BE COPIED :
+		0 : RETURN FALSE
+		1 : RENAME NEW FILE
+		2 : DELETE EXISTING FILE
+$dest_dir_exists :
+	(IF TYPE = DIR, ONLY IF $fusion_dirs == 1)
+	IF DIR EXISTS WHERE THE FILE MUST BE COPIED :
+		0 : RETURN FALSE
+		1 : RENAME NEW FILE
+		2 : DELETE EXISTING DIR
+$fusion_dirs :
+	IF FILE OR DIR EXISTS WHERE THE DIR MUST BE COPIED :
+		0 : RETURN FALSE
+		1 : FUSION DIRS IF DIR, RENAME NEW DIR IF EXISTING IS FILE
+		2 : RENAME NEW DIR IF EXISTING IS DIR OR FILE
+		3 : DELETE EXISTING DIR OR FILE (ONLY FOR COPYING DIRS)
 */
 function copy_or_move($source, $dest, $move = false, $dest_file_exists = 0, $dest_dir_exists = 0, $fusion_dirs = 0)
 {
@@ -142,61 +158,60 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 0, $des
 			$dest .= '/';
 
 		$new_name = $source_name;
+		$create_dir = true;
+
 		if(file_exists($dest . $source_name))
 		{
-			$i = 1;
-			while(file_exists($dest . $new_name . " ($i)"))
-				$i++;
-			$new_name .= " ($i)";
+			if($fusion_dirs === 0)
+				return false;
+			else
+			{
+				if(is_dir($dest . $source_name))
+					$is_file = false;
+				elseif(is_file($dest . $source_name))
+					$is_file = true;
+				else
+					return false;
+
+				if($fusion_dirs === 3 && $is_file === false)
+				{
+					if(!rm_full_dir($dest . $source_name))
+						return false;
+				}
+				elseif($fusion_dirs === 3 && $is_file === true)
+				{
+					if(!unlink($dest . $source_name))
+						return false;
+				}
+				elseif($fusion_dirs === 1 && $is_file === false)
+					$create_dir = false;
+				else
+				{
+					$i = 1;
+					while(file_exists($dest . $new_name . " ($i)"))
+						$i++;
+					$new_name .= " ($i)";
+				}
+			}
 		}
 
 		if($handle = opendir($source_path . $source_name))
 		{
-			if(mkdir($dest . $new_name))
+			if($create_dir === false || ($create_dir === true && mkdir($dest . $new_name)))
 			{
 				while(false !== ($entry = readdir($handle)))
 				{
 					if($entry != '.' && $entry != '..')
 					{
-						if(is_dir($source_path . $source_name . '/' . $entry))
-						{
-							if(!copy_or_move($source_path . $source_name . '/' . $entry, $dest . $new_name, $move, $dest_file_exists, $dest_dir_exists, $fusion_dirs))
-								return false;
-						}
-						elseif(is_file($source_path . $source_name . '/' . $entry))
-						{
-							if(!copy($source_path . $source_name . '/' . $entry, $dest . $new_name . '/' . $entry))
-								return false;
-/*
-							if(copy($source_path . $source_name . '/' . $entry, $dest . $new_name . '/' . $entry))
-							{
-								if($move === true && !unlink($source_path . $source_name . '/' . $entry))
-									return false;
-							}
-							else
-								return false;
-*/
-						}
-						else
+						if(!copy_or_move($source_path . $source_name . '/' . $entry, $dest . $new_name, $move, $dest_file_exists, $dest_dir_exists, $fusion_dirs))
 							return false;
 					}
 				}
 				closedir($handle);
-				if($move === true && !rm_full_dir($source_path . $source_name))
+				if($move === true && !rmdir($source_path . $source_name))
 					return false;
 				else
 					return true;
-/*
-				if($move === true)
-				{
-					if(rmdir($source_path . $source_name))
-						return true;
-					else
-						return false;
-				}
-				else
-					return true;
-*/
 			}
 			else
 				return false;
