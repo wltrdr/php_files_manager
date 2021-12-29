@@ -69,6 +69,24 @@ elseif(isset($_POST['rename']) && isset($_POST['name']))
 		exit('Not renamed');
 }
 
+/* DUPLICATE ELEMENT */
+
+elseif(isset($_POST['duplicate']) && isset($_POST['path']))
+{
+	$name = urldecode($_POST['duplicate']);
+	$path = $_POST['path'];
+
+	if(@file_exists($current . $name))
+	{
+		if(@copy_or_move($current . $name, $path, false, 1, 1, 2))
+			exit('duplicated');
+		else
+			exit('File or directory not duplicated');
+	}
+	else
+		exit('File or directory not found');
+}
+
 /* COPY ELEMENT */
 
 elseif(isset($_POST['copy']) && isset($_POST['path']))
@@ -78,7 +96,7 @@ elseif(isset($_POST['copy']) && isset($_POST['path']))
 
 	if(@file_exists($current . $name))
 	{
-		if(@copy_or_move($current . $name, $path, false))
+		if(@copy_or_move($current . $name, $path, false, 1, 1, 1))
 			exit('copied');
 		else
 			exit('File or directory not copied');
@@ -96,7 +114,7 @@ elseif(isset($_POST['move']) && isset($_POST['path']))
 
 	if(@file_exists($current . $name))
 	{
-		if(@copy_or_move($current . $name, $path, true))
+		if(@copy_or_move($current . $name, $path, true, 1, 1, 1))
 			exit('moved');
 		else
 			exit('File or directory not moved');
