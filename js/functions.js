@@ -60,6 +60,9 @@ function showElements(result, disableFocus = false)
 		if(found[1] || found[10])
 			console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[10].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 
+		const scrollTree = tree.scrollTop
+		const scrollElems = elements.scrollTop
+
 		connexion.style.display = "none"
 		contents.style.display = "flex"
 		token = found[2]
@@ -74,7 +77,12 @@ function showElements(result, disableFocus = false)
 			btnParent.className = "disabled"
 		else
 			btnParent.className = ""
-		if(disableFocus === false)
+		if(disableFocus === true)
+		{
+			tree.scrollTop = scrollTree
+			elements.scrollTop = scrollElems
+		}
+		else
 		{
 			try {
 				tree.scrollTop = document.querySelector(".treeDefault").offsetTop - (listTree.offsetTop + parseInt(window.getComputedStyle(document.querySelector(".treeFirst"), null).getPropertyValue("margin-top"), 10))
@@ -82,8 +90,8 @@ function showElements(result, disableFocus = false)
 			catch {
 				console.log("%cError : %cUnable to access parent", "color: red;", "color: auto;")
 			}
+			elements.scrollTop = 0
 		}
-		elements.scrollTop = 0
 	}
 	else
 	{
