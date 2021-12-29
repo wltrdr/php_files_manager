@@ -73,10 +73,10 @@ function newElement(type, name)
 	{
 		ajaxRequest("POST", "", `${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, result => {
 			if(result === "created")
-				openDir(currentPath)
+				openDir(currentPath, true)
 			else
 			{
-				openDir(currentPath)
+				openDir(currentPath, true)
 				openBox("alert", "Error : <b>" + result + "</b>", "err")
 			}
 		})
@@ -135,10 +135,10 @@ function renameElement(path, oldName, newName)
 	{
 		ajaxRequest("POST", "", `${Date.now()}&rename=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
 			if(result === "renamed")
-				openDir(currentPath)
+				openDir(currentPath, true)
 			else
 			{
-				openDir(currentPath)
+				openDir(currentPath, true)
 				openBox("alert", "Error : <b>" + result + "</b>", "err")
 			}
 		})
@@ -149,10 +149,10 @@ function duplicateElement(path, name)
 {
 	ajaxRequest("POST", "", `${Date.now()}&duplicate=${name}&dir=${path}&path=${path}&token=${token}`, result => {
 		if(result === "duplicated")
-			openDir(currentPath)
+			openDir(currentPath, true)
 		else
 		{
-			openDir(currentPath)
+			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
@@ -162,10 +162,10 @@ function copyElement(path, name, newPath)
 {
 	ajaxRequest("POST", "", `${Date.now()}&copy=${name}&dir=${path}&path=${newPath}&token=${token}`, result => {
 		if(result === "copied")
-			openDir(currentPath)
+			openDir(currentPath, true)
 		else
 		{
-			openDir(currentPath)
+			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
@@ -175,10 +175,10 @@ function moveElement(path, name, newPath)
 {
 	ajaxRequest("POST", "", `${Date.now()}&move=${name}&dir=${path}&path=${newPath}&token=${token}`, result => {
 		if(result === "moved")
-			openDir(currentPath)
+			openDir(currentPath, true)
 		else
 		{
-			openDir(currentPath)
+			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
@@ -188,10 +188,10 @@ function deleteElement(path, name)
 {
 	ajaxRequest("POST", "", `${Date.now()}&delete=${name}&dir=${path}&token=${token}`, result => {
 		if(result === "deleted")
-			openDir(currentPath)
+			openDir(currentPath, true)
 		else
 		{
-			openDir(currentPath)
+			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
