@@ -111,15 +111,6 @@ function getUploadSizes(callback = false)
 
 getUploadSizes()
 
-function uploadFiles()
-{
-	disableBodyPrevDef = true
-	setTimeout(() => {
-		inputUpload.click()
-		disableBodyPrevDef = false
-	}, delayMenuMs)
-}
-
 /* OTHER ACTIONS */
 
 function downloadElement(path, name)
