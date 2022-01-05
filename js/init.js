@@ -45,7 +45,6 @@ let parentPath = "false"
 let timeDirOpened = 0
 let history = []
 let historyLevel = 0
-let disableBodyPrevDef = false
 let uploadMaxFileSize = 0
 let uploadMaxTotalSize = 0
 let onLoading = false
