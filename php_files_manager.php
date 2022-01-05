@@ -46,7 +46,7 @@ elseif(isset($_GET['download']))
 				if($dir === '.')
 					$dir = '';
 				$file = $dir . urldecode($_GET['download']);
-				if(is_file($file))
+				if(is_file($file) || is_link($file))
 				{
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
@@ -383,8 +383,8 @@ elseif(isset($_POST) && !empty($_POST))
 							else
 							{
 								$elems_files[$nb_files]['name'] = $entry;
-								$elems_files[$nb_files]['time'] = @filemtime($link . $entry);
-								$elems_files[$nb_files]['size'] = @filesize($link . $entry);
+								$elems_files[$nb_files]['time'] = filemtime($link . $entry);
+								$elems_files[$nb_files]['size'] = filesize($link . $entry);
 								$elems_files[$nb_files]['type'] = split_filename($entry)['extension'];
 								$nb_files++;
 							}
@@ -416,27 +416,21 @@ elseif(isset($_POST) && !empty($_POST))
 					$elements .= "<a class=\"dir\" onclick=\"leftClickDir('$full_path_enc')\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
-				if($order === '0')
-				{
-					if($desc === '1')
-						$elems_files = array_reverse($elems_files);
-				}
+				if($order === '1')
+					$arr_order = 'time';
+				elseif($order === '2')
+					$arr_order = 'size';
+				elseif($order === '3')
+					$arr_order = 'type';
 				else
-				{
-					if($order === '1')
-						$arr_order = 'time';
-					elseif($order === '2')
-						$arr_order = 'size';
-					else
-						$arr_order = 'type';
+					$arr_order = 'name';
 
-					if($desc === '0')
-						$arr_desc = 'ASC';
-					else
-						$arr_desc = 'DESC';
+				if($desc === '1')
+					$arr_desc = 'DESC';
+				else
+					$arr_desc = 'ASC';
 
-					$elems_files = array_sort($elems_files, $arr_order, $arr_desc);
-				}
+				$elems_files = array_sort($elems_files, $arr_order, $arr_desc);
 
 				if(isset($elems_files))
 				{
@@ -450,7 +444,7 @@ elseif(isset($_POST) && !empty($_POST))
 						else
 							$web_url = 'false';
 
-						$elements .= '<a class="'. htmlentities(css_extension($elem_file['name']), ENT_QUOTES) . "\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . @size_of_file($elem_file['size']) . '</span><span class="date">' . @date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+						$elements .= '<a class="'. htmlentities(css_extension($elem_file['name']), ENT_QUOTES) . "\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
 					}
 				}
 
