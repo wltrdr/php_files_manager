@@ -383,8 +383,9 @@ elseif(isset($_POST) && !empty($_POST))
 					$desc_dirs = $desc;
 
 				$elems_files = array();
+				$nb_el_files = 0;
 				$elems_dirs = array();
-				$nb_files = 0;
+				$nb_el_dirs = 0;
 				if($handle = opendir($current))
 				{
 					while(false !== ($entry = readdir($handle)))
@@ -392,14 +393,19 @@ elseif(isset($_POST) && !empty($_POST))
 						if($entry != '.' && $entry != '..')
 						{
 							if(is_dir($link . $entry))
-								$elems_dirs[] = $entry;
+							{
+								$elems_dirs[$nb_el_dirs]['name'] = $entry;
+								$elems_dirs[$nb_el_dirs]['link'] = is_link($link . $entry);
+								$nb_el_dirs++;
+							}
 							else
 							{
-								$elems_files[$nb_files]['name'] = $entry;
-								$elems_files[$nb_files]['time'] = filemtime($link . $entry);
-								$elems_files[$nb_files]['size'] = filesize($link . $entry);
-								$elems_files[$nb_files]['type'] = split_filename($entry)['extension'];
-								$nb_files++;
+								$elems_files[$nb_el_files]['name'] = $entry;
+								$elems_files[$nb_el_files]['time'] = filemtime($link . $entry);
+								$elems_files[$nb_el_files]['size'] = filesize($link . $entry);
+								$elems_files[$nb_el_files]['type'] = split_filename($entry)['extension'];
+								$elems_files[$nb_el_files]['link'] = is_link($link . $entry);
+								$nb_el_files++;
 							}
 						}
 					}
@@ -409,24 +415,30 @@ elseif(isset($_POST) && !empty($_POST))
 				$elements = '';
 
 				if($desc_dirs === '1')
-					$elems_dirs = array_reverse($elems_dirs);
+					$elems_dirs = array_sort($elems_dirs, 'name', 'DESC');
+				else
+					$elems_dirs = array_sort($elems_dirs, 'name');
 
 				foreach($elems_dirs as $elem_dir)
 				{
-					$el_enc = urlencode($elem_dir);
-					$el_html = htmlentities($elem_dir, ENT_QUOTES);
+					$el_enc = urlencode($elem_dir['name']);
+					$el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
 
-					if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir === $server_dirs[$nb_dirs]['name'])
+					if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir['name'] === $server_dirs[$nb_dirs]['name'])
 						$full_path_enc = urlencode(path_parents($cur_rmvs - 1));
 					else
-						$full_path_enc = urlencode($link . $elem_dir . '/');
+						$full_path_enc = urlencode($link . $elem_dir['name'] . '/');
 
 					if($web_view !== false)
 						$web_url = "'" . $web_view . $el_html . "/'";
 					else
 						$web_url = 'false';
 
-					$elements .= "<a class=\"dir\" onclick=\"leftClickDir('$full_path_enc')\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+					$link_icon = 'dir';
+					if($elem_dir['link'])
+						$link_icon = 'linkdir';
+
+					$elements .= "<a class=\"$link_icon\" onclick=\"leftClickDir('$full_path_enc')\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
 				if($order === '1')
@@ -457,7 +469,12 @@ elseif(isset($_POST) && !empty($_POST))
 						else
 							$web_url = 'false';
 
-						$elements .= '<a class="'. htmlentities(css_extension($elem_file['name']), ENT_QUOTES) . "\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+						if($elem_file['link'])
+							$link_icon = 'linkfile';
+						else
+							$link_icon = css_extension($elem_file['name']);
+
+						$elements .= "<a class=\"$link_icon\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
 					}
 				}
 
