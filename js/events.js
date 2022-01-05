@@ -126,7 +126,7 @@ btnCreate.addEventListener("click", ev => {
 
 	openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
 	<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
-	<a onclick="uploadFiles()">Upload file(s)</a>
+	<a onclick="inputUpload.click()">Upload file(s)</a>
 	<span class="simple">If file exists :</span>
 	${html}
 	`, ev)
