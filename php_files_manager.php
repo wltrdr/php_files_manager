@@ -449,10 +449,14 @@ elseif(isset($_POST) && !empty($_POST))
 						$web_url = 'false';
 
 					$link_icon = 'dir';
+					$link_js = 'false';
 					if($elem_dir['link'])
+					{
 						$link_icon = 'linkdir';
+						$link_js = 'true';
+					}
 
-					$elements .= "<a class=\"$link_icon\" onclick=\"leftClickDir('$full_path_enc')\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+					$elements .= "<a class=\"$link_icon\" onclick=\"leftClickDir('$full_path_enc', $link_js)\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
 				if($order === '1')
@@ -484,11 +488,17 @@ elseif(isset($_POST) && !empty($_POST))
 							$web_url = 'false';
 
 						if($elem_file['link'])
+						{
 							$link_icon = 'linkfile';
+							$link_js = 'true';
+						}
 						else
+						{
 							$link_icon = css_extension($elem_file['name']);
+							$link_js = 'false';
+						}
 
-						$elements .= "<a class=\"$link_icon\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+						$elements .= "<a class=\"$link_icon\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
 					}
 				}
 
