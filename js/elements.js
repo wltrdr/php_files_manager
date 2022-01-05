@@ -18,7 +18,7 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 		<a onclick="openBox('chmods', { name: '${name}/', nameEncoded: '${nameEncoded}' })">Change chmods</a>
 		`, event)
 	else
-		openMenu(`<span>${name}/</span>
+		openMenu(`<span>${name}</span>
 		<a onclick="openDir('${fullPathEncoded}')">Open the target directory</a>
 		${webUrl}
 		<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
