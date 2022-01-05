@@ -67,25 +67,24 @@ $fusion_dirs :
 */
 function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $dest_dir_exists = 1, $fusion_dirs = 1)
 {
-	$source = no_end_slash($source);
-	$source_infos = split_filename($source);
-	$source_path = $source_infos['path'];
-	$source_name = $source_infos['name'];
-	$extension = $source_infos['dot_extension'];
-
 	$dest = no_end_slash($dest);
 	if(empty($dest) || $dest === '.')
 		$dest = '';
 	else
 		$dest .= '/';
 
-	if($source_path === $dest && $move === true)
-		return false;
-	elseif(is_file($source) || is_link($source))
+	if(is_file($source) || is_link($source))
 	{
+		$source = no_end_slash($source);
+		$source_infos = split_filename($source);
+		$source_path = $source_infos['path'];
+		$source_name = $source_infos['name'];
+		$extension = $source_infos['dot_extension'];
 		$dest_name = $source_name;
 
-		if(file_exists($dest . $source_name . $extension))
+		if($source_path === $dest && $move === true)
+			return false;
+		elseif(file_exists($dest . $source_name . $extension))
 		{
 			if(is_file($dest . $source_name . $extension) || is_link($dest . $source_name . $extension))
 				$is_file = true;
@@ -124,11 +123,16 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 	}
 	elseif(!empty($source) && $source !== '.' && is_dir($source))
 	{
-		$source_name .= $extension;
+		$source = no_end_slash($source);
+		$source_infos = split_dirname($source);
+		$source_path = $source_infos['path'];
+		$source_name = $source_infos['name'];
 		$dest_name = $source_name;
 		$create_dir = true;
 
-		if(file_exists($dest . $source_name))
+		if($source_path === $dest && $move === true)
+			return false;
+		elseif(file_exists($dest . $source_name))
 		{
 			if($fusion_dirs === 0)
 				return false;
