@@ -68,7 +68,7 @@ function startClicDir()
 		timeClicDir = Date.now()
 }
 
-function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false)
 {
 	if(isOnMobile === true && timeClicDir !== 0)
 	{
@@ -81,24 +81,6 @@ function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isL
 }
 
 /* ADD ACTIONS */
-
-function newElement(type, name)
-{
-	if(name === "")
-		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
-	else
-	{
-		ajaxRequest("POST", "", `${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, result => {
-			if(result === "created")
-				openDir(currentPath, true)
-			else
-			{
-				openDir(currentPath, true)
-				openBox("alert", "Error : <b>" + result + "</b>", "err")
-			}
-		})
-	}
-}
 
 function getUploadSizes(callback = false)
 {
@@ -127,6 +109,24 @@ function getUploadSizes(callback = false)
 }
 
 getUploadSizes()
+
+function newElement(type, name)
+{
+	if(name === "")
+		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
+	else
+	{
+		ajaxRequest("POST", "", `${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, result => {
+			if(result === "created")
+				openDir(currentPath, true)
+			else
+			{
+				openDir(currentPath, true)
+				openBox("alert", "Error : <b>" + result + "</b>", "err")
+			}
+		})
+	}
+}
 
 /* OTHER ACTIONS */
 
