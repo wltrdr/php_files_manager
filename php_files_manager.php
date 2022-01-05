@@ -15,6 +15,20 @@ if(!isset($_SESSION['token']))
 
 /* JAVASCRIPT & CSS */
 
+function show_js_css($type, $name) {
+	if(isset($_GET[$type]) && isset($_GET[$name])) {
+		if($type === 'css') {
+			header('Content-Type: text/css; charset=utf-8');
+			$dir = 'template';
+		}
+		else {
+			header('Content-Type: application/javascript; charset=utf-8');
+			$dir = 'js';
+		}
+		exit(file_get_contents($dir . "/$name." . $type));
+	}
+}
+
 show_js_css('js', 'init');
 show_js_css('js', 'functions');
 show_js_css('js', 'boxes');
