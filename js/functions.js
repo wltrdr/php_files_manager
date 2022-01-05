@@ -137,7 +137,7 @@ function openDir(dir, disableFocus = false, disableLoading = false, order = "", 
 			}
 			else
 			{
-				if(dir !== history[nbHistory - historyLevel - 1]) // ISN'T A REFRESH
+				if(dir !== history[nbHistory - historyLevel - 1]) // ISN’T A REFRESH
 				{
 					if(historyLevel > 0)
 					{
