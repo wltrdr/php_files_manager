@@ -1,5 +1,6 @@
 <?php
 session_start();
+clearstatcache();
 
 $password = 'admin';
 
@@ -47,7 +48,6 @@ elseif(isset($_GET['download']))
 				$file = $dir . urldecode($_GET['download']);
 				if(is_file($file))
 				{
-					clearstatcache();
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
 					header('Cache-Control: no-cache, must-revalidate');
