@@ -260,7 +260,7 @@ elseif(isset($_POST) && !empty($_POST))
 				{
 					while(false !== ($entry = readdir($handle)))
 					{
-						if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/'))
+						if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/') && !is_link($link . $entry))
 						{
 							$entry_html = htmlentities($entry, ENT_QUOTES);
 
@@ -296,6 +296,18 @@ elseif(isset($_POST) && !empty($_POST))
 						}
 					}
 					closedir($handle);
+				}
+				else
+				{
+					$dir_default = '';
+					if($lvl === $nb_dirs - 1)
+						$dir_open = 'Open treeDefault';
+
+					$return .= "<a class=\"dir$dir_open\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($server_dirs[$lvl]['path']) . '\')"><span class="icon"></span>' . htmlentities($server_dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n";
+
+					if(isset($dirs[$lvl]))
+						$return .= show_tree($lvl + 1);
+					$next = true;
 				}
 				if($next === false && isset($dirs[$lvl]['name']))
 				{
