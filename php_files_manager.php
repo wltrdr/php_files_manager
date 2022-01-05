@@ -382,6 +382,7 @@ elseif(isset($_POST) && !empty($_POST))
 				if($order === '0')
 					$desc_dirs = $desc;
 
+				$elems_files = array();
 				$elems_dirs = array();
 				$nb_files = 0;
 				if($handle = opendir($current))
