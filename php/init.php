@@ -45,21 +45,3 @@ function gencode($nb)
 		$return .= $cars[mt_rand(0, $mt_max)];
 	return $return;
 }
-
-function show_js_css($type, $name)
-{
-	if(isset($_GET[$type]) && isset($_GET[$name]))
-	{
-		if($type === 'css')
-		{
-			header('Content-Type: text/css; charset=utf-8');
-			$dir = 'template';
-		}
-		else
-		{
-			header('Content-Type: application/javascript; charset=utf-8');
-			$dir = 'js';
-		}
-		exit(file_get_contents($dir . "/$name." . $type));
-	}
-}
