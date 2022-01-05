@@ -19,7 +19,7 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 		`, event)
 	else
 		openMenu(`<span>${name}</span>
-		<a onclick="openDir('${fullPathEncoded}')">Open the target directory</a>
+		<a onclick="openDir('${fullPathEncoded}')">Open</a>
 		${webUrl}
 		<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 		<a onclick="openBox('confirm', 'Delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
