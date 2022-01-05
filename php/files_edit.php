@@ -10,7 +10,7 @@ function rm_full_dir($directory)
 	else
 		$path = $directory . '/';
 
-	if(is_dir($directory))
+	if(is_dir($directory) && !is_link($directory))
 	{
 		if($handle = opendir($directory))
 		{
@@ -18,14 +18,14 @@ function rm_full_dir($directory)
 			{
 				if($entry != '.' && $entry != '..')
 				{
-					if(is_dir($path . $entry))
-					{
-						if(!rm_full_dir($path . $entry))
-							return false;
-					}
-					elseif(is_file($path . $entry) || is_link($path . $entry))
+					if(is_file($path . $entry) || is_link($path . $entry))
 					{
 						if(!unlink($path . $entry))
+							return false;
+					}
+					elseif(is_dir($path . $entry))
+					{
+						if(!rm_full_dir($path . $entry))
 							return false;
 					}
 					else
@@ -87,23 +87,23 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 
 		if(file_exists($dest . $source_name . $extension))
 		{
-			if(is_dir($dest . $source_name . $extension))
-				$is_file = false;
-			elseif(is_file($dest . $source_name . $extension) || is_link($dest . $source_name . $extension))
+			if(is_file($dest . $source_name . $extension) || is_link($dest . $source_name . $extension))
 				$is_file = true;
+			elseif(is_dir($dest . $source_name . $extension))
+				$is_file = false;
 			else
 				return false;
 
 			if(($is_file === false && $dest_dir_exists === 0) || ($is_file === true && $dest_file_exists === 0))
 				return false;
-			elseif($is_file === false && $dest_dir_exists === 2)
-			{
-				if(!rm_full_dir($dest . $source_name . $extension))
-					return false;
-			}
 			elseif($is_file === true && $dest_file_exists === 2)
 			{
 				if(!unlink($dest . $source_name . $extension))
+					return false;
+			}
+			elseif($is_file === false && $dest_dir_exists === 2)
+			{
+				if(!rm_full_dir($dest . $source_name . $extension))
 					return false;
 			}
 			else
@@ -134,18 +134,18 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 				return false;
 			else
 			{
-				if(is_dir($dest . $source_name))
-					$is_file = false;
-				elseif(is_file($dest . $source_name) || is_link($dest . $source_name))
+				if(is_file($dest . $source_name) || is_link($dest . $source_name))
 					$is_file = true;
+				elseif(is_dir($dest . $source_name))
+					$is_file = false;
 				else
 					return false;
 
 				if($fusion_dirs === 3)
 				{
-					if($is_file === false && !rm_full_dir($dest . $source_name))
+					if($is_file === true && !unlink($dest . $source_name))
 						return false;
-					elseif($is_file === true && !unlink($dest . $source_name))
+					elseif($is_file === false && !rm_full_dir($dest . $source_name))
 						return false;
 				}
 				elseif($fusion_dirs === 1 && $is_file === false)
