@@ -2,7 +2,7 @@
 session_start();
 clearstatcache();
 
-$password = 'admin';
+$password = 'mindja!';
 
 /* SECURITY */
 
