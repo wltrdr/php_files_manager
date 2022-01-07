@@ -97,6 +97,8 @@ function openBox(type, vals, icon = null, callback = false)
 				input.focus()
 
 				popupBox.querySelector("button").addEventListener("click", ev => {
+					if(callback !== false)
+						callback()
 					closeBox()
 					ev.preventDefault()
 				})
@@ -120,7 +122,8 @@ function openBox(type, vals, icon = null, callback = false)
 			}
 			showBox(txt, icon, "", `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, true, () => {
 				popupBox.querySelector("button#y").addEventListener("click", ev => {
-					callback()
+					if(callback !== false)
+						callback()
 					closeBox()
 					ev.preventDefault()
 				})
@@ -158,7 +161,8 @@ function openBox(type, vals, icon = null, callback = false)
 				input.value = tmp
 
 				popupBox.querySelector("button#y").addEventListener("click", ev => {
-					callback(input.value)
+					if(callback !== false)
+						callback(input.value)
 					closeBox()
 					ev.preventDefault()
 				})
@@ -223,7 +227,8 @@ function openBox(type, vals, icon = null, callback = false)
 					})
 
 					popupBox.querySelector("button#y").addEventListener("click", ev => {
-						callback(inputEncoded.value)
+						if(callback !== false)
+							callback(inputEncoded.value)
 						closeBox()
 						ev.preventDefault()
 					})
