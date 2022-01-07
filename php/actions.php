@@ -42,25 +42,29 @@ if(isset($_FILES['upload']))
 				{
 					if(@is_file($current . $name) || @is_link($current . $name))
 					{
-						if(@unlink($current . $name))
+						if(@!unlink($current . $name))
 							$return .= "\n$name_html</b> cannot be deleted<b><br><br>";
 					}
 					else
 					{
-						if(@rm_full_dir($current . $name))
+						if(@!rm_full_dir($current . $name))
 							$return .= "\n$name_html/</b> cannot be deleted<b><br><br>";
 					}
 				}
 				elseif($_POST['exists'] === '2')
 				{
+					$name = split_filename($name);
+					$extension = $name['dot_extension'];
+					$name = $name['name'];
 					$j = 1;
-					while(file_exists($current . $name . '.bak' . add_zeros($j)))
+					while(file_exists($current . $name . '.bak' . add_zeros($j) . $extension))
 						$j++;
-					if(@!rename($current . $name, $current . $name . '.bak' . add_zeros($j)))
+					if(@!rename($current . $name . $extension, $current . $name . '.bak' . add_zeros($j) . $extension))
 					{
 						$dont_upload = true;
 						$return .= "\n$name_html</b> cannot be renammed<b><br><br>";
 					}
+					$name = $name . $extension;
 				}
 				elseif($_POST['exists'] === '3')
 				{
@@ -144,10 +148,14 @@ elseif(isset($_POST['ask']) && isset($_POST['files']))
 	{
 		for($i = 0; $i < $nb_files; $i++)
 		{
+			$name = $files[$i]['old'];
+			$name = split_filename($files[$i]['old']);
+			$extension = $name['dot_extension'];
+			$name = $name['name'];
 			$j = 1;
-			while(file_exists($current . $name . '.bak' . add_zeros($j)))
+			while(file_exists($current . $name . '.bak' . add_zeros($j) . $extension))
 				$j++;
-			$name .= '.bak' . add_zeros($j);
+			$name .= '.bak' . add_zeros($j) . $extension;
 			if(@!rename($current . $files[$i]['old'], $current . $name))
 				$return .= "\n" . htmlentities($files[$i]['old'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
 			elseif(@!rename($current . $files[$i]['ask'], $current . $files[$i]['old']))
