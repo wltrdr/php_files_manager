@@ -184,14 +184,14 @@ inputUpload.addEventListener("change", () => {
 							openDir(currentPath)
 							const found = result.match(/\[ask=([^\]]+)/)
 							if(found)
-								openBox("multi", { txt: "Error : <b>What to do with old files that have the same name ?</b>", inputs: "[button]Replace[button]Rename old[button]Rename new[button]Do nothing[checkbox]Save choice" }, null, choices => {
+								openBox("multi", { txt: "Error : <b>What to do with old files that have the same name ?</b>", inputs: "[button]Replace olds[button]Rename olds[button]Rename news[button]Do nothing[checkbox]Save choice" }, null, choices => {
 									let choice = 0
 									choices.forEach(choiceTmp => {
 										if(choiceTmp !== 4)
 											choice = choiceTmp
 									})
 									if(choices.indexOf(4) !== -1)
-										typeUploadExists = choice
+										typeUploadExists = choice + 1
 
 									ajaxRequest("POST", "", `${Date.now()}&ask=${choice}&files=${found[1]}&dir=${currentPath}&token=${token}`, result => {
 										if(result === "uploaded")
