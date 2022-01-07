@@ -1,19 +1,19 @@
 <?php
+function add_zeros($val)
+{
+	if($val < 10)
+		$ret = '00';
+	elseif($val < 100)
+		$ret = '0';
+	else
+		$ret = '';
+	return($ret . $val);
+}
+
 /* UPLOAD */
 
 if(isset($_FILES['upload']))
 {
-	function add_zeros($val)
-	{
-		if($val < 10)
-			$ret = '00';
-		elseif($val < 100)
-			$ret = '0';
-		else
-			$ret = '';
-		return($ret . $val);
-	}
-
 	$return = '';
 	$nb_files = count($_FILES['upload']['name']);
 	$ask_uploads = array();
@@ -27,7 +27,7 @@ if(isset($_FILES['upload']))
 			$dont_upload = false;
 			if(@file_exists($current . $name))
 			{
-				if($_POST['exists'] === '0') // Ask
+				if($_POST['exists'] === '0')
 				{
 					array_push($ask_uploads, $current . $name);
 
@@ -112,9 +112,78 @@ if(isset($_FILES['upload']))
 
 elseif(isset($_POST['ask']) && isset($_POST['files']))
 {
-	// found[1] contient 'oldfile.ext,oldfile.ext.ask,...'
-	// choice = 0 : Replace, 1 : Rename old, 2 : Rename new, 3 : Do nothing, 4 : Save choice
+	$choice = $_POST['ask'];
+	$files_tmp = explode(',', $_POST['files']);
+	$nb_files_tmp = sizeof($files_tmp);
+	$files = array();
+	$j = 0;
+	for($i = 0; $i < $nb_files_tmp; $i++)
+	{
+		if($i % 2 === 0)
+			$files[$j]['old'] = $files_tmp[$i];
+		else
+		{
+			$files[$j]['ask'] = $files_tmp[$i];
+			$j++;
+		}
+	}
 
+	$return = '';
+	$nb_files = sizeof($files);
+	if($choice === '0')
+	{
+		for($i = 0; $i < $nb_files; $i++)
+		{
+			if(@!unlink($current . $files[$i]['old']))
+				$return .= "\n" . htmlentities($files[$i]['old'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
+			elseif(@!rename($current . $files[$i]['ask'], $current . $files[$i]['old']))
+				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
+		}
+	}
+	elseif($choice === '1')
+	{
+		for($i = 0; $i < $nb_files; $i++)
+		{
+			$j = 1;
+			while(file_exists($current . $name . '.bak' . add_zeros($j)))
+				$j++;
+			$name .= '.bak' . add_zeros($j);
+			if(@!rename($current . $files[$i]['old'], $current . $name))
+				$return .= "\n" . htmlentities($files[$i]['old'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
+			elseif(@!rename($current . $files[$i]['ask'], $current . $files[$i]['old']))
+				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
+		}
+	}
+	elseif($choice === '2')
+	{
+		for($i = 0; $i < $nb_files; $i++)
+		{
+			$name = split_filename($files[$i]['old']);
+			$extension = $name['dot_extension'];
+			$name = $name['name'];
+			$j = 1;
+			while(file_exists($current . $name . " ($j)" . $extension))
+				$j++;
+			$name .= " ($j)" . $extension;
+			if(@!rename($current . $files[$i]['ask'], $current . $name))
+				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
+		}
+	}
+	elseif($choice === '3')
+	{
+		for($i = 0; $i < $nb_files; $i++)
+		{
+			if(@!unlink($current . $files[$i]['ask']))
+				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
+		}
+	}
+	else
+		$return = 'Unknown choice<br><br>';
+	if(empty($return))
+		$return = 'uploaded';
+	else
+		$return = substr($return, 0, strlen($return) - 8);
+	exit($return);
 }
 
 /* NEW FILE OR FOLDER */
