@@ -181,7 +181,6 @@ inputUpload.addEventListener("change", () => {
 							openDir(currentPath)
 						else
 						{
-							openDir(currentPath)
 							const found = result.match(/\[ask=([^\]]+)/)
 							if(found)
 								openBox("multi", { txt: "Error : <b>What to do when a file or a dir with the same name already exists ?</b>", inputs: "[button]Replace olds[button]Rename olds[button]Rename news[button]Do nothing[checkbox]Save choice" }, null, choices => {
