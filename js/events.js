@@ -172,6 +172,7 @@ inputUpload.addEventListener("change", () => {
 				{
 					formData.append(Date.now(), "")
 					formData.append("dir", currentPath)
+					formData.append("exists", typeUploadExists)
 					formData.append("token", token)
 
 					ajaxRequest("FILES", "", formData, result => {
