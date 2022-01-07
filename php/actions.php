@@ -3,9 +3,20 @@
 
 if(isset($_FILES['upload']))
 {
-	// $_POST['exists'] => 0 Ask / 1 Replace / 2 Rename / 3 Do nothing
+	function add_zeros($val)
+	{
+		if($val < 10)
+			$ret = '00';
+		elseif($val < 100)
+			$ret = '0';
+		else
+			$ret = '';
+		return($ret . $val);
+	}
+
 	$return = '';
 	$nb_files = count($_FILES['upload']['name']);
+	$ask_uploads = false;
 	for($i = 0; $i < $nb_files; $i++)
 	{
 		$name = $_FILES['upload']['name'][$i];
@@ -13,15 +24,66 @@ if(isset($_FILES['upload']))
 
 		if($_FILES['upload']['error'][$i] === 0)
 		{
+			$dont_upload = false;
 			if(@file_exists($current . $name))
-				$return .= "\n" . $name_html . '</b> already exists<b><br><br>';
-			elseif(@!move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name))
-				$return .= "\n" . $name_html . '</b> cannot be uploaded (#1)<b><br><br>';
+			{
+				if($_POST['exists'] === '0') // Ask
+				{
+					// UPLOADE DANS DOSSIER TEMP
+					$ask_uploads = true;
+				}
+				elseif($_POST['exists'] === '1')
+				{
+					if(@is_file($current . $name) || @is_link($current . $name))
+					{
+						if(@unlink($current . $name))
+							$return .= "\n$name_html</b> cannot be deleted<b><br><br>";
+					}
+					else
+					{
+						if(@rm_full_dir($current . $name))
+							$return .= "\n$name_html/</b> cannot be deleted<b><br><br>";
+					}
+				}
+				elseif($_POST['exists'] === '2')
+				{
+					$j = 1;
+					while(file_exists($current . $name . '.bak' . $j))
+						$j++;
+					if(@!rename($current . $name, $current . $name . '.bak' . $j))
+					{
+						$dont_upload = true;
+						$return .= "\n$name_html</b> cannot be renammed<b><br><br>";
+					}
+				}
+				elseif($_POST['exists'] === '3')
+				{
+					$name = split_filename($name);
+					$extension = $name['dot_extension'];
+					$name = $name['name'];
+					$j = 1;
+					while(file_exists($current . $name . " ($j)" . $extension))
+						$j++;
+					$name .= " ($j)" . $extension;
+				}
+				else
+				{
+					$dont_upload = true;
+					$return .= "\n$name_html</b> already exists<b><br><br>";
+				}
+			}
+			if($dont_upload === false && @!move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name))
+				$return .= "\n$name_html</b> cannot be uploaded (#1)<b><br><br>";
 		}
 		else
-			$return .= "\n" . $name_html . '</b> cannot be uploaded (#2)<b><br><br>';
+			$return .= "\n$name_html</b> cannot be uploaded (#2)<b><br><br>";
 	}
-	if(empty($return))
+	if($ask_uploads === true)
+	{
+		// renvoie demande ask
+		$return = substr($return, 0, strlen($return) - 8);
+	}
+	elseif(empty($return))
 		$return = 'uploaded';
 	else
 		$return = substr($return, 0, strlen($return) - 8);
