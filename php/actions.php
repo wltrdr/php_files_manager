@@ -108,6 +108,15 @@ if(isset($_FILES['upload']))
 	exit($return);
 }
 
+/* ASK AFTER UPLOAD */
+
+elseif(isset($_POST['ask']) && isset($_POST['files']))
+{
+	// found[1] contient 'oldfile.ext,oldfile.ext.ask,...'
+	// choice = 0 : Replace, 1 : Rename old, 2 : Rename new, 3 : Do nothing, 4 : Save choice
+
+}
+
 /* NEW FILE OR FOLDER */
 
 elseif(isset($_POST['new']) && isset($_POST['name']))
