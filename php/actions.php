@@ -3,6 +3,7 @@
 
 if(isset($_FILES['upload']))
 {
+	// $_POST['exists'] => 0 Ask / 1 Replace / 2 Rename / 3 Do nothing
 	$return = '';
 	$nb_files = count($_FILES['upload']['name']);
 	for($i = 0; $i < $nb_files; $i++)
