@@ -16,7 +16,7 @@ if(isset($_FILES['upload']))
 
 	$return = '';
 	$nb_files = count($_FILES['upload']['name']);
-	$ask_uploads = false;
+	$ask_uploads = array();
 	for($i = 0; $i < $nb_files; $i++)
 	{
 		$name = $_FILES['upload']['name'][$i];
@@ -29,8 +29,14 @@ if(isset($_FILES['upload']))
 			{
 				if($_POST['exists'] === '0') // Ask
 				{
-					// UPLOADE DANS DOSSIER TEMP
-					$ask_uploads = true;
+					array_push($ask_uploads, $current . $name);
+
+					$j = 1;
+					while(file_exists($current . $name . '.ask' . add_zeros($j)))
+						$j++;
+					$name .= '.ask' . add_zeros($j);
+
+					array_push($ask_uploads, $current . $name);
 				}
 				elseif($_POST['exists'] === '1')
 				{
@@ -48,9 +54,9 @@ if(isset($_FILES['upload']))
 				elseif($_POST['exists'] === '2')
 				{
 					$j = 1;
-					while(file_exists($current . $name . '.bak' . $j))
+					while(file_exists($current . $name . '.bak' . add_zeros($j)))
 						$j++;
-					if(@!rename($current . $name, $current . $name . '.bak' . $j))
+					if(@!rename($current . $name, $current . $name . '.bak' . add_zeros($j)))
 					{
 						$dont_upload = true;
 						$return .= "\n$name_html</b> cannot be renammed<b><br><br>";
@@ -78,10 +84,22 @@ if(isset($_FILES['upload']))
 		else
 			$return .= "\n$name_html</b> cannot be uploaded (#2)<b><br><br>";
 	}
-	if($ask_uploads === true)
+	if(sizeof($ask_uploads) !== 0)
 	{
-		// renvoie demande ask
-		$return = substr($return, 0, strlen($return) - 8);
+		if(empty($return))
+			$return = '[ask=' . implode(',', $ask_uploads) . ']';
+		else
+		{
+			$nb_ask_uploads = sizeof($ask_uploads);
+			for($i = 0; $i < $nb_ask_uploads; $i++)
+			{
+				if($i % 2 !== 0 && @!unlink($current . $ask_uploads[$i]))
+					$return .= "\n" . htmlentities($ask_uploads[$i], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
+				elseif($i % 2 === 0)
+					$return .= "\n" . htmlentities($ask_uploads[$i], ENT_QUOTES) . '</b> cannot be uploaded, please try again<b><br><br>';
+			}
+			$return = substr($return, 0, strlen($return) - 8);
+		}
 	}
 	elseif(empty($return))
 		$return = 'uploaded';
