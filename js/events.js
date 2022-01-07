@@ -182,7 +182,29 @@ inputUpload.addEventListener("change", () => {
 						else
 						{
 							openDir(currentPath)
-							openBox("alert", "Error : <b>" + result + "</b>", "err")
+							const found = result.match(/\[ask=([^\]]+)/)
+							if(found)
+								openBox("multi", { txt: "Error : <b>What to do with old files that have the same name ?</b>", inputs: "[button]Replace[button]Rename old[button]Rename new[button]Do nothing[checkbox]Save choice" }, null, choices => {
+									let choice = 0
+									choices.forEach(choiceTmp => {
+										if(choiceTmp !== 4)
+											choice = choiceTmp
+									})
+									if(choices.indexOf(4) !== -1)
+										typeUploadExists = choice
+
+									ajaxRequest("POST", "", `${Date.now()}&ask=${choice}&files=${found[1]}&dir=${currentPath}&token=${token}`, result => {
+										if(result === "uploaded")
+											openDir(currentPath)
+										else
+										{
+											openDir(currentPath)
+											openBox("alert", "Error : <b>" + result + "</b>", "err")
+										}
+									})
+								})
+							else
+								openBox("alert", "Error : <b>" + result + "</b>", "err")
 						}
 					})
 				}
