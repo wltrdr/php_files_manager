@@ -173,6 +173,56 @@ function openBox(type, vals, icon = null, callback = false)
 				})
 			})
 		}
+		else if(type === "multi")
+		{
+			if(icon === null)
+				icon = "ask"
+			let txt = ""
+			let listInputs = vals
+			if(typeof(vals) !== "string")
+			{
+				if(vals.txt)
+					txt = vals.txt
+				if(vals.inputs)
+					listInputs = vals.inputs
+			}
+
+			let inputsHTML = ""
+			const founds = [...listInputs.matchAll(/\[([^\]]+)\]([^\[]+)/g)];
+			founds.forEach((found, i) => {
+				if(found[1] === "checkbox")
+					inputsHTML += `<br>\n<label><input type="checkbox" value="${i}" style="display: inline-block; width: auto; min-width: auto;"> &nbsp; ${found[2]}</label>`
+				else
+					inputsHTML += `<br>\n<button value="${i}">${found[2]}</button>`
+			})
+			showBox(txt, icon, inputsHTML, ``, true, () => {
+
+				const listValues = []
+
+				popupBox.querySelectorAll("input").forEach(checkbox => {
+					checkbox.addEventListener("click", () => {
+						if(checkbox.checked)
+							listValues.push(parseInt(checkbox.value, 10))
+						else
+						{
+							const posCheckbox = listValues.indexOf(parseInt(checkbox.value, 10))
+							if(posCheckbox !== -1)
+								listValues.splice(posCheckbox, 1)
+						}
+					})
+				})
+
+				popupBox.querySelectorAll("button").forEach(button => {
+					button.addEventListener("click", ev => {
+						listValues.push(parseInt(button.value, 10))
+						if(callback !== false)
+							callback(listValues)
+						closeBox()
+						ev.preventDefault()
+					})
+				})
+			})
+		}
 		else if(type === "path")
 		{
 			if(icon === null)
