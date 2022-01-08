@@ -1,7 +1,5 @@
-function ajaxRequest(method, url, data, callback = false, disableLoading = false, disableBadRequest = false)
-{
-	if(disableLoading === false)
-	{
+function ajaxRequest(method, url, data, callback = false, disableLoading = false, disableBadRequest = false) {
+	if(disableLoading === false) {
 		onLoading = true
 		willBeOnLoading = true
 		setTimeout(() => {
@@ -11,16 +9,13 @@ function ajaxRequest(method, url, data, callback = false, disableLoading = false
 	}
 
 	const httpRequest = new XMLHttpRequest()
-	if(!httpRequest)
-	{
+	if(!httpRequest) {
 		alert("Error : Cannot create instance of XMLHTTP")
 		return false
 	}
 	httpRequest.onreadystatechange = function() {
-		if(httpRequest.readyState === XMLHttpRequest.DONE)
-		{
-			if(disableLoading === false)
-			{
+		if(httpRequest.readyState === XMLHttpRequest.DONE) {
+			if(disableLoading === false) {
 				onLoading = false
 				willBeOnLoading = false
 				loading.style.display = "none"
@@ -32,19 +27,16 @@ function ajaxRequest(method, url, data, callback = false, disableLoading = false
 				alert("Error : Bad request")
 		}
 	}
-	if(method === "POST")
-	{
+	if(method === "POST") {
 		httpRequest.open("POST", url)
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
 		httpRequest.send(data)
 	}
-	else if(method === "FILES")
-	{
+	else if(method === "FILES") {
 		httpRequest.open("POST", url)
 		httpRequest.send(data)
 	}
-	else
-	{
+	else {
 		httpRequest.open(method, url + "?" + data)
 		httpRequest.send()
 	}
@@ -52,11 +44,9 @@ function ajaxRequest(method, url, data, callback = false, disableLoading = false
 
 /* EXPLORER */
 
-function showElements(result, disableFocus = false)
-{
+function showElements(result, disableFocus = false) {
 	const found = result.match(/^(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\n\/\/!order!\\\\(.*)\n\/\/!desc!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
-	if(found)
-	{
+	if(found) {
 		if(found[1] || found[10])
 			console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[10].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 
@@ -77,13 +67,11 @@ function showElements(result, disableFocus = false)
 			btnParent.className = "disabled"
 		else
 			btnParent.className = ""
-		if(disableFocus === true)
-		{
+		if(disableFocus === true) {
 			tree.scrollTop = scrollTree
 			elements.scrollTop = scrollElems
 		}
-		else
-		{
+		else {
 			try {
 				tree.scrollTop = document.querySelector(".treeDefault").offsetTop - (listTree.offsetTop + parseInt(window.getComputedStyle(document.querySelector(".treeFirst"), null).getPropertyValue("margin-top"), 10))
 			}
@@ -93,56 +81,45 @@ function showElements(result, disableFocus = false)
 			elements.scrollTop = 0
 		}
 	}
-	else
-	{
+	else {
 		const fatal = result.match(/(.*)\[fatal=([^\]]+)\](.*)/s)
-		if(fatal)
-		{
+		if(fatal) {
 			if(fatal[1] || fatal[3])
 				console.log(`%cPHP Errors :\n\n%c${fatal[1].replace(/<[^>]+>/g, "")}\n\n${fatal[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 			alert("Error : " + fatal[2])
 		}
-		else
-		{
+		else {
 			alert("Error : Bad regex")
 			console.log(result)
 		}
 	}
 }
 
-function openDir(dir, disableFocus = false, disableLoading = false, order = "", desc = "")
-{
+function openDir(dir, disableFocus = false, disableLoading = false, order = "", desc = "") {
 	timeDirOpened = Date.now()
 	if(order !== "")
 		order = "&order=" + order
-	if(desc !== "")
-	{
+	if(desc !== "") {
 		if(desc === false)
 			desc = "&desc=0"
 		else
 			desc = "&desc=1"
 	}
 	ajaxRequest("POST", "", `${Date.now()}&dir=${dir}${order}${desc}`, result => {
-		if(result !== "false")
-		{
+		if(result !== "false") {
 			showElements(result, disableFocus)
 			let nbHistory = history.length
-			if(nbHistory === 0)
-			{
+			if(nbHistory === 0) {
 				history.push(dir)
 				btnForward.className = "disabled"
 				btnBack.className = "disabled"
 				if(history.length > historyMax)
 					history.splice(0, 1)
 			}
-			else
-			{
-				if(dir !== history[nbHistory - historyLevel - 1]) // ISN’T A REFRESH
-				{
-					if(historyLevel > 0)
-					{
-						for(let i = 0; i < historyLevel; i++)
-						{
+			else {
+				if(dir !== history[nbHistory - historyLevel - 1]) /* ISN’T A REFRESH */ {
+					if(historyLevel > 0) {
+						for(let i = 0; i < historyLevel; i++) {
 							history.splice(nbHistory - 1, 1)
 							nbHistory--
 						}
@@ -156,8 +133,7 @@ function openDir(dir, disableFocus = false, disableLoading = false, order = "", 
 				}
 			}
 		}
-		else
-		{
+		else {
 			token = ""
 			contents.style.display = "none"
 			connexion.style.display = "flex"
@@ -174,11 +150,9 @@ setInterval(() => {
 
 /* SET SETTINGS */
 
-function changeView(oldView, newView, doRequest = false)
-{
+function changeView(oldView, newView, doRequest = false) {
 	typeView = newView
-	if(oldView !== newView)
-	{
+	if(oldView !== newView) {
 		if(oldView !== 0)
 			elements.classList.remove("view" + oldView)
 		elements.classList.add("view" + newView)
@@ -187,15 +161,13 @@ function changeView(oldView, newView, doRequest = false)
 		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&view=${typeView}&token=${token}`, false, true)
 }
 
-function changeTypeUploadExists(type, doRequest = false)
-{
+function changeTypeUploadExists(type, doRequest = false) {
 	typeUploadExists = type
 	if(doRequest !== false)
 		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&upload_exists=${type}&token=${token}`, false, true)
 }
 
-function changeTypeCopyMoveExists(type, doRequest = false)
-{
+function changeTypeCopyMoveExists(type, doRequest = false) {
 	typeCopyMoveExists = type
 	if(doRequest !== false)
 		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&copy_move_exists=${type}&token=${token}`, false, true)
@@ -219,26 +191,21 @@ ajaxRequest("GET", "", `${Date.now()}&get_settings=true`, result => {
 
 /* GET UPLOAD SIZES */
 
-function getUploadSizes(callback = false)
-{
-	if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
-	{
+function getUploadSizes(callback = false) {
+	if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0) {
 		ajaxRequest("GET", "", `${Date.now()}&get_upload_sizes`, result => {
 			const found = result.match(/\[max_upload_sizes=([0-9]+)\|([0-9]+)\]/)
-			if(found)
-			{
+			if(found) {
 				uploadMaxFileSize = parseInt(found[1], 10)
 				uploadMaxTotalSize = parseInt(found[2], 10)
-				if(callback !== false)
-				{
+				if(callback !== false) {
 					if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
 						callback(false)
 					else
 						callback(true)
 				}
 			}
-			else
-			{
+			else {
 				console.log("%cError : %cUnable to access upload sizes", "color: red;", "color: auto;")
 				if(callback !== false)
 					callback(false)
@@ -255,11 +222,9 @@ getUploadSizes()
 
 ajaxRequest("GET", urlRawGithub, "", result => {
 	const found = result.match(/define\('version_script', '([0-9])\.([0-9])\.([0-9])'\);/)
-	if(found)
-	{
+	if(found) {
 		const found2 = scriptVersion.match(/([0-9])\.([0-9])\.([0-9])/)
-		if(found2)
-		{
+		if(found2) {
 			const vNew1 = parseInt(found[1], 10)
 			const vNew2 = parseInt(found[2], 10)
 			const vNew3 = parseInt(found[3], 10)
@@ -280,8 +245,7 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 							const found3 = result.match(/\[update=([^,]+)\|([^,]+)\|([^\]]+)\]/)
 							if(found3)
 								location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
-							else
-							{
+							else {
 								openDir(currentPath, true)
 								openBox("alert", "Error : <b>" + result + "</b>", "err")
 							}
