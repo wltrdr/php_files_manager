@@ -9,6 +9,7 @@
 	Boutons de controle : Historique back et forward, dossier parent, retour vers l'accueil, bouton de rafraichissement
 	Plusieurs types d'affichage (petites icones, grosses icones ou détails)
 	Choix de l'ordre d'affichage (nom, date, taille, type, croissant ou decroissant)
+	Choix des actions (remplacer, renommer, ne rien faire) si un fichier au même nom existe lors d'un upload, d'une copie ou d'un déplacement d'élement.
 	Accès protégé par mot de passe
 	Protection anti "piratage via url connue" grace à un système de token
 	Mise à jour du script en 1 clic
@@ -17,7 +18,7 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.8.3 ⤵
-choix if exists when move or copy
+appliquer choix if exists when move or copy
 mettre view, actionuploadexists, actioncopymoveexists dans session
 openBox(path) => bouton nouveau dossier
 
