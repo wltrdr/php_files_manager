@@ -1,4 +1,4 @@
-function ajaxRequest(method, url, data, callback, disableLoading = false)
+function ajaxRequest(method, url, data, callback, disableLoading = false, disableBadRequest = false)
 {
 	if(disableLoading === false)
 	{
@@ -28,7 +28,7 @@ function ajaxRequest(method, url, data, callback, disableLoading = false)
 
 			if(httpRequest.status === 200)
 				callback(httpRequest.responseText)
-			else
+			else if(disableBadRequest === false)
 				alert("Error : Bad request")
 		}
 	}
