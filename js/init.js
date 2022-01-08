@@ -60,12 +60,9 @@ let typeCopyMoveExists = 1
 let timeClicDir = 0
 let h1Lvl = -1
 
-function onMobile()
-{
-	function checkMobile(navData)
-	{
-		if(navData && navData != null)
-		{
+function onMobile() {
+	function checkMobile(navData) {
+		if(navData && navData != null) {
 			if(
 				/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.
 				test(navData)
@@ -88,10 +85,8 @@ function onMobile()
 
 let isOnMobile = onMobile()
 
-function effectH1Mobile(el)
-{
-	if(isOnMobile === true)
-	{
+function effectH1Mobile(el) {
+	if(isOnMobile === true) {
 		h1Lvl++
 		if(h1Lvl >= h1NbWords)
 			h1Lvl = 0
