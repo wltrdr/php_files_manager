@@ -182,3 +182,52 @@ function changeView(oldView, newView)
 		elements.classList.add("view" + newView)
 	}
 }
+
+/* UPDATE */
+
+ajaxRequest("GET", urlRawGithub, "", result => {
+	const found = result.match(/define\('version_script', '([0-9])\.([0-9])\.([0-9])'\);/)
+	if(found)
+	{
+		const found2 = scriptVersion.match(/([0-9])\.([0-9])\.([0-9])/)
+		if(found2)
+		{
+			const vNew1 = parseInt(found[1], 10)
+			const vNew2 = parseInt(found[2], 10)
+			const vNew3 = parseInt(found[3], 10)
+			const vThis1 = parseInt(found2[1], 10)
+			const vThis2 = parseInt(found2[2], 10)
+			const vThis3 = parseInt(found2[3], 10)
+			if(
+				(vNew1 > vThis1) ||
+				(vNew1 === vThis1 && vNew2 > vThis2) ||
+				(vNew1 === vThis1 && vNew2 === vThis2 && vNew3 > vThis3)
+			) {
+				wltrdrUpdate.querySelector("span").innerHTML = "&#8681;"
+				wltrdrUpdate.querySelector("a").innerHTML= "<b>UPDATE AVAILABLE</b>"
+				wltrdrUpdate.querySelector("a").removeAttribute("href")
+				wltrdrUpdate.addEventListener("click", () => {
+					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${vThis1}.${vThis2}.${vThis3}</b></p><br><p>Version available : <b>${vNew1}.${vNew2}.${vNew3}</b></p>`, null, () => {
+						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
+							const found3 = result.match(/\[update=([^,]+),([^,]+),([^,]+)\]/)
+							if(found3)
+								location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
+							else
+							{
+								openDir(currentPath, true)
+								openBox("alert", "Error : <b>" + result + "</b>", "err")
+							}
+						})
+					})
+				})
+			}
+			else
+				console.log("No Update available !")
+		}
+		else
+			console.log("%cError : %cUnable to access script version", "color: red;", "color: auto;")
+	}
+	else
+		console.log("%cError : %cUnable to access new script version", "color: red;", "color: auto;")
+
+}, true, true)
