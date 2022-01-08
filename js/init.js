@@ -59,6 +59,7 @@ let typeUploadExists = 0
 let typeCopyMoveExists = 1
 let timeClicDir = 0
 let h1Lvl = -1
+let overAdir = false
 
 function onMobile() {
 	function checkMobile(navData) {
