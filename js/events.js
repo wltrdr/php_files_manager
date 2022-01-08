@@ -12,8 +12,7 @@ window.addEventListener("resize", () => {
 })
 
 document.addEventListener("keydown", ev => {
-	if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27))
-	{
+	if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27)) {
 		popupMenu.style.display = "none"
 		popupBox.style.display = "none"
 		popupMask.style.display = "none"
@@ -23,22 +22,18 @@ document.addEventListener("keydown", ev => {
 /* CONTROLS */
 
 btnBack.addEventListener("click", () => {
-	if(btnBack.className !== "disabled")
-	{
+	if(btnBack.className !== "disabled") {
 		const nbHistory = history.length
-		if(nbHistory > 1)
-		{
+		if(nbHistory > 1) {
 			ajaxRequest("POST", "", `${Date.now()}&dir=` + history[nbHistory - historyLevel - 2], result => {
-				if(result !== "false")
-				{
+				if(result !== "false") {
 					showElements(result)
 					historyLevel++
 					btnForward.className = ""
 					if(historyLevel === nbHistory - 1)
 						btnBack.className = "disabled"
 				}
-				else
-				{
+				else {
 					contents.style.display = "none"
 					connexion.style.display = "flex"
 				}
@@ -48,20 +43,17 @@ btnBack.addEventListener("click", () => {
 })
 
 btnForward.addEventListener("click", () => {
-	if(btnForward.className !== "disabled" && historyLevel > 0)
-	{
+	if(btnForward.className !== "disabled" && historyLevel > 0) {
 		const nbHistory = history.length
 		ajaxRequest("POST", "", `${Date.now()}&dir=` + history[nbHistory - historyLevel], result => {
-			if(result !== "false")
-			{
+			if(result !== "false") {
 				showElements(result)
 				historyLevel--
 				btnBack.className = ""
 				if(historyLevel === 0)
 					btnForward.className = "disabled"
 			}
-			else
-			{
+			else {
 				contents.style.display = "none"
 				connexion.style.display = "flex"
 			}
@@ -155,18 +147,15 @@ inputUpload.addEventListener("change", () => {
 	getUploadSizes(result => {
 		if(result === false)
 			openBox("alert", "Error : <b>Cannot get server uploads limits</b>", "err")
-		else
-		{
+		else {
 			const inputFiles = inputUpload.files
 			const nbFiles = inputFiles.length
-			if(nbFiles !== 0)
-			{
+			if(nbFiles !== 0) {
 				const formData = new FormData()
 				const maxSizeExceeded = []
 				let totalSize = 0
 
-				for(let i = 0; i < nbFiles; i++)
-				{
+				for(let i = 0; i < nbFiles; i++) {
 					const size = inputFiles[i].size
 					totalSize += size
 					if(size > uploadMaxFileSize)
@@ -174,8 +163,7 @@ inputUpload.addEventListener("change", () => {
 					formData.append("upload[]", inputFiles[i])
 				}
 
-				if(maxSizeExceeded.length > 0 || totalSize > uploadMaxTotalSize)
-				{
+				if(maxSizeExceeded.length > 0 || totalSize > uploadMaxTotalSize) {
 					let txtErr = ""
 
 					if(totalSize > uploadMaxTotalSize)
@@ -187,8 +175,7 @@ inputUpload.addEventListener("change", () => {
 					inputUpload.value = ""
 					openBox("alert", "Error : <b>" + txtErr.substring(0, txtErr.length - 8) + "</b>", "err")
 				}
-				else
-				{
+				else {
 					formData.append(Date.now(), "")
 					formData.append("dir", currentPath)
 					formData.append("exists", typeUploadExists)
@@ -198,8 +185,7 @@ inputUpload.addEventListener("change", () => {
 						inputUpload.value = ""
 						if(result === "uploaded")
 							openDir(currentPath)
-						else
-						{
+						else {
 							const found = result.match(/\[ask=([^\]]+)/)
 							if(found)
 								openBox("multi", { txt: "Error : <b>What to do when a file or a dir with the same name already exists ?</b>", inputs: "[button]Do nothing[button]Rename old[button]Rename new[button]Replace old[checkbox]Save choice" }, null, choices => {
@@ -214,8 +200,7 @@ inputUpload.addEventListener("change", () => {
 									ajaxRequest("POST", "", `${Date.now()}&ask=${choice}&files=${found[1]}&dir=${currentPath}&token=${token}`, result => {
 										if(result === "uploaded")
 											openDir(currentPath)
-										else
-										{
+										else {
 											openDir(currentPath)
 											openBox("alert", "Error : <b>" + result + "</b>", "err")
 										}
@@ -235,16 +220,14 @@ inputUpload.addEventListener("change", () => {
 
 btnConnexion.addEventListener("click", ev => {
 	ajaxRequest("POST", "", `${Date.now()}&pwd=` + inputConnexion.value, result => {
-		if(result !== "false")
-		{
+		if(result !== "false") {
 			inputConnexion.className = ""
 			btnConnexion.className = ""
 			showElements(result)
 			inputConnexion.placeholder = inputConnexionPH
 			inputConnexion.value = ""
 		}
-		else
-		{
+		else {
 			inputConnexion.placeholder = "Bad password"
 			inputConnexion.className = "err"
 			btnConnexion.className = "err"
@@ -264,8 +247,7 @@ btnConnexion.addEventListener("click", ev => {
 
 logout.addEventListener("click", () => {
 	ajaxRequest("POST", "", `${Date.now()}&logout`, result => {
-		if(result === "bye")
-		{
+		if(result === "bye") {
 			token = ""
 			contents.style.display = "none"
 			connexion.style.display = "flex"
