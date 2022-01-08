@@ -1,4 +1,4 @@
-function ajaxRequest(method, url, data, callback, disableLoading = false, disableBadRequest = false)
+function ajaxRequest(method, url, data, callback = false, disableLoading = false, disableBadRequest = false)
 {
 	if(disableLoading === false)
 	{
@@ -26,9 +26,9 @@ function ajaxRequest(method, url, data, callback, disableLoading = false, disabl
 				loading.style.display = "none"
 			}
 
-			if(httpRequest.status === 200)
+			if(httpRequest.status === 200 && callback !== false)
 				callback(httpRequest.responseText)
-			else if(disableBadRequest === false)
+			else if(httpRequest.status !== 200 && disableBadRequest === false)
 				alert("Error : Bad request")
 		}
 	}
@@ -172,15 +172,33 @@ setInterval(() => {
 		openDir(currentPath, true, true)
 }, checkIntervMs)
 
-function changeView(oldView, newView)
+/* SET SETTINGS */
+
+function changeView(oldView, newView, doRequest = false)
 {
+	typeView = newView
 	if(oldView !== newView)
 	{
-		typeView = newView
 		if(oldView !== 0)
 			elements.classList.remove("view" + oldView)
 		elements.classList.add("view" + newView)
 	}
+	if(doRequest !== false)
+		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&view=${typeView}&token=${token}`, false, true)
+}
+
+function changeTypeUploadExists(type, doRequest = false)
+{
+	typeUploadExists = type
+	if(doRequest !== false)
+		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&upload_exists=${type}&token=${token}`, false, true)
+}
+
+function changeTypeCopyMoveExists(type, doRequest = false)
+{
+	typeCopyMoveExists = type
+	if(doRequest !== false)
+		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&copy_move_exists=${type}&token=${token}`, false, true)
 }
 
 /* GET SETTINGS */
@@ -188,7 +206,7 @@ function changeView(oldView, newView)
 ajaxRequest("GET", "", `${Date.now()}&get_settings=true`, result => {
 	const foundView = result.match(/\[view=([0-9])\]/)
 	if(foundView)
-		typeView = parseInt(foundView[1], 10)
+		changeView(typeView, parseInt(foundView[1], 10))
 
 	const foundUploadExists = result.match(/\[upload_exists=([0-9])\]/)
 	if(foundUploadExists)
