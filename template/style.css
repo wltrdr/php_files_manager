@@ -789,7 +789,7 @@ h1 span {
 /* RESPONSIVE TABLET */
 
 @media screen and (max-width: 1050px) {
-	#contextMenu {
+	#popupMenu, #popupBox {
 		font-size: 1.25em;
 	}
 
@@ -823,6 +823,10 @@ h1 span {
 /* RESPONSIVE MOBILE */
 
 @media screen and (max-width: 550px) {
+	#popupMenu {
+		font-size: 1.4em;
+	}
+
 	#contentsCredits p {
 		font-size: 1em;
 	}
