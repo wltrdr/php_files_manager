@@ -20,6 +20,7 @@
 choix if exists when move or copy (dans un nv bouton reglages qui contient choix upload + choix copy/move + choix corbeille ou supprime)
 mettre view et actionuploadexists dans session
 echap pour fermer certaines popups
+openBox(path) => bouton nouveau dossier
 
 0.8.7 ⤵
 drag drop upload
@@ -38,11 +39,10 @@ si multi select :
 		creer dir
 		creer file
 
-0.9.6⤵
+0.9.7⤵
 créer corbeille (action par defaut dans session)
-openBox(path) => bouton nouveau dossier
 
-0.9.8⤵
+0.9.9⤵
 création (symlink) + gestion liens symboliques :
 	menu pour liens symboliques fichier ou dossier :
 	↘
@@ -52,9 +52,9 @@ création (symlink) + gestion liens symboliques :
 		copier
 
 1.0.0⤵
-!!! tester si guillement ou & dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFi
-verifier : let, const, ;  //  ' " `  //  OR AND  //  [^ ]]\$  //  espaces \t  //  htmlentities partout
-minimiser legerement noms vars + sauts de ligne
+tester si guillement ou & dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFile..)
+verifier : let, const, ;  //  ' " `  //  OR AND  //  espaces \t  //  htmlentities partout
+minimiser noms vars + sauts de lignes
 chercher traces fr + corriger eng
 tout reverifier
 tout recompiler
