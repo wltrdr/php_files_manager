@@ -339,7 +339,7 @@ elseif(isset($_POST['edit_file']) && isset($_POST['name']))
 		exit('File not found');
 }
 
-/* CHANGE CHMODS */
+/* GET CHMODS */
 
 elseif(isset($_POST['get_chmods']))
 {
@@ -356,6 +356,8 @@ elseif(isset($_POST['get_chmods']))
 	else
 		exit('File not found');
 }
+
+/* CHANGE CHMODS */
 
 elseif(isset($_POST['set_chmods']) && isset($_POST['name']))
 {
