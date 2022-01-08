@@ -17,10 +17,9 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.8.3 ⤵
-choix if if exists when move or copy (dans un nv bouton reglages qui contient choix upload + choix copy/move + choix corbeille ou supprime)
+choix if exists when move or copy (dans un nv bouton reglages qui contient choix upload + choix copy/move + choix corbeille ou supprime)
 mettre view et actionuploadexists dans session
 echap pour fermer certaines popups
-openmenu plus gros sur mobile
 
 0.8.7 ⤵
 drag drop upload
