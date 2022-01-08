@@ -1,7 +1,6 @@
 /* CONTEXT MENUS */
 
-function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false)
-{
+function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 	if(webUrl === false)
 		webUrl = ""
 	else
@@ -27,8 +26,7 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 		`, event)
 }
 
-function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false)
-{
+function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(webUrl === false)
 		webUrl = ""
 	else
@@ -56,22 +54,18 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false)
 
 /* CLICK ON ELEMENTS */
 
-function leftClickDir(dir, isLink = false)
-{
+function leftClickDir(dir, isLink = false) {
 	if(isOnMobile === false)
 		openDir(dir, isLink)
 }
 
-function startClicDir()
-{
+function startClicDir() {
 	if(isOnMobile === true)
 		timeClicDir = Date.now()
 }
 
-function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false)
-{
-	if(isOnMobile === true && timeClicDir !== 0)
-	{
+function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+	if(isOnMobile === true && timeClicDir !== 0) {
 		if(Date.now() - timeClicDir > longClicMs)
 			menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
 		else
@@ -82,17 +76,14 @@ function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isL
 
 /* ADD ACTIONS */
 
-function newElement(type, name)
-{
+function newElement(type, name) {
 	if(name === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
-	else
-	{
+	else {
 		ajaxRequest("POST", "", `${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, result => {
 			if(result === "created")
 				openDir(currentPath, true)
-			else
-			{
+			else {
 				openDir(currentPath, true)
 				openBox("alert", "Error : <b>" + result + "</b>", "err")
 			}
@@ -102,22 +93,18 @@ function newElement(type, name)
 
 /* OTHER ACTIONS */
 
-function downloadElement(path, name)
-{
+function downloadElement(path, name) {
 	window.open(`?${Date.now()}&download=${name}&dir=${path}&token=${token}`)
 }
 
-function renameElement(path, oldName, newName)
-{
+function renameElement(path, oldName, newName) {
 	if(newName === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
-	else
-	{
+	else {
 		ajaxRequest("POST", "", `${Date.now()}&rename=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
 			if(result === "renamed")
 				openDir(currentPath, true)
-			else
-			{
+			else {
 				openDir(currentPath, true)
 				openBox("alert", "Error : <b>" + result + "</b>", "err")
 			}
@@ -125,52 +112,44 @@ function renameElement(path, oldName, newName)
 	}
 }
 
-function duplicateElement(path, name)
-{
+function duplicateElement(path, name) {
 	ajaxRequest("POST", "", `${Date.now()}&duplicate=${name}&dir=${path}&path=${path}&token=${token}`, result => {
 		if(result === "duplicated")
 			openDir(currentPath, true)
-		else
-		{
+		else {
 			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
 }
 
-function copyElement(path, name, newPath)
-{
+function copyElement(path, name, newPath) {
 	ajaxRequest("POST", "", `${Date.now()}&copy=${name}&dir=${path}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
 		if(result === "copied")
 			openDir(currentPath, true)
-		else
-		{
+		else {
 			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
 }
 
-function moveElement(path, name, newPath)
-{
+function moveElement(path, name, newPath) {
 	ajaxRequest("POST", "", `${Date.now()}&move=${name}&dir=${path}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
 		if(result === "moved")
 			openDir(currentPath, true)
-		else
-		{
+		else {
 			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
 }
 
-function deleteElement(path, name)
-{
+function deleteElement(path, name) {
 	ajaxRequest("POST", "", `${Date.now()}&delete=${name}&dir=${path}&token=${token}`, result => {
 		if(result === "deleted")
 			openDir(currentPath, true)
-		else
-		{
+		else {
 			openDir(currentPath, true)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
