@@ -19,6 +19,9 @@
 
 0.8.3 ⤵
 mettre view, actionuploadexists, actioncopymoveexists dans session
+	quand on choisis ca ouvre ajax qui defini session
+	quand on ouvre page on verifie si session existe
+		si session existe on charge params
 openBox(path) => bouton nouveau dossier
 
 0.8.7 ⤵
@@ -126,7 +129,7 @@ $_POST
 			(tree)
 			! $_POST['tree_only']
 				(return)
-else 
+else
 	$_GET['dir']
 		(currentPath)
 	(template)
