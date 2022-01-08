@@ -185,7 +185,19 @@ function changeView(oldView, newView)
 
 /* GET SETTINGS */
 
+ajaxRequest("GET", "", `${Date.now()}&get_settings=true`, result => {
+	const foundView = result.match(/\[view=([0-9])\]/)
+	if(foundView)
+		typeView = parseInt(foundView[1], 10)
 
+	const foundUploadExists = result.match(/\[upload_exists=([0-9])\]/)
+	if(foundUploadExists)
+		typeUploadExists = parseInt(foundUploadExists[1], 10)
+
+	const foundCopyMoveExists = result.match(/\[copy_move_exists=([0-9])\]/)
+	if(foundCopyMoveExists)
+		typeCopyMoveExists = parseInt(foundCopyMoveExists[1], 10)
+}, true)
 
 /* GET UPLOAD SIZES */
 
