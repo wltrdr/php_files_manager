@@ -48,7 +48,7 @@ création (symlink) + gestion liens symboliques :
 
 1.0.0⤵
 tester si guillement ou & dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFile..)
-verifier : let, const, ;  //  ' " `  //  OR AND  //  espaces \t  //  htmlentities partout
+verifier : let, const, ;  //  ' " `  //  OR AND  //  espaces \t  //  htmlentities partout  //  \n\t*\{ => {  //  if\(([^\)]+)\)\n\t*([a-z]) => if($1) $2  //  while\(([^\)]+)\)\n\t*([a-z]) => while($1) $2  //  for\(([^\)]+)\)\n\t*([a-z]) => for($1) $2  //  else\n\t*([a-z]) => else $1
 minimiser noms vars + sauts de lignes
 chercher traces fr + corriger eng
 tout reverifier
