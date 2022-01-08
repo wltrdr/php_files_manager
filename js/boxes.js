@@ -233,7 +233,7 @@ function openBox(type, vals, icon = null, callback = false) {
 				if(found) {
 					if(found[1] || found[3])
 						console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
-		
+
 					result = found[2]
 				}
 				else
