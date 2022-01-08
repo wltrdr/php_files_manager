@@ -41,16 +41,14 @@ show_js_css('css', 'images');
 /* GET UPLOAD SIZES */
 
 include('php/files_init.php');
-if(isset($_GET['get_upload_sizes']))
-{
+if(isset($_GET['get_upload_sizes'])) {
 	header('Content-Type: text/plain; charset=utf-8');
 	exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
 }
 
 /* GET SETTINGS */
 
-elseif(isset($_GET['get_settings']))
-{
+elseif(isset($_GET['get_settings'])) {
 	header('Content-Type: text/plain; charset=utf-8');
 	if(isset($_SESSION['view']))
 		echo '[view=' . $_SESSION['view'] . ']';
@@ -63,20 +61,15 @@ elseif(isset($_GET['get_settings']))
 
 /* DOWNLOAD FILE */
 
-elseif(isset($_GET['download']))
-{
-	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password))
-	{
-		if(isset($_GET['token']) && $_GET['token'] === $_SESSION['token'])
-		{
-			if(isset($_GET['dir']))
-			{
+elseif(isset($_GET['download'])) {
+	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password)) {
+		if(isset($_GET['token']) && $_GET['token'] === $_SESSION['token']) {
+			if(isset($_GET['dir'])) {
 				$dir = urldecode($_GET['dir']);
 				if($dir === '.')
 					$dir = '';
 				$file = $dir . urldecode($_GET['download']);
-				if(is_file($file) || is_link($file))
-				{
+				if(is_file($file) || is_link($file)) {
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
 					header('Cache-Control: no-cache, must-revalidate');
@@ -103,17 +96,14 @@ elseif(isset($_GET['download']))
 
 /* LOGOUT */
 
-elseif(isset($_POST['logout']))
-{
+elseif(isset($_POST['logout'])) {
 	header('Content-Type: text/plain; charset=utf-8');
 	unset($_SESSION['pfm']);
 	exit('bye');
 }
-elseif(isset($_POST) && !empty($_POST))
-{
+elseif(isset($_POST) && !empty($_POST)) {
 	header('Content-Type: text/plain; charset=utf-8');
-	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password))
-	{
+	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password)) {
 		/* SECURITY */
 
 		if(!isset($_SESSION['pfm']) || $_SESSION['pfm'] !== $password)
@@ -127,12 +117,10 @@ elseif(isset($_POST) && !empty($_POST))
 
 		/* ACTIONS */
 
-		if(isset($_POST['token']))
-		{
+		if(isset($_POST['token'])) {
 			include('php/files_edit.php');
 
-			if($_POST['token'] === $_SESSION['token'])
-			{
+			if($_POST['token'] === $_SESSION['token']) {
 				if($current === '.')
 					$current = '';
 
@@ -141,8 +129,7 @@ elseif(isset($_POST) && !empty($_POST))
 			else
 				exit('Refresh site');
 		}
-		else
-		{
+		else {
 			/* RETURN DIR INFORMATIONS */
 
 			include('php/show_elements.php');
@@ -157,15 +144,13 @@ elseif(isset($_POST) && !empty($_POST))
 
 			$win_fs = true;
 
-			if(strpos($script_path, '/') === false)
-			{
+			if(strpos($script_path, '/') === false) {
 				$win_fs = false;
 				$server_dirs[0]['name'] = '/';
 				$server_dirs[0]['path'] = '.';
 				$nb_server_dirs = 1;
 			}
-			else
-			{
+			else {
 				if($script_path[0] === '/')
 					$win_fs = false;
 
@@ -173,8 +158,7 @@ elseif(isset($_POST) && !empty($_POST))
 				$nb_server_dirs = sizeof($server_dirs) - 1;
 				unset($server_dirs[$nb_server_dirs]);
 
-				for($i = 0; $i < $nb_server_dirs; $i++)
-				{
+				for($i = 0; $i < $nb_server_dirs; $i++) {
 					if($i === 0 && empty($server_dirs[0]))
 						$tmp = '/';
 					else
@@ -190,22 +174,18 @@ elseif(isset($_POST) && !empty($_POST))
 			$cur_adds = 0;
 
 			$adds_dirs = $current;
-			while(strpos($adds_dirs, '../') === 0)
-			{
+			while(strpos($adds_dirs, '../') === 0) {
 				$cur_rmvs++;
 				$adds_dirs = substr($adds_dirs, 3);
 			}
 
-			if(!empty($adds_dirs) && $adds_dirs !== '.')
-			{
+			if(!empty($adds_dirs) && $adds_dirs !== '.') {
 				$adds_dirs = substr($adds_dirs, 0, strlen($adds_dirs) - 1);
-				if(strpos($adds_dirs, '/') !== false)
-				{
+				if(strpos($adds_dirs, '/') !== false) {
 					$adds_dirs = explode('/', $adds_dirs);
 					$cur_adds = sizeof($adds_dirs);
 				}
-				else
-				{
+				else {
 					$adds_dirs = array($adds_dirs);
 					$cur_adds = 1;
 				}
@@ -215,8 +195,7 @@ elseif(isset($_POST) && !empty($_POST))
 
 			$nb_dirs = 0;
 			$cur_tmp = '';
-			for($i = 0; $i < $nb_server_dirs - $cur_rmvs; $i++)
-			{
+			for($i = 0; $i < $nb_server_dirs - $cur_rmvs; $i++) {
 				$dirs[$i]['name'] = $server_dirs[$i]['name'];
 				$dirs[$i]['path'] = $cur_tmp = $server_dirs[$i]['path'];
 				$nb_dirs++;
@@ -224,10 +203,8 @@ elseif(isset($_POST) && !empty($_POST))
 			if($cur_tmp === '.')
 				$cur_tmp = '';
 
-			if($cur_adds !== 0)
-			{
-				foreach($adds_dirs as $cur_dir)
-				{
+			if($cur_adds !== 0) {
+				foreach($adds_dirs as $cur_dir) {
 					$cur_tmp .= $cur_dir .'/';
 					$dirs[$nb_dirs]['name'] = $cur_dir;
 					$dirs[$nb_dirs]['path'] = $cur_tmp;
@@ -236,8 +213,7 @@ elseif(isset($_POST) && !empty($_POST))
 			}
 
 			$path = '';
-			for($i = 0; $i < $nb_dirs; $i++)
-			{
+			for($i = 0; $i < $nb_dirs; $i++) {
 				$name = $dirs[$i]['name'];
 				if($i === 0 && $win_fs === false)
 					$name = '';
@@ -256,8 +232,7 @@ elseif(isset($_POST) && !empty($_POST))
 			if(isset($_POST['tree_only']))
 				$tree_only = true;
 
-			function show_tree($lvl = 1)
-			{
+			function show_tree($lvl = 1) {
 				global $tree_only;
 				global $dirs;
 				global $nb_dirs;
@@ -275,8 +250,7 @@ elseif(isset($_POST) && !empty($_POST))
 					$func_js = 'boxPathNavigate';
 
 				$return = '';
-				if($lvl === 1)
-				{
+				if($lvl === 1) {
 					$dir_default = '';
 					if($nb_dirs === 1)
 						$dir_default = ' treeDefault';
@@ -285,16 +259,12 @@ elseif(isset($_POST) && !empty($_POST))
 				}
 
 				$next = false;
-				if($handle = opendir($path))
-				{
-					while(false !== ($entry = readdir($handle)))
-					{
-						if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/') && !is_link($link . $entry))
-						{
+				if($handle = opendir($path)) {
+					while(false !== ($entry = readdir($handle))) {
+						if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/') && !is_link($link . $entry)) {
 							$entry_html = htmlentities($entry, ENT_QUOTES);
 
-							if(isset($dirs[$lvl]['name']) && $entry === $dirs[$lvl]['name'])
-							{
+							if(isset($dirs[$lvl]['name']) && $entry === $dirs[$lvl]['name']) {
 								$dir_default = '';
 								if($lvl === $nb_dirs - 1)
 									$dir_default = ' treeDefault';
@@ -302,16 +272,12 @@ elseif(isset($_POST) && !empty($_POST))
 								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dirs[$lvl]['path']) . "')\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 								$next = true;
 							}
-							else
-							{
+							else {
 								$dir = $link . $entry . '/';
-								if(isset($server_dirs[$lvl]['name']))
-								{
-									if($server_dirs[$lvl]['name'] === $entry)
-									{
+								if(isset($server_dirs[$lvl]['name'])) {
+									if($server_dirs[$lvl]['name'] === $entry) {
 										$parent_on_srv_dirs = true;
-										for($i = 0; $i < $lvl; $i++)
-										{
+										for($i = 0; $i < $lvl; $i++) {
 											if($server_dirs[$i]['name'] !== $dirs[$i]['name'])
 												$parent_on_srv_dirs = false;
 										}
@@ -326,8 +292,7 @@ elseif(isset($_POST) && !empty($_POST))
 					}
 					closedir($handle);
 				}
-				else
-				{
+				else {
 					$dir_default = '';
 					if($lvl === $nb_dirs - 1)
 						$dir_open = 'Open treeDefault';
@@ -338,8 +303,7 @@ elseif(isset($_POST) && !empty($_POST))
 						$return .= show_tree($lvl + 1);
 					$next = true;
 				}
-				if($next === false && isset($dirs[$lvl]['name']))
-				{
+				if($next === false && isset($dirs[$lvl]['name'])) {
 					$dir_default = '';
 					if($lvl === $nb_dirs - 1)
 						$dir_default = ' treeDefault';
@@ -352,18 +316,15 @@ elseif(isset($_POST) && !empty($_POST))
 
 			$tree = show_tree();
 
-			if($tree_only === false)
-			{
+			if($tree_only === false) {
 				/* ELEMENTS */
 
 				$script_dirs = substr($server_infos['script'], 1);
-				if(strpos($script_dirs, '/') === false)
-				{
+				if(strpos($script_dirs, '/') === false) {
 					$script_dirs = array();
 					$nb_script_dirs = 0;
 				}
-				else
-				{
+				else {
 					$script_dirs = explode('/', $script_dirs);
 					$nb_script_dirs = sizeof($script_dirs) - 1;
 					unset($script_dirs[$nb_script_dirs]);
@@ -371,8 +332,7 @@ elseif(isset($_POST) && !empty($_POST))
 
 				if($cur_rmvs > $nb_script_dirs)
 					$web_view = false;
-				else
-				{
+				else {
 					$web_view = $server_infos['web_http'] . $server_infos['web_root'] . '/';
 
 					$web_dirs = array();
@@ -390,8 +350,7 @@ elseif(isset($_POST) && !empty($_POST))
 					$link = '';
 
 				$order = '0';
-				if(isset($_POST['order']))
-				{
+				if(isset($_POST['order'])) {
 					$order = $_POST['order'];
 					$_SESSION['order_' . $cur_enc] = $order;
 				}
@@ -399,8 +358,7 @@ elseif(isset($_POST) && !empty($_POST))
 					$order = $_SESSION['order_' . $cur_enc];
 
 				$desc = '0';
-				if(isset($_POST['desc']))
-				{
+				if(isset($_POST['desc'])) {
 					$desc = $_POST['desc'];
 					$_SESSION['desc_' . $cur_enc] = $desc;
 				}
@@ -415,20 +373,15 @@ elseif(isset($_POST) && !empty($_POST))
 				$nb_el_files = 0;
 				$elems_dirs = array();
 				$nb_el_dirs = 0;
-				if($handle = opendir($current))
-				{
-					while(false !== ($entry = readdir($handle)))
-					{
-						if($entry != '.' && $entry != '..')
-						{
-							if(is_dir($link . $entry))
-							{
+				if($handle = opendir($current)) {
+					while(false !== ($entry = readdir($handle))) {
+						if($entry != '.' && $entry != '..') {
+							if(is_dir($link . $entry)) {
 								$elems_dirs[$nb_el_dirs]['name'] = $entry;
 								$elems_dirs[$nb_el_dirs]['link'] = is_link($link . $entry);
 								$nb_el_dirs++;
 							}
-							else
-							{
+							else {
 								$elems_files[$nb_el_files]['name'] = $entry;
 								$elems_files[$nb_el_files]['time'] = filemtime($link . $entry);
 								$elems_files[$nb_el_files]['size'] = filesize($link . $entry);
@@ -448,8 +401,7 @@ elseif(isset($_POST) && !empty($_POST))
 				else
 					$elems_dirs = array_sort($elems_dirs, 'name');
 
-				foreach($elems_dirs as $elem_dir)
-				{
+				foreach($elems_dirs as $elem_dir) {
 					$el_enc = urlencode($elem_dir['name']);
 					$el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
 
@@ -465,8 +417,7 @@ elseif(isset($_POST) && !empty($_POST))
 
 					$link_icon = 'dir';
 					$link_js = 'false';
-					if($elem_dir['link'])
-					{
+					if($elem_dir['link']) {
 						$link_icon = 'linkdir';
 						$link_js = 'true';
 					}
@@ -490,10 +441,8 @@ elseif(isset($_POST) && !empty($_POST))
 
 				$elems_files = array_sort($elems_files, $arr_order, $arr_desc);
 
-				if(isset($elems_files))
-				{
-					foreach($elems_files as $elem_file)
-					{
+				if(isset($elems_files)) {
+					foreach($elems_files as $elem_file) {
 						$el_enc = urlencode($elem_file['name']);
 						$el_html = htmlentities($elem_file['name'], ENT_QUOTES);
 
@@ -502,13 +451,11 @@ elseif(isset($_POST) && !empty($_POST))
 						else
 							$web_url = 'false';
 
-						if($elem_file['link'])
-						{
+						if($elem_file['link']) {
 							$link_icon = 'linkfile';
 							$link_js = 'true';
 						}
-						else
-						{
+						else {
 							$link_icon = css_extension($elem_file['name']);
 							$link_js = 'false';
 						}
@@ -528,8 +475,7 @@ elseif(isset($_POST) && !empty($_POST))
 	else
 		exit('false');
 }
-else
-{
+else {
 	header('Content-Type: text/html; charset=utf-8');
 	exit(str_replace('\' . version_script . \'', version_script, file_get_contents('template/template.html')));
 }
