@@ -247,7 +247,7 @@ function openBox(type, vals, icon = null, callback = false)
 				pathDecoded = currentPath
 			}
 			ajaxRequest("POST", "", `${Date.now()}&dir=${currentPath}&tree_only`, result => {
-				const found = result.match(/(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
+				const found = result.match(/^(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
 				if(found)
 				{
 					if(found[1] || found[3])
@@ -496,7 +496,7 @@ function boxPathNavigate(dir)
 		inputDecoded.value = dir
 	}
 	ajaxRequest("POST", "", `${Date.now()}&dir=${dir}&tree_only`, result => {
-		const found = result.match(/(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
+		const found = result.match(/^(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
 		if(found)
 		{
 			if(found[1] || found[3])
