@@ -1,12 +1,10 @@
 /* CONTEXT MENU */
 
-function posMenu(event = false)
-{
+function posMenu(event = false) {
 	const menuWidth = popupMenu.offsetWidth
 	const menuHeight = popupMenu.offsetHeight
 
-	if(event.clientX + menuWidth > window.innerWidth)
-	{
+	if(event.clientX + menuWidth > window.innerWidth) {
 		if(event.clientX - menuWidth < 0)
 			popupMenu.style.left = "0px"
 		else
@@ -15,8 +13,7 @@ function posMenu(event = false)
 	else
 		popupMenu.style.left = event.clientX + "px"
 
-	if(event.clientY + menuHeight > window.innerHeight)
-	{
+	if(event.clientY + menuHeight > window.innerHeight) {
 		if(event.clientY - menuHeight < 0)
 			popupMenu.style.top = "0px"
 		else
@@ -26,8 +23,7 @@ function posMenu(event = false)
 		popupMenu.style.top = event.clientY + "px"
 }
 
-function openMenu(html, ev)
-{
+function openMenu(html, ev) {
 	popupMenu.style.display = "none"
 	popupMenu.innerHTML = html
 	setTimeout(() => {
@@ -44,15 +40,13 @@ function openMenu(html, ev)
 
 /* POPUP BOX */
 
-function closeBox()
-{
+function closeBox() {
 	popupBox.innerHTML = ""
 	popupMask.style.display = "none"
 	popupBox.style.display = "none"
 }
 
-function showBox(txt, icon, inputs, buttons, noForm = true, callback = false)
-{
+function showBox(txt, icon, inputs, buttons, noForm = true, callback = false) {
 	let html = `<div class="popupBox">
 		<div class="n1">
 			<div class="n3">
@@ -76,23 +70,20 @@ function showBox(txt, icon, inputs, buttons, noForm = true, callback = false)
 	}, delayMenuMs)
 }
 
-function openBox(type, vals, icon = null, callback = false)
-{
+function openBox(type, vals, icon = null, callback = false) {
 	setTimeout(() => {
-		if(type === "alert")
-		{
+		if(type === "alert") {
 			if(icon === null)
 				icon = "info"
 			let txt = vals
 			let btn = "Ok"
-			if(typeof(vals) !== "string")
-			{
+			if(typeof(vals) !== "string") {
 				if(vals.txt)
 					txt = vals.txt
 				if(vals.btn)
 					btn = vals.btn
 			}
-			showBox(txt, icon, `<input type="text" class="hidden" value="">`,  `<button>${btn}</button>`, false, () => {
+			showBox(txt, icon, `<input type="text" class="hidden" value="">`, `<button>${btn}</button>`, false, () => {
 				const input = popupBox.querySelector("input")
 				input.focus()
 
@@ -104,15 +95,13 @@ function openBox(type, vals, icon = null, callback = false)
 				})
 			})
 		}
-		else if(type === "confirm")
-		{
+		else if(type === "confirm") {
 			if(icon === null)
 				icon = "ask"
 			let txt = vals
 			let btnOk = "Yes"
 			let btnNo = "No"
-			if(typeof(vals) !== "string")
-			{
+			if(typeof(vals) !== "string") {
 				if(vals.txt)
 					txt = vals.txt
 				if(vals.btnOk)
@@ -134,16 +123,14 @@ function openBox(type, vals, icon = null, callback = false)
 				})
 			})
 		}
-		else if(type === "prompt")
-		{
+		else if(type === "prompt") {
 			if(icon === null)
 				icon = "ask"
 			let txt = vals
 			let value = ""
 			let btnOk = "Ok"
 			let btnNo = "Cancel"
-			if(typeof(vals) !== "string")
-			{
+			if(typeof(vals) !== "string") {
 				if(vals.txt)
 					txt = vals.txt
 				if(vals.value)
@@ -173,14 +160,12 @@ function openBox(type, vals, icon = null, callback = false)
 				})
 			})
 		}
-		else if(type === "multi")
-		{
+		else if(type === "multi") {
 			if(icon === null)
 				icon = "ask"
 			let txt = ""
 			let listInputs = vals
-			if(typeof(vals) !== "string")
-			{
+			if(typeof(vals) !== "string") {
 				if(vals.txt)
 					txt = vals.txt
 				if(vals.inputs)
@@ -203,8 +188,7 @@ function openBox(type, vals, icon = null, callback = false)
 					checkbox.addEventListener("click", () => {
 						if(checkbox.checked)
 							listValues.push(parseInt(checkbox.value, 10))
-						else
-						{
+						else {
 							const posCheckbox = listValues.indexOf(parseInt(checkbox.value, 10))
 							if(posCheckbox !== -1)
 								listValues.splice(posCheckbox, 1)
@@ -223,15 +207,13 @@ function openBox(type, vals, icon = null, callback = false)
 				})
 			})
 		}
-		else if(type === "path")
-		{
+		else if(type === "path") {
 			if(icon === null)
 				icon = "path"
 			let txt = vals
 			let btnOk = "Ok"
 			let btnNo = "Cancel"
-			if(typeof(vals) !== "string")
-			{
+			if(typeof(vals) !== "string") {
 				if(vals.txt)
 					txt = vals.txt
 				if(vals.btnOk)
@@ -248,8 +230,7 @@ function openBox(type, vals, icon = null, callback = false)
 			}
 			ajaxRequest("POST", "", `${Date.now()}&dir=${currentPath}&tree_only`, result => {
 				const found = result.match(/^(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
-				if(found)
-				{
+				if(found) {
 					if(found[1] || found[3])
 						console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 		
@@ -287,8 +268,7 @@ function openBox(type, vals, icon = null, callback = false)
 
 					boxPathCreateNewDirectory.addEventListener("click", ev => {
 						ajaxRequest("POST", "", `${Date.now()}&new=dir&dir=${inputEncoded.value}&name=${boxPathNameNewDirectory.value}&token=${token}`, result => {
-							if(result === "created")
-							{
+							if(result === "created") {
 								boxPathNameNewDirectory.value = ""
 								boxPathNavigate(currentPath)
 							}
@@ -312,8 +292,7 @@ function openBox(type, vals, icon = null, callback = false)
 				})
 			})
 		}
-		else if(type === "edit")
-		{
+		else if(type === "edit") {
 			if(icon === null)
 				icon = "edit"
 			let txt = `Edit <b>ʿ${vals.name}ʿ</b> :`
@@ -340,8 +319,7 @@ function openBox(type, vals, icon = null, callback = false)
 							ajaxRequest("POST", "", `${Date.now()}&edit_file=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
 								if(result === "edited")
 									openDir(currentPath, true, true)
-								else
-								{
+								else {
 									openDir(currentPath, true, true)
 									openBox("alert", "Error : <b>" + result + "</b>", "err")
 								}
@@ -357,8 +335,7 @@ function openBox(type, vals, icon = null, callback = false)
 					})
 			})
 		}
-		else if(type === "chmods")
-		{
+		else if(type === "chmods") {
 			if(icon === null)
 				icon = "lock"
 			let txt = `Change chmods for <b>ʿ${vals.name}ʿ</b> :`
@@ -372,29 +349,23 @@ function openBox(type, vals, icon = null, callback = false)
 				btnNo = vals.btnNo
 			ajaxRequest("POST", "", `${Date.now()}&get_chmods=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
 				const found = result.match(/\[chmods=([0-9]+)\]/)
-				if(found)
-				{
-					function chmods2checkboxes(chmods, el, input)
-					{
+				if(found) {
+					function chmods2checkboxes(chmods, el, input) {
 						chmods = chmods.toString()
-						while(chmods.length < 4)
-						{
+						while(chmods.length < 4) {
 							chmods = "0" + chmods
 							input.value = chmods
 						}
 
 						const octs = []
-						for(let i = 0; i < 4; i++)
-						{
+						for(let i = 0; i < 4; i++) {
 							let nb = parseInt(chmods[i], 10)
 							let r = w = x = false
-							if(nb >= 4)
-							{
+							if(nb >= 4) {
 								r = true
 								nb -= 4
 							}
-							if(nb >= 2)
-							{
+							if(nb >= 2) {
 								w = true
 								nb -= 2
 							}
@@ -413,11 +384,9 @@ function openBox(type, vals, icon = null, callback = false)
 						})
 					}
 
-					function checkboxes2chmods(el, input)
-					{
+					function checkboxes2chmods(el, input) {
 						let chmods = ""
-						for(let i = 0; i < 4; i++)
-						{
+						for(let i = 0; i < 4; i++) {
 							let val = 0
 							if(el.querySelector(`#chmod_${i}_0`).checked !== false)
 								val += 4
@@ -479,8 +448,7 @@ function openBox(type, vals, icon = null, callback = false)
 							ajaxRequest("POST", "", `${Date.now()}&set_chmods=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
 								if(result === "chmoded")
 									openDir(currentPath, true, true)
-								else
-								{
+								else {
 									openDir(currentPath, true, true)
 									openBox("alert", "Error : <b>" + result + "</b>", "err")
 								}
@@ -499,16 +467,14 @@ function openBox(type, vals, icon = null, callback = false)
 					openBox("alert", `Error : <b>${result}</b>`, "err")
 			})
 		}
-		else
-		{
+		else {
 			alert("Error : Unknown type")
 			return false
 		}
 	}, delayMenuMs)
 }
 
-function boxPathNavigate(dir)
-{
+function boxPathNavigate(dir) {
 	document.querySelector("#popupBox input#pathEncoded").value = dir
 	const inputDecoded = document.querySelector("#popupBox input#pathDecoded")
 	try {
@@ -519,8 +485,7 @@ function boxPathNavigate(dir)
 	}
 	ajaxRequest("POST", "", `${Date.now()}&dir=${dir}&tree_only`, result => {
 		const found = result.match(/^(.*)\/\/!tree!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
-		if(found)
-		{
+		if(found) {
 			if(found[1] || found[3])
 				console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[3].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 
