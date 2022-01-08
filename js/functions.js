@@ -247,7 +247,7 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 				wltrdrUpdate.addEventListener("click", () => {
 					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${vThis1}.${vThis2}.${vThis3}</b></p><br><p>Version available : <b>${vNew1}.${vNew2}.${vNew3}</b></p>`, null, () => {
 						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
-							const found3 = result.match(/\[update=([^,]+),([^,]+),([^\]]+)\]/)
+							const found3 = result.match(/\[update=([^,]+)\|([^,]+)\|([^\]]+)\]/)
 							if(found3)
 								location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
 							else
