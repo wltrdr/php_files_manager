@@ -2,6 +2,7 @@
 	Chargement des elements en ajax
 	Mise à jour automatique des éléments affichés
 	Upload de plusieurs fichiers simultanément
+	Upload des fichiers via drap and drop
 	Copie, déplacement, renommage, duplication, suppression et modification des permissions des fichiers et des dossiers
 	Edition et téléchargement des fichiers (même ceux non accessibles sur le web)
 	Création de nouveaux dossiers et fichiers
@@ -16,10 +17,6 @@
 
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
-
-0.8.7 ⤵
-drag drop upload
-drag drop upload dans dossier
 
 0.9.2⤵
 si multi select :
@@ -60,6 +57,7 @@ generateur .htaccess + .htpasswd (affiche si existe deja)
 generateur template.html (template.html style.css script.js)
 upload from url (renseigner php_global_infos.php dans une array js)
 ??? history push a chaque requete ajax (sauf login) (window.)history.pushState((obj|null), (titre|null), url) // window.addEventListener("popstate", () => { reload dir })
+zip-dezip
 
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
