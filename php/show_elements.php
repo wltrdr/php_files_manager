@@ -1,8 +1,6 @@
 <?php
-function css_extension($file)
-{
-	if(strpos($file, '.') !== false)
-	{
+function css_extension($file) {
+	if(strpos($file, '.') !== false) {
 		$extension = explode('.', $file);
 		$extension = $extension[sizeof($extension) - 1];
 		if($extension === 'css' || $extension === 'json' || $extension === 'xml') return 'css';
@@ -23,18 +21,13 @@ function css_extension($file)
 	return 'nc';
 }
 
-function array_sort($array, $case, $order = 'ASC')
-{
+function array_sort($array, $case, $order = 'ASC') {
 	$new_array = array();
 	$sortable_array = array();
-	if(count($array) > 0)
-	{
-		foreach($array as $k => $v)
-		{
-			if(is_array($v))
-			{
-				foreach($v as $k2 => $v2)
-				{
+	if(count($array) > 0) {
+		foreach($array as $k => $v) {
+			if(is_array($v)) {
+				foreach($v as $k2 => $v2) {
 					if($k2 === $case)
 						$sortable_array[$k] = $v2;
 				}
@@ -52,12 +45,10 @@ function array_sort($array, $case, $order = 'ASC')
 	return $new_array;
 }
 
-function path_parents($nb)
-{
+function path_parents($nb) {
 	if($nb === 0)
 		return '.';
-	else
-	{
+	else {
 		$return = '';
 		for($i = 0; $i < $nb; $i++)
 			$return .= '../';
