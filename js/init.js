@@ -27,6 +27,7 @@ const btnRefresh = document.querySelector("#controls #refresh")
 const btnHome = document.querySelector("#controls #home")
 const btnView = document.querySelector("#controls #view")
 const btnSort = document.querySelector("#controls #sort")
+const btnSettings = document.querySelector("#controls #settings")
 const btnCreate = document.querySelector("#controls #create")
 const path = document.querySelector("#path")
 const logout = document.querySelector("#logout")
@@ -55,6 +56,7 @@ let typeView = 0
 let typeOrder = 0
 let typeOrderDesc = 0
 let typeUploadExists = 0
+let typeCopyMoveExists = 1
 let timeClicDir = 0
 let h1Lvl = -1
 
