@@ -91,7 +91,7 @@ if(isset($_FILES['upload']))
 	if(sizeof($ask_uploads) !== 0)
 	{
 		if(empty($return))
-			$return = '[ask=' . implode(',', $ask_uploads) . ']';
+			$return = '[ask=' . implode('|', $ask_uploads) . ']';
 		else
 		{
 			$nb_ask_uploads = sizeof($ask_uploads);
@@ -117,7 +117,7 @@ if(isset($_FILES['upload']))
 elseif(isset($_POST['ask']) && isset($_POST['files']))
 {
 	$choice = $_POST['ask'];
-	$files_tmp = explode(',', $_POST['files']);
+	$files_tmp = explode('|', $_POST['files']);
 	$nb_files_tmp = sizeof($files_tmp);
 	$files = array();
 	$j = 0;
@@ -400,7 +400,7 @@ unlink($_GET[\'tmp\']);
 header(\'Location: \' . $_GET[\'file\']);
 '))
 		{
-			exit("[update=$script_name,$update_name,$temp_name]");
+			exit("[update=$script_name|$update_name|$temp_name]");
 		}
 		else
 			exit('Creation of temporary file failed');
