@@ -90,7 +90,7 @@ btnView.addEventListener("click", ev => {
 		curView = ""
 		if(typeView === i)
 			curView = "&#8226; "
-		html += `<a onclick="changeView(${typeView}, ${i})">${curView}${type}</a>\n`
+		html += `<a onclick="changeView(${typeView}, ${i}, true)">${curView}${type}</a>\n`
 	})
 
 	openMenu(`<span>View :</span>
@@ -136,7 +136,7 @@ btnSettings.addEventListener("click", ev => {
 		let curUpload = ""
 		if(typeUploadExists === i)
 			curUpload = "&#8226; "
-		html += `<a onclick="typeUploadExists = ${i}">${curUpload}${type}</a>\n`
+		html += `<a onclick="changeTypeUploadExists(${i}, true)">${curUpload}${type}</a>\n`
 	})
 
 	html += "<span class=\"simple\">(Copy/move) If target exists :</span>"
@@ -145,7 +145,7 @@ btnSettings.addEventListener("click", ev => {
 		let curCopyMove = ""
 		if(typeCopyMoveExists === i)
 			curCopyMove = "&#8226; "
-		html += `<a onclick="typeCopyMoveExists = ${i}">${curCopyMove}${type}</a>\n`
+		html += `<a onclick="changeTypeCopyMoveExists(${i}, true)">${curCopyMove}${type}</a>\n`
 	})
 
 	openMenu(html, ev)
