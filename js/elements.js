@@ -82,34 +82,6 @@ function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isL
 
 /* ADD ACTIONS */
 
-function getUploadSizes(callback = false)
-{
-	if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
-	{
-		ajaxRequest("GET", "", `${Date.now()}&get_upload_sizes`, result => {
-			const found = result.match(/\[max_upload_sizes=([0-9]+)\|([0-9]+)\]/)
-			if(found)
-			{
-				uploadMaxFileSize = parseInt(found[1], 10)
-				uploadMaxTotalSize = parseInt(found[2], 10)
-				if(callback !== false)
-				{
-					if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
-						callback(false)
-					else
-						callback(true)
-				}
-			}
-			else if(callback !== false)
-				callback(false)
-		})
-	}
-	else if(callback !== false)
-		callback(true)
-}
-
-getUploadSizes()
-
 function newElement(type, name)
 {
 	if(name === "")
