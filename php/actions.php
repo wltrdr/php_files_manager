@@ -27,29 +27,10 @@ if(isset($_FILES['upload']))
 			$dont_upload = false;
 			if(@file_exists($current . $name))
 			{
-				if($_POST['exists'] === '0')
+				if($_POST['exists'] === '1')
 				{
-					array_push($ask_uploads, $current . $name);
-
-					$j = 1;
-					while(file_exists($current . $name . '.ask' . add_zeros($j)))
-						$j++;
-					$name .= '.ask' . add_zeros($j);
-
-					array_push($ask_uploads, $current . $name);
-				}
-				elseif($_POST['exists'] === '1')
-				{
-					if(@is_file($current . $name) || @is_link($current . $name))
-					{
-						if(@!unlink($current . $name))
-							$return .= "\n$name_html</b> cannot be deleted<b><br><br>";
-					}
-					else
-					{
-						if(@!rm_full_dir($current . $name))
-							$return .= "\n$name_html/</b> cannot be deleted<b><br><br>";
-					}
+					$dont_upload = true;
+					$return .= "\n$name_html</b> already exists<b><br><br>";
 				}
 				elseif($_POST['exists'] === '2')
 				{
@@ -76,10 +57,29 @@ if(isset($_FILES['upload']))
 						$j++;
 					$name .= " ($j)" . $extension;
 				}
+				elseif($_POST['exists'] === '4')
+				{
+					if(@is_file($current . $name) || @is_link($current . $name))
+					{
+						if(@!unlink($current . $name))
+							$return .= "\n$name_html</b> cannot be deleted<b><br><br>";
+					}
+					else
+					{
+						if(@!rm_full_dir($current . $name))
+							$return .= "\n$name_html/</b> cannot be deleted<b><br><br>";
+					}
+				}
 				else
 				{
-					$dont_upload = true;
-					$return .= "\n$name_html</b> already exists<b><br><br>";
+					array_push($ask_uploads, $current . $name);
+
+					$j = 1;
+					while(file_exists($current . $name . '.ask' . add_zeros($j)))
+						$j++;
+					$name .= '.ask' . add_zeros($j);
+
+					array_push($ask_uploads, $current . $name);
 				}
 			}
 			if($dont_upload === false && @!move_uploaded_file($_FILES['upload']['tmp_name'][$i], $current . $name))
@@ -138,10 +138,8 @@ elseif(isset($_POST['ask']) && isset($_POST['files']))
 	{
 		for($i = 0; $i < $nb_files; $i++)
 		{
-			if(@!unlink($current . $files[$i]['old']))
-				$return .= "\n" . htmlentities($files[$i]['old'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
-			elseif(@!rename($current . $files[$i]['ask'], $current . $files[$i]['old']))
-				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
+			if(@!unlink($current . $files[$i]['ask']))
+				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
 		}
 	}
 	elseif($choice === '1')
@@ -181,8 +179,10 @@ elseif(isset($_POST['ask']) && isset($_POST['files']))
 	{
 		for($i = 0; $i < $nb_files; $i++)
 		{
-			if(@!unlink($current . $files[$i]['ask']))
-				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
+			if(@!unlink($current . $files[$i]['old']))
+				$return .= "\n" . htmlentities($files[$i]['old'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
+			elseif(@!rename($current . $files[$i]['ask'], $current . $files[$i]['old']))
+				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
 		}
 	}
 	else
