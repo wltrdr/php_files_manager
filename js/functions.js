@@ -54,7 +54,7 @@ function ajaxRequest(method, url, data, callback, disableLoading = false, disabl
 
 function showElements(result, disableFocus = false)
 {
-	const found = result.match(/(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\n\/\/!order!\\\\(.*)\n\/\/!desc!\\\\(.*)\n\/\/!end!\\\\(.*)/s)
+	const found = result.match(/^(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\n\/\/!order!\\\\(.*)\n\/\/!desc!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
 	if(found)
 	{
 		if(found[1] || found[10])
@@ -183,6 +183,44 @@ function changeView(oldView, newView)
 	}
 }
 
+/* GET SETTINGS */
+
+
+
+/* GET UPLOAD SIZES */
+
+function getUploadSizes(callback = false)
+{
+	if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
+	{
+		ajaxRequest("GET", "", `${Date.now()}&get_upload_sizes`, result => {
+			const found = result.match(/\[max_upload_sizes=([0-9]+)\|([0-9]+)\]/)
+			if(found)
+			{
+				uploadMaxFileSize = parseInt(found[1], 10)
+				uploadMaxTotalSize = parseInt(found[2], 10)
+				if(callback !== false)
+				{
+					if(uploadMaxFileSize === 0 || uploadMaxTotalSize === 0)
+						callback(false)
+					else
+						callback(true)
+				}
+			}
+			else
+			{
+				console.log("%cError : %cUnable to access upload sizes", "color: red;", "color: auto;")
+				if(callback !== false)
+					callback(false)
+			}
+		})
+	}
+	else if(callback !== false)
+		callback(true)
+}
+
+getUploadSizes()
+
 /* UPDATE */
 
 ajaxRequest("GET", urlRawGithub, "", result => {
@@ -209,7 +247,7 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 				wltrdrUpdate.addEventListener("click", () => {
 					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${vThis1}.${vThis2}.${vThis3}</b></p><br><p>Version available : <b>${vNew1}.${vNew2}.${vNew3}</b></p>`, null, () => {
 						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
-							const found3 = result.match(/\[update=([^,]+),([^,]+),([^,]+)\]/)
+							const found3 = result.match(/\[update=([^,]+),([^,]+),([^\]]+)\]/)
 							if(found3)
 								location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
 							else
