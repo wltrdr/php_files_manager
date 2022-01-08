@@ -6,7 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
-define('version_script', '0.8.3');
+define('version_script', '0.8.7');
 include('php/init.php');
 
 $password = sp_crypt($password);
@@ -423,7 +423,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_js = 'true';
 					}
 
-					$elements .= "<a class=\"$link_icon\" onclick=\"leftClickDir('$full_path_enc', $link_js)\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+					$elements .= "<a class=\"$link_icon\" onclick=\"leftClickDir('$full_path_enc', $link_js)\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir('$full_path_enc')\" ondragend=\"dragEndAdir()\" ondrop=\"dropOnAdir()\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
 				if($order === '1')
