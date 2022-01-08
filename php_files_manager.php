@@ -16,27 +16,26 @@ if(!isset($_SESSION['token']))
 
 /* JAVASCRIPT & CSS */
 
-function show_js_css($type, $name) {
-	if(isset($_GET[$type]) && isset($_GET[$name])) {
-		if($type === 'css') {
-			header('Content-Type: text/css; charset=utf-8');
-			$dir = 'template';
-		}
-		else {
-			header('Content-Type: application/javascript; charset=utf-8');
-			$dir = 'js';
-		}
-		exit(file_get_contents($dir . "/$name." . $type));
-	}
+if(isset($_GET['js'])) {
+	header('Content-Type: application/javascript; charset=utf-8');
+	if(isset($_GET['init']))
+		exit(file_get_contents('js/init.js'));
+	elseif(isset($_GET['functions']))
+		exit(file_get_contents('js/functions.js'));
+	elseif(isset($_GET['boxes']))
+		exit(file_get_contents('js/boxes.js'));
+	elseif(isset($_GET['elements']))
+		exit(file_get_contents('js/elements.js'));
+	elseif(isset($_GET['events']))
+		exit(file_get_contents('js/events.js'));
 }
-
-show_js_css('js', 'init');
-show_js_css('js', 'functions');
-show_js_css('js', 'boxes');
-show_js_css('js', 'elements');
-show_js_css('js', 'events');
-show_js_css('css', 'style');
-show_js_css('css', 'images');
+elseif(isset($_GET['css'])) {
+	header('Content-Type: text/css; charset=utf-8');
+	if(isset($_GET['style']))
+		exit(file_get_contents('template/style.css'));
+	elseif(isset($_GET['images']))
+		exit(file_get_contents('template/images.css'));
+}
 
 /* GET UPLOAD SIZES */
 
