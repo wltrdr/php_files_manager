@@ -7,6 +7,18 @@ document.body.addEventListener("contextmenu", ev => {
 	ev.preventDefault()
 })
 
+document.body.addEventListener("dragover", ev => {
+    ev.preventDefault()
+})
+
+document.body.addEventListener("dragleave", ev => {
+    ev.preventDefault()
+})
+
+document.body.addEventListener("drop", ev => {
+    ev.preventDefault()
+})
+
 window.addEventListener("resize", () => {
 	isOnMobile = onMobile()
 })
@@ -25,25 +37,55 @@ inputUpload.addEventListener("change", () => {
 	uploadFiles()
 })
 
-function dragOverAdir(dir) {
+function dragOverAdir(el, dir) {
 	overAdir = dir
+	if(el.className === "dir")
+		el.className = "dirDrag"
+	else if(el.className === "linkdir")
+		el.className = "linkdirDrag"
+	if(elements.classList.contains("dragOver"))
+		elements.classList.remove("dragOver")
 	event.preventDefault()
 }
 
-function dragEndAdir () {
+function dragLeaveAdir(el) {
 	overAdir = false
+	if(el.className === "dirDrag")
+		el.className = "dir"
+	else if(el.className === "linkdirDrag")
+		el.className = "linkdir"
+	if(!elements.classList.contains("dragOver"))
+		elements.classList.add("dragOver")
 	event.preventDefault()
 }
 
-function dropOnAdir() {
+function dropOnAdir(el) {
+	if(el.className === "dirDrag")
+		el.className = "dir"
+	else if(el.className === "linkdirDrag")
+		el.className = "linkdir"
+	if(!elements.classList.contains("dragOver"))
+		elements.classList.add("dragOver")
 	event.preventDefault()
 }
 
 elements.addEventListener("dragover", ev => {
+	if(overAdir !== false && elements.classList.contains("dragOver"))
+		elements.classList.remove("dragOver")
+	else if(overAdir === false && !elements.classList.contains("dragOver"))
+		elements.classList.add("dragOver")
+    ev.preventDefault()
+})
+
+elements.addEventListener("dragleave", ev => {
+	if(elements.classList.contains("dragOver"))
+		elements.classList.remove("dragOver")
     ev.preventDefault()
 })
 
 elements.addEventListener("drop", ev => {
+	if(elements.classList.contains("dragOver"))
+		elements.classList.remove("dragOver")
 	inputUpload.files = ev.dataTransfer.files
 	if(overAdir === false)
 		uploadFiles()
