@@ -47,6 +47,20 @@ if(isset($_GET['get_upload_sizes']))
 	exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
 }
 
+/* GET SETTINGS */
+
+elseif(isset($_GET['get_settings']))
+{
+	header('Content-Type: text/plain; charset=utf-8');
+	if(isset($_SESSION['view']))
+		echo '[view=' . $_SESSION['view'] . ']';
+	if(isset($_SESSION['upload_exists']))
+		echo '[upload_exists=' . $_SESSION['upload_exists'] . ']';
+	if(isset($_SESSION['copy_move_exists']))
+		echo '[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
+	exit();
+}
+
 /* DOWNLOAD FILE */
 
 elseif(isset($_GET['download']))
