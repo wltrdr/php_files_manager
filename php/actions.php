@@ -1,14 +1,4 @@
 <?php
-function add_zeros($val) {
-	if($val < 10)
-		$ret = '00';
-	elseif($val < 100)
-		$ret = '0';
-	else
-		$ret = '';
-	return($ret . $val);
-}
-
 /* SET SETTINGS */
 
 if(isset($_POST['set_settings'])) {
@@ -42,9 +32,9 @@ elseif(isset($_FILES['upload'])) {
 					$extension = $name['dot_extension'];
 					$name = $name['name'];
 					$j = 1;
-					while(file_exists($current . $name . '.bak' . add_zeros($j) . $extension))
+					while(file_exists($current . $name . $extension . '.bak' . $j))
 						$j++;
-					if(@!rename($current . $name . $extension, $current . $name . '.bak' . add_zeros($j) . $extension)) {
+					if(@!rename($current . $name . $extension, $current . $name . $extension . '.bak' . $j)) {
 						$dont_upload = true;
 						$return .= "\n$name_html</b> cannot be renammed<b><br><br>";
 					}
@@ -73,9 +63,9 @@ elseif(isset($_FILES['upload'])) {
 					array_push($ask_uploads, $current . $name);
 
 					$j = 1;
-					while(file_exists($current . $name . '.ask' . add_zeros($j)))
+					while(file_exists($current . $name . '.ask' . $j))
 						$j++;
-					$name .= '.ask' . add_zeros($j);
+					$name .= '.ask' . $j;
 
 					array_push($ask_uploads, $current . $name);
 				}
@@ -139,9 +129,9 @@ elseif(isset($_POST['ask']) && isset($_POST['files'])) {
 			$extension = $name['dot_extension'];
 			$name = $name['name'];
 			$j = 1;
-			while(file_exists($current . $name . '.bak' . add_zeros($j) . $extension))
+			while(file_exists($current . $name . $extension . '.bak' . $j))
 				$j++;
-			$name .= '.bak' . add_zeros($j) . $extension;
+			$name .= $extension . '.bak' . $j;
 			if(@!rename($current . $files[$i]['old'], $current . $name))
 				$return .= "\n" . htmlentities($files[$i]['old'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
 			elseif(@!rename($current . $files[$i]['ask'], $current . $files[$i]['old']))
