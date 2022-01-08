@@ -1,20 +1,17 @@
 <?php
-function no_end_slash($str)
-{
+function no_end_slash($str) {
 	$lng = strlen($str) - 1;
 	if($lng >= 0 && $str[$lng] === '/')
 		$str = substr($str, 0, $lng);
 	return $str;
 }
 
-function split_dirname($dirname)
-{
+function split_dirname($dirname) {
 	$dirname = no_end_slash($dirname);
 
 	if(strpos($dirname, '/') === false)
 		$path = '';
-	else
-	{
+	else {
 		$path_arr = explode('/', $dirname);
 		$nb_path = sizeof($path_arr);
 		$path = '';
@@ -26,12 +23,10 @@ function split_dirname($dirname)
 	return array('path' => $path, 'name' => $dirname);
 }
 
-function split_filename($filename)
-{
+function split_filename($filename) {
 	if(strpos($filename, '/') === false)
 		$path = '';
-	else
-	{
+	else {
 		$path_arr = explode('/', $filename);
 		$nb_path = sizeof($path_arr);
 		$path = '';
@@ -40,18 +35,15 @@ function split_filename($filename)
 		$filename = $path_arr[$nb_path - 1];
 	}
 
-	if(strpos($filename, '.') === false || $filename[strlen($filename) - 1] === '.')
-	{
+	if(strpos($filename, '.') === false || $filename[strlen($filename) - 1] === '.') {
 		$dot = '';
 		$extension = '';
 	}
-	else
-	{
+	else {
 		$name_arr = explode('.', $filename);
 		$nb_name = sizeof($name_arr);
 		$filename = '';
-		for($i = 0; $i < $nb_name - 1; $i++)
-		{
+		for($i = 0; $i < $nb_name - 1; $i++) {
 			$filename .= $name_arr[$i];
 			if($i < $nb_name - 2)
 				$filename .= '.';
@@ -63,12 +55,10 @@ function split_filename($filename)
 	return array('path' => $path, 'name' => $filename, 'extension' => $extension, 'dot_extension' => $dot);
 }
 
-function size_of_file($size)
-{
+function size_of_file($size) {
 	if($size < 1024)
 		return $size . ' o';
-	else
-	{
+	else {
 		$m = pow(1024, 2);
 		$g = pow(1024, 3);
 		if($size < $m)
@@ -80,8 +70,7 @@ function size_of_file($size)
 	}
 }
 
-function parse_size($size)
-{
+function parse_size($size) {
 	$unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
 	$size = preg_replace('/[^0-9\.]/', '', $size);
 	if($unit)
