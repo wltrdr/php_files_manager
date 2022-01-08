@@ -11,19 +11,22 @@
 	Choix de l'ordre d'affichage (nom, date, taille, type, croissant ou decroissant)
 	Accès protégé par mot de passe
 	Protection anti "piratage via url connue" grace à un système de token
+	Mise à jour du script en 1 clic
 
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
-0.8.0 ⤵
+0.8.3 ⤵
 choix if if exists when move or copy (dans un nv bouton reglages qui contient choix upload + choix copy/move + choix corbeille ou supprime)
-update from https://raw.githubusercontent.com/wltrdr/php_global_infos/main/php_global_infos.php (le check se fait en js)
+mettre view et actionuploadexists dans session
+echap pour fermer certaines popups
+openmenu plus gros sur mobile
 
-0.8.5 ⤵
+0.8.7 ⤵
 drag drop upload
 drag drop upload dans dossier
 
-0.9.0⤵
+0.9.2⤵
 si multi select :
 	+ deplacement dans dossier
 	+ copier couper elements
@@ -36,9 +39,7 @@ si multi select :
 		creer dir
 		creer file
 
-0.9.5⤵
-mettre view et actionuploadexists dans session
-echap pour fermer certaines popups
+0.9.6⤵
 créer corbeille (action par defaut dans session)
 openBox(path) => bouton nouveau dossier
 
@@ -50,7 +51,6 @@ création (symlink) + gestion liens symboliques :
 		dupliquer
 		deplacer
 		copier
-??? history push a chaque requete ajax (sauf login) (window.)history.pushState((obj|null), (titre|null), url) // window.addEventListener("popstate", () => { reload dir })
 
 1.0.0⤵
 !!! tester si guillement ou & dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFi
@@ -65,6 +65,7 @@ tout tester
 generateur .htaccess + .htpasswd (affiche si existe deja)
 generateur template.html (template.html style.css script.js)
 upload from url (renseigner php_global_infos.php dans une array js)
+??? history push a chaque requete ajax (sauf login) (window.)history.pushState((obj|null), (titre|null), url) // window.addEventListener("popstate", () => { reload dir })
 
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
