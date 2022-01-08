@@ -281,15 +281,15 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 				wltrdrUpdate.querySelector("a").removeAttribute("href")
 				wltrdrUpdate.addEventListener("click", () => {
 					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${vThis1}.${vThis2}.${vThis3}</b></p><br><p>Version available : <b>${vNew1}.${vNew2}.${vNew3}</b></p>`, null, () => {
-						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&dir=${currentPath}&token=${token}`, result => {
-							// update recupere le nom du fichier
-							// update telecharge le nouveau et lui donne un nom temporaire
-							// update cree un fichier temp.php :
-							// update renvoie [update=nom.php,nomTmpNouveau.php,temp.php]
-							// js ouvre temp.php?nom=nom.php&temp=nomTmpNouveau.php
-							// temp.php supprime nom.php
-							// temp renomme nomTmpNouveau.php en nom.php
-							// temp redirige vers nom.php puis se supprime
+						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
+							const found3 = result.match(/\[update=([^,]+),([^,]+),([^,]+)\]/)
+							if(found3)
+								location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
+							else
+							{
+								openDir(currentPath, true)
+								openBox("alert", "Error : <b>" + result + "</b>", "err")
+							}
 						})
 					})
 				})
