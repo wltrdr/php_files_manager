@@ -11,6 +11,13 @@ window.addEventListener("resize", () => {
 	isOnMobile = onMobile()
 })
 
+document.addEventListener("keydown", ev => {
+	if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27))
+		popupMenu.style.display = "none"
+		popupBox.style.display = "none"
+		popupMask.style.display = "none"
+})
+
 /* CONTROLS */
 
 btnBack.addEventListener("click", () => {
