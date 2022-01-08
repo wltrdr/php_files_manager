@@ -121,22 +121,32 @@ btnSort.addEventListener("click", ev => {
 })
 
 btnCreate.addEventListener("click", ev => {
-	const choices = ["Ask", "Replace", "Rename old", "Rename new", "Do nothing"]
-	let html = ""
+	openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
+	<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
+	<a onclick="inputUpload.click()">Upload file(s)</a>
+	`, ev)
+})
 
-	choices.forEach((type, i) => {
-		curUpload = ""
+btnSettings.addEventListener("click", ev => {
+	let html = "<span class=\"simple\">(Upload) If target exists :</span>"
+	const choicesUpload = ["Ask", "Replace", "Rename old", "Rename new", "Do nothing"]
+	choicesUpload.forEach((type, i) => {
+		let curUpload = ""
 		if(typeUploadExists === i)
 			curUpload = "&#8226; "
 		html += `<a onclick="typeUploadExists = ${i}">${curUpload}${type}</a>\n`
 	})
 
-	openMenu(`<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
-	<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
-	<a onclick="inputUpload.click()">Upload file(s)</a>
-	<span class="simple">If target exists :</span>
-	${html}
-	`, ev)
+	html += "<span class=\"simple\">(Copy/move) If target exists :</span>"
+	const choicesCopyMove = ["Do nothing", "Rename new", "Replace"]
+	choicesCopyMove.forEach((type, i) => {
+		let curCopyMove = ""
+		if(typeCopyMoveExists === i)
+			curCopyMove = "&#8226; "
+		html += `<a onclick="typeCopyMoveExists = ${i}">${curCopyMove}${type}</a>\n`
+	})
+
+	openMenu(html, ev)
 })
 
 inputUpload.addEventListener("change", () => {
