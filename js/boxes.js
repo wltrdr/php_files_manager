@@ -257,7 +257,7 @@ function openBox(type, vals, icon = null, callback = false)
 				}
 				else
 					result = "Error : <b>Try to refresh site</b>"
-				showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" id="pathDecoded" value="${pathDecoded}"><input type="hidden" id="pathEncoded" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+				showBox(txt, icon, `<div id="boxPath"><div class="list">${result}</div></div><input type="text" id="pathDecoded" value="${pathDecoded}"><div id="boxPathNewDirectory"><input type="text" id="boxPathNameNewDirectory" placeholder="Name of the new directory"><button id="boxPathCreateNewDirectory">Create</button></div><input type="hidden" id="pathEncoded" value="${currentPath}">`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>\n<button id="c">Create sub-directory</button>`, false, () => {
 					try {
 						const boxPath = document.querySelector("#boxPath")
 						boxPath.scrollTop = boxPath.querySelector(".treeDefault").offsetTop - boxPath.querySelector(".list").offsetTop
@@ -266,6 +266,9 @@ function openBox(type, vals, icon = null, callback = false)
 
 					const inputEncoded = popupBox.querySelector("input#pathEncoded")
 					const inputDecoded = popupBox.querySelector("input#pathDecoded")
+					const boxPathNewDirectory = popupBox.querySelector("#boxPathNewDirectory")
+					const boxPathNameNewDirectory = popupBox.querySelector("#boxPathNameNewDirectory")
+					const boxPathCreateNewDirectory = popupBox.querySelector("#boxPathCreateNewDirectory")
 
 					inputDecoded.addEventListener("input", () => {
 						try {
@@ -274,6 +277,25 @@ function openBox(type, vals, icon = null, callback = false)
 						catch {
 							inputEncoded.value = inputDecoded.value
 						}
+					})
+
+					popupBox.querySelector("button#c").addEventListener("click", ev => {
+						boxPathNewDirectory.style.display = "flex"
+						boxPathNameNewDirectory.focus();
+						ev.preventDefault()
+					})
+
+					boxPathCreateNewDirectory.addEventListener("click", ev => {
+						ajaxRequest("POST", "", `${Date.now()}&new=dir&dir=${inputEncoded.value}&name=${boxPathNameNewDirectory.value}&token=${token}`, result => {
+							if(result === "created")
+							{
+								boxPathNameNewDirectory.value = ""
+								boxPathNavigate(currentPath)
+							}
+							else
+								console.log("%cError : %c" + result, "color: red;", "color: auto;")
+						})
+						ev.preventDefault()
 					})
 
 					popupBox.querySelector("button#y").addEventListener("click", ev => {
