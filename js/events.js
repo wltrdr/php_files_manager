@@ -129,7 +129,7 @@ btnCreate.addEventListener("click", ev => {
 
 btnSettings.addEventListener("click", ev => {
 	let html = "<span class=\"simple\">(Upload) If target exists :</span>"
-	const choicesUpload = ["Ask", "Replace", "Rename old", "Rename new", "Do nothing"]
+	const choicesUpload = ["Ask", "Do nothing", "Rename old", "Rename new", "Replace"]
 	choicesUpload.forEach((type, i) => {
 		let curUpload = ""
 		if(typeUploadExists === i)
@@ -138,7 +138,7 @@ btnSettings.addEventListener("click", ev => {
 	})
 
 	html += "<span class=\"simple\">(Copy/move) If target exists :</span>"
-	const choicesCopyMove = ["Do nothing", "Rename new", "Replace"]
+	const choicesCopyMove = ["Do nothing", "Rename old", "Rename new", "Replace"]
 	choicesCopyMove.forEach((type, i) => {
 		let curCopyMove = ""
 		if(typeCopyMoveExists === i)
@@ -200,7 +200,7 @@ inputUpload.addEventListener("change", () => {
 						{
 							const found = result.match(/\[ask=([^\]]+)/)
 							if(found)
-								openBox("multi", { txt: "Error : <b>What to do when a file or a dir with the same name already exists ?</b>", inputs: "[button]Replace olds[button]Rename olds[button]Rename news[button]Do nothing[checkbox]Save choice" }, null, choices => {
+								openBox("multi", { txt: "Error : <b>What to do when a file or a dir with the same name already exists ?</b>", inputs: "[button]Do nothing[button]Rename old[button]Rename new[button]Replace old[checkbox]Save choice" }, null, choices => {
 									let choice = 0
 									choices.forEach(choiceTmp => {
 										if(choiceTmp !== 4)
