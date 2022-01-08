@@ -18,6 +18,7 @@ const inputConnexion = document.querySelector("#connexion form input")
 const btnConnexion = document.querySelector("#connexion form button")
 const contents = document.querySelector("#contents")
 const h1 = document.querySelector("h1")
+const wltrdrUpdate = document.querySelector("#wltrdrUpdate")
 const inputUpload = document.querySelector("#title #upload")
 const btnBack = document.querySelector("#controls #back")
 const btnForward = document.querySelector("#controls #forward")
@@ -38,6 +39,7 @@ const inputConnexionPH = inputConnexion.placeholder
 const h1Default = h1.innerHTML
 const h1Words = h1Default.split(" ")
 const h1NbWords = h1Words.length
+const urlRawGithub = "https://raw.githubusercontent.com/wltrdr/php_global_infos/main/php_global_infos.php"
 
 let token
 let currentPath = "."
