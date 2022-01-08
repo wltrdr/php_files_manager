@@ -84,7 +84,7 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 		$extension = $source_infos['dot_extension'];
 		$dest_name = $source_name;
 
-		if($source_path === $dest && $move === true)
+		if($source_path === $dest && ($move === true || $dest_file_exists !== 2))
 			return false;
 		elseif(file_exists($dest . $source_name . $extension))
 		{
@@ -140,7 +140,7 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 		$dest_name = $source_name;
 		$create_dir = true;
 
-		if($source_path === $dest && $move === true)
+		if($source_path === $dest && ($move === true || $fusion_dirs !== 2))
 			return false;
 		elseif(file_exists($dest . $source_name))
 		{
