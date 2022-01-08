@@ -168,7 +168,7 @@ function duplicateElement(path, name)
 
 function copyElement(path, name, newPath)
 {
-	ajaxRequest("POST", "", `${Date.now()}&copy=${name}&dir=${path}&path=${newPath}&token=${token}`, result => {
+	ajaxRequest("POST", "", `${Date.now()}&copy=${name}&dir=${path}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
 		if(result === "copied")
 			openDir(currentPath, true)
 		else
@@ -181,7 +181,7 @@ function copyElement(path, name, newPath)
 
 function moveElement(path, name, newPath)
 {
-	ajaxRequest("POST", "", `${Date.now()}&move=${name}&dir=${path}&path=${newPath}&token=${token}`, result => {
+	ajaxRequest("POST", "", `${Date.now()}&move=${name}&dir=${path}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
 		if(result === "moved")
 			openDir(currentPath, true)
 		else
