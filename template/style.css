@@ -674,6 +674,10 @@ h1 span {
 	overflow-y: auto;
 }
 
+#elements.dragOver {
+	background-color: rgba(0, 100, 150, 0.5);
+}
+
 #tree .list a, #boxPath .list a {
 	display: inline-block;
 	margin-top: 0px;
