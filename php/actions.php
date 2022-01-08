@@ -1,6 +1,5 @@
 <?php
-function add_zeros($val)
-{
+function add_zeros($val) {
 	if($val < 10)
 		$ret = '00';
 	elseif($val < 100)
@@ -12,8 +11,7 @@ function add_zeros($val)
 
 /* SET SETTINGS */
 
-if(isset($_POST['set_settings']))
-{
+if(isset($_POST['set_settings'])) {
 	if(isset($_POST['view']))
 		$_SESSION['view'] = $_POST['view'];
 	if(isset($_POST['upload_exists']))
@@ -24,43 +22,35 @@ if(isset($_POST['set_settings']))
 
 /* UPLOAD */
 
-elseif(isset($_FILES['upload']))
-{
+elseif(isset($_FILES['upload'])) {
 	$return = '';
 	$nb_files = count($_FILES['upload']['name']);
 	$ask_uploads = array();
-	for($i = 0; $i < $nb_files; $i++)
-	{
+	for($i = 0; $i < $nb_files; $i++) {
 		$name = $_FILES['upload']['name'][$i];
 		$name_html = htmlentities($name, ENT_QUOTES);
 
-		if($_FILES['upload']['error'][$i] === 0)
-		{
+		if($_FILES['upload']['error'][$i] === 0) {
 			$dont_upload = false;
-			if(@file_exists($current . $name))
-			{
-				if($_POST['exists'] === '1')
-				{
+			if(@file_exists($current . $name)) {
+				if($_POST['exists'] === '1') {
 					$dont_upload = true;
 					$return .= "\n$name_html</b> already exists<b><br><br>";
 				}
-				elseif($_POST['exists'] === '2')
-				{
+				elseif($_POST['exists'] === '2') {
 					$name = split_filename($name);
 					$extension = $name['dot_extension'];
 					$name = $name['name'];
 					$j = 1;
 					while(file_exists($current . $name . '.bak' . add_zeros($j) . $extension))
 						$j++;
-					if(@!rename($current . $name . $extension, $current . $name . '.bak' . add_zeros($j) . $extension))
-					{
+					if(@!rename($current . $name . $extension, $current . $name . '.bak' . add_zeros($j) . $extension)) {
 						$dont_upload = true;
 						$return .= "\n$name_html</b> cannot be renammed<b><br><br>";
 					}
 					$name = $name . $extension;
 				}
-				elseif($_POST['exists'] === '3')
-				{
+				elseif($_POST['exists'] === '3') {
 					$name = split_filename($name);
 					$extension = $name['dot_extension'];
 					$name = $name['name'];
@@ -69,21 +59,17 @@ elseif(isset($_FILES['upload']))
 						$j++;
 					$name .= " ($j)" . $extension;
 				}
-				elseif($_POST['exists'] === '4')
-				{
-					if(@is_file($current . $name) || @is_link($current . $name))
-					{
+				elseif($_POST['exists'] === '4') {
+					if(@is_file($current . $name) || @is_link($current . $name)) {
 						if(@!unlink($current . $name))
 							$return .= "\n$name_html</b> cannot be deleted<b><br><br>";
 					}
-					else
-					{
+					else {
 						if(@!rm_full_dir($current . $name))
 							$return .= "\n$name_html/</b> cannot be deleted<b><br><br>";
 					}
 				}
-				else
-				{
+				else {
 					array_push($ask_uploads, $current . $name);
 
 					$j = 1;
@@ -100,15 +86,12 @@ elseif(isset($_FILES['upload']))
 		else
 			$return .= "\n$name_html</b> cannot be uploaded (#2)<b><br><br>";
 	}
-	if(sizeof($ask_uploads) !== 0)
-	{
+	if(sizeof($ask_uploads) !== 0) {
 		if(empty($return))
 			$return = '[ask=' . implode('|', $ask_uploads) . ']';
-		else
-		{
+		else {
 			$nb_ask_uploads = sizeof($ask_uploads);
-			for($i = 0; $i < $nb_ask_uploads; $i++)
-			{
+			for($i = 0; $i < $nb_ask_uploads; $i++) {
 				if($i % 2 !== 0 && @!unlink($current . $ask_uploads[$i]))
 					$return .= "\n" . htmlentities($ask_uploads[$i], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
 				elseif($i % 2 === 0)
@@ -126,19 +109,16 @@ elseif(isset($_FILES['upload']))
 
 /* ASK AFTER UPLOAD */
 
-elseif(isset($_POST['ask']) && isset($_POST['files']))
-{
+elseif(isset($_POST['ask']) && isset($_POST['files'])) {
 	$choice = $_POST['ask'];
 	$files_tmp = explode('|', $_POST['files']);
 	$nb_files_tmp = sizeof($files_tmp);
 	$files = array();
 	$j = 0;
-	for($i = 0; $i < $nb_files_tmp; $i++)
-	{
+	for($i = 0; $i < $nb_files_tmp; $i++) {
 		if($i % 2 === 0)
 			$files[$j]['old'] = $files_tmp[$i];
-		else
-		{
+		else {
 			$files[$j]['ask'] = $files_tmp[$i];
 			$j++;
 		}
@@ -146,18 +126,14 @@ elseif(isset($_POST['ask']) && isset($_POST['files']))
 
 	$return = '';
 	$nb_files = sizeof($files);
-	if($choice === '0')
-	{
-		for($i = 0; $i < $nb_files; $i++)
-		{
+	if($choice === '0') {
+		for($i = 0; $i < $nb_files; $i++) {
 			if(@!unlink($current . $files[$i]['ask']))
 				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
 		}
 	}
-	elseif($choice === '1')
-	{
-		for($i = 0; $i < $nb_files; $i++)
-		{
+	elseif($choice === '1') {
+		for($i = 0; $i < $nb_files; $i++) {
 			$name = $files[$i]['old'];
 			$name = split_filename($files[$i]['old']);
 			$extension = $name['dot_extension'];
@@ -172,10 +148,8 @@ elseif(isset($_POST['ask']) && isset($_POST['files']))
 				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
 		}
 	}
-	elseif($choice === '2')
-	{
-		for($i = 0; $i < $nb_files; $i++)
-		{
+	elseif($choice === '2') {
+		for($i = 0; $i < $nb_files; $i++) {
 			$name = split_filename($files[$i]['old']);
 			$extension = $name['dot_extension'];
 			$name = $name['name'];
@@ -187,10 +161,8 @@ elseif(isset($_POST['ask']) && isset($_POST['files']))
 				$return .= "\n" . htmlentities($files[$i]['ask'], ENT_QUOTES) . '</b> cannot be renammed<b><br><br>';
 		}
 	}
-	elseif($choice === '3')
-	{
-		for($i = 0; $i < $nb_files; $i++)
-		{
+	elseif($choice === '3') {
+		for($i = 0; $i < $nb_files; $i++) {
 			if(@!unlink($current . $files[$i]['old']))
 				$return .= "\n" . htmlentities($files[$i]['old'], ENT_QUOTES) . '</b> cannot be deleted<b><br><br>';
 			elseif(@!rename($current . $files[$i]['ask'], $current . $files[$i]['old']))
@@ -208,25 +180,20 @@ elseif(isset($_POST['ask']) && isset($_POST['files']))
 
 /* NEW FILE OR FOLDER */
 
-elseif(isset($_POST['new']) && isset($_POST['name']))
-{
-	if(strpos($_POST['name'], "'") === false)
-	{
+elseif(isset($_POST['new']) && isset($_POST['name'])) {
+	if(strpos($_POST['name'], "'") === false) {
 		$new_name = $_POST['name'];
 
 		if(@file_exists($current . $new_name))
 			exit('File or directory already exists');
-		else
-		{
-			if($_POST['new'] === 'file')
-			{
+		else {
+			if($_POST['new'] === 'file') {
 				if(@file_put_contents($current . $new_name, '') !== false)
 					exit('created');
 				else
 					exit('File not created');
 			}
-			else
-			{
+			else {
 				if(@mkdir($current . $new_name))
 					exit('created');
 				else
@@ -240,8 +207,7 @@ elseif(isset($_POST['new']) && isset($_POST['name']))
 
 /* RENAME ELEMENT */
 
-elseif(isset($_POST['rename']) && isset($_POST['name']))
-{
+elseif(isset($_POST['rename']) && isset($_POST['name'])) {
 	if(@rename($current . urldecode($_POST['rename']), $current . $_POST['name']))
 		exit('renamed');
 	else
@@ -250,13 +216,11 @@ elseif(isset($_POST['rename']) && isset($_POST['name']))
 
 /* DUPLICATE ELEMENT */
 
-elseif(isset($_POST['duplicate']) && isset($_POST['path']))
-{
+elseif(isset($_POST['duplicate']) && isset($_POST['path'])) {
 	$name = urldecode($_POST['duplicate']);
 	$path = $_POST['path'];
 
-	if(@file_exists($current . $name))
-	{
+	if(@file_exists($current . $name)) {
 		if(@copy_or_move($current . $name, $path, false, 2, 2, 2))
 			exit('duplicated');
 		else
@@ -268,12 +232,10 @@ elseif(isset($_POST['duplicate']) && isset($_POST['path']))
 
 /* COPY ELEMENT */
 
-elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists']))
-{
+elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
 	$name = urldecode($_POST['copy']);
 	$if_exists = intval($_POST['if_exists']);
-	if(@file_exists($current . $name))
-	{
+	if(@file_exists($current . $name)) {
 		if(@copy_or_move($current . $name, $_POST['path'], false, $if_exists, $if_exists, 1))
 			exit('copied');
 		else
@@ -285,12 +247,10 @@ elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists
 
 /* MOVE ELEMENT */
 
-elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists']))
-{
+elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
 	$name = urldecode($_POST['move']);
 	$if_exists = intval($_POST['if_exists']);
-	if(@file_exists($current . $name))
-	{
+	if(@file_exists($current . $name)) {
 		if(@copy_or_move($current . $name, $_POST['path'], true, $if_exists, $if_exists, 1))
 			exit('moved');
 		else
@@ -302,19 +262,16 @@ elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists
 
 /* DELETE ELEMENT */
 
-elseif(isset($_POST['delete']))
-{
+elseif(isset($_POST['delete'])) {
 	$name = urldecode($_POST['delete']);
 
-	if(@is_file($current . $name) || @is_link($current . $name))
-	{
+	if(@is_file($current . $name) || @is_link($current . $name)) {
 		if(@unlink($current . $name))
 			exit('deleted');
 		else
 			exit('File not deleted');
 	}
-	elseif(@is_dir($current . $name))
-	{
+	elseif(@is_dir($current . $name)) {
 		if(@rm_full_dir($current . $name))
 			exit('deleted');
 		else
@@ -326,8 +283,7 @@ elseif(isset($_POST['delete']))
 
 /* EDIT ELEMENT */
 
-elseif(isset($_POST['read_file']))
-{
+elseif(isset($_POST['read_file'])) {
 	$name = urldecode($_POST['read_file']);
 
 	if(@is_file($current . $name) || @is_link($current . $name))
@@ -336,12 +292,10 @@ elseif(isset($_POST['read_file']))
 		exit('[file_edit_not_found]');
 }
 
-elseif(isset($_POST['edit_file']) && isset($_POST['name']))
-{
+elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 	$name = urldecode($_POST['name']);
 
-	if(@is_file($current . $name) || @is_link($current . $name))
-	{
+	if(@is_file($current . $name) || @is_link($current . $name)) {
 		if(@file_put_contents($current . $name, $_POST['edit_file']))
 			exit('edited');
 		else
@@ -353,12 +307,10 @@ elseif(isset($_POST['edit_file']) && isset($_POST['name']))
 
 /* GET CHMODS */
 
-elseif(isset($_POST['get_chmods']))
-{
+elseif(isset($_POST['get_chmods'])) {
 	$name = urldecode($_POST['get_chmods']);
 
-	if(@file_exists($current . $name))
-	{
+	if(@file_exists($current . $name)) {
 		$fileperms = @find_chmods($current . $name);
 		if($fileperms !== false)
 			exit("[chmods=$fileperms]");
@@ -371,12 +323,10 @@ elseif(isset($_POST['get_chmods']))
 
 /* CHANGE CHMODS */
 
-elseif(isset($_POST['set_chmods']) && isset($_POST['name']))
-{
+elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
 	$name = urldecode($_POST['name']);
 
-	if(@file_exists($current . $name))
-	{
+	if(@file_exists($current . $name)) {
 		if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
 			exit('chmoded');
 		else
@@ -388,8 +338,7 @@ elseif(isset($_POST['set_chmods']) && isset($_POST['name']))
 
 /* UPDATE */
 
-elseif(isset($_POST['update']))
-{
+elseif(isset($_POST['update'])) {
 	$script_name = split_filename(server_infos()['script']);
 	$script_name = $script_name['name'] . $script_name['dot_extension'];
 
@@ -403,15 +352,13 @@ elseif(isset($_POST['update']))
 		$i++;
 	$temp_name = "update_temp$i.php";
 
-	if(@file_put_contents($update_name, @file_get_contents(urldecode($_POST['update']))))
-	{
+	if(@file_put_contents($update_name, @file_get_contents(urldecode($_POST['update'])))) {
 		if(@file_put_contents($temp_name, '<?php
 unlink($_GET[\'file\']);
 rename($_GET[\'update\'], $_GET[\'file\']);
 unlink($_GET[\'tmp\']);
 header(\'Location: \' . $_GET[\'file\']);
-'))
-		{
+')) {
 			exit("[update=$script_name|$update_name|$temp_name]");
 		}
 		else
