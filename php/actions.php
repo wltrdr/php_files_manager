@@ -245,7 +245,7 @@ elseif(isset($_POST['duplicate']) && isset($_POST['path']))
 
 	if(@file_exists($current . $name))
 	{
-		if(@copy_or_move($current . $name, $path, false, 1, 1, 2))
+		if(@copy_or_move($current . $name, $path, false, 2, 2, 2))
 			exit('duplicated');
 		else
 			exit('File or directory not duplicated');
@@ -256,14 +256,13 @@ elseif(isset($_POST['duplicate']) && isset($_POST['path']))
 
 /* COPY ELEMENT */
 
-elseif(isset($_POST['copy']) && isset($_POST['path']))
+elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists']))
 {
 	$name = urldecode($_POST['copy']);
-	$path = $_POST['path'];
-
+	$if_exists = intval($_POST['if_exists']);
 	if(@file_exists($current . $name))
 	{
-		if(@copy_or_move($current . $name, $path, false, 1, 1, 1))
+		if(@copy_or_move($current . $name, $_POST['path'], false, $if_exists, $if_exists, 1))
 			exit('copied');
 		else
 			exit('File or directory not copied');
@@ -274,14 +273,13 @@ elseif(isset($_POST['copy']) && isset($_POST['path']))
 
 /* MOVE ELEMENT */
 
-elseif(isset($_POST['move']) && isset($_POST['path']))
+elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists']))
 {
 	$name = urldecode($_POST['move']);
-	$path = $_POST['path'];
-
+	$if_exists = intval($_POST['if_exists']);
 	if(@file_exists($current . $name))
 	{
-		if(@copy_or_move($current . $name, $path, true, 1, 1, 1))
+		if(@copy_or_move($current . $name, $_POST['path'], true, $if_exists, $if_exists, 1))
 			exit('moved');
 		else
 			exit('File or directory not moved');
