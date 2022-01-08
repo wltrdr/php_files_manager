@@ -374,5 +374,40 @@ elseif(isset($_POST['set_chmods']) && isset($_POST['name']))
 		exit('File not found');
 }
 
+/* UPDATE */
+
+elseif(isset($_POST['update']))
+{
+	$script_name = split_filename(server_infos()['script']);
+	$script_name = $script_name['name'] . $script_name['dot_extension'];
+
+	$i = 1;
+	while(@file_exists($script_name . '.update' . $i))
+		$i++;
+	$update_name = $script_name . '.update' . $i;
+
+	$i = 1;
+	while(@file_exists("update_temp$i.php"))
+		$i++;
+	$temp_name = "update_temp$i.php";
+
+	if(@file_put_contents($update_name, @file_get_contents(urldecode($_POST['update']))))
+	{
+		if(@file_put_contents($temp_name, '<?php
+unlink($_GET[\'file\']);
+rename($_GET[\'update\'], $_GET[\'file\']);
+unlink($_GET[\'tmp\']);
+header(\'Location: \' . $_GET[\'file\']);
+'))
+		{
+			exit("[update=$script_name,$update_name,$temp_name]");
+		}
+		else
+			exit('Creation of temporary file failed');
+	}
+	else
+		exit('Download failed');
+}
+
 else
 	exit('Unknown action');
