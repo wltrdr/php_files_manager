@@ -317,6 +317,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 			$tree = show_tree();
 
 			if($tree_only === false) {
+
 				/* ELEMENTS */
 
 				$script_dirs = substr($server_infos['script'], 1);
