@@ -51,13 +51,15 @@ $source :
 $dest_file_exists :
 	IF FILE EXISTS WHERE THE FILE MUST BE COPIED :
 		0 : RETURN FALSE
-		1 : RENAME NEW FILE
-		2 : DELETE EXISTING FILE
+		1 : RENAME OLD FILE
+		2 : RENAME NEW FILE
+		3 : DELETE EXISTING FILE
 $dest_dir_exists :
 	IF DIR EXISTS WHERE THE FILE MUST BE COPIED :
 		0 : RETURN FALSE
-		1 : RENAME NEW FILE
-		2 : DELETE EXISTING DIR
+		1 : RENAME OLD DIR
+		2 : RENAME NEW FILE
+		3 : DELETE EXISTING DIR
 $fusion_dirs :
 	IF FILE OR DIR EXISTS WHERE THE DIR MUST BE COPIED :
 		0 : RETURN FALSE
@@ -95,14 +97,22 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 
 			if(($is_file === false && $dest_dir_exists === 0) || ($is_file === true && $dest_file_exists === 0))
 				return false;
-			elseif($is_file === true && $dest_file_exists === 2)
+			elseif($is_file === true && $dest_file_exists === 3)
 			{
 				if(!unlink($dest . $source_name . $extension))
 					return false;
 			}
-			elseif($is_file === false && $dest_dir_exists === 2)
+			elseif($is_file === false && $dest_dir_exists === 3)
 			{
 				if(!rm_full_dir($dest . $source_name . $extension))
+					return false;
+			}
+			elseif(($is_file === false && $dest_dir_exists === 1) || ($is_file === true && $dest_file_exists === 1))
+			{
+				$i = 1;
+				while(file_exists($dest . $source_name . $extension . '.bak' . $i))
+					$i++;
+				if(!rename($dest . $source_name . $extension, $dest . $source_name . $extension . '.bak' . $i))
 					return false;
 			}
 			else
