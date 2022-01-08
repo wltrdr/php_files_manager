@@ -6,6 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
+define('version_script', '0.7.8');
 include('php/init.php');
 
 $password = sp_crypt($password);
@@ -516,5 +517,5 @@ elseif(isset($_POST) && !empty($_POST))
 else
 {
 	header('Content-Type: text/html; charset=utf-8');
-	exit(file_get_contents('template/template.html'));
+	exit(str_replace('\' . version_script . \'', version_script, file_get_contents('template/template.html')));
 }
