@@ -282,6 +282,22 @@ button {
 		box-shadow: 0px 0px 0.75em rgba(0, 0, 0, 0.2);
 	}
 
+	#popupBox #boxPathNewDirectory {
+		display: none;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-top: 1.5em;
+	}
+
+	#popupBox #boxPathNameNewDirectory {
+		margin: 0px;
+	}
+
+	#popupBox #boxPathCreateNewDirectory {
+		margin: 0px;
+		margin-left: 0.5em;
+	}
+
 	#popupBox #boxChmods input {
 		display: block;
 		margin: 0px;
