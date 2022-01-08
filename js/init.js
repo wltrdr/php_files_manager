@@ -39,7 +39,7 @@ const inputConnexionPH = inputConnexion.placeholder
 const h1Default = h1.innerHTML
 const h1Words = h1Default.split(" ")
 const h1NbWords = h1Words.length
-const urlRawGithub = "https://raw.githubusercontent.com/wltrdr/php_global_infos/main/php_global_infos.php"
+const urlRawGithub = "https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php"
 
 let token
 let currentPath = "."
