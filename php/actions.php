@@ -10,9 +10,21 @@ function add_zeros($val)
 	return($ret . $val);
 }
 
+/* SET SETTINGS */
+
+if(isset($_POST['set_settings']))
+{
+	if(isset($_POST['view']))
+		$_SESSION['view'] = $_POST['view'];
+	if(isset($_POST['upload_exists']))
+		$_SESSION['upload_exists'] = $_POST['upload_exists'];
+	if(isset($_POST['copy_move_exists']))
+		$_SESSION['copy_move_exists'] = $_POST['copy_move_exists'];
+}
+
 /* UPLOAD */
 
-if(isset($_FILES['upload']))
+elseif(isset($_FILES['upload']))
 {
 	$return = '';
 	$nb_files = count($_FILES['upload']['name']);
