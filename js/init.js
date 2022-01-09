@@ -135,20 +135,20 @@ function removeObjsInArr(arr, val, param, insensible = false)
 let selectedElements = []
 let clicOnSelectedEl = false
 
-function selectElement(el, name, nameEncoded) {
+function selectElement(el, nameEncoded) {
 	disableAutoRefresh = true
-	if(!returnObjInArr(selectedElements, el, "element", true)) {
+	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 		el.classList.add("selected")
 		selectedElements.push({
 			element : el,
-			name : nameEncoded
+			nameEncoded : nameEncoded
 		})
 	}
 }
 
-function unselectElement(el) {
-	returnObjInArr(selectedElements, el, "element").element.classList.remove("selected")
-	removeObjsInArr(selectedElements, el, "element")
+function unselectElement(nameEncoded) {
+	returnObjInArr(selectedElements, nameEncoded, "nameEncoded").element.classList.remove("selected")
+	removeObjsInArr(selectedElements, nameEncoded, "nameEncoded")
 }
 
 function unselectElements() {
@@ -164,39 +164,48 @@ function startLongClic() {
 		disableAutoRefresh = true
 }
 
-function endClicDir(el, dir, name, nameEncoded, isLink = false) {
+function endClicDir(el, dir, nameEncoded, isLink = false) {
 	if(event.button !== 2) {
 		clicOnElement = true // sera aussi ajoute dans fonction context menu (qui verifie si choix multiple ou non) // MENU CLIC DROIT DESELECTIONNE AUSSI SANS RIEN FAIRE DAUTRE SI CLIC ELEMENT NON SELECT
 
 		if(event.ctrlKey === true) {
-			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 				selectElement(el, nameEncoded)
 			else
-				unselectElement(el)
+				unselectElement(nameEncoded)
 		}
 		else if(event.shiftKey === true) {
-			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, el, "element", true)) {
-				
-				console.log("SELECTIONNE JUSQUE LA")
-
-
-
-
-
+			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+				let foundFirst = false
+				elements.querySelectorAll("a").forEach(element => {
+					if(foundFirst === false && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+						foundFirst = true
+					else if(foundFirst === false && element.getAttribute("data-name-enc") === nameEncoded  ) {
+						foundFirst = true
+						selectElement(el, nameEncoded)
+					}
+					else if(foundFirst === true && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+						foundFirst = false
+					else if(foundFirst === true && element.getAttribute("data-name-enc") === nameEncoded ) {
+						foundFirst = false
+						selectElement(el, nameEncoded)
+					}
+					else if(foundFirst === true)
+						selectElement(element, element.getAttribute("data-name-enc"))
+				})
 			}
 			else {
-				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 					selectElement(el, nameEncoded)
 				else
-					unselectElement(el)
+					unselectElement(nameEncoded)
 			}
 		}
-		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, el, "element", true)) {
+		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			console.log("MENU CHOIX MULTIPLE")
 		}
-		else if(selectedElements.length > 0)
-			unselectElements()
 		else {
+			unselectElements()
 			disableAutoRefresh = false
 			openDir(dir, isLink)
 		}
@@ -208,34 +217,43 @@ function endClicFile(el, name, pathEncoded, nameEncoded, webUrl, isLink = false)
 		clicOnElement = true // sera aussi ajoute dans fonction context menu (qui verifie si choix multiple ou non) // MENU CLIC DROIT DESELECTIONNE AUSSI SANS RIEN FAIRE DAUTRE SI CLIC ELEMENT NON SELECT
 
 		if(event.ctrlKey === true) {
-			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 				selectElement(el, nameEncoded)
 			else
-				unselectElement(el)
+				unselectElement(nameEncoded)
 		}
 		else if(event.shiftKey === true) {
-			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, el, "element", true)) {
-
-				console.log("SELECTIONNE JUSQUE LA")
-
-
-
-
-				
+			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+				let foundFirst = false
+				elements.querySelectorAll("a").forEach(element => {
+					if(foundFirst === false && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+						foundFirst = true
+					else if(foundFirst === false && element.getAttribute("data-name-enc") === nameEncoded  ) {
+						foundFirst = true
+						selectElement(el, nameEncoded)
+					}
+					else if(foundFirst === true && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+						foundFirst = false
+					else if(foundFirst === true && element.getAttribute("data-name-enc") === nameEncoded ) {
+						foundFirst = false
+						selectElement(el, nameEncoded)
+					}
+					else if(foundFirst === true)
+						selectElement(element, element.getAttribute("data-name-enc"))
+				})
 			}
 			else {
-				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 					selectElement(el, nameEncoded)
 				else
-					unselectElement(el)
+					unselectElement(nameEncoded)
 			}
 		}
-		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, el, "element", true)) {
+		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			console.log("MENU CHOIX MULTIPLE")
 		}
-		else if(selectedElements.length > 0)
-			unselectElements()
 		else {
+			unselectElements()
 			disableAutoRefresh = false
 			menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
 		}
