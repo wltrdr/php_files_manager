@@ -209,7 +209,6 @@ elseif(isset($_POST['rename']) && isset($_POST['name'])) {
 elseif(isset($_POST['duplicate']) && isset($_POST['path'])) {
 	$name = urldecode($_POST['duplicate']);
 	$path = $_POST['path'];
-
 	if(@file_exists($current . $name)) {
 		if(@copy_or_move($current . $name, $path, false, 2, 2, 2))
 			exit('duplicated');
@@ -254,7 +253,6 @@ elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists
 
 elseif(isset($_POST['delete'])) {
 	$name = urldecode($_POST['delete']);
-
 	if(@is_file($current . $name) || @is_link($current . $name)) {
 		if(@unlink($current . $name))
 			exit('deleted');
@@ -275,7 +273,6 @@ elseif(isset($_POST['delete'])) {
 
 elseif(isset($_POST['read_file'])) {
 	$name = urldecode($_POST['read_file']);
-
 	if(@is_file($current . $name) || @is_link($current . $name))
 		exit('' . file_get_contents($current . $name));
 	else
@@ -284,7 +281,6 @@ elseif(isset($_POST['read_file'])) {
 
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 	$name = urldecode($_POST['name']);
-
 	if(@is_file($current . $name) || @is_link($current . $name)) {
 		if(@file_put_contents($current . $name, $_POST['edit_file']))
 			exit('edited');
@@ -299,7 +295,6 @@ elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 
 elseif(isset($_POST['get_chmods'])) {
 	$name = urldecode($_POST['get_chmods']);
-
 	if(@file_exists($current . $name)) {
 		$fileperms = @find_chmods($current . $name);
 		if($fileperms !== false)
@@ -315,7 +310,6 @@ elseif(isset($_POST['get_chmods'])) {
 
 elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
 	$name = urldecode($_POST['name']);
-
 	if(@file_exists($current . $name)) {
 		if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
 			exit('chmoded');
