@@ -57,7 +57,7 @@ let typeOrder = 0
 let typeOrderDesc = 0
 let typeUploadExists = 0
 let typeCopyMoveExists = 1
-let timeLongClick = 0
+// let timeLongClick = 0
 let h1Lvl = -1
 let disableAutoRefresh = false
 let overAdir = false
@@ -100,3 +100,133 @@ function effectH1Mobile(el) {
 }
 
 effectH1Mobile(h1)
+
+/* CLICK ON ELEMENTS */
+
+function returnObjInArr(arr, val, param, returnBoolean = false, insensible = false)
+{
+    if(insensible === true)
+        val = val.toLowerCase()
+    let ret = false
+    arr.forEach(el => {
+        let retTmp = true
+        if(returnBoolean === false)
+            retTmp = el
+        if((insensible === true && el[param].toLowerCase() === val) || (insensible !== true && el[param] === val))
+            ret = retTmp
+    })
+    return ret
+}
+
+function removeObjsInArr(arr, val, param, insensible = false)
+{
+    if(insensible === true)
+        val = val.toLowerCase()
+    for(let i = 0; i < arr.length; i++)
+    {
+        if((insensible === true && arr[i][param].toLowerCase() === val) || (insensible !== true && arr[i][param] === val))
+        {
+            arr.splice(i, 1)
+            i--
+        }
+    }
+}
+
+let selectedElements = []
+let clicOnSelectedEl = false
+
+function startLongClic() {
+	if(event.button !== 2)
+		disableAutoRefresh = true
+}
+
+function endClicDir(el, dir, name, nameEncoded, isLink = false) {
+	if(event.button !== 2) {
+		clicOnElement = true // sera aussi ajoute dans fonction context menu (qui verifie si choix multiple ou non) // MENU CLIC DROIT DESELECTIONNE AUSSI SANS RIEN FAIRE DAUTRE SI CLIC ELEMENT NON SELECT
+
+		if(event.ctrlKey === true) {
+			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
+				selectElement(el, name, nameEncoded)
+			else
+				unselectElement(name)
+		}
+		else if(event.shiftKey === true) {
+			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, name, "name", true)) {
+				console.log("SELECTIONNE JUSQUE LA")
+			}
+			else {
+				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
+					selectElement(el, name, nameEncoded)
+				else
+					unselectElement(name)
+			}
+		}
+		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, name, "name", true)) {
+			console.log("MENU CHOIX MULTIPLE")
+		}
+		else if(selectedElements.length > 0)
+			unselectElements()
+		else {
+			disableAutoRefresh = false
+			openDir(dir, isLink)
+		}
+	}
+}
+
+function endClicFile(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
+	if(event.button !== 2) {
+		clicOnElement = true // sera aussi ajoute dans fonction context menu (qui verifie si choix multiple ou non) // MENU CLIC DROIT DESELECTIONNE AUSSI SANS RIEN FAIRE DAUTRE SI CLIC ELEMENT NON SELECT
+
+		if(event.ctrlKey === true) {
+			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
+				selectElement(el, name, nameEncoded)
+			else
+				unselectElement(name)
+		}
+		else if(event.shiftKey === true) {
+			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, name, "name", true)) {
+				console.log("SELECTIONNE JUSQUE LA")
+			}
+			else {
+				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
+					selectElement(el, name, nameEncoded)
+				else
+					unselectElement(name)
+			}
+		}
+		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, name, "name", true)) {
+			console.log("MENU CHOIX MULTIPLE")
+		}
+		else if(selectedElements.length > 0)
+			unselectElements()
+		else {
+			disableAutoRefresh = false
+			menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+		}
+	}
+}
+
+function selectElement(el, name, nameEncoded) {
+	disableAutoRefresh = true
+	if(!returnObjInArr(selectedElements, name, "name", true)) {
+		el.classList.add("selected")
+		selectedElements.push({
+			element : el,
+			name : name,
+			nameEncoded : nameEncoded
+		})
+	}
+}
+
+function unselectElement(name) {
+	returnObjInArr(selectedElements, name, "name").element.classList.remove("selected")
+	removeObjsInArr(selectedElements, name, "name")
+}
+
+function unselectElements() {
+	disableAutoRefresh = false
+	selectedElements.forEach((selectedElement, i) => {
+		selectedElement.element.classList.remove("selected")
+	})
+	selectedElements = []
+}
