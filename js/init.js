@@ -166,8 +166,7 @@ function startClic() {
 
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(event.button !== 2) {
-		clicOnElement = true // sera aussi ajoute dans fonction context menu (qui verifie si choix multiple ou non) // MENU CLIC DROIT DESELECTIONNE AUSSI SANS RIEN FAIRE DAUTRE SI CLIC ELEMENT NON SELECT
-
+		clicOnElement = true
 		if(event.ctrlKey === true) {
 			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 				selectElement(el, nameEncoded)
@@ -206,11 +205,24 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 		}
 		else {
 			unselectElements()
-			disableAutoRefresh = false
 			if(name === false)
 				openDir(pathEncoded, isLink)
 			else
 				menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
 		}
+	}
+}
+
+function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+	clicOnElement = true
+	if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+		console.log("MENU CHOIX MULTIPLE")
+	}
+	else {
+		unselectElements()
+		if(fullPathEncoded !== false)
+			menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+		else
+			menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
 	}
 }
