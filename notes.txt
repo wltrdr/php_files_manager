@@ -20,9 +20,10 @@
 
 0.8.8⤵
 selection elements via shift
+ctrl+a
 
 0.8.9⤵
-deplacement elements via drap drop
+deplacement elements selectionnés via drap drop
 
 0.9.1⤵
 menu elements selectionnes clic gauche ou droit
