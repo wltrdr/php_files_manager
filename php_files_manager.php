@@ -460,7 +460,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 							$link_js = 'false';
 						}
 
-						$elements .= "<a class=\"$link_icon\" onclick=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+						$elements .= "<a class=\"$link_icon\" onmousedown=\"startClicFile()\" onmouseup=\"endClicFile('$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
 					}
 				}
 
