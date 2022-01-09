@@ -61,7 +61,9 @@ function startClicDir() {
 
 function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 	popupMenu.style.display = "none"
-	if(event.button !== 2) {
+	if(event.button === 2)
+		menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+	else {
 		if(isOnMobile === true) {
 			if(Date.now() - timeClicDir > longClicMs)
 				menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
