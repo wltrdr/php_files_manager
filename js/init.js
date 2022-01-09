@@ -46,7 +46,7 @@ let token
 let currentPath = "."
 let parentPath = "false"
 let timeDirOpened = 0
-let history = []
+const history = []
 let historyLevel = 0
 let uploadMaxFileSize = 0
 let uploadMaxTotalSize = 0
@@ -59,6 +59,7 @@ let typeUploadExists = 0
 let typeCopyMoveExists = 1
 let timeLongClick = 0
 let h1Lvl = -1
+let disableAutoRefresh = false
 let overAdir = false
 
 function onMobile() {
