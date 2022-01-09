@@ -20,7 +20,7 @@
 
 0.8.9⤵
 deplacement elements selectionnés via drap drop
-le deplacement doit aussi s'appliquer dans tree
+le deplacement doit aussi s'appliquer dans tree (endclic())
 
 0.9.1⤵
 menu elements selectionnés
