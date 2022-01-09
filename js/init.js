@@ -168,8 +168,8 @@ let tryToMove = false
 function startClic(el, nameEncoded) {
 	if(event.button !== 2) {
 		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+			// ajoute classe hover a dir et linkdir non sélectionnés
 			tryToMove = el
-			// ajoute classe hover a dir et linkdir
 		}
 		disableAutoRefresh = true
 	}
@@ -178,16 +178,13 @@ function startClic(el, nameEncoded) {
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(event.button !== 2) {
 		clicOnElement = true
-		if(tryToMove !== false && tryToMove !== el) {
+		if(name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			console.log("MOVE SELECTION TO " + nameEncoded)
 			// MOVE SELECTION TO ELEMENT
 			unselectElements()
 			tryToMove = false
-			// retire classe hover a dir et linkdir
 		}
 		else {
-			tryToMove = false
-			// retire classe hover a dir et linkdir
 			if(event.ctrlKey === true) {
 				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 					selectElement(el, nameEncoded)
@@ -232,6 +229,7 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 				else
 					menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
 			}
+			tryToMove = false
 		}
 	}
 }
