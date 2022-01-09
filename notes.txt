@@ -19,13 +19,11 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.8.8⤵
-selection elements via shift
+endClicDir() + endClicFile() => endLongClic()
 ctrl+a
-
-0.8.9⤵
 deplacement elements selectionnés via drap drop
 
-0.9.1⤵
+0.9.0⤵
 menu elements selectionnes clic gauche ou droit
 ↘
 	copier
