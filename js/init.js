@@ -57,10 +57,11 @@ let typeOrder = 0
 let typeOrderDesc = 0
 let typeUploadExists = 0
 let typeCopyMoveExists = 1
-// let timeLongClick = 0
 let h1Lvl = -1
 let disableAutoRefresh = false
 let overAdir = false
+let selectedElements = []
+let clicOnElement = false
 
 function onMobile() {
 	function checkMobile(navData) {
@@ -132,9 +133,6 @@ function removeObjsInArr(arr, val, param, insensible = false)
     }
 }
 
-let selectedElements = []
-let clicOnSelectedEl = false
-
 function selectElement(el, nameEncoded) {
 	disableAutoRefresh = true
 	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
@@ -144,6 +142,12 @@ function selectElement(el, nameEncoded) {
 			nameEncoded : nameEncoded
 		})
 	}
+}
+
+function selectAllElements() {
+	elements.querySelectorAll("a").forEach(element => {
+		selectElement(element, element.getAttribute("data-name-enc"))
+	})
 }
 
 function unselectElement(nameEncoded) {
