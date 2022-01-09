@@ -18,26 +18,30 @@
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
+0.8.8⤵
+selection elements via clic long, ctrl et shift
+
 0.9.0⤵
-deplacement element via drap drop
+deplacement elements via drap drop
 
-0.9.5⤵
-si multi select :
-	+ deplacement dans dossier
-	+ copier couper elements
-	+ clic droit zone elements
-	↘
-		afficher ce dossier web (si accessible)
-		type voir
-		type sort
-		coller (si dispo)
-		creer dir
-		creer file
+0.9.2⤵
+copier couper coller elements
+clic droit zone elements
+↘
+	afficher ce dossier web (si accessible)
+	type voir
+	type sort
+	coller (si dispo)
+	creer dir
+	creer file
 
-0.9.7⤵
+0.9.4⤵
+multiselect a la souris
+
+0.9.6⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
 
-0.9.9⤵
+0.9.8⤵
 création (symlink) + gestion liens symboliques :
 	menu pour liens symboliques fichier ou dossier :
 	↘
