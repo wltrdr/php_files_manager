@@ -52,55 +52,6 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 		`, event)
 }
 
-/* CLICK ON ELEMENTS */
-
-function startLongClic() {
-	disableAutoRefresh = true
-	if(event.button !== 2 && isOnMobile === false)
-		timeLongClick = Date.now()
-}
-
-function endClicDir(el, dir, name, nameEncoded, isLink = false) {
-	disableAutoRefresh = false
-	if(event.button !== 2) {
-		if(isOnMobile === true || Date.now() - timeLongClick < longClicMs)
-			openDir(dir, isLink)
-		else
-			selectElement(el, name, nameEncoded)
-		timeLongClick = 0
-	}
-}
-
-function endClicFile(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
-	disableAutoRefresh = false
-	if(event.button !== 2) {
-		if(isOnMobile === true || Date.now() - timeLongClick < longClicMs)
-			menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
-		else
-			selectElement(el, name, nameEncoded)
-		timeLongClick = 0
-	}
-}
-
-const selectedElements = []
-
-function selectElement(el, name, nameEncoded) {
-	disableAutoRefresh = true
-	// on cherche si element est selectionné
-	// si non {
-		el.classList.add("selected")
-		// on ajoute el a selectedElements
-	// }
-}
-
-function deselectElements () {
-	disableAutoRefresh = false
-	// foreach selectedElements {
-		// .classList.remove("selected")
-		// supprime entree de selectedElements
-	// }
-}
-
 /* ADD ACTIONS */
 
 function newElement(type, name) {
