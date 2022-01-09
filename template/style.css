@@ -708,7 +708,7 @@ h1 span {
 #elements .list a {
 	display: inline-block;
 	margin: 1em 0px 0px 1em;
-	padding: 0px 0.5em 1em 0.5em;
+	padding: 0.5em;
 	width: 8em;
 	text-align: center;
 	vertical-align: top;
@@ -716,6 +716,12 @@ h1 span {
 	word-break: break-word;
 	opacity: 0.87;
 	user-select: text;
+	border: 1px solid transparent;
+}
+
+#elements .list a.selected {
+	border: 1px solid rgba(0, 50, 100, 0.75);
+	background-color: rgba(0, 100, 150, 0.5);
 }
 
 #elements .list a span.icon {
