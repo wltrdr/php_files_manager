@@ -54,23 +54,23 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 
 /* CLICK ON ELEMENTS */
 
-function leftClickDir(dir, isLink = false) {
-	if(isOnMobile === false)
-		openDir(dir, isLink)
-}
-
 function startClicDir() {
-	if(isOnMobile === true)
+	if(event.button !== 2)
 		timeClicDir = Date.now()
 }
 
 function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
-	if(isOnMobile === true && timeClicDir !== 0) {
-		if(Date.now() - timeClicDir > longClicMs)
-			menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+	popupMenu.style.display = "none"
+	if(event.button !== 2) {
+		if(isOnMobile === true) {
+			if(Date.now() - timeClicDir > longClicMs)
+				menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+			else
+				openDir(fullPathEncoded, isLink)
+			timeClicDir = 0
+		}
 		else
 			openDir(fullPathEncoded, isLink)
-		timeClicDir = 0
 	}
 }
 
