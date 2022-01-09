@@ -76,6 +76,13 @@ function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isL
 	}
 }
 
+function startClicFile() {
+}
+
+function endClicFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
+	menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+}
+
 /* ADD ACTIONS */
 
 function newElement(type, name) {
