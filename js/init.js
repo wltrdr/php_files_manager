@@ -135,6 +135,30 @@ function removeObjsInArr(arr, val, param, insensible = false)
 let selectedElements = []
 let clicOnSelectedEl = false
 
+function selectElement(el, name, nameEncoded) {
+	disableAutoRefresh = true
+	if(!returnObjInArr(selectedElements, el, "element", true)) {
+		el.classList.add("selected")
+		selectedElements.push({
+			element : el,
+			name : nameEncoded
+		})
+	}
+}
+
+function unselectElement(el) {
+	returnObjInArr(selectedElements, el, "element").element.classList.remove("selected")
+	removeObjsInArr(selectedElements, el, "element")
+}
+
+function unselectElements() {
+	disableAutoRefresh = false
+	selectedElements.forEach((selectedElement, i) => {
+		selectedElement.element.classList.remove("selected")
+	})
+	selectedElements = []
+}
+
 function startLongClic() {
 	if(event.button !== 2)
 		disableAutoRefresh = true
@@ -145,23 +169,29 @@ function endClicDir(el, dir, name, nameEncoded, isLink = false) {
 		clicOnElement = true // sera aussi ajoute dans fonction context menu (qui verifie si choix multiple ou non) // MENU CLIC DROIT DESELECTIONNE AUSSI SANS RIEN FAIRE DAUTRE SI CLIC ELEMENT NON SELECT
 
 		if(event.ctrlKey === true) {
-			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
-				selectElement(el, name, nameEncoded)
+			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+				selectElement(el, nameEncoded)
 			else
-				unselectElement(name)
+				unselectElement(el)
 		}
 		else if(event.shiftKey === true) {
-			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, name, "name", true)) {
+			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, el, "element", true)) {
+				
 				console.log("SELECTIONNE JUSQUE LA")
+
+
+
+
+
 			}
 			else {
-				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
-					selectElement(el, name, nameEncoded)
+				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+					selectElement(el, nameEncoded)
 				else
-					unselectElement(name)
+					unselectElement(el)
 			}
 		}
-		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, name, "name", true)) {
+		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, el, "element", true)) {
 			console.log("MENU CHOIX MULTIPLE")
 		}
 		else if(selectedElements.length > 0)
@@ -178,23 +208,29 @@ function endClicFile(el, name, pathEncoded, nameEncoded, webUrl, isLink = false)
 		clicOnElement = true // sera aussi ajoute dans fonction context menu (qui verifie si choix multiple ou non) // MENU CLIC DROIT DESELECTIONNE AUSSI SANS RIEN FAIRE DAUTRE SI CLIC ELEMENT NON SELECT
 
 		if(event.ctrlKey === true) {
-			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
-				selectElement(el, name, nameEncoded)
+			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+				selectElement(el, nameEncoded)
 			else
-				unselectElement(name)
+				unselectElement(el)
 		}
 		else if(event.shiftKey === true) {
-			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, name, "name", true)) {
+			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, el, "element", true)) {
+
 				console.log("SELECTIONNE JUSQUE LA")
+
+
+
+
+				
 			}
 			else {
-				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, name, "name", true))
-					selectElement(el, name, nameEncoded)
+				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, el, "element", true))
+					selectElement(el, nameEncoded)
 				else
-					unselectElement(name)
+					unselectElement(el)
 			}
 		}
-		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, name, "name", true)) {
+		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, el, "element", true)) {
 			console.log("MENU CHOIX MULTIPLE")
 		}
 		else if(selectedElements.length > 0)
@@ -204,29 +240,4 @@ function endClicFile(el, name, pathEncoded, nameEncoded, webUrl, isLink = false)
 			menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
 		}
 	}
-}
-
-function selectElement(el, name, nameEncoded) {
-	disableAutoRefresh = true
-	if(!returnObjInArr(selectedElements, name, "name", true)) {
-		el.classList.add("selected")
-		selectedElements.push({
-			element : el,
-			name : name,
-			nameEncoded : nameEncoded
-		})
-	}
-}
-
-function unselectElement(name) {
-	returnObjInArr(selectedElements, name, "name").element.classList.remove("selected")
-	removeObjsInArr(selectedElements, name, "name")
-}
-
-function unselectElements() {
-	disableAutoRefresh = false
-	selectedElements.forEach((selectedElement, i) => {
-		selectedElement.element.classList.remove("selected")
-	})
-	selectedElements = []
 }
