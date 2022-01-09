@@ -108,7 +108,6 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 				$dest_name .= " ($i)";
 			}
 		}
-
 		if($move === true && rename($source, $dest . $dest_name . $extension))
 			return true;
 		elseif($move === false && copy($source, $dest . $dest_name . $extension))
@@ -153,7 +152,6 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 				}
 			}
 		}
-
 		if($move === true && $create_dir === true) {
 			if(rename($source, $dest . $dest_name))
 				return true;
