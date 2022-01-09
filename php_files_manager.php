@@ -140,7 +140,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 				exit('[fatal=Unable to get server information]');
 
 			$script_path = $server_infos['server_root'] . $server_infos['script'];
-
 			$win_fs = true;
 
 			if(strpos($script_path, '/') === false) {
@@ -227,7 +226,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 			/* TREE */
 
 			$tree_only = false;
-
 			if(isset($_POST['tree_only']))
 				$tree_only = true;
 
@@ -256,7 +254,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 					$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"$func_js('" . urlencode($path) . '\')" ondragover="dragOverAtreeDir(this, \'' . urlencode($path) . '\')" ondragleave="dragLeaveAtreeDir(this)" ondrop="dropOnAtreeDir(this)"><span class="icon"></span>' . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
 				}
-
 				$next = false;
 				if($handle = opendir($path)) {
 					while(false !== ($entry = readdir($handle))) {
@@ -284,7 +281,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 											$dir = $server_dirs[$lvl]['path'];
 									}
 								}
-
 								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dir) . "')\" ondragover=\"dragOverAtreeDir(this, '" . urlencode($dir) . "')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
 						}
@@ -393,7 +389,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 					}
 					closedir($handle);
 				}
-
 				$elements = '';
 
 				if($desc_dirs === '1')
@@ -421,7 +416,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_icon = 'linkdir';
 						$link_js = 'true';
 					}
-
 					$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
@@ -459,7 +453,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 							$link_icon = css_extension($elem_file['name']);
 							$link_js = 'false';
 						}
-
 						$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, '$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', false, $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
 					}
 				}
