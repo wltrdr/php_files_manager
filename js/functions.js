@@ -144,7 +144,7 @@ function openDir(dir, disableFocus = false, disableLoading = false, order = "", 
 openDir(currentPath)
 
 setInterval(() => {
-	if(timeDirOpened < Date.now() - BtwRefreshesMs)
+	if(disableAutoRefresh === false && timeDirOpened < Date.now() - BtwRefreshesMs)
 		openDir(currentPath, true, true)
 }, checkIntervMs)
 
