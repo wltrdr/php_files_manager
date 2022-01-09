@@ -19,10 +19,9 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.0⤵
-upload dans dossiers tree
 deplacement element via drap drop
 
-0.9.6⤵
+0.9.5⤵
 si multi select :
 	+ deplacement dans dossier
 	+ copier couper elements
@@ -35,7 +34,7 @@ si multi select :
 		creer dir
 		creer file
 
-0.9.8⤵
+0.9.7⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
 
 0.9.9⤵
