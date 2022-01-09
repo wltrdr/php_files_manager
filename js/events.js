@@ -1,4 +1,5 @@
 function unselectAfterDelay() {
+	popupMenu.style.display = "none"
 	setTimeout(() => {
 		if(clicOnElement === false)
 			unselectElements()
@@ -8,12 +9,10 @@ function unselectAfterDelay() {
 }
 
 document.body.addEventListener("click", ev => {
-	popupMenu.style.display = "none"
 	unselectAfterDelay()
 })
 
 document.body.addEventListener("contextmenu", ev => {
-	popupMenu.style.display = "none"
 	unselectAfterDelay()
 	ev.preventDefault()
 })
