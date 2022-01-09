@@ -163,56 +163,75 @@ function unselectElements() {
 	selectedElements = []
 }
 
-function startClic() {
-	if(event.button !== 2)
+let tryToMove = false
+
+function startClic(el, nameEncoded) {
+	if(event.button !== 2) {
+		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+			tryToMove = el
+			// ajoute classe hover a dir et linkdir
+		}
 		disableAutoRefresh = true
+	}
 }
 
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(event.button !== 2) {
 		clicOnElement = true
-		if(event.ctrlKey === true) {
-			if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
-				selectElement(el, nameEncoded)
-			else
-				unselectElement(nameEncoded)
+		if(tryToMove !== false && tryToMove !== el) {
+			console.log("MOVE SELECTION TO " + nameEncoded)
+			// MOVE SELECTION TO ELEMENT
+			unselectElements()
+			tryToMove = false
+			// retire classe hover a dir et linkdir
 		}
-		else if(event.shiftKey === true) {
-			if(selectedElements.length === 1 && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
-				let foundFirst = false
-				elements.querySelectorAll("a").forEach(element => {
-					if(foundFirst === false && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
-						foundFirst = true
-					else if(foundFirst === false && element.getAttribute("data-name-enc") === nameEncoded  ) {
-						foundFirst = true
-						selectElement(el, nameEncoded)
-					}
-					else if(foundFirst === true && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
-						foundFirst = false
-					else if(foundFirst === true && element.getAttribute("data-name-enc") === nameEncoded ) {
-						foundFirst = false
-						selectElement(el, nameEncoded)
-					}
-					else if(foundFirst === true)
-						selectElement(element, element.getAttribute("data-name-enc"))
-				})
-			}
-			else {
+		else {
+			tryToMove = false
+			// retire classe hover a dir et linkdir
+			if(event.ctrlKey === true) {
 				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 					selectElement(el, nameEncoded)
 				else
 					unselectElement(nameEncoded)
 			}
-		}
-		else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
-			console.log("MENU CHOIX MULTIPLE")
-		}
-		else {
-			unselectElements()
-			if(name === false)
-				openDir(pathEncoded, isLink)
-			else
-				menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+			else if(event.shiftKey === true) {
+				if(selectedElements.length === 1 && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+					let foundFirst = false
+					elements.querySelectorAll("a").forEach(element => {
+						if(foundFirst === false && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+							foundFirst = true
+						else if(foundFirst === false && element.getAttribute("data-name-enc") === nameEncoded  ) {
+							foundFirst = true
+							selectElement(el, nameEncoded)
+						}
+						else if(foundFirst === true && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+							foundFirst = false
+						else if(foundFirst === true && element.getAttribute("data-name-enc") === nameEncoded ) {
+							foundFirst = false
+							selectElement(el, nameEncoded)
+						}
+						else if(foundFirst === true)
+							selectElement(element, element.getAttribute("data-name-enc"))
+					})
+				}
+				else {
+					if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+						selectElement(el, nameEncoded)
+					else
+						unselectElement(nameEncoded)
+				}
+			}
+			else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+				console.log("MENU CHOIX MULTIPLE")
+				// MENU CHOIX MULTIPLE
+			}
+			else {
+				unselectElements()
+				if(name === false)
+					openDir(pathEncoded, isLink)
+				else
+					menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+			}
 		}
 	}
 }
@@ -221,6 +240,7 @@ function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLi
 	clicOnElement = true
 	if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 		console.log("MENU CHOIX MULTIPLE")
+		// MENU CHOIX MULTIPLE
 	}
 	else {
 		unselectElements()
