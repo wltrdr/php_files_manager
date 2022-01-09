@@ -422,7 +422,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_js = 'true';
 					}
 
-					$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startLongClic()\" onmouseup=\"endClicDir(this, '$full_path_enc', '$el_enc', $link_js)\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+					$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic()\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', $web_url, $link_js)\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
 				if($order === '1')
@@ -460,7 +460,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 							$link_js = 'false';
 						}
 
-						$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startLongClic()\" onmouseup=\"endClicFile(this, '$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+						$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic()\" onmouseup=\"endClic(this, '$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\" oncontextmenu=\"menuFile('$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
 					}
 				}
 
