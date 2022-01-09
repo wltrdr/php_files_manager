@@ -95,6 +95,26 @@ elements.addEventListener("drop", ev => {
     ev.preventDefault()
 })
 
+function dragOverAtreeDir(el, dir) {
+	overAdir = dir
+	el.className = "dirDrag"
+	event.preventDefault()
+}
+
+function dragLeaveAtreeDir(el) {
+	overAdir = false
+	el.className = "dir"
+	event.preventDefault()
+}
+
+function dropOnAtreeDir(el) {
+	el.className = "dir"
+	inputUpload.files = event.dataTransfer.files
+	uploadFiles(overAdir)
+	overAdir = false
+	event.preventDefault()
+}
+
 /* CONTROLS */
 
 btnBack.addEventListener("click", () => {
