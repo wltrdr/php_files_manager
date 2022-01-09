@@ -22,12 +22,15 @@
 deplacement elements selectionnés via drap drop => le deplacement doit aussi s'appliquer dans tree (endclic())
 
 0.9.1⤵
+multiselect a la souris
+
+0.9.3⤵
 menu elements selectionnés
 ↘
 	copier
 	couper
 
-0.9.3 menu zone vide
+0.9.5 menu zone vide
 ↘
 	coller (si dispo)
 	afficher ce dossier web (si accessible)
@@ -35,9 +38,6 @@ menu elements selectionnés
 	type sort
 	creer dir
 	creer file
-
-0.9.5⤵
-multiselect a la souris
 
 0.9.7⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
