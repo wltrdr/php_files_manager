@@ -54,33 +54,33 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 
 /* CLICK ON ELEMENTS */
 
-function startClicDir() {
-	if(event.button !== 2)
-		timeClicDir = Date.now()
-}
 
-function endClicDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
-	popupMenu.style.display = "none"
-	if(event.button === 2)
-		menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+function leftClickDir(dir, isLink = false) {
+	//console.log("longClic=" + (Date.now() - timeClicDir) + "ms")
+	//if(isOnMobile === true || timeClicDir === 0 || Date.now() - timeClicDir < longClicMs) {
+		openDir(dir, isLink)
+	/*}
 	else {
-		if(isOnMobile === true) {
-			if(Date.now() - timeClicDir > longClicMs)
-				menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
-			else
-				openDir(fullPathEncoded, isLink)
-			timeClicDir = 0
-		}
-		else
-			openDir(fullPathEncoded, isLink)
+		console.log("long clic from pc")
 	}
+	timeClicDir = 0*/
 }
 
-function startClicFile() {
+function startClicDir() {
+	/*if(isOnMobile === false)
+		timeClicDir = Date.now()*/
 }
 
-function endClicFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
-	menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+function endClicDir() {
+	/*
+	if(isOnMobile === false && timeClicDir !== 0) {
+		/*if()
+			// long clic
+		else
+			// short clic
+		*/
+		/*timeClicDir = 0
+	}*/
 }
 
 /* ADD ACTIONS */
