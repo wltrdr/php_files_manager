@@ -17,6 +17,10 @@ document.body.addEventListener("contextmenu", ev => {
 	ev.preventDefault()
 })
 
+document.body.addEventListener("mousedown", ev => {
+	// retire classe hover a dir et linkdir sur les dirs qui ont la classe
+})
+
 document.body.addEventListener("dragover", ev => {
 	unselectElements()
     ev.preventDefault()
