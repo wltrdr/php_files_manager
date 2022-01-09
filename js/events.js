@@ -39,6 +39,8 @@ document.addEventListener("keydown", ev => {
 		popupBox.style.display = "none"
 		popupMask.style.display = "none"
 	}
+	else if(ev.key && ev.key === "a" && ev.ctrlKey && ev.ctrlKey === true)
+		selectAllElements()
 })
 
 /* UPLOAD */
