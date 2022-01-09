@@ -96,6 +96,7 @@ function showElements(result, disableFocus = false) {
 }
 
 function openDir(dir, disableFocus = false, disableLoading = false, order = "", desc = "") {
+	unselectElements()
 	timeDirOpened = Date.now()
 	if(order !== "")
 		order = "&order=" + order
