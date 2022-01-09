@@ -1,15 +1,20 @@
-document.body.addEventListener("click", ev => {
-	popupMenu.style.display = "none"
+function unselectAfterDelay() {
 	setTimeout(() => {
 		if(clicOnElement === false)
 			unselectElements()
 		else
 			clicOnElement = false
 	}, delayMenuMs)
+}
+
+document.body.addEventListener("click", ev => {
+	popupMenu.style.display = "none"
+	unselectAfterDelay()
 })
 
 document.body.addEventListener("contextmenu", ev => {
 	popupMenu.style.display = "none"
+	unselectAfterDelay()
 	ev.preventDefault()
 })
 
