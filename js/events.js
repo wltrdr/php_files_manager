@@ -18,6 +18,7 @@ document.body.addEventListener("contextmenu", ev => {
 })
 
 document.body.addEventListener("dragover", ev => {
+	unselectElements()
     ev.preventDefault()
 })
 
