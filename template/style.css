@@ -38,7 +38,7 @@ a:hover {
 h1 {
 	font-size: 2.2em;
 	color: #846;
-	user-select: text;
+	/* user-select: text; */
 }
 
 button {
@@ -541,16 +541,16 @@ h1 span {
 	padding: 0px 1em 0px 0.75em;
 	font-size: 0.87em;
 	white-space: nowrap;
-	user-select: text;
+	/* user-select: text; */
 }
 
 #contentsCredits p span {
 	font-weight: bold;
-	user-select: text;
+	/* user-select: text; */
 }
 
 #contentsCredits p a {
-	user-select: text;
+	/* user-select: text; */
 }
 
 #logout {
@@ -648,7 +648,7 @@ h1 span {
 }
 
 #contentsPath span, #contentsPath span a {
-	user-select: text;
+	/* user-select: text; */
 }
 
 #contentsPath span .gap {
@@ -687,7 +687,7 @@ h1 span {
 	text-align: left;
 	white-space: nowrap;
 	opacity: 0.87;
-	user-select: text;
+	/* user-select: text; */
 }
 
 #tree .list a:first-child, #boxPath .list a:first-child {
@@ -715,7 +715,7 @@ h1 span {
 	overflow-wrap: break-word;
 	word-break: break-word;
 	opacity: 0.87;
-	user-select: text;
+	/* user-select: text; */
 	border: 1px solid transparent;
 }
 
