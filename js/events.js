@@ -1,5 +1,11 @@
-document.body.addEventListener("click", () => {
+document.body.addEventListener("click", ev => {
 	popupMenu.style.display = "none"
+	setTimeout(() => {
+		if(clicOnElement === false)
+			unselectElements()
+		else
+			clicOnElement = false
+	}, delayMenuMs)
 })
 
 document.body.addEventListener("contextmenu", ev => {
