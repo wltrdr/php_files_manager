@@ -22,7 +22,7 @@
 deplacement elements selectionnés via drap drop
 
 0.9.0⤵
-menu elements selectionnes clic gauche ou droit
+menu elements selectionnés
 ↘
 	copier
 	couper
