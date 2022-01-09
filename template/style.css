@@ -549,9 +549,9 @@ h1 span {
 	/* user-select: text; */
 }
 
-#contentsCredits p a {
-	/* user-select: text; */
-}
+/* #contentsCredits p a {
+	user-select: text;
+} */
 
 #logout {
 	flex: 0;
@@ -647,9 +647,9 @@ h1 span {
 	align-items: center;
 }
 
-#contentsPath span, #contentsPath span a {
-	/* user-select: text; */
-}
+/* #contentsPath span, #contentsPath span a {
+	user-select: text;
+} */
 
 #contentsPath span .gap {
 	padding: 0px 0.3em 0px 0.5em;
