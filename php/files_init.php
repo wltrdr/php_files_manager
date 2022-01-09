@@ -19,7 +19,6 @@ function split_dirname($dirname) {
 			$path .= $path_arr[$i] . '/';
 		$dirname = $path_arr[$nb_path - 1];
 	}
-
 	return array('path' => $path, 'name' => $dirname);
 }
 
@@ -34,7 +33,6 @@ function split_filename($filename) {
 			$path .= $path_arr[$i] . '/';
 		$filename = $path_arr[$nb_path - 1];
 	}
-
 	if(strpos($filename, '.') === false || $filename[strlen($filename) - 1] === '.') {
 		$dot = '';
 		$extension = '';
@@ -51,7 +49,6 @@ function split_filename($filename) {
 		$extension = $name_arr[$nb_name - 1];
 		$dot = '.' . $extension;
 	}
-
 	return array('path' => $path, 'name' => $filename, 'extension' => $extension, 'dot_extension' => $dot);
 }
 
