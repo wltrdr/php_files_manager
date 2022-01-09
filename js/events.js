@@ -33,6 +33,81 @@ document.addEventListener("keydown", ev => {
 
 /* UPLOAD */
 
+function uploadFiles(dir = false) {
+	if(dir === false)
+		dir = currentPath
+	getUploadSizes(result => {
+		if(result === false)
+			openBox("alert", "Error : <b>Cannot get server uploads limits</b>", "err")
+		else {
+			const inputFiles = inputUpload.files
+			const nbFiles = inputFiles.length
+			if(nbFiles !== 0) {
+				const formData = new FormData()
+				const maxSizeExceeded = []
+				let totalSize = 0
+
+				for(let i = 0; i < nbFiles; i++) {
+					const size = inputFiles[i].size
+					totalSize += size
+					if(size > uploadMaxFileSize)
+						maxSizeExceeded.push(inputFiles[i].name)
+					formData.append("upload[]", inputFiles[i])
+				}
+
+				if(maxSizeExceeded.length > 0 || totalSize > uploadMaxTotalSize) {
+					let txtErr = ""
+
+					if(totalSize > uploadMaxTotalSize)
+						txtErr = "Upload size exceeded<br><br>"
+
+					for(let i = 0; i < maxSizeExceeded.length; i++)
+						txtErr += "\n" + maxSizeExceeded[i] + "</b> is too big<b><br><br>"
+
+					inputUpload.value = ""
+					openBox("alert", "Error : <b>" + txtErr.substring(0, txtErr.length - 8) + "</b>", "err")
+				}
+				else {
+					formData.append(Date.now(), "")
+					formData.append("dir", dir)
+					formData.append("exists", typeUploadExists)
+					formData.append("token", token)
+
+					ajaxRequest("FILES", "", formData, result => {
+						inputUpload.value = ""
+						if(result === "uploaded")
+							openDir(currentPath)
+						else {
+							const found = result.match(/\[ask=([^\]]+)/)
+							if(found)
+								openBox("multi", { txt: "Error : <b>What to do when a file or a dir with the same name already exists ?</b>", inputs: "[button]Do nothing[button]Rename old[button]Rename new[button]Replace old[checkbox]Save choice" }, null, choices => {
+									let choice = 0
+									choices.forEach(choiceTmp => {
+										if(choiceTmp !== 4)
+											choice = choiceTmp
+									})
+									if(choices.indexOf(4) !== -1)
+										typeUploadExists = choice + 1
+
+									ajaxRequest("POST", "", `${Date.now()}&ask=${choice}&files=${found[1]}&dir=${dir}&token=${token}`, result => {
+										if(result === "uploaded")
+											openDir(currentPath)
+										else {
+											openDir(currentPath)
+											openBox("alert", "Error : <b>" + result + "</b>", "err")
+										}
+									})
+								})
+							else
+								openBox("alert", "Error : <b>" + result + "</b>", "err")
+						}
+					})
+				}
+			}
+		}
+	})
+}
+
 inputUpload.addEventListener("change", () => {
 	uploadFiles()
 })
