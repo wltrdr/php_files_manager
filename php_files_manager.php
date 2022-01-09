@@ -422,7 +422,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_js = 'true';
 					}
 
-					$elements .= "<a class=\"$link_icon\" onclick=\"leftClickDir('$full_path_enc', $link_js)\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+					$elements .= "<a class=\"$link_icon\" oncontextmenu=\"menuDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" onmousedown=\"startClicDir()\" onmouseup=\"endClicDir('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
 				if($order === '1')
