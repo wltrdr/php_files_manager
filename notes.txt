@@ -18,22 +18,22 @@
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
-0.8.8⤵
+0.8.9⤵
 deplacement elements selectionnés via drap drop
+le deplacement doit aussi s'appliquer dans tree
 
-0.9.0⤵
+0.9.1⤵
 menu elements selectionnés
 ↘
 	copier
 	couper
-	coller
 
 0.9.3 menu zone vide
 ↘
+	coller (si dispo)
 	afficher ce dossier web (si accessible)
 	type voir
 	type sort
-	coller (si dispo)
 	creer dir
 	creer file
 
