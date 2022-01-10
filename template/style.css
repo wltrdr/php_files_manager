@@ -399,6 +399,21 @@ button {
 		border-top: 1px solid #999;
 	}
 
+	#popupMenu .withArrow {
+		display: flex;
+		padding: 0.6em 1em 0.6em 0.75em;
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	#popupMenu .withArrow span {
+		padding: 0px;
+		color: auto;
+		background: transparent;
+		border: 0px;
+		font-weight: normal;
+	}
+
 /* SELECTION */
 
 #selection {
