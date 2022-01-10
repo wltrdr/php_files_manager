@@ -17,8 +17,11 @@ document.body.addEventListener("contextmenu", ev => {
 	ev.preventDefault()
 })
 
-document.body.addEventListener("mousedown", ev => {
-	// retire classe hover a dir et linkdir sur les dirs qui ont la classe
+document.body.addEventListener("mouseup", ev => {
+	document.body.querySelectorAll("a").forEach(element => {
+		if(element.classList.contains("unselected"))
+			element.classList.remove("unselected")
+	})
 })
 
 document.body.addEventListener("dragover", ev => {
@@ -43,6 +46,8 @@ document.addEventListener("keydown", ev => {
 		popupMenu.style.display = "none"
 		popupBox.style.display = "none"
 		popupMask.style.display = "none"
+		unselectElements()
+		tryToMove = false
 	}
 	else if(ev.key && ev.key === "a" && ev.ctrlKey && ev.ctrlKey === true)
 		selectAllElements()
