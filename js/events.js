@@ -134,15 +134,15 @@ document.body.addEventListener("mouseup", ev => {
 
 document.body.addEventListener("dragover", ev => {
 	unselectElements()
-    ev.preventDefault()
+	ev.preventDefault()
 })
 
 document.body.addEventListener("dragleave", ev => {
-    ev.preventDefault()
+	ev.preventDefault()
 })
 
 document.body.addEventListener("drop", ev => {
-    ev.preventDefault()
+	ev.preventDefault()
 })
 
 window.addEventListener("resize", () => {
@@ -272,13 +272,13 @@ elements.addEventListener("dragover", ev => {
 		elements.classList.remove("dragOver")
 	else if(overAdir === false && !elements.classList.contains("dragOver"))
 		elements.classList.add("dragOver")
-    ev.preventDefault()
+	ev.preventDefault()
 })
 
 elements.addEventListener("dragleave", ev => {
 	if(elements.classList.contains("dragOver"))
 		elements.classList.remove("dragOver")
-    ev.preventDefault()
+	ev.preventDefault()
 })
 
 elements.addEventListener("drop", ev => {
@@ -290,7 +290,7 @@ elements.addEventListener("drop", ev => {
 	else
 		uploadFiles(overAdir)
 	overAdir = false
-    ev.preventDefault()
+	ev.preventDefault()
 })
 
 function dragOverAtreeDir(el, dir) {
