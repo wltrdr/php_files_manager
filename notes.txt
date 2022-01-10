@@ -19,16 +19,12 @@
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
-0.8.9⤵
+0.9.3⤵
+multiselect a la souris
 menu elements selectionnés
 ↘
 	copier
 	couper
-
-0.9.1⤵
-multiselect a la souris
-
-0.9.3⤵
 menu zone vide
 ↘
 	coller (si dispo)
@@ -63,8 +59,8 @@ tout tester
 generateur .htaccess + .htpasswd (affiche si existe deja)
 generateur template.html (template.html style.css script.js)
 upload from url (renseigner php_global_infos.php dans une array js)
-??? history push a chaque requete ajax (sauf login) (window.)history.pushState((obj|null), (titre|null), url) // window.addEventListener("popstate", () => { reload dir })
 zip-dezip
+??? history push a chaque requete ajax (sauf login) (window.)history.pushState((obj|null), (titre|null), url) // window.addEventListener("popstate", () => { reload dir })
 
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
