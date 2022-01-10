@@ -134,6 +134,13 @@ function removeObjsInArr(arr, val, param, insensible = false)
     }
 }
 
+/*
+selectElement(
+selectedElements
+nameEncoded
+fullPathEnc
+*/
+
 function selectElement(el, nameEncoded) {
 	disableAutoRefresh = true
 	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
@@ -176,15 +183,15 @@ function startClic(el, nameEncoded) {
 		disableAutoRefresh = true
 	}
 }
-function endClicTree(dir, nameEncoded) {
-	if(event.button !== 2 && tryToMove !== false && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
+	if(event.button !== 2 && tryToMove !== false && moveForbidden === false) {
 		clicOnElement = true
 		console.log("MOVE SELECTION TO " + nameEncoded)
-		// MOVE SELECTION TO ELEMENT
+		// MOVE (current / selecteds) TO (pathEncoded / nameEncoded)
 		unselectElements()
 	}
 	else
-		openDir(dir)
+		openDir(pathEncoded)
 	tryToMove = false
 }
 
@@ -193,7 +200,7 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 		clicOnElement = true
 		if(name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			console.log("MOVE SELECTION TO " + nameEncoded)
-			// MOVE SELECTION TO ELEMENT
+			// MOVE (current / selecteds) TO (pathEncoded / nameEncoded)
 			unselectElements()
 		}
 		else {
