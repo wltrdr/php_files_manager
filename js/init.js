@@ -67,6 +67,7 @@ let selectionStartX = 0
 let selectionStartY = 0
 let mouseUpOnEl = false
 let mouseDownOnEl = false
+let rightClicOnEl = false
 let tryToMove = false
 let copy = []
 let copyNotCut = true
