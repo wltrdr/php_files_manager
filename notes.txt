@@ -20,18 +20,15 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.5⤵
-ajax elements retourne $web_view (false OU url)
-webview dans var js (modifiee avec opendir)
-quand clic menu elements si webview go webview
-
-corriger web view rendre 1er dossier accessible depuis son parent
-
-menu zone vide (quand rien nest selectionné)
+menu zone vide
 ↘
 	coller (si dispo)
 	afficher ce dossier web (si accessible)
+		ajax elements retourne $web_view (false OU url)
+		webview dans var js (modifiee avec opendir)
+		quand clic menu elements si webview go webview
 
-
+		corriger web view rendre 1er dossier accessible depuis son parent
 
 0.9.7⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
