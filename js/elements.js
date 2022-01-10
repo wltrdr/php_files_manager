@@ -37,18 +37,6 @@ function startClic(el, nameEncoded) {
 	}
 }
 
-function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
-	if(selectWcursor === false) {
-		if(isOnMobile === false && event.button === 0 && tryToMove !== false && moveForbidden === false) {
-			mouseUpOnEl = true
-			moveMultiple(pathEncoded)
-		}
-		else
-			openDir(pathEncoded)
-		tryToMove = false
-	}
-}
-
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(event.button === 0 && selectWcursor === false) {
 		mouseUpOnEl = true
@@ -90,7 +78,7 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 			}
 			else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 				menuMultiple()
-			else if(selectedElements.length !== 0)
+			else if(selectedElements.length !== 0 || (isOnMobile === true && popupMenu.style.display === "flex"))
 				unselectElements()
 			else {
 				unselectElements()
@@ -100,6 +88,18 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 					menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
 			}
 		}
+		tryToMove = false
+	}
+}
+
+function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
+	if(selectWcursor === false) {
+		if(isOnMobile === false && event.button === 0 && tryToMove !== false && moveForbidden === false) {
+			mouseUpOnEl = true
+			moveMultiple(pathEncoded)
+		}
+		else
+			openDir(pathEncoded)
 		tryToMove = false
 	}
 }
