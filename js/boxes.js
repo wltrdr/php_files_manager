@@ -350,14 +350,13 @@ function openBox(type, vals, icon = null, callback = false) {
 				btnOk = vals.btnOk
 			if(vals.btnNo)
 				btnNo = vals.btnNo
-			
+
 			function chmods2checkboxes(chmods, el, input) {
 				chmods = chmods.toString()
 				while(chmods.length < 4) {
 					chmods = "0" + chmods
 					input.value = chmods
 				}
-
 				const octs = []
 				for(let i = 0; i < 4; i++) {
 					let nb = parseInt(chmods[i], 10)
@@ -374,7 +373,6 @@ function openBox(type, vals, icon = null, callback = false) {
 						x = true
 					octs.push([r, w, x])
 				}
-
 				octs.forEach((oct, i) => {
 					oct.forEach((val, j) => {
 						if(val === true)
@@ -408,21 +406,18 @@ function openBox(type, vals, icon = null, callback = false) {
 					<div class="center">Owner :</div>
 					<div class="center">Group :</div>
 					<div class="center">Others :</div>
-
 					<div><label for="chmod_0_0">Set UID :</label></div>
 					<div><input type="checkbox" id="chmod_0_0"></div>
 					<div>Read :</div>
 					<div class="center"><input type="checkbox" id="chmod_1_0"></div>
 					<div class="center"><input type="checkbox" id="chmod_2_0"></div>
 					<div class="center"><input type="checkbox" id="chmod_3_0"></div>
-
 					<div><label for="chmod_0_1">Set GID :</label></div>
 					<div><input type="checkbox" id="chmod_0_1"></div>
 					<div>Write :</div>
 					<div class="center"><input type="checkbox" id="chmod_1_1"></div>
 					<div class="center"><input type="checkbox" id="chmod_2_1"></div>
 					<div class="center"><input type="checkbox" id="chmod_3_1"></div>
-
 					<div><label for="chmod_0_2">Sticky bit :</label></div>
 					<div><input type="checkbox" id="chmod_0_2"></div>
 					<div>Execute :</div>
