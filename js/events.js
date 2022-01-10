@@ -12,7 +12,7 @@ function unselectAfterDelay() {
 	}
 }
 
-document.body.addEventListener("click", ev => {
+document.body.addEventListener("click", () => {
 	unselectAfterDelay()
 })
 
@@ -34,12 +34,12 @@ elements.addEventListener("contextmenu", ev => {
 
 		openMenu(`${webUrl}
 		${pasteLink}
-		<a onclick="" class="withArrow" style="display: flex;"><span>View</span><span>&#10148;</span></a>
-		<a onclick="" class="withArrow" style="display: flex;"><span>Sort by</span><span>&#10148;</span></a>
+		<a onclick="viewChoice(event)" class="withArrow" style="display: flex;"><span>View</span><span>&#10148;</span></a>
+		<a onclick="sortChoice(event)" class="withArrow" style="display: flex;"><span>Sort by</span><span>&#10148;</span></a>
 		<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
 		<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
 		<a onclick="inputUpload.click()">Upload file(s)</a>
-		`, event)
+		`, ev)
 	}
 	else
 		rightClicOnEl = false
@@ -350,7 +350,7 @@ btnHome.addEventListener("click", () => {
 	openDir(".")
 })
 
-btnView.addEventListener("click", ev => {
+function viewChoice(ev) {
 	const choices = ["Icons", "Small icons", "Details"]
 	let html = ""
 
@@ -362,11 +362,11 @@ btnView.addEventListener("click", ev => {
 	})
 
 	openMenu(`<span>View :</span>
-${html}
-`, ev)
-})
+	${html}
+	`, ev)
+}
 
-btnSort.addEventListener("click", ev => {
+function sortChoice(ev) {
 	const choices = ["Name", "Date modified", "Size", "Type"]
 	let html = ""
 
@@ -388,6 +388,14 @@ btnSort.addEventListener("click", ev => {
 	<a class="gap" onclick="openDir(currentPath, false, false, '', false)">${curAsc}Ascending</a>
 	<a class="" onclick="openDir(currentPath, false, false, '', true)">${curDesc}Descending</a>
 	`, ev)
+}
+
+btnView.addEventListener("click", ev => {
+	viewChoice(ev)
+})
+
+btnSort.addEventListener("click", ev => {
+	sortChoice(ev)
 })
 
 btnCreate.addEventListener("click", ev => {
