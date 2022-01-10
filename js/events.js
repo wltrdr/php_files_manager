@@ -126,14 +126,7 @@ function uploadFiles(dir = false) {
 									if(choices.indexOf(4) !== -1)
 										typeUploadExists = choice + 1
 
-									ajaxRequest("POST", "", `${Date.now()}&ask=${choice}&files=${found[1]}&dir=${dir}&token=${token}`, result => {
-										if(result === "uploaded")
-											openDir(currentPath)
-										else {
-											openDir(currentPath)
-											openBox("alert", "Error : <b>" + result + "</b>", "err")
-										}
-									})
+									checkReqRep(`${Date.now()}&ask=${choice}&files=${found[1]}&dir=${dir}&token=${token}`, "uploaded", false)
 								})
 							else
 								openBox("alert", "Error : <b>" + result + "</b>", "err")
