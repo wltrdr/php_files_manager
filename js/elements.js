@@ -181,11 +181,16 @@ function menuMultiple() {
 	<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath) })">Copy to</a>
 	<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath) })">Move to</a>
 	<a onclick="openBox('confirm', 'Delete <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteMultiple() })">Delete</a>
+	<a onclick="openBox('confirm', 'Duplicate <b>ʿ${name}ʿ</b> ?', 'warn', () => { duplicateMultiple() })">Duplicate</a>
 	<a onclick="openBox('chmods', { name: '${name}' })">Change chmods</a>
 	`, event)
 }
 
 /* OTHERS ACTIONS */
+
+function downloadElement(pathEncoded, nameEncoded) {
+	window.open(`?${Date.now()}&download=${nameEncoded}&dir=${pathEncoded}&token=${token}`)
+}
 
 function checkReqRep(request, wish, disableFocus = true) {
 	ajaxRequest("POST", "", request, result => {
@@ -205,10 +210,6 @@ function newElement(type, name) {
 		checkReqRep(`${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, "created")
 }
 
-function downloadElement(pathEncoded, nameEncoded) {
-	window.open(`?${Date.now()}&download=${nameEncoded}&dir=${pathEncoded}&token=${token}`)
-}
-
 function renameElement(pathEncoded, oldName, newName) {
 	if(newName === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
@@ -217,7 +218,7 @@ function renameElement(pathEncoded, oldName, newName) {
 }
 
 function duplicateElement(pathEncoded, nameEncoded) {
-	checkReqRep(`${Date.now()}&duplicate=${nameEncoded}&dir=${pathEncoded}&path=${pathEncoded}&token=${token}`, "duplicated")
+	checkReqRep(`${Date.now()}&duplicate=${nameEncoded}&dir=${pathEncoded}&token=${token}`, "duplicated")
 }
 
 function copyElement(pathEncoded, nameEncoded, newPath) {
@@ -232,13 +233,28 @@ function deleteElement(pathEncoded, nameEncoded) {
 	checkReqRep(`${Date.now()}&delete=${nameEncoded}&dir=${pathEncoded}&token=${token}`, "deleted")
 }
 
-function moveMultiple(pathEncoded) {
-	let strSelecteds = ""
+function formatMultiple() {
+	let ret = ""
 	selectedElements.forEach(element => {
 		if(currentPath !== ".")
-			strSelecteds += currentPath
-		strSelecteds += element.nameEncoded + "%2F%2F%2F"
+			ret += currentPath
+		ret += element.nameEncoded + "%2F%2F%2F"
 	})
-	strSelecteds = strSelecteds.substring(0, strSelecteds.length - 9)
-	checkReqRep(`${Date.now()}&move_multiple=${strSelecteds}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
+	return ret.substring(0, ret.length - 9)
+}
+
+function duplicateMultiple() {
+	checkReqRep(`${Date.now()}&duplicate_multiple=${formatMultiple()}&dir=${currentPath}&token=${token}`, "duplicateds")
+}
+
+function copyMultiple(pathEncoded) {
+	checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple()}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
+}
+
+function moveMultiple(pathEncoded) {
+	checkReqRep(`${Date.now()}&move_multiple=${formatMultiple()}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
+}
+
+function deleteMultiple() {
+	checkReqRep(`${Date.now()}&delete_multiple=${formatMultiple()}&token=${token}`, "deleteds")
 }
