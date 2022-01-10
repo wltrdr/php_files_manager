@@ -178,8 +178,8 @@ function menuMultiple() {
 		name += "s"
 	openMenu(`<span>${name}</span>
 	<a onclick="duplicateMultiple()">Duplicate</a>
-	<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple('${encodeURIComponent(JSON.stringify(selectedElements))}', inputPath) })">Copy to</a>
-	<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple('${encodeURIComponent(JSON.stringify(selectedElements))}', inputPath) })">Move to</a>
+	<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Copy to</a>
+	<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Move to</a>
 	<a onclick="openBox('confirm', 'Delete <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteMultiple('${encodeURIComponent(JSON.stringify(selectedElements))}') })">Delete</a>
 	<a onclick="openBox('chmods', { name: '${name}' })">Change chmods</a>
 	`, event)
@@ -246,12 +246,20 @@ function duplicateMultiple() {
 	checkReqRep(`${Date.now()}&duplicate_multiple=${formatMultiple(selectedElements)}&dir=${currentPath}&token=${token}`, "duplicateds")
 }
 
-function copyMultiple(elements, pathEncoded) {
-	checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)))}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
+function copyMultiple(pathEncoded, elements = false) {
+	if(elements === false)
+		elements = selectedElements
+	else
+		elements = JSON.parse(decodeURIComponent(elements))
+	checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(elements)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
 }
 
-function moveMultiple(elements, pathEncoded) {
-	checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)))}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
+function moveMultiple(pathEncoded, elements = false) {
+	if(elements === false)
+		elements = selectedElements
+	else
+		elements = JSON.parse(decodeURIComponent(elements))
+	checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(elements)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
 }
 
 function deleteMultiple(elements) {
