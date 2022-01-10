@@ -1,11 +1,13 @@
 function unselectAfterDelay() {
 	popupMenu.style.display = "none"
-	setTimeout(() => {
-		if(mouseUpOnEl === false)
-			unselectElements()
-		else
-			mouseUpOnEl = false
-	}, delayMenuMs)
+	if(isOnMobile === false) {
+		setTimeout(() => {
+			if(mouseUpOnEl === false)
+				unselectElements()
+			else
+				mouseUpOnEl = false
+		}, delayMenuMs)
+	}
 }
 
 document.body.addEventListener("click", ev => {
@@ -17,26 +19,67 @@ document.body.addEventListener("contextmenu", ev => {
 	ev.preventDefault()
 })
 
+function setCursorSelection(startX, startY, endX, endY) {
+	let width = 0
+	let height = 0
+	let fromLeft = 0
+	let fromTop = 0
+	if(startX > endX) {
+		fromLeft = endX
+		width = startX - endX
+	}
+	else {
+		fromLeft = startX
+		width = endX - startX
+	}
+	if(startY < endY) {
+		fromTop = startY
+		height = endY - startY
+	}
+	else {
+		fromTop = endY
+		height = startY - endY
+	}
+	selection.style.width = width + "px"
+	selection.style.height = height + "px"
+	selection.style.left = fromLeft + "px"
+	selection.style.top = fromTop + "px"
+}
+
 elements.addEventListener("mousedown", ev => {
 	setTimeout(() => {
-		if(mouseDownOnEl === false) {
-			// on dessine
-			console.log("on dessine")
+		if(isOnMobile === false && ev.button === 0 && mouseDownOnEl === false) {
+			disableAutoRefresh = true
+			selectWcursor = true
+			selection.style.display = "block"
+			selectionStartX = ev.clientX
+			selectionStartY = ev.clientY
+			setCursorSelection(selectionStartX, selectionStartY, selectionStartX, selectionStartY)
 		}
 		else
 			mouseDownOnEl = false
 	}, delayMenuMs)
 })
 
+document.body.addEventListener("mousemove", ev => {
+	if(isOnMobile === false && selectWcursor === true) {
+		setCursorSelection(selectionStartX, selectionStartY, ev.x, ev.y)
+	}
+})
+
 document.body.addEventListener("mouseup", ev => {
-	document.body.querySelectorAll("a").forEach(element => {
-		if(element.classList.contains("unselected"))
-			element.classList.remove("unselected")
-	})
-	console.log("on arrete dessiner")
-	/*
-		// si on dessinait alors on arrete
-	*/
+	if(isOnMobile === false) {
+		document.body.querySelectorAll("a").forEach(element => {
+			if(element.classList.contains("unselected"))
+				element.classList.remove("unselected")
+		})
+		setTimeout(() => {
+			if(selectedElements.length === 0)
+				disableAutoRefresh = false
+		}, delayMenuMs)
+		selectWcursor = false
+		selection.style.display = "none"
+	}
 })
 
 document.body.addEventListener("dragover", ev => {
