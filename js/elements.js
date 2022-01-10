@@ -25,8 +25,11 @@ function unselectElement(nameEncoded) {
 }
 
 function startClic(el, nameEncoded) {
-	if(isOnMobile === false && event.button === 0) {
+	if(event.button === 2)
+		rightClicOnEl = true
+	else if(event.button === 0 && isOnMobile === false) {
 		mouseDownOnEl = true
+		rightClicOnEl = false
 		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			document.body.querySelectorAll("a").forEach(element => {
 				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
