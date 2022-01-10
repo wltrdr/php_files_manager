@@ -32,8 +32,8 @@ menu zone vide (quand rien nest selectionné)
 	afficher ce dossier web (si accessible)
 	type voir
 	type sort
-	creer dir
-	creer file
+
+
 
 0.9.7⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
