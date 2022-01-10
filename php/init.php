@@ -35,7 +35,7 @@ function sp_crypt($str) {
 
 function gencode($nb) {
 	$cars = 'azertyuiopqsdfghjklmwxcvbn0123456789';
-	$mt_max = strlen($cars) - 1;
+	$mt_max = mb_strlen($cars) - 1;
 	$return = '';
 	for($i = 0; $i < $nb; $i++)
 		$return .= $cars[mt_rand(0, $mt_max)];
@@ -72,7 +72,7 @@ function server_infos() {
 			if(isset($_SERVER['SCRIPT_FILENAME'])) {
 				$script_filename = $_SERVER['SCRIPT_FILENAME'];
 				if(strpos($script_filename, $server_root) === 0)
-					$script_name = substr($script_filename, strlen($server_root));
+					$script_name = substr($script_filename, mb_strlen($server_root));
 				else
 					return false;
 			}
@@ -83,8 +83,8 @@ function server_infos() {
 	elseif(isset($_SERVER['SCRIPT_FILENAME'])) {
 		$script_filename = $_SERVER['SCRIPT_FILENAME'];
 		if($script_name !== false) {
-			$lng_script_filename = strlen($script_filename);
-			$lng_script_name = strlen($script_name);
+			$lng_script_filename = mb_strlen($script_filename);
+			$lng_script_name = mb_strlen($script_name);
 			if(strpos($script_filename, $script_name) === $lng_script_filename - $lng_script_name)
 				$server_root = substr($script_filename, 0, $lng_script_filename - $lng_script_name);
 			else
