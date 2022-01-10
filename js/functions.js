@@ -219,7 +219,7 @@ function getUploadSizes(callback = false) {
 
 getUploadSizes()
 
-/* OTHERS FUNCTIONS */
+/* OTHER FUNCTIONS */
 
 function returnObjInArr(arr, val, param, returnBoolean = false, insensible = false)
 {
