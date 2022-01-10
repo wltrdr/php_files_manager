@@ -113,7 +113,7 @@ document.body.addEventListener("mouseup", ev => {
 		}
 		elements.querySelectorAll("a").forEach((element, i) => {
 			if(selectWcursor === true) {
-				if(isOnCoords(fromX, fromY, toX, toY, element.offsetLeft, element.offsetTop, element.offsetLeft + element.offsetWidth, element.offsetTop + element.offsetHeight))
+				if(isOnCoords(fromX, fromY + elements.scrollTop, toX, toY + elements.scrollTop, element.offsetLeft, element.offsetTop, element.offsetLeft + element.offsetWidth, element.offsetTop + element.offsetHeight))
 					selectElement(element, element.getAttribute("data-name-enc"))
 				else
 					try {
