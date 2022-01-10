@@ -55,10 +55,11 @@ tout recompiler
 tout tester
 
 0.1.1⤵
+zip-dezip (fichier, dossier, multiple)
+recherche (nv bouton ctrl)
+upload from url (renseigner php_global_infos.php dans une array js)
 generateur .htaccess + .htpasswd (affiche si existe deja)
 generateur template.html (template.html style.css script.js)
-upload from url (renseigner php_global_infos.php dans une array js)
-zip-dezip
 ??? history push a chaque requete ajax (sauf login) (window.)history.pushState((obj|null), (titre|null), url) // window.addEventListener("popstate", () => { reload dir })
 
 
