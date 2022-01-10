@@ -339,113 +339,135 @@ function openBox(type, vals, icon = null, callback = false) {
 			if(icon === null)
 				icon = "lock"
 			let txt = `Change chmods for <b>ʿ${vals.name}ʿ</b> :`
+			let files = false
 			let btnOk = "Ok"
 			let btnNo = "Cancel"
 			if(vals.txt)
 				txt = vals.txt
+			if(vals.files)
+				files = vals.files
 			if(vals.btnOk)
 				btnOk = vals.btnOk
 			if(vals.btnNo)
 				btnNo = vals.btnNo
-			ajaxRequest("POST", "", `${Date.now()}&get_chmods=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
-				const found = result.match(/\[chmods=([0-9]+)\]/)
-				if(found) {
-					function chmods2checkboxes(chmods, el, input) {
-						chmods = chmods.toString()
-						while(chmods.length < 4) {
-							chmods = "0" + chmods
-							input.value = chmods
-						}
+			
+			function chmods2checkboxes(chmods, el, input) {
+				chmods = chmods.toString()
+				while(chmods.length < 4) {
+					chmods = "0" + chmods
+					input.value = chmods
+				}
 
-						const octs = []
-						for(let i = 0; i < 4; i++) {
-							let nb = parseInt(chmods[i], 10)
-							let r = w = x = false
-							if(nb >= 4) {
-								r = true
-								nb -= 4
-							}
-							if(nb >= 2) {
-								w = true
-								nb -= 2
-							}
-							if(nb == 1)
-								x = true
-							octs.push([r, w, x])
-						}
-
-						octs.forEach((oct, i) => {
-							oct.forEach((val, j) => {
-								if(val === true)
-									el.querySelector(`#chmod_${i}_${j}`).checked = "checked"
-								else
-									el.querySelector(`#chmod_${i}_${j}`).checked = null
-							})
-						})
+				const octs = []
+				for(let i = 0; i < 4; i++) {
+					let nb = parseInt(chmods[i], 10)
+					let r = w = x = false
+					if(nb >= 4) {
+						r = true
+						nb -= 4
 					}
-
-					function checkboxes2chmods(el, input) {
-						let chmods = ""
-						for(let i = 0; i < 4; i++) {
-							let val = 0
-							if(el.querySelector(`#chmod_${i}_0`).checked !== false)
-								val += 4
-							if(el.querySelector(`#chmod_${i}_1`).checked !== false)
-								val += 2
-							if(el.querySelector(`#chmod_${i}_2`).checked !== false)
-								val ++
-							chmods += val.toString()
-						}
-						input.value = chmods
+					if(nb >= 2) {
+						w = true
+						nb -= 2
 					}
+					if(nb == 1)
+						x = true
+					octs.push([r, w, x])
+				}
 
-					showBox(txt, icon, `<div id="boxChmods">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div class="center">Owner :</div>
-						<div class="center">Group :</div>
-						<div class="center">Others :</div>
+				octs.forEach((oct, i) => {
+					oct.forEach((val, j) => {
+						if(val === true)
+							el.querySelector(`#chmod_${i}_${j}`).checked = "checked"
+						else
+							el.querySelector(`#chmod_${i}_${j}`).checked = null
+					})
+				})
+			}
 
-						<div><label for="chmod_0_0">Set UID :</label></div>
-						<div><input type="checkbox" id="chmod_0_0"></div>
-						<div>Read :</div>
-						<div class="center"><input type="checkbox" id="chmod_1_0"></div>
-						<div class="center"><input type="checkbox" id="chmod_2_0"></div>
-						<div class="center"><input type="checkbox" id="chmod_3_0"></div>
+			function checkboxes2chmods(el, input) {
+				let chmods = ""
+				for(let i = 0; i < 4; i++) {
+					let val = 0
+					if(el.querySelector(`#chmod_${i}_0`).checked !== false)
+						val += 4
+					if(el.querySelector(`#chmod_${i}_1`).checked !== false)
+						val += 2
+					if(el.querySelector(`#chmod_${i}_2`).checked !== false)
+						val ++
+					chmods += val.toString()
+				}
+				input.value = chmods
+			}
 
-						<div><label for="chmod_0_1">Set GID :</label></div>
-						<div><input type="checkbox" id="chmod_0_1"></div>
-						<div>Write :</div>
-						<div class="center"><input type="checkbox" id="chmod_1_1"></div>
-						<div class="center"><input type="checkbox" id="chmod_2_1"></div>
-						<div class="center"><input type="checkbox" id="chmod_3_1"></div>
+			function showChmodBox(found, callback) {
+				showBox(txt, icon, `<div id="boxChmods">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div class="center">Owner :</div>
+					<div class="center">Group :</div>
+					<div class="center">Others :</div>
 
-						<div><label for="chmod_0_2">Sticky bit :</label></div>
-						<div><input type="checkbox" id="chmod_0_2"></div>
-						<div>Execute :</div>
-						<div class="center"><input type="checkbox" id="chmod_1_2"></div>
-						<div class="center"><input type="checkbox" id="chmod_2_2"></div>
-						<div class="center"><input type="checkbox" id="chmod_3_2"></div>
-					</div>
-					<input type="text" value="${found[1]}">
-					`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
-						const input = popupBox.querySelector("input[type=\"text\"]")
+					<div><label for="chmod_0_0">Set UID :</label></div>
+					<div><input type="checkbox" id="chmod_0_0"></div>
+					<div>Read :</div>
+					<div class="center"><input type="checkbox" id="chmod_1_0"></div>
+					<div class="center"><input type="checkbox" id="chmod_2_0"></div>
+					<div class="center"><input type="checkbox" id="chmod_3_0"></div>
 
-						chmods2checkboxes(found[1], popupBox, input)
+					<div><label for="chmod_0_1">Set GID :</label></div>
+					<div><input type="checkbox" id="chmod_0_1"></div>
+					<div>Write :</div>
+					<div class="center"><input type="checkbox" id="chmod_1_1"></div>
+					<div class="center"><input type="checkbox" id="chmod_2_1"></div>
+					<div class="center"><input type="checkbox" id="chmod_3_1"></div>
 
-						input.addEventListener("change", () => {
-							chmods2checkboxes(input.value, popupBox, input)
+					<div><label for="chmod_0_2">Sticky bit :</label></div>
+					<div><input type="checkbox" id="chmod_0_2"></div>
+					<div>Execute :</div>
+					<div class="center"><input type="checkbox" id="chmod_1_2"></div>
+					<div class="center"><input type="checkbox" id="chmod_2_2"></div>
+					<div class="center"><input type="checkbox" id="chmod_3_2"></div>
+				</div>
+				<input type="text" value="${found[1]}">
+				`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
+					const input = popupBox.querySelector("input[type=\"text\"]")
+
+					chmods2checkboxes(found[1], popupBox, input)
+
+					input.addEventListener("change", () => {
+						chmods2checkboxes(input.value, popupBox, input)
+					})
+
+					popupBox.querySelectorAll("input[type=\"checkbox\"]").forEach(checkbox => {
+						checkbox.addEventListener("click", () => {
+							checkboxes2chmods(popupBox, input)
 						})
+					})
 
-						popupBox.querySelectorAll("input[type=\"checkbox\"]").forEach(checkbox => {
-							checkbox.addEventListener("click", () => {
-								checkboxes2chmods(popupBox, input)
-							})
-						})
+					popupBox.querySelector("button#y").addEventListener("click", ev => {
+						callback(input.value)
+						closeBox()
+						ev.preventDefault()
+					})
 
-						popupBox.querySelector("button#y").addEventListener("click", ev => {
-							ajaxRequest("POST", "", `${Date.now()}&set_chmods=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
+					popupBox.querySelector("button#n").addEventListener("click", ev => {
+						closeBox()
+						ev.preventDefault()
+					})
+				})
+			}
+
+			if(files !== false) {
+				
+			}
+			else {
+				ajaxRequest("POST", "", `${Date.now()}&get_chmods=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
+					const found = result.match(/\[chmods=([0-9]+)\]/)
+					if(found) {
+						showChmodBox(found, subResult => {
+							ajaxRequest("POST", "", `${Date.now()}&set_chmods=${subResult}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
 								if(result === "chmoded")
 									openDir(currentPath, true, true)
 								else {
@@ -453,19 +475,12 @@ function openBox(type, vals, icon = null, callback = false) {
 									openBox("alert", "Error : <b>" + result + "</b>", "err")
 								}
 							})
-							closeBox()
-							ev.preventDefault()
 						})
-
-						popupBox.querySelector("button#n").addEventListener("click", ev => {
-							closeBox()
-							ev.preventDefault()
-						})
-					})
-				}
-				else
-					openBox("alert", `Error : <b>${result}</b>`, "err")
-			})
+					}
+					else
+						openBox("alert", `Error : <b>${result}</b>`, "err")
+				})
+			}
 		}
 		else {
 			alert("Error : Unknown type")
