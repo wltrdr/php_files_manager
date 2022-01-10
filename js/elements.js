@@ -191,6 +191,8 @@ function menuMultiple() {
 	`, event)
 }
 
+/* OTHER ACTIONS */
+
 function downloadElement(pathEncoded, nameEncoded) {
 	window.open(`?${Date.now()}&download=${nameEncoded}&dir=${pathEncoded}&token=${token}`)
 }
