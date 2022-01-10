@@ -22,14 +22,23 @@ document.body.addEventListener("contextmenu", ev => {
 })
 
 elements.addEventListener("contextmenu", ev => {
-	if(webUrl === false)
-		webUrl = ""
-	else
-		webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
 	if(rightClicOnEl === false) {
+		let webUrl = ""
+		let pasteLink = ""
+
 		if(copy.length > 0)
-			openMenu(`<a onclick="">Paste</a>
-			${webUrl}
+			pasteLink = `<a onclick="">Paste</a>`
+
+		if(webUrl !== false)
+			webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
+
+		openMenu(`${webUrl}
+		${pasteLink}
+		<a onclick="" class="withArrow" style="display: flex;"><span>View</span><span>&#10148;</span></a>
+		<a onclick="" class="withArrow" style="display: flex;"><span>Sort by</span><span>&#10148;</span></a>
+		<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
+		<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
+		<a onclick="inputUpload.click()">Upload file(s)</a>
 		`, event)
 	}
 	else
