@@ -24,7 +24,7 @@ menu elements selectionnés
 ↘
 	copier
 	couper
-menu zone vide
+menu zone vide (quand rien nest selectionné)
 ↘
 	coller (si dispo)
 	afficher ce dossier web (si accessible)
