@@ -24,13 +24,12 @@ document.body.addEventListener("contextmenu", ev => {
 elements.addEventListener("contextmenu", ev => {
 	if(rightClicOnEl === false) {
 		let webUrl = ""
-		let pasteLink = ""
-
-		if(copy.length > 0)
-			pasteLink = `<a onclick="">Paste</a>`
-
 		if(webUrl !== false)
 			webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
+
+		let pasteLink = ""
+		if(copy.length > 0)
+			pasteLink = `<a onclick="pasteMultiple()">Paste</a>`
 
 		openMenu(`${webUrl}
 		${pasteLink}
