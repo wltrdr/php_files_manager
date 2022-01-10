@@ -181,7 +181,7 @@ function menuMultiple() {
 	<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Copy to</a>
 	<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Move to</a>
 	<a onclick="openBox('confirm', 'Delete <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteMultiple('${encodeURIComponent(JSON.stringify(selectedElements))}') })">Delete</a>
-	<a onclick="openBox('chmods', { name: '${name}' })">Change chmods</a>
+	<a onclick="openBox('chmods', { name: '${name}', files: '${encodeURIComponent(JSON.stringify(selectedElements))}' })">Change chmods</a>
 	`, event)
 }
 
