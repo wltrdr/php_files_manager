@@ -21,7 +21,7 @@
 
 0.9.5⤵
 corriger web view rendre 1er dossier accessible depuis son parent
-popupbox dark mode
+popupbox dark mode (et menu 1 poil + clair)
 menu zone vide
 ↘
 	afficher ce dossier web (si accessible)
