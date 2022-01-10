@@ -399,6 +399,16 @@ button {
 		border-top: 1px solid #999;
 	}
 
+/* SELECTION */
+
+#selection {
+	display: none;
+	position: absolute;
+	border: 1px dashed rgba(0, 50, 100, 0.75);
+	background-color: rgba(0, 100, 150, 0.5);
+	z-index: 999;
+}
+
 /* CONNEXION */
 
 #connexion {
