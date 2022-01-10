@@ -134,13 +134,6 @@ function removeObjsInArr(arr, val, param, insensible = false)
     }
 }
 
-/*
-selectElement(
-selectedElements
-nameEncoded
-fullPathEnc
-*/
-
 function selectElement(el, nameEncoded) {
 	disableAutoRefresh = true
 	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
@@ -171,19 +164,6 @@ function unselectElements() {
 	selectedElements = []
 }
 
-function startClic(el, nameEncoded) {
-	if(event.button !== 2) {
-		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
-			document.body.querySelectorAll("a").forEach(element => {
-				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
-					element.classList.add("unselected")
-			})
-			tryToMove = el
-		}
-		disableAutoRefresh = true
-	}
-}
-
 function moveMultiple(pathEncoded) {
 	let strSelecteds = ""
 	selectedElements.forEach(element => {
@@ -200,6 +180,19 @@ function moveMultiple(pathEncoded) {
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
+}
+
+function startClic(el, nameEncoded) {
+	if(isOnMobile === false && event.button !== 2) {
+		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+			document.body.querySelectorAll("a").forEach(element => {
+				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
+					element.classList.add("unselected")
+			})
+			tryToMove = el
+		}
+		disableAutoRefresh = true
+	}
 }
 
 function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
