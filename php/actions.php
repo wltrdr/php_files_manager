@@ -320,6 +320,30 @@ elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
 		exit('File not found');
 }
 
+/* MOVE MULTIPLE ELEMENTS */
+
+elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
+	$if_exists = intval($_POST['if_exists']);
+	$return = '';
+	if(strpos($_POST['move_multiple'], '%7C%7C%7C'))
+		$files_to_move = explode('%7C%7C%7C', $_POST['move_multiple']);
+	else
+		$files_to_move = explode('|||', $_POST['move_multiple']);
+	foreach($files_to_move as $file_to_move) {
+		$file_to_move = urldecode($file_to_move);
+		if(@file_exists($file_to_move)) {
+			if(@!copy_or_move($file_to_move, $current, true, $if_exists, $if_exists, 1))
+				$return .= "<b>$file_to_move</b> : File or directory not moved";
+		}
+		else
+			$return .= "<b>$file_to_move</b> : File or directory not found";
+	}
+	if(empty($return))
+		exit('moveds');
+	else
+		exit($return);
+}
+
 /* UPDATE */
 
 elseif(isset($_POST['update'])) {
