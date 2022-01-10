@@ -129,6 +129,8 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 		<a onclick="openDir('${fullPathEncoded}')">Open</a>
 		${webUrl}
 		<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+		<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
+		<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 		<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
 		<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
 		<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
@@ -156,6 +158,8 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 		${webUrl}
 		<a onclick="openBox('edit', { name: '${name}', nameEncoded: '${nameEncoded}' })">Edit</a>
 		<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+		<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
+		<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 		<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
 		<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
 		<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
@@ -177,6 +181,8 @@ function menuMultiple() {
 	if(nbSelectedEls > 1)
 		name += "s"
 	openMenu(`<span>${name}</span>
+	<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = true">Copy</a>
+	<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = false">Cut</a>
 	<a onclick="duplicateMultiple()">Duplicate</a>
 	<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Copy to</a>
 	<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Move to</a>
@@ -184,8 +190,6 @@ function menuMultiple() {
 	<a onclick="openBox('chmods', { name: '${name}', files: '${encodeURIComponent(JSON.stringify(selectedElements))}' })">Change chmods</a>
 	`, event)
 }
-
-/* OTHERS ACTIONS */
 
 function downloadElement(pathEncoded, nameEncoded) {
 	window.open(`?${Date.now()}&download=${nameEncoded}&dir=${pathEncoded}&token=${token}`)
