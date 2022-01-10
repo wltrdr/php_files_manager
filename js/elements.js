@@ -67,7 +67,7 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 					elements.querySelectorAll("a").forEach(element => {
 						if(foundFirst === false && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
 							foundFirst = true
-						else if(foundFirst === false && element.getAttribute("data-name-enc") === nameEncoded  ) {
+						else if(foundFirst === false && element.getAttribute("data-name-enc") === nameEncoded ) {
 							foundFirst = true
 							selectElement(el, nameEncoded)
 						}
@@ -194,7 +194,7 @@ function downloadElement(pathEncoded, nameEncoded) {
 function newElement(type, name) {
 	if(name === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
-	else 
+	else
 		checkReqRep(`${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, "created")
 }
 
