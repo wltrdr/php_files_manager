@@ -230,18 +230,20 @@ function deleteElement(pathEncoded, nameEncoded) {
 	checkReqRep(`${Date.now()}&delete=${nameEncoded}&dir=${pathEncoded}&token=${token}`, "deleted")
 }
 
-function formatMultiple(elements) {
+function formatMultiple(elements, path = false) {
 	let ret = ""
 	elements.forEach(element => {
-		if(currentPath !== ".")
-			ret += currentPath
+		if(path === false)
+			path = element.pathEncoded
+		if(path !== ".")
+			ret += path
 		ret += element.nameEncoded + "%2F%2F%2F"
 	})
 	return ret.substring(0, ret.length - 9)
 }
 
 function duplicateMultiple() {
-	checkReqRep(`${Date.now()}&duplicate_multiple=${formatMultiple(selectedElements)}&dir=${currentPath}&token=${token}`, "duplicateds")
+	checkReqRep(`${Date.now()}&duplicate_multiple=${formatMultiple(selectedElements, currentPath)}&dir=${currentPath}&token=${token}`, "duplicateds")
 }
 
 function copyMultiple(pathEncoded, elements = false) {
@@ -249,7 +251,7 @@ function copyMultiple(pathEncoded, elements = false) {
 		elements = selectedElements
 	else
 		elements = JSON.parse(decodeURIComponent(elements))
-	checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(elements)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
+	checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(elements, currentPath)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
 }
 
 function moveMultiple(pathEncoded, elements = false) {
@@ -257,9 +259,16 @@ function moveMultiple(pathEncoded, elements = false) {
 		elements = selectedElements
 	else
 		elements = JSON.parse(decodeURIComponent(elements))
-	checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(elements)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
+	checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(elements, currentPath)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
 }
 
 function deleteMultiple(elements) {
-	checkReqRep(`${Date.now()}&delete_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)))}&token=${token}`, "deleteds")
+	checkReqRep(`${Date.now()}&delete_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)), currentPath)}&token=${token}`, "deleteds")
+}
+
+function pasteMultiple() {
+	if(copyNotCut === false)
+		checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
+	else
+		checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
 }
