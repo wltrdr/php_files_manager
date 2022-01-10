@@ -1,3 +1,126 @@
+/* CLICK ON ELEMENTS */
+
+function selectElement(el, nameEncoded) {
+	disableAutoRefresh = true
+	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+		el.classList.add("selected")
+		selectedElements.push({
+			element : el,
+			nameEncoded : nameEncoded
+		})
+	}
+}
+
+function selectAllElements() {
+	elements.querySelectorAll("a").forEach(element => {
+		selectElement(element, element.getAttribute("data-name-enc"))
+	})
+}
+
+function unselectElement(nameEncoded) {
+	returnObjInArr(selectedElements, nameEncoded, "nameEncoded").element.classList.remove("selected")
+	removeObjsInArr(selectedElements, nameEncoded, "nameEncoded")
+	if(selectedElements.length === 0)
+		disableAutoRefresh = false
+}
+
+function startClic(el, nameEncoded) {
+	if(isOnMobile === false && event.button === 0) {
+		mouseDownOnEl = true
+		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+			document.body.querySelectorAll("a").forEach(element => {
+				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
+					element.classList.add("unselected")
+			})
+			tryToMove = el
+		}
+	}
+}
+
+function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
+	if(selectWcursor === false) {
+		if(isOnMobile === false && event.button === 0 && tryToMove !== false && moveForbidden === false) {
+			mouseUpOnEl = true
+			moveMultiple(pathEncoded)
+		}
+		else
+			openDir(pathEncoded)
+		tryToMove = false
+	}
+}
+
+function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
+	if(event.button === 0 && selectWcursor === false) {
+		mouseUpOnEl = true
+		if(isOnMobile === false && name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+			moveMultiple(pathEncoded)
+		else {
+			if(event.ctrlKey === true) {
+				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+					selectElement(el, nameEncoded)
+				else
+					unselectElement(nameEncoded)
+			}
+			else if(event.shiftKey === true) {
+				if(selectedElements.length === 1 && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+					let foundFirst = false
+					elements.querySelectorAll("a").forEach(element => {
+						if(foundFirst === false && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+							foundFirst = true
+						else if(foundFirst === false && element.getAttribute("data-name-enc") === nameEncoded  ) {
+							foundFirst = true
+							selectElement(el, nameEncoded)
+						}
+						else if(foundFirst === true && element.getAttribute("data-name-enc") === selectedElements[0].nameEncoded )
+							foundFirst = false
+						else if(foundFirst === true && element.getAttribute("data-name-enc") === nameEncoded ) {
+							foundFirst = false
+							selectElement(el, nameEncoded)
+						}
+						else if(foundFirst === true)
+							selectElement(element, element.getAttribute("data-name-enc"))
+					})
+				}
+				else {
+					if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+						selectElement(el, nameEncoded)
+					else
+						unselectElement(nameEncoded)
+				}
+			}
+			else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+				console.log("MENU CHOIX MULTIPLE")
+				// MENU CHOIX MULTIPLE
+			}
+			else if(selectedElements.length !== 0)
+				unselectElements()
+			else {
+				unselectElements()
+				if(name === false)
+					openDir(pathEncoded, isLink)
+				else
+					menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+			}
+		}
+		tryToMove = false
+	}
+}
+
+function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+	mouseUpOnEl = true
+	if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+		console.log("MENU CHOIX MULTIPLE")
+		// MENU CHOIX MULTIPLE
+	}
+	else {
+		unselectElements()
+		if(fullPathEncoded !== false)
+			menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+		else
+			menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+	}
+}
+
 /* CONTEXT MENUS */
 
 function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
@@ -63,7 +186,7 @@ function checkReqRep(request, wish, disableFocus = true) {
 	})
 }
 
-/* ADD ACTIONS */
+/* OTHERS ACTIONS */
 
 function newElement(type, name) {
 	if(name === "")
@@ -71,8 +194,6 @@ function newElement(type, name) {
 	else 
 		checkReqRep(`${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, "created")
 }
-
-/* OTHER ACTIONS */
 
 function downloadElement(pathEncoded, nameEncoded) {
 	window.open(`?${Date.now()}&download=${nameEncoded}&dir=${pathEncoded}&token=${token}`)
