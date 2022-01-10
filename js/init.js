@@ -183,12 +183,22 @@ function startClic(el, nameEncoded) {
 		disableAutoRefresh = true
 	}
 }
+
+function moveMultiple(pathEncoded) {
+	selectedElements.forEach(element => {
+		let from = currentPath
+		if(from === ".")
+			from = ""
+		from += element.nameEncoded
+		console.log(`MOVE ${from} TO ${pathEncoded}`)
+	})
+	unselectElements()
+}
+
 function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
 	if(event.button !== 2 && tryToMove !== false && moveForbidden === false) {
 		clicOnElement = true
-		console.log("MOVE SELECTION TO " + nameEncoded)
-		// MOVE (current / selecteds) TO (pathEncoded / nameEncoded)
-		unselectElements()
+		moveMultiple(pathEncoded)
 	}
 	else
 		openDir(pathEncoded)
@@ -198,11 +208,8 @@ function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(event.button !== 2) {
 		clicOnElement = true
-		if(name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
-			console.log("MOVE SELECTION TO " + nameEncoded)
-			// MOVE (current / selecteds) TO (pathEncoded / nameEncoded)
-			unselectElements()
-		}
+		if(name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+			moveMultiple(pathEncoded)
 		else {
 			if(event.ctrlKey === true) {
 				if(selectedElements.length === 0 || !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
