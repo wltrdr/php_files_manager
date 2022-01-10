@@ -1,10 +1,10 @@
 function unselectAfterDelay() {
 	popupMenu.style.display = "none"
 	setTimeout(() => {
-		if(clicOnElement === false)
+		if(mouseUpOnEl === false)
 			unselectElements()
 		else
-			clicOnElement = false
+			mouseUpOnEl = false
 	}, delayMenuMs)
 }
 
@@ -17,17 +17,26 @@ document.body.addEventListener("contextmenu", ev => {
 	ev.preventDefault()
 })
 
+elements.addEventListener("mousedown", ev => {
+	setTimeout(() => {
+		if(mouseDownOnEl === false) {
+			// on dessine
+			console.log("on dessine")
+		}
+		else
+			mouseDownOnEl = false
+	}, delayMenuMs)
+})
+
 document.body.addEventListener("mouseup", ev => {
 	document.body.querySelectorAll("a").forEach(element => {
 		if(element.classList.contains("unselected"))
 			element.classList.remove("unselected")
 	})
-})
-
-elements.addEventListener("mousedown", ev => {
-	// cherche si sur element ou non =>
-	// si non
-		// commence la selection
+	console.log("on arrete dessiner")
+	/*
+		// si on dessinait alors on arrete
+	*/
 })
 
 document.body.addEventListener("dragover", ev => {
