@@ -68,6 +68,8 @@ let selectionStartY = 0
 let mouseUpOnEl = false
 let mouseDownOnEl = false
 let tryToMove = false
+let copy = []
+let copyNotCut = true
 
 function onMobile() {
 	function checkMobile(navData) {
