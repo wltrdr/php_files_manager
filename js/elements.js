@@ -52,12 +52,12 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 		`, event)
 }
 
-function checkReqRep(request, wish) {
+function checkReqRep(request, wish, disableFocus = true) {
 	ajaxRequest("POST", "", request, result => {
 		if(result === wish)
-			openDir(currentPath, true)
+			openDir(currentPath, disableFocus)
 		else {
-			openDir(currentPath, true)
+			openDir(currentPath, disableFocus)
 			openBox("alert", "Error : <b>" + result + "</b>", "err")
 		}
 	})
