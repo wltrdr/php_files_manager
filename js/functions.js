@@ -250,7 +250,7 @@ function removeObjsInArr(arr, val, param, insensible = false)
     }
 }
 
-function checkReqRep(request, wish, disableFocus = true) {
+function checkReqRep(request, wish) {
 	ajaxRequest("POST", "", request, result => {
 		if(result === wish)
 			openDir(currentPath, disableFocus)
