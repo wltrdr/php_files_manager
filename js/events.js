@@ -47,6 +47,7 @@ elements.addEventListener("contextmenu", ev => {
 
 elements.addEventListener("mousedown", ev => {
 	if(isOnMobile === false && ev.button === 0 && mouseDownOnEl === false) {
+		popupMenu.style.display = "none"
 		disableAutoRefresh = true
 		selectWcursor = true
 		selection.style.display = "block"
