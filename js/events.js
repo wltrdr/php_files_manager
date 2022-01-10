@@ -219,7 +219,7 @@ function uploadFiles(dir = false) {
 									if(choices.indexOf(4) !== -1)
 										typeUploadExists = choice + 1
 
-									checkReqRep(`${Date.now()}&ask=${choice}&files=${found[1]}&dir=${dir}&token=${token}`, "uploaded", false)
+									checkReqRep(`${Date.now()}&ask=${choice}&files=${found[1]}&dir=${dir}&token=${token}`, "uploaded")
 								})
 							else
 								openBox("alert", "Error : <b>" + result + "</b>", "err")
