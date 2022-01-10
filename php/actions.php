@@ -87,13 +87,13 @@ elseif(isset($_FILES['upload'])) {
 				elseif($i % 2 === 0)
 					$return .= "\n" . htmlentities($ask_uploads[$i], ENT_QUOTES) . '</b> cannot be uploaded, please try again<b><br><br>';
 			}
-			$return = substr($return, 0, strlen($return) - 8);
+			$return = substr($return, 0, mb_strlen($return) - 8);
 		}
 	}
 	elseif(empty($return))
 		$return = 'uploaded';
 	else
-		$return = substr($return, 0, strlen($return) - 8);
+		$return = substr($return, 0, mb_strlen($return) - 8);
 	exit($return);
 }
 
@@ -164,7 +164,7 @@ elseif(isset($_POST['ask']) && isset($_POST['files'])) {
 	if(empty($return))
 		$return = 'uploaded';
 	else
-		$return = substr($return, 0, strlen($return) - 8);
+		$return = substr($return, 0, mb_strlen($return) - 8);
 	exit($return);
 }
 
