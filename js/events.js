@@ -2,10 +2,12 @@ function unselectAfterDelay() {
 	popupMenu.style.display = "none"
 	if(isOnMobile === false) {
 		setTimeout(() => {
-			if(mouseUpOnEl === false)
+			if(mouseUpOnEl === false && selectWcursor === false)
 				unselectElements()
-			else
+			else {
 				mouseUpOnEl = false
+				selectWcursor === false
+			}
 		}, delayMenuMs)
 	}
 }
@@ -47,7 +49,7 @@ function setCursorSelection(startX, startY, endX, endY) {
 }
 
 elements.addEventListener("mousedown", ev => {
-	setTimeout(() => {
+	// setTimeout(() => {
 		if(isOnMobile === false && ev.button === 0 && mouseDownOnEl === false) {
 			disableAutoRefresh = true
 			selectWcursor = true
@@ -58,7 +60,7 @@ elements.addEventListener("mousedown", ev => {
 		}
 		else
 			mouseDownOnEl = false
-	}, delayMenuMs)
+	// }, delayMenuMs)
 })
 
 document.body.addEventListener("mousemove", ev => {
@@ -67,17 +69,66 @@ document.body.addEventListener("mousemove", ev => {
 	}
 })
 
+function isOnCoords(coordsFromX, coordsFromY, coordsToX, coordsToY, objFromX, objFromY, objToX, objToY) {
+	if(
+		objFromX >= coordsFromX &&
+		objFromX <= coordsToX &&
+		objToX >= coordsFromX &&
+		objToX <= coordsToX &&
+		objFromY >= coordsFromY &&
+		objFromY <= coordsToY &&
+		objToY >= coordsFromY &&
+		objToY <= coordsToY
+	)
+		return true
+	return false
+}
+
 document.body.addEventListener("mouseup", ev => {
 	if(isOnMobile === false) {
 		document.body.querySelectorAll("a").forEach(element => {
 			if(element.classList.contains("unselected"))
 				element.classList.remove("unselected")
 		})
+		let fromX
+		let toX
+		let fromY
+		let toY
+		if(selectWcursor === true) {
+			if(selectionStartX > ev.clientX) {
+				fromX = ev.clientX
+				toX = selectionStartX
+			}
+			else {
+				fromX = selectionStartX
+				toX = ev.clientX
+			}
+			if(selectionStartY < ev.clientY) {
+				fromY = selectionStartY
+				toY = ev.clientY
+			}
+			else {
+				fromY = ev.clientY
+				toY = selectionStartY
+			}
+		}
+		elements.querySelectorAll("a").forEach((element, i) => {
+			if(selectWcursor === true) {
+				if(isOnCoords(fromX, fromY, toX, toY, element.offsetLeft, element.offsetTop, element.offsetLeft + element.offsetWidth, element.offsetTop + element.offsetHeight))
+					selectElement(element, element.getAttribute("data-name-enc"))
+				else
+					try {
+						unselectElement(element.getAttribute("data-name-enc"))
+					}
+					catch {}
+			}
+		})
+
 		setTimeout(() => {
 			if(selectedElements.length === 0)
 				disableAutoRefresh = false
-		}, delayMenuMs)
-		selectWcursor = false
+			selectWcursor = false
+		}, delayMenuMs * 2)
 		selection.style.display = "none"
 	}
 })
