@@ -22,6 +22,14 @@
 0.9.3⤵
 menu elements selectionnés
 ↘
+	copier vers
+	déplacer vers
+	supprimer
+	chmods
+
+0.9.5⤵
+menu elements selectionnés
+↘
 	copier
 	couper
 menu zone vide (quand rien nest selectionné)
@@ -33,10 +41,10 @@ menu zone vide (quand rien nest selectionné)
 	creer dir
 	creer file
 
-0.9.5⤵
+0.9.7⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
 
-0.9.7⤵
+0.9.9⤵
 création (symlink) + gestion liens symboliques :
 	menu pour liens symboliques fichier ou dossier :
 	↘
@@ -46,8 +54,8 @@ création (symlink) + gestion liens symboliques :
 		copier
 
 1.0.0⤵
-tester si guillement ou & dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFile..)
-verifier : let, const, ;  //  ' " `  //  OR AND  //  espaces \t  //  htmlentities partout  //  \n\t*\{ => {  //  if\(([^\)]+)\)\n\t*([a-z]) => if($1) $2  //  while\(([^\)]+)\)\n\t*([a-z]) => while($1) $2  //  for\(([^\)]+)\)\n\t*([a-z]) => for($1) $2  //  else\n\t*([a-z]) => else $1
+tester caracteres ' " & ? dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFile..)
+verifier : let, const, ;  //  ' " `  //  OR AND  //  espaces \t  //  htmlentities & urlencode / urldecode partout  //  \n\t*\{ => {  //  if\(([^\)]+)\)\n\t*([a-z]) => if($1) $2  //  while\(([^\)]+)\)\n\t*([a-z]) => while($1) $2  //  for\(([^\)]+)\)\n\t*([a-z]) => for($1) $2  //  else\n\t*([a-z]) => else $1
 minimiser noms vars + sauts de lignes
 chercher traces fr + corriger eng
 tout reverifier
