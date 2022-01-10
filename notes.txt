@@ -3,7 +3,7 @@
 	Mise à jour automatique des éléments affichés
 	Upload de plusieurs fichiers simultanément
 	Upload des fichiers via drap & drop dans le dossier ouvert ou dans ses sous dossiers
-	Sélection des fichiers et dossiers avec les touches Ctrl, Shift et Ctrl+A pour pouvoir les déplacer
+	Sélection multiple des fichiers et dossiers avec le curseur de la souris ou avec les touches Ctrl, Shift et Ctrl+A afin de pouvoir les déplacer
 	Copie, déplacement, renommage, duplication, suppression et modification des permissions des fichiers et des dossiers
 	Edition et téléchargement des fichiers (même ceux non accessibles sur le web)
 	Création de nouveaux dossiers et fichiers
@@ -20,7 +20,6 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.3⤵
-multiselect a la souris
 menu elements selectionnés
 ↘
 	copier
