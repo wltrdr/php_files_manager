@@ -30,8 +30,6 @@ menu zone vide (quand rien nest selectionné)
 ↘
 	coller (si dispo)
 	afficher ce dossier web (si accessible)
-	type voir
-	type sort
 
 
 
