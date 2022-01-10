@@ -168,7 +168,10 @@ let tryToMove = false
 function startClic(el, nameEncoded) {
 	if(event.button !== 2) {
 		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
-			// ajoute classe hover a dir et linkdir non sélectionnés
+			document.body.querySelectorAll("a").forEach(element => {
+				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
+					element.classList.add("unselected")
+			})
 			tryToMove = el
 		}
 		disableAutoRefresh = true
