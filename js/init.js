@@ -12,6 +12,7 @@ const loading = document.querySelector("#loading")
 const popupBox = document.querySelector("#popupBox")
 const popupMask = document.querySelector("#popupMask")
 const popupMenu = document.querySelector("#popupMenu")
+const selection = document.querySelector("#selection")
 const connexion = document.querySelector("#connexion")
 const formConnexion = document.querySelector("#connexion form")
 const inputConnexion = document.querySelector("#connexion form input")
@@ -61,6 +62,9 @@ let h1Lvl = -1
 let disableAutoRefresh = false
 let overAdir = false
 let selectedElements = []
+let selectWcursor = false
+let selectionStartX = 0
+let selectionStartY = 0
 let mouseUpOnEl = false
 let mouseDownOnEl = false
 let tryToMove = false
@@ -166,8 +170,8 @@ function unselectElements() {
 }
 
 function startClic(el, nameEncoded) {
-	mouseDownOnEl = true
-	if(isOnMobile === false && event.button !== 2) {
+	if(isOnMobile === false && event.button === 0) {
+		mouseDownOnEl = true
 		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			document.body.querySelectorAll("a").forEach(element => {
 				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
@@ -180,19 +184,21 @@ function startClic(el, nameEncoded) {
 }
 
 function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
-	if(event.button !== 2 && tryToMove !== false && moveForbidden === false) {
-		mouseUpOnEl = true
-		moveMultiple(pathEncoded)
+	if(selectWcursor === false) {
+		if(isOnMobile === false && event.button === 0 && tryToMove !== false && moveForbidden === false) {
+			mouseUpOnEl = true
+			moveMultiple(pathEncoded)
+		}
+		else
+			openDir(pathEncoded)
+		tryToMove = false
 	}
-	else
-		openDir(pathEncoded)
-	tryToMove = false
 }
 
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
-	if(event.button !== 2) {
+	if(event.button === 0 && selectWcursor === false) {
 		mouseUpOnEl = true
-		if(name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+		if(isOnMobile === false && name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 			moveMultiple(pathEncoded)
 		else {
 			if(event.ctrlKey === true) {
@@ -232,6 +238,8 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 				console.log("MENU CHOIX MULTIPLE")
 				// MENU CHOIX MULTIPLE
 			}
+			else if(selectedElements.length !== 0)
+				unselectElements()
 			else {
 				unselectElements()
 				if(name === false)
@@ -246,7 +254,7 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 
 function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 	mouseUpOnEl = true
-	if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+	if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 		console.log("MENU CHOIX MULTIPLE")
 		// MENU CHOIX MULTIPLE
 	}
