@@ -34,10 +34,10 @@ menu zone vide
 	creer dir
 	creer file
 
-0.9.7⤵
+0.9.5⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
 
-0.9.9⤵
+0.9.7⤵
 création (symlink) + gestion liens symboliques :
 	menu pour liens symboliques fichier ou dossier :
 	↘
