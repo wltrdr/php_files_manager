@@ -71,15 +71,15 @@ function newElement(type, name) {
 
 /* OTHER ACTIONS */
 
-function downloadElement(path, name) {
-	window.open(`?${Date.now()}&download=${name}&dir=${path}&token=${token}`)
+function downloadElement(pathEncoded, nameEncoded) {
+	window.open(`?${Date.now()}&download=${nameEncoded}&dir=${pathEncoded}&token=${token}`)
 }
 
-function renameElement(path, oldName, newName) {
+function renameElement(pathEncoded, oldName, newName) {
 	if(newName === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
 	else {
-		ajaxRequest("POST", "", `${Date.now()}&rename=${oldName}&dir=${path}&name=${newName}&token=${token}`, result => {
+		ajaxRequest("POST", "", `${Date.now()}&rename=${oldName}&dir=${pathEncoded}&name=${newName}&token=${token}`, result => {
 			if(result === "renamed")
 				openDir(currentPath, true)
 			else {
@@ -90,8 +90,8 @@ function renameElement(path, oldName, newName) {
 	}
 }
 
-function duplicateElement(path, name) {
-	ajaxRequest("POST", "", `${Date.now()}&duplicate=${name}&dir=${path}&path=${path}&token=${token}`, result => {
+function duplicateElement(pathEncoded, nameEncoded) {
+	ajaxRequest("POST", "", `${Date.now()}&duplicate=${nameEncoded}&dir=${pathEncoded}&path=${pathEncoded}&token=${token}`, result => {
 		if(result === "duplicated")
 			openDir(currentPath, true)
 		else {
@@ -101,8 +101,8 @@ function duplicateElement(path, name) {
 	})
 }
 
-function copyElement(path, name, newPath) {
-	ajaxRequest("POST", "", `${Date.now()}&copy=${name}&dir=${path}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
+function copyElement(pathEncoded, nameEncoded, newPath) {
+	ajaxRequest("POST", "", `${Date.now()}&copy=${nameEncoded}&dir=${pathEncoded}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
 		if(result === "copied")
 			openDir(currentPath, true)
 		else {
@@ -112,8 +112,8 @@ function copyElement(path, name, newPath) {
 	})
 }
 
-function moveElement(path, name, newPath) {
-	ajaxRequest("POST", "", `${Date.now()}&move=${name}&dir=${path}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
+function moveElement(pathEncoded, nameEncoded, newPath) {
+	ajaxRequest("POST", "", `${Date.now()}&move=${nameEncoded}&dir=${pathEncoded}&path=${newPath}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
 		if(result === "moved")
 			openDir(currentPath, true)
 		else {
@@ -123,8 +123,8 @@ function moveElement(path, name, newPath) {
 	})
 }
 
-function deleteElement(path, name) {
-	ajaxRequest("POST", "", `${Date.now()}&delete=${name}&dir=${path}&token=${token}`, result => {
+function deleteElement(pathEncoded, nameEncoded) {
+	ajaxRequest("POST", "", `${Date.now()}&delete=${nameEncoded}&dir=${pathEncoded}&token=${token}`, result => {
 		if(result === "deleted")
 			openDir(currentPath, true)
 		else {
