@@ -19,7 +19,7 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.3⤵
-deplacement elements selectionnés via drap drop => le deplacement doit aussi s'appliquer dans tree (endclic(), preparer fonction console) => selected elements contient aussi path
+deplacement elements selectionnés via drap drop => le deplacement doit aussi s'appliquer dans tree (endclic(), preparer fonction console) => selected elements contient full path au lieu de nameEncoded
 multiselect a la souris
 menu elements selectionnés
 ↘
