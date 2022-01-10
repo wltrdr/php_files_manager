@@ -1,4 +1,10 @@
 <?php
+function explode_multiple_files($files) {
+	if(strpos($files, '%2F%2F%2F'))
+		return explode('%2F%2F%2F', $files);
+	else
+		return explode('///', $files);
+}
 /* SET SETTINGS */
 
 if(isset($_POST['set_settings'])) {
@@ -206,11 +212,10 @@ elseif(isset($_POST['rename']) && isset($_POST['name'])) {
 
 /* DUPLICATE ELEMENT */
 
-elseif(isset($_POST['duplicate']) && isset($_POST['path'])) {
+elseif(isset($_POST['duplicate'])) {
 	$name = urldecode($_POST['duplicate']);
-	$path = $_POST['path'];
 	if(@file_exists($current . $name)) {
-		if(@copy_or_move($current . $name, $path, false, 2, 2, 2))
+		if(@copy_or_move($current . $name, $current, false, 2, 2, 2))
 			exit('duplicated');
 		else
 			exit('File or directory not duplicated');
@@ -320,16 +325,51 @@ elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
 		exit('File not found');
 }
 
+/* DUPLICATE MULTIPLE ELEMENTS */
+
+elseif(isset($_POST['duplicate_multiple'])) {
+	$return = '';
+	foreach(explode_multiple_files($_POST['duplicate_multiple']) as $file_to_duplicate) {
+		$file_to_duplicate = urldecode($file_to_duplicate);
+		if(@file_exists($file_to_duplicate)) {
+			if(@!copy_or_move($file_to_duplicate, $current, false, 2, 2, 2))
+				$return .= "<b>$file_to_duplicate</b> : File or directory not duplicated";
+		}
+		else
+			$return .= "<b>$file_to_duplicate</b> : File or directory not found";
+	}
+	if(empty($return))
+		exit('duplicateds');
+	else
+		exit($return);
+}
+
+/* COPY MULTIPLE ELEMENTS */
+
+elseif(isset($_POST['copy_multiple']) && isset($_POST['if_exists'])) {
+	$if_exists = intval($_POST['if_exists']);
+	$return = '';
+	foreach(explode_multiple_files($_POST['copy_multiple']) as $file_to_copy) {
+		$file_to_copy = urldecode($file_to_copy);
+		if(@file_exists($file_to_copy)) {
+			if(@!copy_or_move($file_to_copy, $current, false, $if_exists, $if_exists, 1))
+				$return .= "<b>$file_to_copy</b> : File or directory not copied";
+		}
+		else
+			$return .= "<b>$file_to_copy</b> : File or directory not found";
+	}
+	if(empty($return))
+		exit('copieds');
+	else
+		exit($return);
+}
+
 /* MOVE MULTIPLE ELEMENTS */
 
 elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
 	$if_exists = intval($_POST['if_exists']);
 	$return = '';
-	if(strpos($_POST['move_multiple'], '%2F%2F%2F'))
-		$files_to_move = explode('%2F%2F%2F', $_POST['move_multiple']);
-	else
-		$files_to_move = explode('///', $_POST['move_multiple']);
-	foreach($files_to_move as $file_to_move) {
+	foreach(explode_multiple_files($_POST['move_multiple']) as $file_to_move) {
 		$file_to_move = urldecode($file_to_move);
 		if(@file_exists($file_to_move)) {
 			if(@!copy_or_move($file_to_move, $current, true, $if_exists, $if_exists, 1))
@@ -340,6 +380,29 @@ elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
 	}
 	if(empty($return))
 		exit('moveds');
+	else
+		exit($return);
+}
+
+/* DELETE MULTIPLE ELEMENTS */
+
+elseif(isset($_POST['delete_multiple'])) {
+	$return = '';
+	foreach(explode_multiple_files($_POST['delete_multiple']) as $file_to_delete) {
+		$file_to_delete = urldecode($file_to_delete);
+		if(@is_file($file_to_delete) || @is_link($file_to_delete)) {
+			if(@!unlink($file_to_delete))
+				$return .= "<b>$file_to_delete</b> : File not deleted";
+		}
+		elseif(@is_dir($file_to_delete)) {
+			if(@!rm_full_dir($file_to_delete))
+				$return .= "<b>$file_to_delete</b> : Directory not deleted";
+		}
+		else
+			$return .= "<b>$file_to_delete</b> : File or directory not found";
+	}
+	if(empty($return))
+		exit('deleteds');
 	else
 		exit($return);
 }
