@@ -21,32 +21,20 @@ document.body.addEventListener("contextmenu", ev => {
 	ev.preventDefault()
 })
 
-function setCursorSelection(startX, startY, endX, endY) {
-	let width = 0
-	let height = 0
-	let fromLeft = 0
-	let fromTop = 0
-	if(startX > endX) {
-		fromLeft = endX
-		width = startX - endX
+elements.addEventListener("contextmenu", ev => {
+	if(webUrl === false)
+		webUrl = ""
+	else
+		webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
+	if(rightClicOnEl === false) {
+		if(copy.length > 0)
+			openMenu(`<a onclick="">Paste</a>
+			${webUrl}
+		`, event)
 	}
-	else {
-		fromLeft = startX
-		width = endX - startX
-	}
-	if(startY < endY) {
-		fromTop = startY
-		height = endY - startY
-	}
-	else {
-		fromTop = endY
-		height = startY - endY
-	}
-	selection.style.width = width + "px"
-	selection.style.height = height + "px"
-	selection.style.left = fromLeft + "px"
-	selection.style.top = fromTop + "px"
-}
+	else
+		rightClicOnEl = false
+})
 
 elements.addEventListener("mousedown", ev => {
 	if(isOnMobile === false && ev.button === 0 && mouseDownOnEl === false) {
@@ -66,21 +54,6 @@ document.body.addEventListener("mousemove", ev => {
 		setCursorSelection(selectionStartX, selectionStartY, ev.x, ev.y)
 	}
 })
-
-function isOnCoords(coordsFromX, coordsFromY, coordsToX, coordsToY, objFromX, objFromY, objToX, objToY) {
-	if(
-		objFromX >= coordsFromX &&
-		objFromX <= coordsToX &&
-		objToX >= coordsFromX &&
-		objToX <= coordsToX &&
-		objFromY >= coordsFromY &&
-		objFromY <= coordsToY &&
-		objToY >= coordsFromY &&
-		objToY <= coordsToY
-	)
-		return true
-	return false
-}
 
 document.body.addEventListener("mouseup", ev => {
 	if(isOnMobile === false) {
