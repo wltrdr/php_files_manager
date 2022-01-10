@@ -345,7 +345,7 @@ function openBox(type, vals, icon = null, callback = false) {
 			if(vals.txt)
 				txt = vals.txt
 			if(vals.files)
-				files = vals.files
+				files = JSON.parse(decodeURIComponent(vals.files))
 			if(vals.btnOk)
 				btnOk = vals.btnOk
 			if(vals.btnNo)
@@ -400,7 +400,7 @@ function openBox(type, vals, icon = null, callback = false) {
 				input.value = chmods
 			}
 
-			function showChmodBox(found, callback) {
+			function showChmodBox(chmodDef, callback) {
 				showBox(txt, icon, `<div id="boxChmods">
 					<div></div>
 					<div></div>
@@ -430,11 +430,11 @@ function openBox(type, vals, icon = null, callback = false) {
 					<div class="center"><input type="checkbox" id="chmod_2_2"></div>
 					<div class="center"><input type="checkbox" id="chmod_3_2"></div>
 				</div>
-				<input type="text" value="${found[1]}">
+				<input type="text" value="${chmodDef}">
 				`, `<button id="y">${btnOk}</button>\n<button id="n">${btnNo}</button>`, false, () => {
 					const input = popupBox.querySelector("input[type=\"text\"]")
 
-					chmods2checkboxes(found[1], popupBox, input)
+					chmods2checkboxes(chmodDef, popupBox, input)
 
 					input.addEventListener("change", () => {
 						chmods2checkboxes(input.value, popupBox, input)
@@ -460,21 +460,16 @@ function openBox(type, vals, icon = null, callback = false) {
 			}
 
 			if(files !== false) {
-				
+				showChmodBox("0777", changeResult => {
+					checkReqRep(`${Date.now()}&set_multiple_chmods=${changeResult}&files=${formatMultiple(files)}&token=${token}`, "chmodeds")
+				})
 			}
 			else {
 				ajaxRequest("POST", "", `${Date.now()}&get_chmods=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
 					const found = result.match(/\[chmods=([0-9]+)\]/)
 					if(found) {
-						showChmodBox(found, subResult => {
-							ajaxRequest("POST", "", `${Date.now()}&set_chmods=${subResult}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
-								if(result === "chmoded")
-									openDir(currentPath, true, true)
-								else {
-									openDir(currentPath, true, true)
-									openBox("alert", "Error : <b>" + result + "</b>", "err")
-								}
-							})
+						showChmodBox(found[1], changeResult => {
+							checkReqRep(`${Date.now()}&set_chmods=${changeResult}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, "chmoded")
 						})
 					}
 					else
