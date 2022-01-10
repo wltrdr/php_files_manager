@@ -18,13 +18,17 @@
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
-0.9.3⤵
-deplacement elements selectionnés via drap drop => le deplacement doit aussi s'appliquer dans tree
+0.9.2⤵
+deplacement elements selectionnés via drap drop
 multiselect a la souris
+
+0.9.3⤵
 menu elements selectionnés
 ↘
 	copier
 	couper
+	
+0.9.4⤵
 menu zone vide
 ↘
 	coller (si dispo)
