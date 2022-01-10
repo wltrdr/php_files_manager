@@ -185,14 +185,21 @@ function startClic(el, nameEncoded) {
 }
 
 function moveMultiple(pathEncoded) {
+	let strSelecteds = ""
 	selectedElements.forEach(element => {
-		let from = currentPath
-		if(from === ".")
-			from = ""
-		from += element.nameEncoded
-		console.log(`MOVE ${from} TO ${pathEncoded}`)
+		if(currentPath !== ".")
+			strSelecteds += currentPath
+		strSelecteds += element.nameEncoded + "%7C%7C%7C"
 	})
-	unselectElements()
+	strSelecteds = strSelecteds.substring(0, strSelecteds.length - 9)
+	ajaxRequest("POST", "", `${Date.now()}&move_multiple=${strSelecteds}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
+		if(result === "moveds")
+			openDir(currentPath)
+		else {
+			openDir(currentPath)
+			openBox("alert", "Error : <b>" + result + "</b>", "err")
+		}
+	})
 }
 
 function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
