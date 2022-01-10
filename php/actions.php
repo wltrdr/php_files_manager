@@ -407,6 +407,25 @@ elseif(isset($_POST['delete_multiple'])) {
 		exit($return);
 }
 
+/* SET MULTIPLE CHMODS */
+
+elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
+	$return = '';
+	foreach(explode_multiple_files($_POST['files']) as $file_to_chmod) {
+		$file_to_chmod = urldecode($file_to_chmod);
+		if(@file_exists($file_to_chmod)) {
+			if(@!chmod($file_to_chmod, octdec(intval($_POST['set_multiple_chmods']))))
+				$return .= "<b>$file_to_chmod</b> : Chmods not updated";
+		}
+		else
+			$return .= "<b>$file_to_chmod</b> : File or directory not found";
+	}
+	if(empty($return))
+		exit('chmodeds');
+	else
+		exit($return);
+}
+
 /* UPDATE */
 
 elseif(isset($_POST['update'])) {
