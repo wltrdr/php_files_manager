@@ -394,6 +394,11 @@ button {
 		color: #fff;
 	}
 
+	#popupMenu a:active {
+		background: linear-gradient(90deg, #602, #620);
+		color: #fff;
+	}
+
 	#popupMenu a.gap {
 		border: 1px solid #333;
 		border-top: 1px solid #999;
