@@ -191,17 +191,6 @@ function downloadElement(pathEncoded, nameEncoded) {
 	window.open(`?${Date.now()}&download=${nameEncoded}&dir=${pathEncoded}&token=${token}`)
 }
 
-function checkReqRep(request, wish, disableFocus = true) {
-	ajaxRequest("POST", "", request, result => {
-		if(result === wish)
-			openDir(currentPath, disableFocus)
-		else {
-			openDir(currentPath, disableFocus)
-			openBox("alert", "Error : <b>" + result + "</b>", "err")
-		}
-	})
-}
-
 function newElement(type, name) {
 	if(name === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
