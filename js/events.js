@@ -22,7 +22,7 @@ document.body.addEventListener("contextmenu", ev => {
 })
 
 elements.addEventListener("contextmenu", ev => {
-	if(rightClicOnEl === false) {
+	if(isOnMobile === false && rightClicOnEl === false) {
 		let webUrl = ""
 		if(webUrl !== false)
 			webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
