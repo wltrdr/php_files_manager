@@ -62,6 +62,7 @@ let disableAutoRefresh = false
 let overAdir = false
 let selectedElements = []
 let clicOnElement = false
+let tryToMove = false
 
 function onMobile() {
 	function checkMobile(navData) {
@@ -163,8 +164,6 @@ function unselectElements() {
 	selectedElements = []
 }
 
-let tryToMove = false
-
 function startClic(el, nameEncoded) {
 	if(event.button !== 2) {
 		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
@@ -177,6 +176,17 @@ function startClic(el, nameEncoded) {
 		disableAutoRefresh = true
 	}
 }
+function endClicTree(dir, nameEncoded) {
+	if(event.button !== 2 && tryToMove !== false && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+		clicOnElement = true
+		console.log("MOVE SELECTION TO " + nameEncoded)
+		// MOVE SELECTION TO ELEMENT
+		unselectElements()
+	}
+	else
+		openDir(dir)
+	tryToMove = false
+}
 
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(event.button !== 2) {
@@ -185,7 +195,6 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 			console.log("MOVE SELECTION TO " + nameEncoded)
 			// MOVE SELECTION TO ELEMENT
 			unselectElements()
-			tryToMove = false
 		}
 		else {
 			if(event.ctrlKey === true) {
@@ -232,8 +241,8 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 				else
 					menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
 			}
-			tryToMove = false
 		}
+		tryToMove = false
 	}
 }
 
