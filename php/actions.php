@@ -325,10 +325,10 @@ elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
 elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
 	$if_exists = intval($_POST['if_exists']);
 	$return = '';
-	if(strpos($_POST['move_multiple'], '%7C%7C%7C'))
-		$files_to_move = explode('%7C%7C%7C', $_POST['move_multiple']);
+	if(strpos($_POST['move_multiple'], '%2F%2F%2F'))
+		$files_to_move = explode('%2F%2F%2F', $_POST['move_multiple']);
 	else
-		$files_to_move = explode('|||', $_POST['move_multiple']);
+		$files_to_move = explode('///', $_POST['move_multiple']);
 	foreach($files_to_move as $file_to_move) {
 		$file_to_move = urldecode($file_to_move);
 		if(@file_exists($file_to_move)) {
