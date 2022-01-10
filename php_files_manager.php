@@ -242,9 +242,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 				if($link === '.')
 					$link = '';
 
-				$func_js = 'openDir';
+				$func_js = 'onmouseup="endClicTree';
 				if($tree_only !== false)
-					$func_js = 'boxPathNavigate';
+					$func_js = 'onclick="boxPathNavigate';
 
 				$return = '';
 				if($lvl === 1) {
@@ -252,20 +252,23 @@ elseif(isset($_POST) && !empty($_POST)) {
 					if($nb_dirs === 1)
 						$dir_default = ' treeDefault';
 
-					$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" onclick=\"$func_js('" . urlencode($path) . '\')" ondragover="dragOverAtreeDir(this, \'' . urlencode($path) . '\')" ondragleave="dragLeaveAtreeDir(this)" ondrop="dropOnAtreeDir(this)"><span class="icon"></span>' . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
+					$path_enc = urlencode($path);
+					$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" $func_js('$path_enc', '" . urlencode($name) . "')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
 				}
 				$next = false;
 				if($handle = opendir($path)) {
 					while(false !== ($entry = readdir($handle))) {
 						if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/') && !is_link($link . $entry)) {
 							$entry_html = htmlentities($entry, ENT_QUOTES);
+							$entry_enc = urlencode($entry);
 
 							if(isset($dirs[$lvl]['name']) && $entry === $dirs[$lvl]['name']) {
 								$dir_default = '';
 								if($lvl === $nb_dirs - 1)
 									$dir_default = ' treeDefault';
 
-								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dirs[$lvl]['path']) . "')\" ondragover=\"dragOverAtreeDir(this, '" . urlencode($dirs[$lvl]['path']) . "')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+								$path_enc = urlencode($dirs[$lvl]['path']);
+								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 								$next = true;
 							}
 							else {
@@ -281,7 +284,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 											$dir = $server_dirs[$lvl]['path'];
 									}
 								}
-								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dir) . "')\" ondragover=\"dragOverAtreeDir(this, '" . urlencode($dir) . "')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+								$path_enc = urlencode($dir);
+								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
 						}
 					}
@@ -292,7 +296,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 					if($lvl === $nb_dirs - 1)
 						$dir_open = 'Open treeDefault';
 
-					$return .= "<a class=\"dir$dir_open\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($server_dirs[$lvl]['path']) . '\')" ondragover="dragOverAtreeDir(this, \'' . urlencode($dirs[$lvl]['path']) . '\')" ondragleave="dragLeaveAtreeDir(this)" ondrop="dropOnAtreeDir(this)"><span class="icon"></span>' . htmlentities($server_dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n";
+					$path_enc = urlencode($server_dirs[$lvl]['path']);
+					$return .= "<a class=\"dir$dir_open\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '" . urlencode($server_dirs[$lvl]['name']) . "')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($server_dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n";
 
 					if(isset($dirs[$lvl]))
 						$return .= show_tree($lvl + 1);
@@ -303,7 +308,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 					if($lvl === $nb_dirs - 1)
 						$dir_default = ' treeDefault';
 
-					$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" onclick=\"$func_js('" . urlencode($dirs[$lvl]['path']) . '\')" ondragover="dragOverAtreeDir(this, \'' . urlencode($dirs[$lvl]['path']) . '\')" ondragleave="dragLeaveAtreeDir(this)" ondrop="dropOnAtreeDir(this)"><span class="icon"></span>' . htmlentities($dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n" . show_tree($lvl + 1);
+					$path_enc = urlencode($dirs[$lvl]['path']);
+					$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('" . $path_enc . "', '" . urlencode($dirs[$lvl]['name']) . "')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n" . show_tree($lvl + 1);
 				}
 
 				return $return;
