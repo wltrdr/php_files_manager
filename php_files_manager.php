@@ -178,7 +178,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 			}
 
 			if(!empty($adds_dirs) && $adds_dirs !== '.') {
-				$adds_dirs = substr($adds_dirs, 0, strlen($adds_dirs) - 1);
+				$adds_dirs = substr($adds_dirs, 0, mb_strlen($adds_dirs) - 1);
 				if(strpos($adds_dirs, '/') !== false) {
 					$adds_dirs = explode('/', $adds_dirs);
 					$cur_adds = sizeof($adds_dirs);
