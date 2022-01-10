@@ -159,6 +159,8 @@ function selectAllElements() {
 function unselectElement(nameEncoded) {
 	returnObjInArr(selectedElements, nameEncoded, "nameEncoded").element.classList.remove("selected")
 	removeObjsInArr(selectedElements, nameEncoded, "nameEncoded")
+	if(selectedElements.length === 0)
+		disableAutoRefresh = false
 }
 
 function unselectElements() {
@@ -179,7 +181,7 @@ function startClic(el, nameEncoded) {
 			})
 			tryToMove = el
 		}
-		disableAutoRefresh = true
+		// disableAutoRefresh = true
 	}
 }
 
