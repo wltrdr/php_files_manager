@@ -88,10 +88,8 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 						unselectElement(nameEncoded)
 				}
 			}
-			else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
-				console.log("MENU CHOIX MULTIPLE")
-				// MENU CHOIX MULTIPLE
-			}
+			else if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+				menuMultiple()
 			else if(selectedElements.length !== 0)
 				unselectElements()
 			else {
@@ -108,10 +106,8 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 
 function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 	mouseUpOnEl = true
-	if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
-		console.log("MENU CHOIX MULTIPLE")
-		// MENU CHOIX MULTIPLE
-	}
+	if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+		menuMultiple()
 	else {
 		unselectElements()
 		if(fullPathEncoded !== false)
@@ -175,6 +171,22 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 		`, event)
 }
 
+function menuMultiple() {
+	let nbSelectedEls = selectedElements.length
+	let name = nbSelectedEls + " selected element"
+	if(nbSelectedEls > 1)
+		name += "s"
+	openMenu(`<span>${name}</span>
+	<a onclick="duplicateMultiple()">Duplicate</a>
+	<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath) })">Copy to</a>
+	<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath) })">Move to</a>
+	<a onclick="openBox('confirm', 'Delete <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteMultiple() })">Delete</a>
+	<a onclick="openBox('chmods', { name: '${name}' })">Change chmods</a>
+	`, event)
+}
+
+/* OTHERS ACTIONS */
+
 function checkReqRep(request, wish, disableFocus = true) {
 	ajaxRequest("POST", "", request, result => {
 		if(result === wish)
@@ -185,8 +197,6 @@ function checkReqRep(request, wish, disableFocus = true) {
 		}
 	})
 }
-
-/* OTHERS ACTIONS */
 
 function newElement(type, name) {
 	if(name === "")
@@ -227,7 +237,7 @@ function moveMultiple(pathEncoded) {
 	selectedElements.forEach(element => {
 		if(currentPath !== ".")
 			strSelecteds += currentPath
-		strSelecteds += element.nameEncoded + "%7C%7C%7C"
+		strSelecteds += element.nameEncoded + "%2F%2F%2F"
 	})
 	strSelecteds = strSelecteds.substring(0, strSelecteds.length - 9)
 	checkReqRep(`${Date.now()}&move_multiple=${strSelecteds}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
