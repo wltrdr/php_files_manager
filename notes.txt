@@ -19,7 +19,7 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.8.9⤵
-deplacement elements selectionnés via drap drop => le deplacement doit aussi s'appliquer dans tree (endclic())
+deplacement elements selectionnés via drap drop => le deplacement doit aussi s'appliquer dans tree (endclic()) => appliquer classe hover sur non selectionnes
 
 0.9.1⤵
 multiselect a la souris
