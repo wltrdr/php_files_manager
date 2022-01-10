@@ -1,6 +1,6 @@
 <?php
 function no_end_slash($str) {
-	$lng = strlen($str) - 1;
+	$lng = mb_strlen($str) - 1;
 	if($lng >= 0 && $str[$lng] === '/')
 		$str = substr($str, 0, $lng);
 	return $str;
@@ -33,7 +33,7 @@ function split_filename($filename) {
 			$path .= $path_arr[$i] . '/';
 		$filename = $path_arr[$nb_path - 1];
 	}
-	if(strpos($filename, '.') === false || $filename[strlen($filename) - 1] === '.') {
+	if(strpos($filename, '.') === false || $filename[mb_strlen($filename) - 1] === '.') {
 		$dot = '';
 		$extension = '';
 	}
