@@ -22,9 +22,6 @@
 0.9.3⤵
 menu elements selectionnés
 ↘
-	copier vers
-	déplacer vers
-	supprimer
 	chmods
 
 0.9.5⤵
