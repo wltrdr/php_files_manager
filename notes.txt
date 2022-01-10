@@ -22,7 +22,6 @@
 0.9.5⤵
 menu zone vide
 ↘
-	coller (si dispo)
 	afficher ce dossier web (si accessible)
 		ajax elements retourne $web_view (false OU url)
 		webview dans var js (modifiee avec opendir)
