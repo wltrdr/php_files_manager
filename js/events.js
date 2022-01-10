@@ -49,18 +49,16 @@ function setCursorSelection(startX, startY, endX, endY) {
 }
 
 elements.addEventListener("mousedown", ev => {
-	// setTimeout(() => {
-		if(isOnMobile === false && ev.button === 0 && mouseDownOnEl === false) {
-			disableAutoRefresh = true
-			selectWcursor = true
-			selection.style.display = "block"
-			selectionStartX = ev.clientX
-			selectionStartY = ev.clientY
-			setCursorSelection(selectionStartX, selectionStartY, selectionStartX, selectionStartY)
-		}
-		else
-			mouseDownOnEl = false
-	// }, delayMenuMs)
+	if(isOnMobile === false && ev.button === 0 && mouseDownOnEl === false) {
+		disableAutoRefresh = true
+		selectWcursor = true
+		selection.style.display = "block"
+		selectionStartX = ev.clientX
+		selectionStartY = ev.clientY
+		setCursorSelection(selectionStartX, selectionStartY, selectionStartX, selectionStartY)
+	}
+	else
+		mouseDownOnEl = false
 })
 
 document.body.addEventListener("mousemove", ev => {
@@ -90,6 +88,7 @@ document.body.addEventListener("mouseup", ev => {
 			if(element.classList.contains("unselected"))
 				element.classList.remove("unselected")
 		})
+
 		let fromX
 		let toX
 		let fromY
