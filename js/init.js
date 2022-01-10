@@ -61,7 +61,8 @@ let h1Lvl = -1
 let disableAutoRefresh = false
 let overAdir = false
 let selectedElements = []
-let clicOnElement = false
+let mouseUpOnEl = false
+let mouseDownOnEl = false
 let tryToMove = false
 
 function onMobile() {
@@ -164,25 +165,8 @@ function unselectElements() {
 	selectedElements = []
 }
 
-function moveMultiple(pathEncoded) {
-	let strSelecteds = ""
-	selectedElements.forEach(element => {
-		if(currentPath !== ".")
-			strSelecteds += currentPath
-		strSelecteds += element.nameEncoded + "%7C%7C%7C"
-	})
-	strSelecteds = strSelecteds.substring(0, strSelecteds.length - 9)
-	ajaxRequest("POST", "", `${Date.now()}&move_multiple=${strSelecteds}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, result => {
-		if(result === "moveds")
-			openDir(currentPath)
-		else {
-			openDir(currentPath)
-			openBox("alert", "Error : <b>" + result + "</b>", "err")
-		}
-	})
-}
-
 function startClic(el, nameEncoded) {
+	mouseDownOnEl = true
 	if(isOnMobile === false && event.button !== 2) {
 		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			document.body.querySelectorAll("a").forEach(element => {
@@ -197,7 +181,7 @@ function startClic(el, nameEncoded) {
 
 function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
 	if(event.button !== 2 && tryToMove !== false && moveForbidden === false) {
-		clicOnElement = true
+		mouseUpOnEl = true
 		moveMultiple(pathEncoded)
 	}
 	else
@@ -207,7 +191,7 @@ function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
 
 function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 	if(event.button !== 2) {
-		clicOnElement = true
+		mouseUpOnEl = true
 		if(name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 			moveMultiple(pathEncoded)
 		else {
@@ -261,7 +245,7 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 }
 
 function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
-	clicOnElement = true
+	mouseUpOnEl = true
 	if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 		console.log("MENU CHOIX MULTIPLE")
 		// MENU CHOIX MULTIPLE
