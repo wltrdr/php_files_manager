@@ -20,6 +20,12 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.5⤵
+ajax elements retourne $web_view (false OU url)
+webview dans var js (modifiee avec opendir)
+quand clic menu elements si webview go webview
+
+corriger web view rendre 1er dossier accessible depuis son parent
+
 menu zone vide (quand rien nest selectionné)
 ↘
 	coller (si dispo)
