@@ -218,3 +218,34 @@ function getUploadSizes(callback = false) {
 }
 
 getUploadSizes()
+
+/* OTHERS FUNCTIONS */
+
+function returnObjInArr(arr, val, param, returnBoolean = false, insensible = false)
+{
+    if(insensible === true)
+        val = val.toLowerCase()
+    let ret = false
+    arr.forEach(el => {
+        let retTmp = true
+        if(returnBoolean === false)
+            retTmp = el
+        if((insensible === true && el[param].toLowerCase() === val) || (insensible !== true && el[param] === val))
+            ret = retTmp
+    })
+    return ret
+}
+
+function removeObjsInArr(arr, val, param, insensible = false)
+{
+    if(insensible === true)
+        val = val.toLowerCase()
+    for(let i = 0; i < arr.length; i++)
+    {
+        if((insensible === true && arr[i][param].toLowerCase() === val) || (insensible !== true && arr[i][param] === val))
+        {
+            arr.splice(i, 1)
+            i--
+        }
+    }
+}
