@@ -5,6 +5,7 @@
 	Upload des fichiers via drap & drop dans le dossier ouvert ou dans ses sous dossiers
 	Sélection multiple des fichiers et dossiers avec le curseur de la souris ou avec les touches Ctrl, Shift et Ctrl+A afin de pouvoir les copier, couper, coller, dupliquer, déplacer, supprimer et changer les chmods
 	Copie, déplacement, renommage, duplication, suppression et modification des permissions des fichiers et des dossiers
+	Raccourcis clavier Crtl+C, Ctrl+X, Ctrl+V et Suppr pour gérer les éléments
 	Edition et téléchargement des fichiers (même ceux non accessibles sur le web)
 	Création de nouveaux dossiers et fichiers
 	Affichage du chemin courant et de l'arborescense des dossiers depuis la racine du serveur (sauf sur mobile)
