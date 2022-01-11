@@ -22,10 +22,11 @@
 
 0.9.7⤵
 trash :
-	php js si Trash active : icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
-	php to_trash() : ajoute (i) avant l'extension si existe (creer une fonction to_trash())
-	js si Trash active : move_selected dans trash to_trash() au lieu de deplacer
-	js si Trash active : sous menu element trash => juste ouvrir, purger // sous menu zone trash => ajout purger, enlever create et upload
+	php : to_trash() => ajoute (i) avant l'extension si existe deja
+	si Trash actif : 
+	js : move_selected dans trash => to_trash() au lieu de deplacer
+	js : sous menu element trash => juste ouvrir, purger // sous menu elements dans trash => idem sauf que supprime devient definitivement // sous menu zone trash => ajout purger, enlever create et upload
+	php js : icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
 revoir couleurs boxes et menus, pc et mobile
 
 0.9.9⤵
