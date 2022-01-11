@@ -10,8 +10,25 @@ function explode_multiple_files($files) {
 if(isset($_POST['set_settings'])) {
 	if(isset($_POST['view']))
 		$_SESSION['view'] = $_POST['view'];
-	if(isset($_POST['trash']))
+	if(isset($_POST['trash'])) {
 		$_SESSION['trash'] = $_POST['trash'];
+		if($_POST['trash'] === '1') {
+			if(!file_exists('php_files_manager_trash') || !is_dir('php_files_manager_trash')) {
+				if(file_exists('php_files_manager_trash_') && is_dir('php_files_manager_trash_'))
+					rename('php_files_manager_trash_', 'php_files_manager_trash');
+				else
+					mkdir('php_files_manager_trash');
+			}
+		}
+		elseif($_POST['trash'] === '2') {
+			if(!file_exists('php_files_manager_trash_') || !is_dir('php_files_manager_trash_')) {
+				if(file_exists('php_files_manager_trash') && is_dir('php_files_manager_trash'))
+					rename('php_files_manager_trash', 'php_files_manager_trash_');
+				else
+					mkdir('php_files_manager_trash_');
+			}
+		}
+	}
 	if(isset($_POST['upload_exists']))
 		$_SESSION['upload_exists'] = $_POST['upload_exists'];
 	if(isset($_POST['copy_move_exists']))
