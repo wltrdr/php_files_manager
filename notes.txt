@@ -3,9 +3,9 @@
 	Mise à jour automatique des éléments affichés
 	Upload de plusieurs fichiers simultanément
 	Upload des fichiers via drap & drop dans le dossier ouvert ou dans ses sous dossiers
-	Sélection multiple des fichiers et dossiers avec le curseur de la souris ou avec les touches Ctrl, Shift et Ctrl+A afin de pouvoir les copier, couper, coller, dupliquer, déplacer, supprimer et changer les chmods
 	Copie, déplacement, renommage, duplication, suppression et modification des permissions des fichiers et des dossiers
-	Raccourcis clavier Crtl+C, Ctrl+X, Ctrl+V et Suppr pour gérer les éléments
+	Sélection multiple des fichiers et dossiers avec le curseur de la souris ou avec les touches Ctrl, Shift et Ctrl+A
+	Raccourcis clavier Crtl+C, Ctrl+X, Ctrl+V et Suppr pour copier, couper, coller et supprimer les éléments
 	Edition et téléchargement des fichiers (même ceux non accessibles sur le web)
 	Création de nouveaux dossiers et fichiers
 	Affichage du chemin courant et de l'arborescense des dossiers depuis la racine du serveur (sauf sur mobile)
@@ -13,8 +13,8 @@
 	Plusieurs types d'affichage (petites icones, grosses icones ou détails)
 	Choix de l'ordre d'affichage (nom, date, taille, type, croissant ou decroissant)
 	Choix des actions (remplacer, renommer, ne rien faire) si un fichier au même nom existe lors d'un upload, d'une copie ou d'un déplacement d'élement.
-	Accès protégé par mot de passe
-	Protection anti "piratage via url connue" grace à un système de token
+	Accès au gestionnaire de fichiers protégé par mot de passe
+	Protection anti-piratage via url connue grace à un système de token
 	Mise à jour du script en 1 clic
 
 
