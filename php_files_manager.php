@@ -341,9 +341,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 				}
 
 				if($cur_rmvs > $nb_script_dirs)
-					$web_view = false;
+					$web_accessible = false;
 				else {
-					$web_view = $server_infos['web_http'] . $server_infos['web_root'] . '/';
+					$web_accessible = $server_infos['web_http'] . $server_infos['web_root'] . '/';
 
 					$web_dirs = array();
 					for($i = 0; $i < $nb_script_dirs - $cur_rmvs; $i++)
@@ -351,7 +351,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 					foreach($adds_dirs as $add_dir)
 						$web_dirs[] = $add_dir;
 					foreach($web_dirs as $web_dir)
-						$web_view .= $web_dir . '/';
+						$web_accessible .= $web_dir . '/';
 				}
 
 				$cur_enc = urlencode($current);
@@ -419,8 +419,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 					else
 						$full_path_enc = urlencode($link . $elem_dir['name'] . '/');
 
-					if($web_view !== false)
-						$web_url = "'" . $web_view . $el_html . "/'";
+					if($web_accessible !== false)
+						$web_url = "'" . $web_accessible . $el_html . "/'";
 					else
 						$web_url = 'false';
 
@@ -454,8 +454,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$el_enc = urlencode($elem_file['name']);
 						$el_html = htmlentities($elem_file['name'], ENT_QUOTES);
 
-						if($web_view !== false)
-							$web_url = "'" . $web_view . $el_html . "'";
+						if($web_accessible !== false)
+							$web_url = "'" . $web_accessible . $el_html . "'";
 						else
 							$web_url = 'false';
 
@@ -473,7 +473,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 				/* RETURN */
 
-				exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
+				if($web_accessible === false)
+					$web_accessible = 'false';
+				exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!web!\\\\$web_accessible\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
 			}
 			else
 				exit("//!tree!\\\\$tree\n//!end!\\\\");
