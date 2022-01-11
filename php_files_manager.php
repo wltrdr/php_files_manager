@@ -54,11 +54,11 @@ elseif(isset($_GET['get_settings'])) {
 	if(isset($_SESSION['trash']))
 		echo '[trash=' . $_SESSION['trash'] . ']';
 	else {
-		if(file_exists_cs('trash') && is_dir('trash')) {
+		if(file_exists_cs('trash') && is_dir('trash') && !is_link('trash')) {
 			$_SESSION['trash'] = '1';
 			echo '[trash=1]';
 		}
-		elseif(file_exists_cs('Trash') && is_dir('Trash')) {
+		elseif(file_exists_cs('Trash') && is_dir('Trash') && !is_link('Trash')) {
 			$_SESSION['trash'] = '2';
 			echo '[trash=2]';
 		}
@@ -115,6 +115,7 @@ elseif(isset($_POST['logout'])) {
 elseif(isset($_POST) && !empty($_POST)) {
 	header('Content-Type: text/plain; charset=utf-8');
 	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password)) {
+
 		/* SECURITY */
 
 		if(!isset($_SESSION['pfm']) || $_SESSION['pfm'] !== $password)
@@ -127,6 +128,43 @@ elseif(isset($_POST) && !empty($_POST)) {
 			$current = urldecode($_POST['dir']);
 
 		/* ACTIONS */
+
+		$trash_active = false;
+		if(isset($_SESSION['trash']) && $_SESSION['trash'] !== '0') {
+			$trash_active = true;
+			if($_SESSION['trash'] === '1') {
+				$from = 'Trash';
+				$to = 'trash';
+			}
+			else {
+				$from = 'trash';
+				$to = 'Trash';
+			}
+			if(file_exists_cs($to)) {
+				if(is_file($to) || is_link($to)) {
+					$i = 1;
+					while(file_exists($to . ' (' + $i + ')'))
+						$i++;
+					rename($to, $to . ' (' + $i + ')');
+					mkdir($to);
+				}
+			}
+			elseif(file_exists($from)) {
+				if(is_dir($from) && !is_link($from)) {
+					rename($from, $from . '_tmp');
+					rename($from . '_tmp', $to);
+				}
+				else {
+					$i = 1;
+					while(file_exists($from . ' (' + $i + ')'))
+						$i++;
+					rename($from, $from . ' (' + $i + ')');
+					mkdir($to);
+				}
+			}
+			else
+				mkdir($to);
+		}
 
 		if(isset($_POST['token'])) {
 			include('php/files_edit.php');
@@ -141,6 +179,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 				exit('Refresh site');
 		}
 		else {
+
 			/* RETURN DIR INFORMATIONS */
 
 			include('php/show_elements.php');
@@ -153,12 +192,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 			$script_path = $server_infos['server_root'] . $server_infos['script'];
 			$win_fs = true;
-
-			$trash_active = false;
-			if(isset($_SESSION['trash']) && $_SESSION['trash'] !== '0') {
-				$trash_active = true;
-				createTrash($_SESSION['trash']);
-			}
 
 			if(strpos($script_path, '/') === false) {
 				$win_fs = false;
