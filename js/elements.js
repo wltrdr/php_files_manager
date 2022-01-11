@@ -2,7 +2,7 @@
 
 function selectElement(el, nameEncoded) {
 	disableAutoRefresh = true
-	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
+	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true) && (currentPath !== "." || (nameEncoded !== "trash" && nameEncoded !== "Trash"))) {
 		el.classList.add("selected")
 		selectedElements.push({
 			element : el,
