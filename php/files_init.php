@@ -52,6 +52,28 @@ function split_filename($filename) {
 	return array('path' => $path, 'name' => $filename, 'extension' => $extension, 'dot_extension' => $dot);
 }
 
+function file_exists_cs($file) {
+	if(file_exists($file)) {
+		$file = split_filename($file);
+		$directory = $file['path'];
+		if(empty($directory))
+			$directory = '.';
+		$filename = $file['name'] . $file['dot_extension'];
+		if($handle = opendir($directory)) {
+			while(false !== ($entry = readdir($handle))) {
+				if($entry != '.' && $entry != '..' && $entry === $filename)
+					return true;
+			}
+			closedir($handle);
+			return false;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+
 function size_of_file($size) {
 	if($size < 1024)
 		return $size . ' o';
