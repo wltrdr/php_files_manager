@@ -406,7 +406,7 @@ btnCreate.addEventListener("click", ev => {
 })
 
 btnSettings.addEventListener("click", ev => {
-	let html = "<span class=\"simple\">(Upload) If target exists :</span>"
+	let html = "<span>(Upload) If target exists :</span>"
 	const choicesUpload = ["Ask", "Do nothing", "Rename old", "Rename new", "Replace"]
 	choicesUpload.forEach((type, i) => {
 		let curUpload = ""
@@ -415,7 +415,7 @@ btnSettings.addEventListener("click", ev => {
 		html += `<a onclick="changeTypeUploadExists(${i}, true)">${curUpload}${type}</a>\n`
 	})
 
-	html += "<span class=\"simple\">(Copy/move) If target exists :</span>"
+	html += "<span>(Copy/move) If target exists :</span>"
 	const choicesCopyMove = ["Do nothing", "Rename old", "Rename new", "Replace"]
 	choicesCopyMove.forEach((type, i) => {
 		let curCopyMove = ""
