@@ -189,3 +189,7 @@ function find_chmods($filename) {
 	else
 		return false;
 }
+
+function to_trash($source) {
+	return copy_or_move($source, 'trash', true, 2, 2, 2);
+}
