@@ -10,6 +10,8 @@ function explode_multiple_files($files) {
 if(isset($_POST['set_settings'])) {
 	if(isset($_POST['view']))
 		$_SESSION['view'] = $_POST['view'];
+	if(isset($_POST['trash']))
+		$_SESSION['trash'] = $_POST['trash'];
 	if(isset($_POST['upload_exists']))
 		$_SESSION['upload_exists'] = $_POST['upload_exists'];
 	if(isset($_POST['copy_move_exists']))
