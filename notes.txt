@@ -23,8 +23,7 @@
 0.9.7⤵
 trash :
 	si Trash active :
-		icone dans tree tout en haut (icone remplie quand hover  deplacement)
-		icone interdit quand ouvert dans normal et tente deplacer dans le meme via tree (tree)
+		icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
 		majuscule forcée dans tree et path
 		sous menu trash
 	quand on supprime vers trash, on ajoute (i) avant l'extension si existe (creer une fonction to_trash())
