@@ -25,7 +25,6 @@ trash :
 	si Trash active :
 		icone dans tree tout en haut
 		sous menu trash
-		trash non selectionnable => selectElement(el, nameEncoded) => si nameEncoded === php_files_manager_trash (verif si autre dossier a le meme nom) on ne fait rien
 		majuscule forcée dans tree et path
 		icone :
 			vide tout le temps
