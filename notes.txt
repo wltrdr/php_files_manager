@@ -27,7 +27,6 @@ trash :
 	js si Trash active : move_selected dans trash to_trash() au lieu de deplacer
 	js si Trash active : sous menu element trash => juste ouvrir, purger // sous menu zone trash => ajout purger, enlever create et upload
 revoir couleurs boxes et menus, pc et mobile
-onscroll elements ferme menu
 
 0.9.9⤵
 création (symlink) + gestion liens symboliques :
