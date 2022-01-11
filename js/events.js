@@ -376,7 +376,7 @@ function viewChoice(ev) {
 		curView = ""
 		if(typeView === i)
 			curView = "&#8226; "
-		html += `<a onclick="changeView(${typeView}, ${i}, true)">${curView}${type}</a>\n`
+		html += `<a onclick="changeView(${typeView}, ${i})">${curView}${type}</a>\n`
 	})
 
 	openMenu(`<span>View :</span>
@@ -424,13 +424,22 @@ btnCreate.addEventListener("click", ev => {
 })
 
 btnSettings.addEventListener("click", ev => {
+	html += "<span>Use trash :</span>"
+	const choicesTrash = ["Never", "Only when deleting", "Always"]
+	choicesTrash.forEach((type, i) => {
+		let curTrash = ""
+		if(typeTrash === i)
+			curTrash = "&#8226; "
+		html += `<a onclick="changeTypeTrash(${i})">${curTrash}${type}</a>\n`
+	})
+
 	let html = "<span>(Upload) If target exists :</span>"
 	const choicesUpload = ["Ask", "Do nothing", "Rename old", "Rename new", "Replace"]
 	choicesUpload.forEach((type, i) => {
 		let curUpload = ""
 		if(typeUploadExists === i)
 			curUpload = "&#8226; "
-		html += `<a onclick="changeTypeUploadExists(${i}, true)">${curUpload}${type}</a>\n`
+		html += `<a onclick="changeTypeUploadExists(${i})">${curUpload}${type}</a>\n`
 	})
 
 	html += "<span>(Copy/move) If target exists :</span>"
@@ -439,7 +448,7 @@ btnSettings.addEventListener("click", ev => {
 		let curCopyMove = ""
 		if(typeCopyMoveExists === i)
 			curCopyMove = "&#8226; "
-		html += `<a onclick="changeTypeCopyMoveExists(${i}, true)">${curCopyMove}${type}</a>\n`
+		html += `<a onclick="changeTypeCopyMoveExists(${i})">${curCopyMove}${type}</a>\n`
 	})
 
 	openMenu(html, ev)
