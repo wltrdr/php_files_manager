@@ -22,10 +22,10 @@
 
 0.9.7⤵
 trash :
-	php : function to_trash() => deplace vers trash : move_copy(...true,2,2,2)
-	php : si trash actif on utilise trash partout ou il le faut
-	php : action &trash= to_trash() (selecteds)
-	js : si trash actif move_selected vers dans trash => &trash=
+	php : si $trash_active === true on utilise to_trash() partout ou il le faut (unlink, rmdir, rm_full_dir)
+	js : si trash actif move_selected vers dans trash => &trash= => trasheds
+	php : &empty_trash=true
+	php : &remove_trash=element
 	js : sous menu element trash => juste ouvrir, purger // sous menu elements dans trash => idem sauf que supprime devient definitivement // sous menu zone trash => ajout purger, enlever create et upload
 	php js : icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
 revoir couleurs boxes et menus, pc et mobile
