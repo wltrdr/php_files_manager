@@ -131,6 +131,10 @@ window.addEventListener("resize", () => {
 	isOnMobile = onMobile()
 })
 
+elements.addEventListener("scroll", () => {
+	popupMenu.style.display = "none"
+})
+
 document.addEventListener("keydown", ev => {
 	if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27)) {
 		popupMenu.style.display = "none"
