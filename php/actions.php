@@ -420,6 +420,21 @@ elseif(isset($_POST['delete_multiple'])) {
 		exit($return);
 }
 
+/* TRASH MULTIPLE ELEMENTS */
+
+elseif(isset($_POST['trash'])) {
+	$return = '';
+	foreach(explode_multiple_files($_POST['trash']) as $file_to_delete) {
+		$file_to_delete = urldecode($file_to_delete);
+		if(@!to_trash($file_to_delete))
+			$return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
+	}
+	if(empty($return))
+		exit('trasheds');
+	else
+		exit($return);
+}
+
 /* SET MULTIPLE CHMODS */
 
 elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
