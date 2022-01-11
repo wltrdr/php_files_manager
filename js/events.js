@@ -141,6 +141,24 @@ document.addEventListener("keydown", ev => {
 	}
 	else if(ev.key && ev.key === "a" && ev.ctrlKey && ev.ctrlKey === true)
 		selectAllElements()
+	else if(ev.key && (ev.key === "c" || ev.key === "x") && ev.ctrlKey && ev.ctrlKey === true && selectedElements.length > 0) {
+		copy = selectedElements.map(x => {
+			return {
+				pathEncoded: currentPath,
+				nameEncoded: x.nameEncoded
+			}
+		})
+		if(ev.key === "c")
+			copyNotCut = true
+		else
+			copyNotCut = false
+	}
+	else if(ev.key && ev.key === "v" && ev.ctrlKey && ev.ctrlKey === true)
+		pasteMultiple()
+	else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
+		openBox('confirm', `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, 'warn', () => {
+			deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
+		})
 })
 
 /* UPLOAD */
