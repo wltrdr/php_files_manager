@@ -202,10 +202,10 @@ button {
 	top: 50%;
 	transform: translate(-50%, -50%);
 	padding: 2em;
-	color: #222;
 	text-align: center;
-	background: linear-gradient(90deg, #eee, #fff);
-	border: 1px solid #777;
+	background: linear-gradient(90deg, #222, #333);
+	color: #eee;
+	border: 1px solid #1f1f1f;
 	border-radius: 0.25em;
 	box-shadow: 0px 0px 1em rgba(0, 0, 0, 1);
 	z-index: 1100;
@@ -269,6 +269,29 @@ button {
 		height: 50vh;
 	}
 
+	#popupBox input[type="text"], textarea {
+		background: linear-gradient(90deg, #111, #222);
+		color: #fff;
+		border: 1px dashed #444;
+	}
+
+	#popupBox button {
+		background: linear-gradient(90deg, #171717, #1f1f1f);
+		padding: 1.25em;
+		color: #eee;
+		border: 1px solid #444;
+	}
+
+	#popupBox button:hover {
+		background: linear-gradient(90deg, #046, #048);
+		color: #fff;
+	}
+
+	#popupBox button:active {
+		background: linear-gradient(90deg, #602, #620);
+		color: #fff;
+	}
+
 	#popupBox #boxPath {
 		display: block;
 		margin-top: 2em;
@@ -278,8 +301,17 @@ button {
 		height: 50vh;
 		overflow: auto;
 		text-align: left;
-		background-color: #fff;
+		background: linear-gradient(90deg, #111, #222);
+		border: 1px dashed #555;
 		box-shadow: 0px 0px 0.75em rgba(0, 0, 0, 0.2);
+	}
+
+	#popupBox #boxPath a {
+		color: #ddd;
+	}
+
+	#popupBox #boxPath a:hover {
+		color: #fff;
 	}
 
 	#popupBox #boxPathNewDirectory {
@@ -314,7 +346,8 @@ button {
 		width: 100%;
 		min-width: 50vw;
 		text-align: left;
-		background-color: #fff;
+		background: linear-gradient(90deg, #111, #222);
+		border: 1px dashed #555;
 		box-shadow: 0px 0px 0.75em rgba(0, 0, 0, 0.2);
 	}
 
@@ -354,7 +387,8 @@ button {
 	left: 0px;
 	top: 0px;
 	flex-direction: column;
-	background: linear-gradient(90deg, #1f1f1f, #2f2f2f);
+	background: linear-gradient(90deg, #111, #222);
+	color: #eee;
 	border: 1px solid #777;
 	box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.4);
 	z-index: 1000;
@@ -362,17 +396,16 @@ button {
 
 	#popupMenu span {
 		padding: 0.6em 3.5em 0.6em 0.75em;
-		color: #fff;
-		border: 1px solid #333;
+		border: 1px solid #2f2f2f;
 		border-top: 0px;
 		font-weight: bold;
 	}
 
 	#popupMenu a {
 		padding: 0.6em 3.5em 0.6em 0.75em;
-		background: linear-gradient(90deg, #2a2a2a, #3a3a3a);
-		color: #eee;
-		border: 1px solid #333;
+		background: linear-gradient(90deg, #222, #333);
+		color: #ddd;
+		border: 1px solid #2f2f2f;
 	}
 
 	#popupMenu a:hover {
@@ -388,7 +421,7 @@ button {
 	}
 
 	#popupMenu a.gap {
-		border: 1px solid #333;
+		border: 1px solid #2f2f2f;
 		border-top: 1px solid #999;
 	}
 
