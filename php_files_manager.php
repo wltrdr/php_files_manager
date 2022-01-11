@@ -460,8 +460,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_js = 'true';
 					}
 
-					if($current === '.' && ($el_enc === 'trash' || $el_enc === 'Trash'))
-						$elements .= "<a class=\"trash\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">Trash</span></a>\n";
+					if((!isset($_SESSION['trash']) || (isset($_SESSION['trash']) && $_SESSION['trash'] !== '0')) && $current === '.' && ($el_enc === 'trash' || $el_enc === 'Trash'))
+						$elements .= "<a class=\"trash\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">Trash</span></a>\n";
 					else
 						$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
