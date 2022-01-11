@@ -21,12 +21,6 @@
 
 0.9.5⤵
 corriger web view rendre 1er dossier accessible depuis son parent
-menu zone vide
-↘
-	afficher ce dossier web (si accessible)
-		ajax elements retourne $web_view (false OU url)
-		webview dans var js (modifiee avec opendir)
-		quand clic menu elements si webview go webview
 raccourcis
 ↘
 	ctrl+x
