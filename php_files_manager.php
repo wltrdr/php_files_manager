@@ -155,8 +155,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 			$win_fs = true;
 
 			$trash_active = false;
-			if(!isset($_SESSION['trash']) || (isset($_SESSION['trash']) && $_SESSION['trash'] !== '0'))
-				$trash_active = true;
+			if(isset($_SESSION['trash']) && $_SESSION['trash'] !== '0')
+				createTrash($_SESSION['trash']);
 
 			if(strpos($script_path, '/') === false) {
 				$win_fs = false;
