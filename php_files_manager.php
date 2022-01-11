@@ -54,11 +54,11 @@ elseif(isset($_GET['get_settings'])) {
 	if(isset($_SESSION['trash']))
 		echo '[trash=' . $_SESSION['trash'] . ']';
 	else {
-		if(file_exists('php_files_manager_trash') && is_dir('php_files_manager_trash')) {
+		if(file_exists_cs('trash') && is_dir('trash')) {
 			$_SESSION['trash'] = '1';
 			echo '[trash=1]';
 		}
-		elseif(file_exists('php_files_manager_trash_') && is_dir('php_files_manager_trash_')) {
+		elseif(file_exists_cs('Trash') && is_dir('Trash')) {
 			$_SESSION['trash'] = '2';
 			echo '[trash=2]';
 		}
@@ -68,15 +68,6 @@ elseif(isset($_GET['get_settings'])) {
 	if(isset($_SESSION['copy_move_exists']))
 		echo '[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
 	exit();
-
-
-	
-		if(file_exists('php_files_manager_trash') && is_dir('php_files_manager_trash'))
-			rename('php_files_manager_trash', 'php_files_manager_trash_');
-		else
-			mkdir('php_files_manager_trash_');
-
-
 }
 
 /* DOWNLOAD FILE */
@@ -413,7 +404,12 @@ elseif(isset($_POST) && !empty($_POST)) {
 					while(false !== ($entry = readdir($handle))) {
 						if($entry != '.' && $entry != '..') {
 							if(is_dir($link . $entry)) {
-								$elems_dirs[$nb_el_dirs]['name'] = $entry;
+								if($current === '.' && $entry === 'trash')
+									$elems_dirs[$nb_el_dirs]['name'] = ' trash';
+								elseif($current === '.' && $entry === 'Trash')
+									$elems_dirs[$nb_el_dirs]['name'] = ' Trash';
+								else
+									$elems_dirs[$nb_el_dirs]['name'] = $entry;
 								$elems_dirs[$nb_el_dirs]['link'] = is_link($link . $entry);
 								$nb_el_dirs++;
 							}
@@ -437,7 +433,12 @@ elseif(isset($_POST) && !empty($_POST)) {
 					$elems_dirs = array_sort($elems_dirs, 'name');
 
 				foreach($elems_dirs as $elem_dir) {
-					$el_enc = urlencode($elem_dir['name']);
+					if($current === '.' && $elem_dir['name'] === ' trash')
+						$el_enc = 'trash';
+					elseif($current === '.' && $elem_dir['name'] === ' Trash')
+						$el_enc = 'Trash';
+					else
+						$el_enc = urlencode($elem_dir['name']);
 					$el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
 
 					if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir['name'] === $server_dirs[$nb_dirs]['name'])
@@ -459,7 +460,10 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_js = 'true';
 					}
 
-					$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+					if($current === '.' && ($el_enc === 'trash' || $el_enc === 'Trash'))
+						$elements .= "<a class=\"trash\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">Trash</span></a>\n";
+					else
+						$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
 				if($order === '1')
