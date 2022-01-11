@@ -24,8 +24,8 @@ document.body.addEventListener("contextmenu", ev => {
 elements.addEventListener("contextmenu", ev => {
 	if(isOnMobile === false && rightClicOnEl === false) {
 		let webUrl = ""
-		if(webUrl !== false)
-			webUrl = `<a onclick="window.open('${webUrl}')">See web version</a>`
+		if(webAccessible !== false)
+			webUrl = `<a onclick="window.open('${webAccessible}')">See web version</a>`
 
 		let pasteLink = ""
 		if(copy.length > 0)
