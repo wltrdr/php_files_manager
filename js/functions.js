@@ -45,10 +45,10 @@ function ajaxRequest(method, url, data, callback = false, disableLoading = false
 /* EXPLORER */
 
 function showElements(result, disableFocus = false) {
-	const found = result.match(/^(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\n\/\/!order!\\\\(.*)\n\/\/!desc!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
+	const found = result.match(/^(.*)\/\/!token!\\\\(.*)\n\/\/!current!\\\\(.*)\n\/\/!parent!\\\\(.*)\n\/\/!path!\\\\(.*)\n\/\/!tree!\\\\(.*)\n\/\/!elements!\\\\(.*)\n\/\/!web!\\\\(.*)\n\/\/!order!\\\\(.*)\n\/\/!desc!\\\\(.*)\n\/\/!end!\\\\(.*)$/s)
 	if(found) {
-		if(found[1] || found[10])
-			console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[10].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
+		if(found[1] || found[11])
+			console.log(`%cPHP Errors :\n\n%c${found[1].replace(/<[^>]+>/g, "")}\n\n${found[11].replace(/<[^>]+>/g, "")}`, "font-size: 2em; color: red;", "font-size: 1em; color: auto;")
 
 		const scrollTree = tree.scrollTop
 		const scrollElems = elements.scrollTop
@@ -61,8 +61,12 @@ function showElements(result, disableFocus = false) {
 		path.innerHTML = found[5]
 		listTree.innerHTML = found[6]
 		listElements.innerHTML = found[7]
-		typeOrder = parseInt(found[8], 10)
-		typeOrderDesc = parseInt(found[9], 10)
+		if(found[8] === "false")
+			webAccessible = false
+		else
+			webAccessible = found[8]
+		typeOrder = parseInt(found[9], 10)
+		typeOrderDesc = parseInt(found[10], 10)
 		if(parentPath === "false")
 			btnParent.className = "disabled"
 		else
