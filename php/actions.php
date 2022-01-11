@@ -333,15 +333,15 @@ elseif(isset($_POST['duplicate_multiple'])) {
 		$file_to_duplicate = urldecode($file_to_duplicate);
 		if(@file_exists($file_to_duplicate)) {
 			if(@!copy_or_move($file_to_duplicate, $current, false, 2, 2, 2))
-				$return .= "<b>$file_to_duplicate</b> : File or directory not duplicated";
+				$return .= "<b>$file_to_duplicate</b> : File or directory not duplicated<br><br>";
 		}
 		else
-			$return .= "<b>$file_to_duplicate</b> : File or directory not found";
+			$return .= "<b>$file_to_duplicate</b> : File or directory not found<br><br>";
 	}
 	if(empty($return))
 		exit('duplicateds');
 	else
-		exit($return);
+		exit(substr($return, 0, mb_strlen($return) - 8));
 }
 
 /* COPY MULTIPLE ELEMENTS */
@@ -353,15 +353,15 @@ elseif(isset($_POST['copy_multiple']) && isset($_POST['if_exists'])) {
 		$file_to_copy = urldecode($file_to_copy);
 		if(@file_exists($file_to_copy)) {
 			if(@!copy_or_move($file_to_copy, $current, false, $if_exists, $if_exists, 1))
-				$return .= "<b>$file_to_copy</b> : File or directory not copied";
+				$return .= "<b>$file_to_copy</b> : File or directory not copied<br><br>";
 		}
 		else
-			$return .= "<b>$file_to_copy</b> : File or directory not found";
+			$return .= "<b>$file_to_copy</b> : File or directory not found<br><br>";
 	}
 	if(empty($return))
 		exit('copieds');
 	else
-		exit($return);
+		exit(substr($return, 0, mb_strlen($return) - 8));
 }
 
 /* MOVE MULTIPLE ELEMENTS */
@@ -373,15 +373,15 @@ elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
 		$file_to_move = urldecode($file_to_move);
 		if(@file_exists($file_to_move)) {
 			if(@!copy_or_move($file_to_move, $current, true, $if_exists, $if_exists, 1))
-				$return .= "<b>$file_to_move</b> : File or directory not moved";
+				$return .= "<b>$file_to_move</b> : File or directory not moved<br><br>";
 		}
 		else
-			$return .= "<b>$file_to_move</b> : File or directory not found";
+			$return .= "<b>$file_to_move</b> : File or directory not found<br><br>";
 	}
 	if(empty($return))
 		exit('moveds');
 	else
-		exit($return);
+		exit(substr($return, 0, mb_strlen($return) - 8));
 }
 
 /* DELETE MULTIPLE ELEMENTS */
@@ -392,14 +392,14 @@ elseif(isset($_POST['delete_multiple'])) {
 		$file_to_delete = urldecode($file_to_delete);
 		if(@is_file($file_to_delete) || @is_link($file_to_delete)) {
 			if(@!unlink($file_to_delete))
-				$return .= "<b>$file_to_delete</b> : File not deleted";
+				$return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
 		}
 		elseif(@is_dir($file_to_delete)) {
 			if(@!rm_full_dir($file_to_delete))
-				$return .= "<b>$file_to_delete</b> : Directory not deleted";
+				$return .= "<b>$file_to_delete</b> : Directory not deleted<br><br>";
 		}
 		else
-			$return .= "<b>$file_to_delete</b> : File or directory not found";
+			$return .= "<b>$file_to_delete</b> : File or directory not found<br><br>";
 	}
 	if(empty($return))
 		exit('deleteds');
@@ -415,15 +415,15 @@ elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
 		$file_to_chmod = urldecode($file_to_chmod);
 		if(@file_exists($file_to_chmod)) {
 			if(@!chmod($file_to_chmod, octdec(intval($_POST['set_multiple_chmods']))))
-				$return .= "<b>$file_to_chmod</b> : Chmods not updated";
+				$return .= "<b>$file_to_chmod</b> : Chmods not updated<br><br>";
 		}
 		else
-			$return .= "<b>$file_to_chmod</b> : File or directory not found";
+			$return .= "<b>$file_to_chmod</b> : File or directory not found<br><br>";
 	}
 	if(empty($return))
 		exit('chmodeds');
 	else
-		exit($return);
+		exit(substr($return, 0, mb_strlen($return) - 8));
 }
 
 /* UPDATE */
