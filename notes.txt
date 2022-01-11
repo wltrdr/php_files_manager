@@ -23,9 +23,8 @@
 0.9.7⤵
 revoir couleurs boxes et menus, pc et mobile
 trash :
-	lors de get settings si pas de session trash, session est créée + renvoi selon si dossier existe ou pas
-	si on est a la racine web et dossier == php_files_manager_trash => cree element avec son propre sous menu
-	selectElement(el, nameEncoded) => si nameEncoded === php_files_manager_trash (verif si autre dossier) on ne fait rien
+	si on est a la racine web et dossier == php_files_manager_trash || ..._ => cree element avec son propre sous menu
+	selectElement(el, nameEncoded) => si nameEncoded === php_files_manager_trash (verif si autre dossier a le meme nom) on ne fait rien
 	si Trash active on l'ajoute en haut de tree au lieu de milieu de tree
 	quand on deplace dans trash, on ajoute (i) avant l'extension dans tous les cas (creer une fonction to_trash())
 	trash
