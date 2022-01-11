@@ -340,10 +340,15 @@ elseif(isset($_POST) && !empty($_POST)) {
 					unset($script_dirs[$nb_script_dirs]);
 				}
 
-				if($cur_rmvs > $nb_script_dirs)
+				$web_root_accessible = false;
+				$web_root_url = $server_infos['web_http'] . $server_infos['web_root'] . '/';
+				if($cur_rmvs > $nb_script_dirs) {
 					$web_accessible = false;
+					if($cur_rmvs === $nb_script_dirs + 1)
+						$web_root_accessible = $server_dirs[$nb_server_dirs - $nb_script_dirs - 1]['name'];
+				}
 				else {
-					$web_accessible = $server_infos['web_http'] . $server_infos['web_root'] . '/';
+					$web_accessible = $web_root_url;
 
 					$web_dirs = array();
 					for($i = 0; $i < $nb_script_dirs - $cur_rmvs; $i++)
@@ -421,6 +426,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 					if($web_accessible !== false)
 						$web_url = "'" . $web_accessible . $el_html . "/'";
+					elseif($elem_dir['name'] === $web_root_accessible)
+						$web_url = "'" . $web_root_url . "'";
 					else
 						$web_url = 'false';
 
@@ -430,6 +437,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_icon = 'linkdir';
 						$link_js = 'true';
 					}
+
 					$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 				}
 
