@@ -18,15 +18,6 @@
 
 
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
-
-0.9.5⤵
-raccourcis
-↘
-	ctrl+x
-	ctrl+C
-	ctrl+v
-	suppr
-
 0.9.7⤵
 créer corbeille (action par defaut selon si trash existe deja ou pas)
 
