@@ -44,24 +44,24 @@ function createTrash($lowercase) {
 /* SET SETTINGS */
 
 if(isset($_POST['set_settings'])) {
-	$return = "settings :\n";
+	$return = "Updated settings :";
 	if(isset($_POST['view'])) {
 		$_SESSION['view'] = $_POST['view'];
-		$return .= 'view: ' . $_POST['view'] . "\n";
+		$return .= "\nview=" . $_POST['view'];
 	}
 	if(isset($_POST['trash'])) {
 		$_SESSION['trash'] = $_POST['trash'];
-		$return .= 'trash: ' . $_POST['trash'] . "\n";
+		$return .= "\ntrash=" . $_POST['trash'];
 		if($_POST['trash'] !== '0')
 			createTrash($_POST['trash']);
 	}
 	if(isset($_POST['upload_exists'])) {
 		$_SESSION['upload_exists'] = $_POST['upload_exists'];
-		$return .= 'upload_exists: ' . $_POST['upload_exists'] . "\n";
+		$return .= "\nupload_exists=" . $_POST['upload_exists'];
 	}
 	if(isset($_POST['copy_move_exists'])) {
 		$_SESSION['copy_move_exists'] = $_POST['copy_move_exists'];
-		$return .= 'copy_move_exists: ' . $_POST['copy_move_exists'] . "\n";
+		$return .= "\ncopy_move_exists=" . $_POST['copy_move_exists'];
 	}
 	exit($return);
 }
