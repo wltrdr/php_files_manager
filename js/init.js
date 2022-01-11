@@ -46,6 +46,7 @@ const urlRawGithub = "https://raw.githubusercontent.com/wltrdr/php_files_manager
 let token
 let currentPath = "."
 let parentPath = "false"
+let webAccessible = false
 let timeDirOpened = 0
 const history = []
 let historyLevel = 0
