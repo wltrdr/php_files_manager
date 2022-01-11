@@ -22,10 +22,10 @@
 
 0.9.7⤵
 trash :
-	si Trash active :
-		icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
-		sous menu trash
-	quand on supprime vers trash, on ajoute (i) avant l'extension si existe (creer une fonction to_trash())
+	si Trash active : icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
+	si Trash active : sous menu trash
+	to_trash() : ajoute (i) avant l'extension si existe (creer une fonction to_trash())
+	si Trash active : move_selected dans trash to_trash() au lieu de deplacer
 revoir couleurs boxes et menus, pc et mobile
 
 0.9.9⤵
