@@ -23,13 +23,11 @@
 0.9.7⤵
 trash :
 	si Trash active :
+		icone remplie quand hover deplacement (els et tree)
 		icone dans tree tout en haut
-		sous menu trash
+		icone interdit quand ouvert dans normal et tente deplacer dans le meme via tree (tree)
 		majuscule forcée dans tree et path
-		icone :
-			vide tout le temps
-			remplie quand hover deplacement (els et tree)
-			interdit quand ouvert dans normal et tente deplacer dans le meme via tree (tree)
+		sous menu trash
 	quand on supprime vers trash, on ajoute (i) avant l'extension si existe (creer une fonction to_trash())
 revoir couleurs boxes et menus, pc et mobile
 
