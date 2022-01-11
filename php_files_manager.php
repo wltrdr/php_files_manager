@@ -227,8 +227,10 @@ elseif(isset($_POST) && !empty($_POST)) {
 				$name = $dirs[$i]['name'];
 				if($i === 0 && $win_fs === false)
 					$name = '';
-
-				$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
+				if((!isset($_SESSION['trash']) || (isset($_SESSION['trash']) && $_SESSION['trash'] !== '0')) && $cur_rmvs === 0 && $cur_adds === 1 && $i === $nb_dirs - 1 &&($adds_dirs[0] === 'trash' || $adds_dirs[0] === 'Trash'))
+					$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . "')\">Trash<span class=\"gap\">/</span></a>\n";
+				else
+					$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
 			}
 
 			$parent = 'false';
