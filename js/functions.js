@@ -155,7 +155,7 @@ setInterval(() => {
 
 /* SET SETTINGS */
 
-function changeView(oldView, newView, doRequest = false) {
+function changeView(oldView, newView, doRequest = true) {
 	typeView = newView
 	if(oldView !== newView) {
 		if(oldView !== 0)
@@ -166,16 +166,14 @@ function changeView(oldView, newView, doRequest = false) {
 		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&view=${typeView}&token=${token}`, false, true)
 }
 
-function changeTypeUploadExists(type, doRequest = false) {
+function changeTypeUploadExists(type) {
 	typeUploadExists = type
-	if(doRequest !== false)
-		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&upload_exists=${type}&token=${token}`, false, true)
+	ajaxRequest("POST", "", `${Date.now()}&set_settings=true&upload_exists=${type}&token=${token}`, false, true)
 }
 
-function changeTypeCopyMoveExists(type, doRequest = false) {
+function changeTypeCopyMoveExists(type) {
 	typeCopyMoveExists = type
-	if(doRequest !== false)
-		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&copy_move_exists=${type}&token=${token}`, false, true)
+	ajaxRequest("POST", "", `${Date.now()}&set_settings=true&copy_move_exists=${type}&token=${token}`, false, true)
 }
 
 /* GET SETTINGS */
@@ -183,7 +181,7 @@ function changeTypeCopyMoveExists(type, doRequest = false) {
 ajaxRequest("GET", "", `${Date.now()}&get_settings=true`, result => {
 	const foundView = result.match(/\[view=([0-9])\]/)
 	if(foundView)
-		changeView(typeView, parseInt(foundView[1], 10))
+		changeView(typeView, parseInt(foundView[1], 10, false))
 
 	const foundUploadExists = result.match(/\[upload_exists=([0-9])\]/)
 	if(foundUploadExists)
