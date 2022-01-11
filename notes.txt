@@ -21,14 +21,15 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.7⤵
+les if_exists nont pas a etre envoyés via post ou get mais doivent etre plutot recuperer de session
+revoir couleurs boxes et menus, pc et mobile
 trash :
-	créer menu corbeille => si on change on set js + session (comme view, upload_exists, copy_view_exists sauf que action par defaut selon si trash existe deja ou pas)
+	lors de get settings si pas de session trash, session est créée + renvoi selon si dossier existe ou pas
 	si on est a la racine web et dossier == php_files_manager_trash => cree element avec son propre sous menu
 	selectElement(el, nameEncoded) => si nameEncoded === php_files_manager_trash (verif si autre dossier) on ne fait rien
 	si Trash active on l'ajoute en haut de tree au lieu de milieu de tree
-	trash a 3 reglages : off, seulement suppressions dans trash, tout dans trash
-	quand on deplace dans trash, on ajoute (i) avant l'extension
-revoir couleurs boxes et menus, pc et mobile
+	quand on deplace dans trash, on ajoute (i) avant l'extension dans tous les cas (creer une fonction to_trash())
+	trash
 
 0.9.9⤵
 création (symlink) + gestion liens symboliques :
