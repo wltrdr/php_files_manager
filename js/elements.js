@@ -267,9 +267,11 @@ function deleteMultiple(elements) {
 }
 
 function pasteMultiple() {
-	if(copyNotCut === false)
-		checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
-	else
-		checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
-	copy = []
+	if(copy.length > 0) {
+		if(copyNotCut === false)
+			checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
+		else
+			checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
+		copy = []
+	}
 }
