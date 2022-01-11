@@ -21,7 +21,13 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.7⤵
-créer corbeille (action par defaut selon si trash existe deja ou pas)
+trash :
+	créer menu corbeille => si on change on set js + session (comme view, upload_exists, copy_view_exists sauf que action par defaut selon si trash existe deja ou pas)
+	si on est a la racine web et dossier == php_files_manager_trash => cree element avec son propre sous menu
+	selectElement(el, nameEncoded) => si nameEncoded === php_files_manager_trash (verif si autre dossier) on ne fait rien
+	si Trash active on l'ajoute en haut de tree au lieu de milieu de tree
+	trash a 3 reglages : off, seulement suppressions dans trash, tout dans trash
+	quand on deplace dans trash, on ajoute (i) avant l'extension
 
 0.9.9⤵
 création (symlink) + gestion liens symboliques :
