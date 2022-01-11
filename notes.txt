@@ -21,7 +21,6 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.7⤵
-les if_exists nont pas a etre envoyés via post ou get mais doivent etre plutot recuperer de session
 revoir couleurs boxes et menus, pc et mobile
 trash :
 	lors de get settings si pas de session trash, session est créée + renvoi selon si dossier existe ou pas
