@@ -259,7 +259,10 @@ function moveMultiple(pathEncoded, elements = false) {
 		elements = selectedElements
 	else
 		elements = JSON.parse(decodeURIComponent(elements))
-	checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(elements, currentPath)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
+	if(typeTrash !== 0 && (pathEncoded === "trash%2F" || pathEncoded === "Trash%2F"))
+		checkReqRep(`${Date.now()}&trash=${formatMultiple(elements, currentPath)}&token=${token}`, "trasheds")
+	else
+		checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(elements, currentPath)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
 }
 
 function deleteMultiple(elements) {
