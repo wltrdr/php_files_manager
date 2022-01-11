@@ -169,6 +169,7 @@ function changeView(oldView, newView, doRequest = true) {
 function changeTypeTrash(type) {
 	typeTrash = type
 	ajaxRequest("POST", "", `${Date.now()}&set_settings=true&trash=${type}&token=${token}`, false, true)
+	openDir(currentPath)
 }
 
 function changeTypeUploadExists(type) {
