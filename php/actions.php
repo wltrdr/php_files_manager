@@ -52,8 +52,6 @@ if(isset($_POST['set_settings'])) {
 	if(isset($_POST['trash'])) {
 		$_SESSION['trash'] = $_POST['trash'];
 		$return .= "\ntrash=" . $_POST['trash'];
-		if($_POST['trash'] !== '0')
-			createTrash($_POST['trash']);
 	}
 	if(isset($_POST['upload_exists'])) {
 		$_SESSION['upload_exists'] = $_POST['upload_exists'];
