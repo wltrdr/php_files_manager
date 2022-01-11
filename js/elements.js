@@ -32,7 +32,7 @@ function startClic(el, nameEncoded) {
 		rightClicOnEl = false
 		if(selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true)) {
 			document.body.querySelectorAll("a").forEach(element => {
-				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
+				if((element.classList.contains("dir") || element.classList.contains("linkdir") || element.classList.contains("dirOpen") || element.classList.contains("trash")) && !returnObjInArr(selectedElements, element.getAttribute("data-name-enc"), "nameEncoded", true))
 					element.classList.add("unselected")
 			})
 			tryToMove = el
