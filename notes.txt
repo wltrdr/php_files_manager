@@ -23,8 +23,7 @@
 0.9.7⤵
 trash :
 	si Trash active :
-		icone remplie quand hover deplacement (els et tree)
-		icone dans tree tout en haut
+		icone dans tree tout en haut (icone remplie quand hover  deplacement)
 		icone interdit quand ouvert dans normal et tente deplacer dans le meme via tree (tree)
 		majuscule forcée dans tree et path
 		sous menu trash
