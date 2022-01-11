@@ -166,6 +166,11 @@ function changeView(oldView, newView, doRequest = true) {
 		ajaxRequest("POST", "", `${Date.now()}&set_settings=true&view=${typeView}&token=${token}`, false, true)
 }
 
+function changeTypeTrash(type) {
+	typeTrash = type
+	ajaxRequest("POST", "", `${Date.now()}&set_settings=true&trash=${type}&token=${token}`, false, true)
+}
+
 function changeTypeUploadExists(type) {
 	typeUploadExists = type
 	ajaxRequest("POST", "", `${Date.now()}&set_settings=true&upload_exists=${type}&token=${token}`, false, true)
@@ -182,6 +187,10 @@ ajaxRequest("GET", "", `${Date.now()}&get_settings=true`, result => {
 	const foundView = result.match(/\[view=([0-9])\]/)
 	if(foundView)
 		changeView(typeView, parseInt(foundView[1], 10, false))
+
+	const foundTrash = result.match(/\[trash=([0-9])\]/)
+	if(foundTrash)
+		typeTrash = parseInt(foundTrash[1], 10)
 
 	const foundUploadExists = result.match(/\[upload_exists=([0-9])\]/)
 	if(foundUploadExists)
