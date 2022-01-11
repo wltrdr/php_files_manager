@@ -51,6 +51,8 @@ elseif(isset($_GET['get_settings'])) {
 	header('Content-Type: text/plain; charset=utf-8');
 	if(isset($_SESSION['view']))
 		echo '[view=' . $_SESSION['view'] . ']';
+	if(isset($_SESSION['trash']))
+		echo '[trash=' . $_SESSION['trash'] . ']';
 	if(isset($_SESSION['upload_exists']))
 		echo '[upload_exists=' . $_SESSION['upload_exists'] . ']';
 	if(isset($_SESSION['copy_move_exists']))
