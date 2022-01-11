@@ -28,6 +28,7 @@ trash :
 	si Trash active on l'ajoute en haut de tree au lieu de milieu de tree
 	trash a 3 reglages : off, seulement suppressions dans trash, tout dans trash
 	quand on deplace dans trash, on ajoute (i) avant l'extension
+revoir couleurs boxes et menus, pc et mobile
 
 0.9.9⤵
 création (symlink) + gestion liens symboliques :
