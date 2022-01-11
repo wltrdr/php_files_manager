@@ -5,34 +5,65 @@ function explode_multiple_files($files) {
 	else
 		return explode('///', $files);
 }
+
+function createTrash($lowercase) {
+	if($lowercase === '1') {
+		$from = 'Trash';
+		$to = 'trash';
+	}
+	else {
+		$from = 'trash';
+		$to = 'Trash';
+	}
+	if(file_exists_cs($to)) {
+		if(is_file($to) || is_link($to)) {
+			$i = 1;
+			while(file_exists($to . ' (' + $i + ')'))
+				$i++;
+			rename($to, $to . ' (' + $i + ')');
+			mkdir($to);
+		}
+	}
+	elseif(file_exists($from)) {
+		if(is_dir($from)) {
+			rename($from, $from . '_tmp');
+			rename($from . '_tmp', $to);
+		}
+		else {
+			$i = 1;
+			while(file_exists($from . ' (' + $i + ')'))
+				$i++;
+			rename($from, $from . ' (' + $i + ')');
+			mkdir($to);
+		}
+	}
+	else
+		mkdir($to);
+}
+
 /* SET SETTINGS */
 
 if(isset($_POST['set_settings'])) {
-	if(isset($_POST['view']))
+	$return = "settings :\n";
+	if(isset($_POST['view'])) {
 		$_SESSION['view'] = $_POST['view'];
+		$return .= 'view: ' . $_POST['view'] . "\n";
+	}
 	if(isset($_POST['trash'])) {
 		$_SESSION['trash'] = $_POST['trash'];
-		if($_POST['trash'] === '1') {
-			if(!file_exists('php_files_manager_trash') || !is_dir('php_files_manager_trash')) {
-				if(file_exists('php_files_manager_trash_') && is_dir('php_files_manager_trash_'))
-					rename('php_files_manager_trash_', 'php_files_manager_trash');
-				else
-					mkdir('php_files_manager_trash');
-			}
-		}
-		elseif($_POST['trash'] === '2') {
-			if(!file_exists('php_files_manager_trash_') || !is_dir('php_files_manager_trash_')) {
-				if(file_exists('php_files_manager_trash') && is_dir('php_files_manager_trash'))
-					rename('php_files_manager_trash', 'php_files_manager_trash_');
-				else
-					mkdir('php_files_manager_trash_');
-			}
-		}
+		$return .= 'trash: ' . $_POST['trash'] . "\n";
+		if($_POST['trash'] !== '0')
+			createTrash($_POST['trash']);
 	}
-	if(isset($_POST['upload_exists']))
+	if(isset($_POST['upload_exists'])) {
 		$_SESSION['upload_exists'] = $_POST['upload_exists'];
-	if(isset($_POST['copy_move_exists']))
+		$return .= 'upload_exists: ' . $_POST['upload_exists'] . "\n";
+	}
+	if(isset($_POST['copy_move_exists'])) {
 		$_SESSION['copy_move_exists'] = $_POST['copy_move_exists'];
+		$return .= 'copy_move_exists: ' . $_POST['copy_move_exists'] . "\n";
+	}
+	exit($return);
 }
 
 /* UPLOAD */
