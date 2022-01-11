@@ -55,38 +55,3 @@ function path_parents($nb) {
 		return $return;
 	}
 }
-
-function createTrash($lowercase) {
-	if($lowercase === '1') {
-		$from = 'Trash';
-		$to = 'trash';
-	}
-	else {
-		$from = 'trash';
-		$to = 'Trash';
-	}
-	if(file_exists_cs($to)) {
-		if(is_file($to) || is_link($to)) {
-			$i = 1;
-			while(file_exists($to . ' (' + $i + ')'))
-				$i++;
-			rename($to, $to . ' (' + $i + ')');
-			mkdir($to);
-		}
-	}
-	elseif(file_exists($from)) {
-		if(is_dir($from)) {
-			rename($from, $from . '_tmp');
-			rename($from . '_tmp', $to);
-		}
-		else {
-			$i = 1;
-			while(file_exists($from . ' (' + $i + ')'))
-				$i++;
-			rename($from, $from . ' (' + $i + ')');
-			mkdir($to);
-		}
-	}
-	else
-		mkdir($to);
-}
