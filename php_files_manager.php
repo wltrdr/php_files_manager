@@ -53,11 +53,30 @@ elseif(isset($_GET['get_settings'])) {
 		echo '[view=' . $_SESSION['view'] . ']';
 	if(isset($_SESSION['trash']))
 		echo '[trash=' . $_SESSION['trash'] . ']';
+	else {
+		if(file_exists('php_files_manager_trash') && is_dir('php_files_manager_trash')) {
+			$_SESSION['trash'] = '1';
+			echo '[trash=1]';
+		}
+		elseif(file_exists('php_files_manager_trash_') && is_dir('php_files_manager_trash_')) {
+			$_SESSION['trash'] = '2';
+			echo '[trash=2]';
+		}
+	}
 	if(isset($_SESSION['upload_exists']))
 		echo '[upload_exists=' . $_SESSION['upload_exists'] . ']';
 	if(isset($_SESSION['copy_move_exists']))
 		echo '[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
 	exit();
+
+
+	
+		if(file_exists('php_files_manager_trash') && is_dir('php_files_manager_trash'))
+			rename('php_files_manager_trash', 'php_files_manager_trash_');
+		else
+			mkdir('php_files_manager_trash_');
+
+
 }
 
 /* DOWNLOAD FILE */
