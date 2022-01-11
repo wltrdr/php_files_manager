@@ -424,7 +424,7 @@ btnCreate.addEventListener("click", ev => {
 })
 
 btnSettings.addEventListener("click", ev => {
-	html += "<span>Use trash :</span>"
+	let html = "<span>Use trash :</span>"
 	const choicesTrash = ["Never", "Only when deleting", "Always"]
 	choicesTrash.forEach((type, i) => {
 		let curTrash = ""
@@ -433,7 +433,7 @@ btnSettings.addEventListener("click", ev => {
 		html += `<a onclick="changeTypeTrash(${i})">${curTrash}${type}</a>\n`
 	})
 
-	let html = "<span>(Upload) If target exists :</span>"
+	html += "<span>(Upload) If target exists :</span>"
 	const choicesUpload = ["Ask", "Do nothing", "Rename old", "Rename new", "Replace"]
 	choicesUpload.forEach((type, i) => {
 		let curUpload = ""
