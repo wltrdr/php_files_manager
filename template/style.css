@@ -354,7 +354,7 @@ button {
 	left: 0px;
 	top: 0px;
 	flex-direction: column;
-	background: linear-gradient(90deg, #2a2a2a, #3a3a3a);
+	background: linear-gradient(90deg, #1f1f1f, #2f2f2f);
 	border: 1px solid #777;
 	box-shadow: 0px 0px 1em rgba(0, 0, 0, 0.4);
 	z-index: 1000;
@@ -363,7 +363,6 @@ button {
 	#popupMenu span {
 		padding: 0.6em 3.5em 0.6em 0.75em;
 		color: #fff;
-		background: linear-gradient(90deg, #1f1f1f, #2f2f2f);
 		border: 1px solid #333;
 		border-top: 0px;
 		font-weight: bold;
@@ -371,23 +370,21 @@ button {
 
 	#popupMenu a {
 		padding: 0.6em 3.5em 0.6em 0.75em;
+		background: linear-gradient(90deg, #2a2a2a, #3a3a3a);
 		color: #eee;
-		border: 1px solid #333;
-		border-top: 0px;
-	}
-
-	#popupMenu a:first-child {
 		border: 1px solid #333;
 	}
 
 	#popupMenu a:hover {
 		background: linear-gradient(90deg, #046, #048);
 		color: #fff;
+		border: 1px solid #047;
 	}
 
 	#popupMenu a:active {
 		background: linear-gradient(90deg, #602, #620);
 		color: #fff;
+		border: 1px solid #611;
 	}
 
 	#popupMenu a.gap {
