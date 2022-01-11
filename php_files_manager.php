@@ -434,11 +434,10 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 				foreach($elems_dirs as $elem_dir) {
 					if($current === '.' && $elem_dir['name'] === ' trash')
-						$el_enc = 'trash';
+						$elem_dir['name'] = 'trash';
 					elseif($current === '.' && $elem_dir['name'] === ' Trash')
-						$el_enc = 'Trash';
-					else
-						$el_enc = urlencode($elem_dir['name']);
+						$elem_dir['name'] = 'Trash';
+					$el_enc = urlencode($elem_dir['name']);
 					$el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
 
 					if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir['name'] === $server_dirs[$nb_dirs]['name'])
