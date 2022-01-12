@@ -24,7 +24,6 @@
 
 trash :
 
-	php : &empty_trash=true
 	php : &permanently_delete=element
 	php : &permanently_delete_multiple=elements
 
@@ -32,7 +31,7 @@ trash :
 	↘
 		element trash => supprime devient permanently delete, enlever see web
 		sous menu elements dans trash => supprime devient permanently delete 
-		sous menu zone trash => ajout empty trash, enlever see web, create et upload
+		sous menu zone trash => ajout empty trash, enlever see web, create et upload (&empty_trash=true => emptied)
 
 	php js : icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
 
