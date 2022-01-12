@@ -191,5 +191,5 @@ function find_chmods($filename) {
 }
 
 function to_trash($source) {
-	return copy_or_move($source, 'trash', true, 2, 2, 2);
+	return copy_or_move($source, 'Trash', true, 2, 2, 2);
 }
