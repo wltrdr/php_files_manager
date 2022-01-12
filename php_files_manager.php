@@ -300,9 +300,12 @@ elseif(isset($_POST) && !empty($_POST)) {
 									$dir_default = ' treeDefault';
 									$move_forbidden = ', true';
 								}
-
+								if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
+									$css_class = 'trash';
+								else
+									$css_class = 'dirOpen' . $dir_default;
 								$path_enc = urlencode($dirs[$lvl]['path']);
-								$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
+								$return .= "<a class=\"$css_class\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 								$next = true;
 							}
 							else {
@@ -318,8 +321,12 @@ elseif(isset($_POST) && !empty($_POST)) {
 											$dir = $server_dirs[$lvl]['path'];
 									}
 								}
+								if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
+									$css_class = 'trash';
+								else
+									$css_class = 'dir';
 								$path_enc = urlencode($dir);
-								$return .= '<a class="dir" style="margin-left: ' . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n";
+								$return .= "<a class=\"$css_class\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
 						}
 					}
