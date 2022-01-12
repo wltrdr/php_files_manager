@@ -301,7 +301,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 									$move_forbidden = ', true';
 								}
 								if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
-									$css_class = 'trash';
+									$css_class = 'trash' . $dir_default;
 								else
 									$css_class = 'dirOpen' . $dir_default;
 								$path_enc = urlencode($dirs[$lvl]['path']);
