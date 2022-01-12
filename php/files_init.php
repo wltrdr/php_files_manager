@@ -111,8 +111,15 @@ function rename_exist($filename) {
 function create_htrashccess() {
 	$path = 'Trash/.htaccess';
 	if(!file_exists($path) || is_dir($path) || is_link($path)) {
-		if(file_exists($path))
-			rename_exist($path);
-		file_put_contents($path, "RewriteEngine On\nRewriteRule ^(.*)$ https://%{HTTP_HOST}" . server_infos()['script'] . "?trashed=true [L,R=301]\n");
+		if(file_exists($path)) {
+			if(!rename_exist($path))
+				return false;
+		}
+		if(file_put_contents($path, "RewriteEngine On\nRewriteRule ^(.*)$ https://%{HTTP_HOST}" . server_infos()['script'] . "?trashed=true [L,R=301]\n"))
+			return true;
+		else
+			return false;
 	}
+	else
+		return true;
 }
