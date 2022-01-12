@@ -147,7 +147,6 @@ elseif(isset($_POST) && !empty($_POST)) {
 				$from = 'trash';
 				$to = 'Trash';
 			}
-
 			if(file_exists_cs($to)) {
 				if(is_file($to) || is_link($to)) {
 					@rename_exists($to);
