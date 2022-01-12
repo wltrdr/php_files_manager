@@ -454,6 +454,23 @@ elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
 		exit(substr($return, 0, mb_strlen($return) - 8));
 }
 
+/* EMPTY TRASH */
+
+elseif(isset($_POST['empty_trash'])) {
+	if(@rm_full_dir('Trash')) {
+		if(@mkdir('Trash')) {
+			if(@create_htrashccess())
+				exit('emptied');
+			else
+				exit('Trash cannot be protected');
+		}
+		else
+			exit('Trash cannot be created');
+	}
+	else
+		exit('Trash cannot emptied');
+}
+
 /* UPDATE */
 
 elseif(isset($_POST['update'])) {
