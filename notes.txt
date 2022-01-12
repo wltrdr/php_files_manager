@@ -22,9 +22,7 @@
 
 0.9.7⤵
 trash :
-	php : si $trash_active === 1 on utilise to_trash() partout ou il le faut (unlink, rmdir, rm_full_dir)
-	php js : pas de see web version si on es dans trash
-	js : sous menus :
+	php js : sous menus :
 		element trash => supprime devient definitivement, enlever see web
 		sous menu elements dans trash => supprime devient definitivement
 		sous menu zone trash => ajout purger, enlever see web, create et upload
