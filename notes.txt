@@ -21,14 +21,21 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.7⤵
+
 trash :
-	php js : sous menus :
-		element trash => supprime devient definitivement, enlever see web
-		sous menu elements dans trash => supprime devient definitivement
-		sous menu zone trash => ajout purger, enlever see web, create et upload
+
 	php : &empty_trash=true
-	php : &remove_trash=element
+	php : &permanently_delete=element
+	php : &permanently_delete_multiple=elements
+
+	php js : menus :
+	↘
+		element trash => supprime devient permanently delete, enlever see web
+		sous menu elements dans trash => supprime devient permanently delete 
+		sous menu zone trash => ajout empty trash, enlever see web, create et upload
+
 	php js : icone dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
+
 revoir couleurs boxes et menus, pc et mobile
 
 0.9.9⤵
