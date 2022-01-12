@@ -83,7 +83,7 @@ elseif(isset($_GET['download'])) {
 				if($dir === '.')
 					$dir = '';
 				$file = $dir . urldecode($_GET['download']);
-				if(is_file($file) || is_link($file)) {
+				if(is_file($file)) {
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
 					header('Cache-Control: no-cache, must-revalidate');
