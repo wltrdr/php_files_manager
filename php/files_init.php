@@ -62,8 +62,7 @@ function size_of_file($size) {
 			return round($size / 1024, 1) . ' Ko';
 		elseif($size < $g)
 			return round($size / $m, 1) . ' Mo';
-		else
-			return round($size / $g, 1) . ' Go';
+		return round($size / $g, 1) . ' Go';
 	}
 }
 
@@ -72,32 +71,34 @@ function parse_size($size) {
 	$size = preg_replace('/[^0-9\.]/', '', $size);
 	if($unit)
 		return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-	else
-		return round($size);
+	return round($size);
 }
 
 function rename_exist($filename) {
 	$i = 1;
-	while(file_exists($filename . ' (' + $i + ')'))
+	while(file_or_link_exists($filename . ' (' + $i + ')'))
 		$i++;
 	if(rename($filename, $filename . ' (' + $i + ')'))
 		return $i;
-	else
-		return false;
+	return false;
 }
 
 function create_htrashccess() {
 	$path = 'Trash/.htaccess';
-	if(!file_exists($path) || is_dir($path) || is_link($path)) {
-		if(file_exists($path)) {
+	if(!file_or_link_exists($path) || is_dir($path) || is_link($path)) {
+		if(file_or_link_exists($path)) {
 			if(!rename_exist($path))
 				return false;
 		}
 		if(file_put_contents($path, "RewriteEngine On\nRewriteRule ^(.*)$ https://%{HTTP_HOST}" . server_infos()['script'] . "?trashed=true [L,R=301]\n"))
 			return true;
-		else
-			return false;
+		return false;
 	}
-	else
+	return true;
+}
+
+function file_or_link_exists($filename) {
+	if(is_file($filename) || is_link($filename) || is_dir($filename))
 		return true;
+	return false;
 }
