@@ -61,7 +61,7 @@ elseif(isset($_GET['get_settings'])) {
 	if(isset($_SESSION['trash']))
 		echo '[trash=' . $_SESSION['trash'] . ']';
 	else {
-		if(file_exists('Trash') && is_dir('Trash') && !is_link('Trash')) {
+		if(is_dir('Trash') && !is_link('Trash')) {
 			$_SESSION['trash'] = '1';
 			echo '[trash=1]';
 		}
@@ -135,7 +135,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 		$trash_active = false;
 		if(isset($_SESSION['trash']) && $_SESSION['trash'] !== '0') {
 			$trash_active = true;
-			if(file_exists('Trash')) {
+			if(file_or_link_exists('Trash')) {
 				if(is_file('Trash') || is_link('Trash')) {
 					@rename_exists('Trash');
 					@mkdir('Trash');
