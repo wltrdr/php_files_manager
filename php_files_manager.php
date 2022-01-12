@@ -467,18 +467,17 @@ elseif(isset($_POST) && !empty($_POST)) {
 					else
 						$full_path_enc = urlencode($link . $elem_dir['name'] . '/');
 
+					$web_url = 'false';
 					if($web_accessible !== false)
-						$web_url = "'" . $web_accessible . $el_html . "/'";
+						$web_url = "'" . htmlentities($web_accessible . $el_html, ENT_QUOTES) . "/'";
 					elseif($elem_dir['name'] === $web_root_accessible)
-						$web_url = "'" . $web_root_url . "'";
-					else
-						$web_url = 'false';
+						$web_url = "'" . htmlentities($web_root_url, ENT_QUOTES) . "'";
 
 					$link_icon = 'dir';
 					$link_js = 'false';
 					if($elem_dir['link']) {
 						$link_icon = 'linkdir';
-						$link_js = 'true';
+						$link_js = '\'' . htmlentities(readlink($link . $elem_dir['name']) . '/', ENT_QUOTES) . '\'';
 					}
 
 					if($trash_active === true && $current === '.' && $el_enc === 'Trash')
@@ -508,14 +507,13 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$el_enc = urlencode($elem_file['name']);
 						$el_html = htmlentities($elem_file['name'], ENT_QUOTES);
 
+						$web_url = 'false';
 						if($web_accessible !== false)
-							$web_url = "'" . $web_accessible . $el_html . "'";
-						else
-							$web_url = 'false';
+							$web_url = "'" . htmlentities($web_accessible . $el_html, ENT_QUOTES) . "'";
 
 						if($elem_file['link']) {
 							$link_icon = 'linkfile';
-							$link_js = 'true';
+							$link_js = '\'' . htmlentities(readlink($link . $elem_file['name']) . '/', ENT_QUOTES) . '\'';
 						}
 						else {
 							$link_icon = css_extension($elem_file['name']);
