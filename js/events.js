@@ -31,7 +31,7 @@ elements.addEventListener("contextmenu", ev => {
 		if(copy.length > 0)
 			pasteLink = `<a onclick="pasteMultiple()">Paste</a>`
 
-		if(currentPath.substring(0, 8) === "Trash%2F")
+		if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
 			openMenu(`${pasteLink}
 			<a onclick="openBox('confirm', 'Empty trash ?', 'warn', () => { emptyTrash() })">Empty trash</a>
 			<a onclick="viewChoice(event)" class="withArrow" style="display: flex;"><span>View</span><span>&#10148;</span></a>
