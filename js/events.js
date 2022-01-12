@@ -429,7 +429,7 @@ btnCreate.addEventListener("click", ev => {
 
 btnSettings.addEventListener("click", ev => {
 	let html = "<span>Use trash :</span>"
-	const choicesTrash = ["Never", "Only when deleting", "Always"]
+	const choicesTrash = ["No", "Yes"]
 	choicesTrash.forEach((type, i) => {
 		let curTrash = ""
 		if(typeTrash === i)
