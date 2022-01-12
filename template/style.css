@@ -391,6 +391,14 @@ button {
 		font-weight: bold;
 	}
 
+	#popupMenu span.link {
+		padding: 0.5em 3.5em 0.5em 0.75em;
+		background: linear-gradient(90deg, rgba(47, 47, 47, 0.95), rgba(64, 64, 64, 0.95));
+		font-size: 0.9em;
+		font-weight: normal;
+		color: #ccc;
+	}
+
 	#popupMenu a {
 		padding: 0.6em 3.5em 0.6em 0.75em;
 		background: linear-gradient(90deg, rgba(34, 34, 34, 0.95), rgba(51, 51, 51, 0.95));
