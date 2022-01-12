@@ -420,21 +420,6 @@ elseif(isset($_POST['delete_multiple'])) {
 		exit($return);
 }
 
-/* TRASH MULTIPLE ELEMENTS */
-
-elseif(isset($_POST['trash'])) {
-	$return = '';
-	foreach(explode_multiple_files($_POST['trash']) as $file_to_delete) {
-		$file_to_delete = urldecode($file_to_delete);
-		if(@!to_trash($file_to_delete))
-			$return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
-	}
-	if(empty($return))
-		exit('trasheds');
-	else
-		exit($return);
-}
-
 /* SET MULTIPLE CHMODS */
 
 elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
@@ -452,6 +437,41 @@ elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
 		exit('chmodeds');
 	else
 		exit(substr($return, 0, mb_strlen($return) - 8));
+}
+
+/* TRASH MULTIPLE ELEMENTS */
+
+elseif(isset($_POST['trash'])) {
+	$return = '';
+	foreach(explode_multiple_files($_POST['trash']) as $file_to_delete) {
+		$file_to_delete = urldecode($file_to_delete);
+		if(@!to_trash($file_to_delete))
+			$return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
+	}
+	if(empty($return))
+		exit('trasheds');
+	else
+		exit($return);
+}
+
+/* DELETE ELEMENT FROM TRASH */
+
+elseif(isset($_POST['permanently_delete'])) {
+	$name = urldecode($_POST['permanently_delete']);
+	if(@is_file($current . $name) || @is_link($current . $name)) {
+		if(@unlink($current . $name))
+			exit('deleted');
+		else
+			exit('File not deleted');
+	}
+	elseif(@is_dir($current . $name)) {
+		if(@rm_full_dir($current . $name))
+			exit('deleted');
+		else
+			exit('Directory not deleted');
+	}
+	else
+		exit('File not found');
 }
 
 /* EMPTY TRASH */
