@@ -66,7 +66,56 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 	else
 		$dest .= '/';
 
-	if(is_file($source) || is_link($source)) {
+	if(is_link($source)) {
+		$source = no_end_slash($source);
+		$source_infos = split_filename($source);
+		$source_path = $source_infos['path'];
+		$source_name = $source_infos['name'];
+		$extension = $source_infos['dot_extension'];
+		$dest_name = $source_name;
+
+		if($source_path === $dest && ($move === true || $dest_file_exists !== 2))
+			return false;
+		elseif(file_exists($dest . $source_name . $extension)) {
+			if(is_file($dest . $source_name . $extension) || is_link($dest . $source_name . $extension))
+				$is_file = true;
+			elseif(is_dir($dest . $source_name . $extension))
+				$is_file = false;
+			else
+				return false;
+
+			if(($is_file === false && $dest_dir_exists === 0) || ($is_file === true && $dest_file_exists === 0))
+				return false;
+			elseif($is_file === true && $dest_file_exists === 3) {
+				if(!unlink($dest . $source_name . $extension))
+					return false;
+			}
+			elseif($is_file === false && $dest_dir_exists === 3) {
+				if(!rm_full_dir($dest . $source_name . $extension))
+					return false;
+			}
+			elseif(($is_file === false && $dest_dir_exists === 1) || ($is_file === true && $dest_file_exists === 1)) {
+				$i = 1;
+				while(file_exists($dest . $source_name . $extension . '.bak' . $i))
+					$i++;
+				if(!rename($dest . $source_name . $extension, $dest . $source_name . $extension . '.bak' . $i))
+					return false;
+			}
+			else {
+				$i = 1;
+				while(file_exists($dest . $source_name . " ($i)" . $extension))
+					$i++;
+				$dest_name .= " ($i)";
+			}
+		}
+		if($move === true && rename($source, $dest . $dest_name . $extension))
+			return true;
+		elseif($move === false && symlink(readlink($source), $dest . $dest_name . $extension))
+			return true;
+		else
+			return false;
+	}
+	elseif(is_file($source)) {
 		$source = no_end_slash($source);
 		$source_infos = split_filename($source);
 		$source_path = $source_infos['path'];
