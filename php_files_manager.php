@@ -136,9 +136,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 		/* ACTIONS */
 
-		$trash_active = false;
+		$trash_active = 0;
 		if(isset($_SESSION['trash']) && $_SESSION['trash'] !== '0') {
-			$trash_active = true;
+			$trash_active = intval($_SESSION['trash']);
 			if($_SESSION['trash'] === '1') {
 				$from = 'Trash';
 				$to = 'trash';
@@ -272,7 +272,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 				$name = $dirs[$i]['name'];
 				if($i === 0 && $win_fs === false)
 					$name = '';
-				if($trash_active === true && $cur_rmvs === 0 && $cur_adds === 1 && $i === $nb_dirs - 1 && ($adds_dirs[0] === 'trash' || $adds_dirs[0] === 'Trash'))
+				if($trash_active > 0 && $cur_rmvs === 0 && $cur_adds === 1 && $i === $nb_dirs - 1 && ($adds_dirs[0] === 'trash' || $adds_dirs[0] === 'Trash'))
 					$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . "')\">Trash<span class=\"gap\">/</span></a>\n";
 				else
 					$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
@@ -451,9 +451,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 					while(false !== ($entry = readdir($handle))) {
 						if($entry != '.' && $entry != '..') {
 							if(is_dir($link . $entry)) {
-								if($trash_active === true && $current === '.' && $entry === 'trash')
+								if($trash_active > 0 && $current === '.' && $entry === 'trash')
 									$elems_dirs[$nb_el_dirs]['name'] = ' trash';
-								elseif($trash_active === true && $current === '.' && $entry === 'Trash')
+								elseif($trash_active > 0 && $current === '.' && $entry === 'Trash')
 									$elems_dirs[$nb_el_dirs]['name'] = ' Trash';
 								else
 									$elems_dirs[$nb_el_dirs]['name'] = $entry;
@@ -480,9 +480,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 					$elems_dirs = array_sort($elems_dirs, 'name');
 
 				foreach($elems_dirs as $elem_dir) {
-					if($trash_active === true && $current === '.' && $elem_dir['name'] === ' trash')
+					if($trash_active > 0 && $current === '.' && $elem_dir['name'] === ' trash')
 						$elem_dir['name'] = 'trash';
-					elseif($trash_active === true && $current === '.' && $elem_dir['name'] === ' Trash')
+					elseif($trash_active > 0 && $current === '.' && $elem_dir['name'] === ' Trash')
 						$elem_dir['name'] = 'Trash';
 					$el_enc = urlencode($elem_dir['name']);
 					$el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
@@ -506,7 +506,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$link_js = 'true';
 					}
 
-					if($trash_active === true && $current === '.' && ($el_enc === 'trash' || $el_enc === 'Trash'))
+					if($trash_active > 0 && $current === '.' && ($el_enc === 'trash' || $el_enc === 'Trash'))
 						$elements .= "<a class=\"trash\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">Trash</span></a>\n";
 					else
 						$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
