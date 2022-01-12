@@ -138,6 +138,7 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
+			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
 			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
@@ -174,6 +175,7 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
+			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
 			${webUrl}
 			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
@@ -205,6 +207,7 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
+			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
@@ -236,6 +239,7 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
+			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			${webUrl}
 			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
