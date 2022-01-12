@@ -61,9 +61,8 @@ function showElements(result, disableFocus = false) {
 		path.innerHTML = found[5]
 		listTree.innerHTML = found[6]
 		listElements.innerHTML = found[7]
-		if(found[8] === "false")
-			webAccessible = false
-		else
+		webAccessible = false
+		if(found[8] !== "false")
 			webAccessible = found[8]
 		typeOrder = parseInt(found[9], 10)
 		typeOrderDesc = parseInt(found[10], 10)
