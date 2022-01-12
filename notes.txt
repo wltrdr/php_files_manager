@@ -21,7 +21,7 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.7⤵
-icone trash dans tree (icone remplie quand hover deplacement mais icone interdit si ouvert dans elements)
+icone trash interdit si ouvert dans elements
 revoir couleurs boxes et menus, pc et mobile
 
 0.9.9⤵
