@@ -890,6 +890,10 @@ h1 span {
 /* RESPONSIVE MOBILE */
 
 @media screen and (max-width: 550px) {
+	#popupBox #boxChmods div {
+		padding: 1em 0.5em;
+	}
+
 	#popupMenu {
 		font-size: 1.35em;
 	}
