@@ -2,7 +2,7 @@
 
 function selectElement(el, nameEncoded) {
 	disableAutoRefresh = true
-	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true) && (currentPath !== "." || (nameEncoded !== "trash" && nameEncoded !== "Trash"))) {
+	if(!returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true) && (currentPath !== "." || nameEncoded !== "Trash")) {
 		el.classList.add("selected")
 		selectedElements.push({
 			element : el,
@@ -259,7 +259,7 @@ function moveMultiple(pathEncoded, elements = false) {
 		elements = selectedElements
 	else
 		elements = JSON.parse(decodeURIComponent(elements))
-	if(typeTrash !== 0 && (pathEncoded === "trash%2F" || pathEncoded === "Trash%2F"))
+	if(typeTrash !== 0 && pathEncoded === "Trash%2F")
 		checkReqRep(`${Date.now()}&trash=${formatMultiple(elements, currentPath)}&token=${token}`, "trasheds")
 	else
 		checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(elements, currentPath)}&dir=${pathEncoded}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
