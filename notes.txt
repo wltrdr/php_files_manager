@@ -24,12 +24,11 @@
 
 trash :
 
-	php : &permanently_delete=element
 	php : &permanently_delete_multiple=elements
 
 	php js : menus :
 	↘
-		element trash => supprime devient permanently delete, enlever see web
+		element trash => supprime devient permanently delete, enlever see web (&permanently_delete=element)
 		sous menu elements dans trash => supprime devient permanently delete 
 		sous menu zone trash => ajout empty trash, enlever see web, create et upload (&empty_trash=true => emptied)
 
