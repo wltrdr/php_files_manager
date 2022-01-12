@@ -31,14 +31,21 @@ elements.addEventListener("contextmenu", ev => {
 		if(copy.length > 0)
 			pasteLink = `<a onclick="pasteMultiple()">Paste</a>`
 
-		openMenu(`${webUrl}
-		${pasteLink}
-		<a onclick="viewChoice(event)" class="withArrow" style="display: flex;"><span>View</span><span>&#10148;</span></a>
-		<a onclick="sortChoice(event)" class="withArrow" style="display: flex;"><span>Sort by</span><span>&#10148;</span></a>
-		<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
-		<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
-		<a onclick="inputUpload.click()">Upload file(s)</a>
-		`, ev)
+		if(currentPath.substring(0, 8) === "Trash%2F")
+			openMenu(`${pasteLink}
+			<a onclick="openBox('confirm', 'Empty trash ?', 'warn', () => { emptyTrash() })">Empty trash</a>
+			<a onclick="viewChoice(event)" class="withArrow" style="display: flex;"><span>View</span><span>&#10148;</span></a>
+			<a onclick="sortChoice(event)" class="withArrow" style="display: flex;"><span>Sort by</span><span>&#10148;</span></a>
+			`, ev)
+		else
+			openMenu(`${webUrl}
+			${pasteLink}
+			<a onclick="viewChoice(event)" class="withArrow" style="display: flex;"><span>View</span><span>&#10148;</span></a>
+			<a onclick="sortChoice(event)" class="withArrow" style="display: flex;"><span>Sort by</span><span>&#10148;</span></a>
+			<a onclick="openBox('prompt', 'Enter a name for the new directory :', null, inputName => { newElement('dir', inputName) })">Create directory</a>
+			<a onclick="openBox('prompt', 'Enter a name for the new file :', null, inputName => { newElement('file', inputName) })">Create file</a>
+			<a onclick="inputUpload.click()">Upload file(s)</a>
+			`, ev)
 	}
 	else
 		rightClicOnEl = false
