@@ -23,10 +23,8 @@
 0.9.7⤵
 menus trash :
 ↘
-	element trash => permanently delete (&permanently_delete=element => deleted)
-	sous menu elements dans trash => supprime devient permanently delete (&permanently_delete_multiple=elements => deleteds)
-	sous menu zone trash => ajout empty trash, enlever see web, create et upload (&empty_trash=true => emptied)
-icone trash dans tree tout en haut (icone remplie quand hover deplacement mais icone interdit si aussi ouvert dans elements)
+	sous menu trash depuis current => laisser juste open, ajout empty trash (&empty_trash=true => emptied)
+icone trash dans tree (icone remplie quand hover deplacement mais icone interdit si ouvert dans elements)
 revoir couleurs boxes et menus, pc et mobile
 
 0.9.9⤵
