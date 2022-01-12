@@ -8,6 +8,7 @@
 	Raccourcis clavier Crtl+C, Ctrl+X, Ctrl+V et Suppr pour copier, couper, coller et supprimer les éléments
 	Edition et téléchargement des fichiers (même ceux non accessibles sur le web)
 	Création de nouveaux dossiers et fichiers
+	Corbeille afin de ne pas supprimer définitivement les fichiers et dossiers
 	Affichage du chemin courant et de l'arborescense des dossiers depuis la racine du serveur (sauf sur mobile)
 	Boutons de controle : Historique back et forward, dossier parent, retour vers l'accueil, bouton de rafraichissement
 	Plusieurs types d'affichage (petites icones, grosses icones ou détails)
