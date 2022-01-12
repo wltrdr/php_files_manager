@@ -23,6 +23,7 @@
 
 0.9.9⤵
 creation lien symbolique (sous paste) depuis copie
+bug compilateur show elements js
 
 1.0.0⤵
 tester caracteres ' " & ? dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFile..)
@@ -30,7 +31,6 @@ verifier : let, const, ;  //  ' " `  //  OR AND  //  espaces \t  //  htmlentitie
 minimiser noms vars + sauts de lignes
 chercher traces fr + corriger eng
 tout reverifier
-tout recompiler
 tout tester
 
 0.1.1⤵
