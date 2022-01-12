@@ -108,8 +108,8 @@ function rename_exist($filename) {
 		return false;
 }
 
-function create_htrashccess($trash_dir) {
-	$path = $trash_dir . '/.htaccess';
+function create_htrashccess() {
+	$path = 'Trash/.htaccess';
 	if(!file_exists($path) || is_dir($path) || is_link($path)) {
 		if(file_exists($path))
 			rename_exist($path);
