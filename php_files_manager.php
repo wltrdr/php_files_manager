@@ -422,18 +422,21 @@ elseif(isset($_POST) && !empty($_POST)) {
 					while(false !== ($entry = readdir($handle))) {
 						if($entry != '.' && $entry != '..') {
 							if(is_dir($link . $entry)) {
+								$elems_dirs[$nb_el_dirs]['name'] = $entry;
 								if($trash_active === true && $current === '.' && $entry === 'Trash')
-									$elems_dirs[$nb_el_dirs]['name'] = ' Trash';
+									$elems_dirs[$nb_el_dirs]['name_sort'] = '';
 								else
-									$elems_dirs[$nb_el_dirs]['name'] = $entry;
+									$elems_dirs[$nb_el_dirs]['name_sort'] = strtolower($entry);
 								$elems_dirs[$nb_el_dirs]['link'] = is_link($link . $entry);
 								$nb_el_dirs++;
 							}
 							else {
 								$elems_files[$nb_el_files]['name'] = $entry;
+								$elems_files[$nb_el_files]['name_sort'] = strtolower($entry);
 								$elems_files[$nb_el_files]['time'] = filemtime($link . $entry);
 								$elems_files[$nb_el_files]['size'] = filesize($link . $entry);
 								$elems_files[$nb_el_files]['type'] = split_filename($entry)['extension'];
+								$elems_files[$nb_el_files]['type_sort'] = strtolower($elems_files[$nb_el_files]['type']);
 								$elems_files[$nb_el_files]['link'] = is_link($link . $entry);
 								$nb_el_files++;
 							}
@@ -444,13 +447,11 @@ elseif(isset($_POST) && !empty($_POST)) {
 				$elements = '';
 
 				if($desc_dirs === '1')
-					$elems_dirs = array_sort($elems_dirs, 'name', 'DESC');
+					$elems_dirs = array_sort($elems_dirs, 'name_sort', 'DESC');
 				else
-					$elems_dirs = array_sort($elems_dirs, 'name');
+					$elems_dirs = array_sort($elems_dirs, 'name_sort');
 
 				foreach($elems_dirs as $elem_dir) {
-					if($trash_active === true && $current === '.' && $elem_dir['name'] === ' Trash')
-						$elem_dir['name'] = 'Trash';
 					$el_enc = urlencode($elem_dir['name']);
 					$el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
 
@@ -484,9 +485,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 				elseif($order === '2')
 					$arr_order = 'size';
 				elseif($order === '3')
-					$arr_order = 'type';
+					$arr_order = 'type_sort';
 				else
-					$arr_order = 'name';
+					$arr_order = 'name_sort';
 
 				if($desc === '1')
 					$arr_desc = 'DESC';
