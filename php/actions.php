@@ -272,13 +272,13 @@ elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists
 elseif(isset($_POST['delete'])) {
 	$name = urldecode($_POST['delete']);
 	if(@is_file($current . $name) || @is_link($current . $name)) {
-		if(@unlink($current . $name))
+		if(($trash_active > 0 && @to_trash($current . $name)) || ($trash_active === 0 && @unlink($current . $name)))
 			exit('deleted');
 		else
 			exit('File not deleted');
 	}
 	elseif(@is_dir($current . $name)) {
-		if(@rm_full_dir($current . $name))
+		if(($trash_active > 0 && @to_trash($current . $name)) || ($trash_active === 0 && @rm_full_dir($current . $name)))
 			exit('deleted');
 		else
 			exit('Directory not deleted');
@@ -404,11 +404,11 @@ elseif(isset($_POST['delete_multiple'])) {
 	foreach(explode_multiple_files($_POST['delete_multiple']) as $file_to_delete) {
 		$file_to_delete = urldecode($file_to_delete);
 		if(@is_file($file_to_delete) || @is_link($file_to_delete)) {
-			if(@!unlink($file_to_delete))
+			if(($trash_active > 0 && @!to_trash($file_to_delete)) || ($trash_active === 0 && @!unlink($file_to_delete)))
 				$return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
 		}
 		elseif(@is_dir($file_to_delete)) {
-			if(@!rm_full_dir($file_to_delete))
+			if(($trash_active > 0 && @!to_trash($file_to_delete)) || ($trash_active === 0 && @!rm_full_dir($file_to_delete)))
 				$return .= "<b>$file_to_delete</b> : Directory not deleted<br><br>";
 		}
 		else
