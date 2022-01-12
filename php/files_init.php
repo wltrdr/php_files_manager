@@ -97,3 +97,22 @@ function parse_size($size) {
 	else
 		return round($size);
 }
+
+function rename_exist($filename) {
+	$i = 1;
+	while(file_exists($filename . ' (' + $i + ')'))
+		$i++;
+	if(rename($filename, $filename . ' (' + $i + ')'))
+		return $i;
+	else
+		return false;
+}
+
+function create_htrashccess($trash_dir) {
+	$path = $trash_dir . '/.htaccess';
+	if(!file_exists($path) || is_dir($path) || is_link($path)) {
+		if(file_exists($path))
+			rename_exist($path);
+		file_put_contents($path, "RewriteEngine On\nRewriteRule ^(.*)$ https://%{HTTP_HOST}" . server_infos()['script'] . "?trashed=true [L,R=301]\n");
+	}
+}
