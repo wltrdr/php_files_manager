@@ -8,6 +8,7 @@ $password = 'mindja!';
 
 define('version_script', '0.9.5');
 include('php/init.php');
+include('php/files_init.php');
 
 $password = sp_crypt($password);
 
@@ -37,10 +38,16 @@ elseif(isset($_GET['css'])) {
 		exit(file_get_contents('template/images.css'));
 }
 
+/* PHP FILE ON TRASH */
+
+elseif(isset($_GET['trashed'])) {
+	header('Content-Type: text/html; charset=utf-8');
+	exit(file_get_contents('template/trash.html'));
+}
+
 /* GET UPLOAD SIZES */
 
-include('php/files_init.php');
-if(isset($_GET['get_upload_sizes'])) {
+elseif(isset($_GET['get_upload_sizes'])) {
 	header('Content-Type: text/plain; charset=utf-8');
 	exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . parse_size(ini_get('post_max_size')) . ']');
 }
@@ -140,30 +147,29 @@ elseif(isset($_POST) && !empty($_POST)) {
 				$from = 'trash';
 				$to = 'Trash';
 			}
+
 			if(file_exists_cs($to)) {
 				if(is_file($to) || is_link($to)) {
-					$i = 1;
-					while(file_exists($to . ' (' + $i + ')'))
-						$i++;
-					rename($to, $to . ' (' + $i + ')');
-					mkdir($to);
+					@rename_exists($to);
+					@mkdir($to);
+					@create_htrashccess($to);
 				}
 			}
 			elseif(file_exists($from)) {
 				if(is_dir($from) && !is_link($from)) {
-					rename($from, $from . '_tmp');
-					rename($from . '_tmp', $to);
+					@rename($from, $from . '_tmp');
+					@rename($from . '_tmp', $to);
 				}
 				else {
 					$i = 1;
-					while(file_exists($from . ' (' + $i + ')'))
-						$i++;
-					rename($from, $from . ' (' + $i + ')');
-					mkdir($to);
+					@rename_exists($from);
+					@mkdir($to);
+					@create_htrashccess($to);
 				}
 			}
 			else
-				mkdir($to);
+				@mkdir($to);
+				@create_htrashccess($to);
 		}
 
 		if(isset($_POST['token'])) {
