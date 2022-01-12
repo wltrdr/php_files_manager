@@ -21,9 +21,6 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.7⤵
-menus trash :
-↘
-	sous menu trash depuis current => laisser juste open, ajout empty trash (&empty_trash=true => emptied)
 icone trash dans tree (icone remplie quand hover deplacement mais icone interdit si ouvert dans elements)
 revoir couleurs boxes et menus, pc et mobile
 
