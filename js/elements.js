@@ -143,6 +143,11 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
 			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
+	else if(pathEncoded === "." && nameEncoded === "Trash")
+		openMenu(`<span>Trash</span>
+		<a onclick="openDir('Trash%2F')">Open</a>
+		<a onclick="openBox('confirm', 'Empty trash ?', 'warn', () => { emptyTrash() })">Empty trash</a>
+		`, event)
 	else {
 		if(webUrl === false)
 			webUrl = ""
