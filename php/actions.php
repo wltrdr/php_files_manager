@@ -474,6 +474,29 @@ elseif(isset($_POST['permanently_delete'])) {
 		exit('File not found');
 }
 
+/* DELETE MULTIPLE ELEMENTS FROM TRASH */
+
+elseif(isset($_POST['permanently_delete_multiple'])) {
+	$return = '';
+	foreach(explode_multiple_files($_POST['permanently_delete_multiple']) as $file_to_delete) {
+		$file_to_delete = urldecode($file_to_delete);
+		if(@is_file($file_to_delete) || @is_link($file_to_delete)) {
+			if(@!unlink($file_to_delete))
+				$return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
+		}
+		elseif(@is_dir($file_to_delete)) {
+			if(@!rm_full_dir($file_to_delete))
+				$return .= "<b>$file_to_delete</b> : Directory not deleted<br><br>";
+		}
+		else
+			$return .= "<b>$file_to_delete</b> : File or directory not found<br><br>";
+	}
+	if(empty($return))
+		exit('deleteds');
+	else
+		exit($return);
+}
+
 /* EMPTY TRASH */
 
 elseif(isset($_POST['empty_trash'])) {
