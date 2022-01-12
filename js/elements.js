@@ -133,14 +133,14 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
 			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
 			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Permanently delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('confirm', 'Permanently delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
 			<a onclick="openBox('chmods', { name: '${name}/', nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
 			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
-			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
 			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 	else {
@@ -184,13 +184,13 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
 			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
 			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Permanently delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('confirm', 'Permanently delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
 			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
 			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
-			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
 			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 	}
@@ -228,15 +228,26 @@ function menuMultiple() {
 	let name = nbSelectedEls + " selected element"
 	if(nbSelectedEls > 1)
 		name += "s"
-	openMenu(`<span>${name}</span>
-	<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = true">Copy</a>
-	<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = false">Cut</a>
-	<a onclick="duplicateMultiple()">Duplicate</a>
-	<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Copy to</a>
-	<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Move to</a>
-	<a onclick="openBox('confirm', 'Delete <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteMultiple('${encodeURIComponent(JSON.stringify(selectedElements))}') })">Delete</a>
-	<a onclick="openBox('chmods', { name: '${name}', files: '${encodeURIComponent(JSON.stringify(selectedElements))}' })">Change chmods</a>
-	`, event)
+	if(currentPath.substring(0, 8) === "Trash%2F")
+		openMenu(`<span>${name}</span>
+		<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = true">Copy</a>
+		<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = false">Cut</a>
+		<a onclick="duplicateMultiple()">Duplicate</a>
+		<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Copy to</a>
+		<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Move to</a>
+		<a onclick="openBox('confirm', 'Permanently delete <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteMultiple('${encodeURIComponent(JSON.stringify(selectedElements))}') })">Permanently delete</a>
+		<a onclick="openBox('chmods', { name: '${name}', files: '${encodeURIComponent(JSON.stringify(selectedElements))}' })">Change chmods</a>
+		`, event)
+	else
+		openMenu(`<span>${name}</span>
+		<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = true">Copy</a>
+		<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = false">Cut</a>
+		<a onclick="duplicateMultiple()">Duplicate</a>
+		<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Copy to</a>
+		<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveMultiple(inputPath, '${encodeURIComponent(JSON.stringify(selectedElements))}') })">Move to</a>
+		<a onclick="openBox('confirm', 'Delete <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteMultiple('${encodeURIComponent(JSON.stringify(selectedElements))}') })">Delete</a>
+		<a onclick="openBox('chmods', { name: '${name}', files: '${encodeURIComponent(JSON.stringify(selectedElements))}' })">Change chmods</a>
+		`, event)
 }
 
 /* OTHER ACTIONS */
@@ -273,6 +284,10 @@ function moveElement(pathEncoded, nameEncoded, newPath) {
 
 function deleteElement(pathEncoded, nameEncoded) {
 	checkReqRep(`${Date.now()}&delete=${nameEncoded}&dir=${pathEncoded}&token=${token}`, "deleted")
+}
+
+function permaDeleteElement(pathEncoded, nameEncoded) {
+	checkReqRep(`${Date.now()}&permanently_delete=${nameEncoded}&dir=${pathEncoded}&token=${token}`, "deleted")
 }
 
 function formatMultiple(elements, path = false) {
@@ -314,6 +329,10 @@ function deleteMultiple(elements) {
 	checkReqRep(`${Date.now()}&delete_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)), currentPath)}&token=${token}`, "deleteds")
 }
 
+function permaDeleteMultiple(elements) {
+	checkReqRep(`${Date.now()}&permanently_delete_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)), currentPath)}&token=${token}`, "deleteds")
+}
+
 function pasteMultiple() {
 	if(copy.length > 0) {
 		if(copyNotCut === false)
@@ -322,4 +341,8 @@ function pasteMultiple() {
 			checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
 		copy = []
 	}
+}
+
+function emptyTrash() {
+	checkReqRep(`${Date.now()}&empty_trash=true&token=${token}`, "emptied")
 }
