@@ -123,7 +123,7 @@ function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLi
 /* CONTEXT MENUS */
 
 function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
-	if(pathEncoded.substring(0, 8) === "Trash%2F")
+	if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 		if(isLink === false)
 			openMenu(`<span>${name}/</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
@@ -143,7 +143,8 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
 			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
-	else if(pathEncoded === "." && nameEncoded === "Trash")
+	}
+	else if(typeTrash !== 0 && pathEncoded === "." && nameEncoded === "Trash")
 		openMenu(`<span>Trash</span>
 		<a onclick="openDir('Trash%2F')">Open</a>
 		<a onclick="openBox('confirm', 'Empty trash ?', 'warn', () => { emptyTrash() })">Empty trash</a>
@@ -178,7 +179,7 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 }
 
 function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
-	if(pathEncoded.substring(0, 8) === "Trash%2F") {
+	if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 		if(isLink === false)
 			openMenu(`<span>${name}</span>
 			<a onclick="downloadElement('${pathEncoded}', '${nameEncoded}')">Download</a>
@@ -233,7 +234,7 @@ function menuMultiple() {
 	let name = nbSelectedEls + " selected element"
 	if(nbSelectedEls > 1)
 		name += "s"
-	if(currentPath.substring(0, 8) === "Trash%2F")
+	if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
 		openMenu(`<span>${name}</span>
 		<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = true">Copy</a>
 		<a onclick="copy = selectedElements.map(x => { return { pathEncoded: '${currentPath}', nameEncoded: x.nameEncoded } }); copyNotCut = false">Cut</a>
