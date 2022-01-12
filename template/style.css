@@ -275,23 +275,20 @@ button {
 	}
 
 	#popupBox button {
-		background-color: #eee;
 		padding: 1.25em;
-		min-width: 5em;
-		color: #000;
+		background-color: #eee;
 		border: 1px solid rgba(47, 47, 47, 0.5);
 		border-radius: 0.25em;
-		box-shadow: 0px 0px 0.5em rgba(0, 0, 0, 0.33);
+		box-shadow: 0px 0px 0.5em rgba(0, 0, 0, 0.2);
 	}
 
 	#popupBox button:hover {
-		background: linear-gradient(90deg, #046, #048);
-		color: #fff;
+		background: linear-gradient(#fea, #fd9);
+		color: #000;
 	}
 
 	#popupBox button:active {
-		background: linear-gradient(90deg, #602, #620);
-		color: #fff;
+		background: linear-gradient(#fca, #fb9);
 	}
 
 	#popupBox #boxPath {
