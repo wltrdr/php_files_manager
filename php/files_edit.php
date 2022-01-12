@@ -76,7 +76,7 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 
 		if($source_path === $dest && ($move === true || $dest_file_exists !== 2))
 			return false;
-		elseif(file_exists($dest . $source_name . $extension)) {
+		elseif(file_or_link_exists($dest . $source_name . $extension)) {
 			if(is_file($dest . $source_name . $extension) || is_link($dest . $source_name . $extension))
 				$is_file = true;
 			elseif(is_dir($dest . $source_name . $extension))
@@ -96,14 +96,14 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 			}
 			elseif(($is_file === false && $dest_dir_exists === 1) || ($is_file === true && $dest_file_exists === 1)) {
 				$i = 1;
-				while(file_exists($dest . $source_name . $extension . '.bak' . $i))
+				while(file_or_link_exists($dest . $source_name . $extension . '.bak' . $i))
 					$i++;
 				if(!rename($dest . $source_name . $extension, $dest . $source_name . $extension . '.bak' . $i))
 					return false;
 			}
 			else {
 				$i = 1;
-				while(file_exists($dest . $source_name . " ($i)" . $extension))
+				while(file_or_link_exists($dest . $source_name . " ($i)" . $extension))
 					$i++;
 				$dest_name .= " ($i)";
 			}
@@ -125,7 +125,7 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 
 		if($source_path === $dest && ($move === true || $dest_file_exists !== 2))
 			return false;
-		elseif(file_exists($dest . $source_name . $extension)) {
+		elseif(file_or_link_exists($dest . $source_name . $extension)) {
 			if(is_file($dest . $source_name . $extension) || is_link($dest . $source_name . $extension))
 				$is_file = true;
 			elseif(is_dir($dest . $source_name . $extension))
@@ -145,14 +145,14 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 			}
 			elseif(($is_file === false && $dest_dir_exists === 1) || ($is_file === true && $dest_file_exists === 1)) {
 				$i = 1;
-				while(file_exists($dest . $source_name . $extension . '.bak' . $i))
+				while(file_or_link_exists($dest . $source_name . $extension . '.bak' . $i))
 					$i++;
 				if(!rename($dest . $source_name . $extension, $dest . $source_name . $extension . '.bak' . $i))
 					return false;
 			}
 			else {
 				$i = 1;
-				while(file_exists($dest . $source_name . " ($i)" . $extension))
+				while(file_or_link_exists($dest . $source_name . " ($i)" . $extension))
 					$i++;
 				$dest_name .= " ($i)";
 			}
@@ -174,7 +174,7 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 
 		if($source_path === $dest && ($move === true || $fusion_dirs !== 2))
 			return false;
-		elseif(file_exists($dest . $source_name)) {
+		elseif(file_or_link_exists($dest . $source_name)) {
 			if($fusion_dirs === 0)
 				return false;
 			else {
@@ -195,7 +195,7 @@ function copy_or_move($source, $dest, $move = false, $dest_file_exists = 1, $des
 					$create_dir = false;
 				else {
 					$i = 1;
-					while(file_exists($dest . $dest_name . " ($i)"))
+					while(file_or_link_exists($dest . $dest_name . " ($i)"))
 						$i++;
 					$dest_name .= " ($i)";
 				}
