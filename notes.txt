@@ -22,13 +22,11 @@
 '"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’'"`ʿ’
 
 0.9.9⤵
-création (symlink) + gestion liens symboliques :
-	menu pour liens symboliques fichier ou dossier :
-	↘
-		afficher la cible (readlink)
-		dupliquer
-		deplacer
-		copier
+symlink($file, $link) => readlink($link)=$file
+ajouter voir destination lien pour chaque lien symbolique
+transformer fonction copy_or_move pour pouvoir copier et deplacer liens symboliques?
+remettre copy, cut, duplicate, copy to, move to sur liens symboliques
+creation lien symbolique (sous paste) depuis copie
 
 1.0.0⤵
 tester caracteres ' " & ? dans nom fichier ou nom dossier (ou dans fichier quand edite) ? doute quand variable js est ecrite dans code html a inserer (showBox, openBox, menuDir, menuFile..)
