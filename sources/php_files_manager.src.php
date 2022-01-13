@@ -15,6 +15,8 @@ $password = sp_crypt($password);
 if(!isset($_SESSION['token']))
 	$_SESSION['token'] = gencode(32);
 
+$server_infos = server_infos();
+
 /* JAVASCRIPT & CSS */
 
 if(isset($_GET['js'])) {
@@ -56,20 +58,22 @@ elseif(isset($_GET['get_upload_sizes'])) {
 
 elseif(isset($_GET['get_settings'])) {
 	header('Content-Type: text/plain; charset=utf-8');
+	if($server_infos['server_on_windows'] === true)
+		echo'[server_on_windows]';
 	if(isset($_SESSION['view']))
-		echo '[view=' . $_SESSION['view'] . ']';
+		echo'[view=' . $_SESSION['view'] . ']';
 	if(isset($_SESSION['trash']))
-		echo '[trash=' . $_SESSION['trash'] . ']';
+		echo'[trash=' . $_SESSION['trash'] . ']';
 	else {
 		if(is_dir('Trash') && !is_link('Trash')) {
 			$_SESSION['trash'] = '1';
-			echo '[trash=1]';
+			echo'[trash=1]';
 		}
 	}
 	if(isset($_SESSION['upload_exists']))
-		echo '[upload_exists=' . $_SESSION['upload_exists'] . ']';
+		echo'[upload_exists=' . $_SESSION['upload_exists'] . ']';
 	if(isset($_SESSION['copy_move_exists']))
-		echo '[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
+		echo'[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
 	exit();
 }
 
@@ -166,22 +170,21 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 			/* PATH */
 
-			$server_infos = server_infos();
 			if(!$server_infos)
 				exit('[fatal=Unable to get server information]');
 
 			$script_path = $server_infos['server_root'] . $server_infos['script'];
-			$win_fs = true;
+			$no_root = true;
 
 			if(strpos($script_path, '/') === false) {
-				$win_fs = false;
+				$no_root = false;
 				$server_dirs[0]['name'] = '/';
 				$server_dirs[0]['path'] = '.';
 				$nb_server_dirs = 1;
 			}
 			else {
 				if($script_path[0] === '/')
-					$win_fs = false;
+					$no_root = false;
 
 				$server_dirs = explode('/', $script_path);
 				$nb_server_dirs = sizeof($server_dirs) - 1;
@@ -244,7 +247,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 			$path = '';
 			for($i = 0; $i < $nb_dirs; $i++) {
 				$name = $dirs[$i]['name'];
-				if($i === 0 && $win_fs === false)
+				if($i === 0 && $no_root === false)
 					$name = '';
 				$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
 			}
