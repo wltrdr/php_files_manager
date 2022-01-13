@@ -4096,7 +4096,7 @@ exit('<!DOCTYPE html>
 </div>
 </div>
 </div>
-<script>const scriptVersion = ' . version_script . '</script>
+<script>const scriptVersion = "' . version_script . '"</script>
 <script src="?js&init"></script>
 <script src="?js&functions"></script>
 <script src="?js&boxes"></script>
