@@ -28,15 +28,8 @@ elements.addEventListener("contextmenu", ev => {
 			webUrl = `<a onclick="window.open('${webAccessible}')">See web version</a>`
 
 		let pasteLink = ""
-		if(copy.length > 0) {
+		if(copy.length > 0)
 			pasteLink = `<a onclick="paste()">Paste</a>`
-			if(srvOnWindows == false) {
-				pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic link`
-				if(copy.length > 1)
-					pasteLink += "s"
-				pasteLink += "</a>"
-			}
-		}
 
 		if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
 			openMenu(`${pasteLink}
