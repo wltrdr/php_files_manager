@@ -4062,7 +4062,7 @@ exit('<!DOCTYPE html>
 </div>
 <div id="contentsCredits">
 <div id="credits">
-<p>Version : <span>\' . version_script . \'</span></p>
+<p>Version : <span>' . version_script . '</span></p>
 <p id="wltrdrUpdate"><span>&copy;</span> <a target="_blank" href="https://wltrdr.dev/">wltrdr.dev</a></p>
 </div>
 </div>
@@ -4096,7 +4096,7 @@ exit('<!DOCTYPE html>
 </div>
 </div>
 </div>
-<script>const scriptVersion = \' . version_script . \'</script>
+<script>const scriptVersion = ' . version_script . '</script>
 <script src="?js&init"></script>
 <script src="?js&functions"></script>
 <script src="?js&boxes"></script>
