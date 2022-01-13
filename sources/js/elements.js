@@ -40,10 +40,10 @@ function startClic(el, nameEncoded) {
 	}
 }
 
-function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
+function endClic(el, pathEncoded, nameEncoded, webUrl, isLink = false, isFile = false) {
 	if(event.button === 0 && selectWcursor === false) {
 		mouseUpOnEl = true
-		if(isOnMobile === false && name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+		if(isOnMobile === false && isFile === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 			moveMultiple(pathEncoded)
 		else {
 			if(event.ctrlKey === true) {
@@ -85,10 +85,10 @@ function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 				unselectElements()
 			else {
 				unselectElements()
-				if(name === false)
+				if(isFile === false)
 					openDir(pathEncoded, isLink)
 				else
-					menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+					menuFile(pathEncoded, nameEncoded, webUrl, isLink)
 			}
 		}
 		tryToMove = false
@@ -107,22 +107,23 @@ function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
 	}
 }
 
-function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+function rightClic(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 	mouseUpOnEl = true
 	if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 		menuMultiple()
 	else {
 		unselectElements()
 		if(fullPathEncoded !== false)
-			menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+			menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
 		else
-			menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+			menuFile(pathEncoded, nameEncoded, webUrl, isLink)
 	}
 }
 
 /* CONTEXT MENUS */
 
-function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+	const name = decodeURIComponent(nameEncoded).replace('\'', '&#039;').replace('"', '&quot;')
 	if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 		if(isLink === false)
 			openMenu(`<span>${name}/</span>
@@ -190,7 +191,8 @@ function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink
 	}
 }
 
-function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
+function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
+	const name = decodeURIComponent(nameEncoded).replace('\'', '&#039;').replace('"', '&quot;')
 	if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 		if(isLink === false)
 			openMenu(`<span>${name}</span>
