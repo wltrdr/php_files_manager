@@ -373,13 +373,6 @@ function paste() {
 	}
 }
 
-function pasteSymLinks() {
-	if(copy.length > 0) {
-		checkReqRep(`${Date.now()}&sym_links=${formatMultiple(copy)}&dir=${currentPath}&token=${token}`, "linkeds")
-		copy = []
-	}
-}
-
 function emptyTrash() {
 	checkReqRep(`${Date.now()}&empty_trash=true&token=${token}`, "emptied")
 }
