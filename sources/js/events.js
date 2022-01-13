@@ -30,8 +30,12 @@ elements.addEventListener("contextmenu", ev => {
 		let pasteLink = ""
 		if(copy.length > 0) {
 			pasteLink = `<a onclick="paste()">Paste</a>`
-			if(1 == 2) // ONLY SERVER LINUX
-				pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic links</a>`
+			if(srvOnWindows == false) {
+				pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic link`
+				if(copy.length > 1)
+					pasteLink += "s"
+				pasteLink += "</a>"
+			}
 		}
 
 		if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
