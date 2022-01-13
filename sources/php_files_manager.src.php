@@ -472,9 +472,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 					$web_url = 'false';
 					if($web_accessible !== false)
-						$web_url = "'" . htmlentities($web_accessible . $el_html, ENT_QUOTES) . "/'";
+						$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
 					elseif($elem_dir['name'] === $web_root_accessible)
-						$web_url = "'" . htmlentities($web_root_url, ENT_QUOTES) . "'";
+						$web_url = '\'' . htmlentities($web_root_url, ENT_QUOTES) . '\'';
 
 					$link_icon = 'dir';
 					$link_js = 'false';
@@ -512,7 +512,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 						$web_url = 'false';
 						if($web_accessible !== false)
-							$web_url = "'" . htmlentities($web_accessible . $el_html, ENT_QUOTES) . "'";
+							$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
 
 						if($elem_file['link']) {
 							$link_icon = 'linkfile';
