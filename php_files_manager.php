@@ -776,7 +776,7 @@ if(vals.inputs)
 listInputs = vals.inputs
 }
 let inputsHTML = ""
-const founds = [...listInputs.matchAll(/\\[([^\\]]+)\\]([^\\[]+)/g)];
+const founds = [...listInputs.matchAll(/\\[([^\\]]+)\\]([^\\[]+)/g)]
 founds.forEach((found, i) => {
 if(found[1] === "checkbox")
 inputsHTML += `<br>\\n<label><input type="checkbox" value="${i}" style="display: inline-block; width: auto; min-width: auto;"> &nbsp; ${found[2]}</label>`
@@ -858,7 +858,7 @@ inputEncoded.value = inputDecoded.value
 })
 popupBox.querySelector("button#c").addEventListener("click", ev => {
 boxPathNewDirectory.style.display = "flex"
-boxPathNameNewDirectory.focus();
+boxPathNameNewDirectory.focus()
 ev.preventDefault()
 })
 boxPathCreateNewDirectory.addEventListener("click", ev => {
@@ -1328,7 +1328,7 @@ ${webUrl}
 }
 }
 function menuMultiple() {
-let nbSelectedEls = selectedElements.length
+const nbSelectedEls = selectedElements.length
 let name = nbSelectedEls + " selected element"
 if(nbSelectedEls > 1)
 name += "s"
@@ -1588,7 +1588,7 @@ copyNotCut = false
 else if(ev.key && ev.key === "v" && ev.ctrlKey && ev.ctrlKey === true)
 paste()
 else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
-openBox(\'confirm\', `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, \'warn\', () => {
+openBox("confirm", `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, "warn", () => {
 deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
 })
 })
@@ -3169,7 +3169,7 @@ return explode('///', $files);
 }
 /* SET SETTINGS */
 if(isset($_POST['set_settings'])) {
-$return = "Updated settings :";
+$return = 'Updated settings :';
 if(isset($_POST['view'])) {
 $_SESSION['view'] = $_POST['view'];
 $return .= "\nview=" . $_POST['view'];
@@ -3980,9 +3980,9 @@ else
 $full_path_enc = urlencode($link . $elem_dir['name'] . '/');
 $web_url = 'false';
 if($web_accessible !== false)
-$web_url = "'" . htmlentities($web_accessible . $el_html, ENT_QUOTES) . "/'";
+$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
 elseif($elem_dir['name'] === $web_root_accessible)
-$web_url = "'" . htmlentities($web_root_url, ENT_QUOTES) . "'";
+$web_url = '\'' . htmlentities($web_root_url, ENT_QUOTES) . '\'';
 $link_icon = 'dir';
 $link_js = 'false';
 if($elem_dir['link']) {
@@ -4013,7 +4013,7 @@ $el_enc = urlencode($elem_file['name']);
 $el_html = htmlentities($elem_file['name'], ENT_QUOTES);
 $web_url = 'false';
 if($web_accessible !== false)
-$web_url = "'" . htmlentities($web_accessible . $el_html, ENT_QUOTES) . "'";
+$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
 if($elem_file['link']) {
 $link_icon = 'linkfile';
 $link_js = '\'' . htmlentities(readlink($link . $elem_file['name']) . '/', ENT_QUOTES) . '\'';
