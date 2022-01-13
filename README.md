@@ -11,7 +11,7 @@
 
 
 
-/!\ WARNING /!\
+/!\ WARNiNG /!\
 ---------------
 
     Change password on the line 4 before upload the script on your server !
