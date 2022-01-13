@@ -173,7 +173,7 @@ function openBox(type, vals, icon = null, callback = false) {
 			}
 
 			let inputsHTML = ""
-			const founds = [...listInputs.matchAll(/\[([^\]]+)\]([^\[]+)/g)];
+			const founds = [...listInputs.matchAll(/\[([^\]]+)\]([^\[]+)/g)]
 			founds.forEach((found, i) => {
 				if(found[1] === "checkbox")
 					inputsHTML += `<br>\n<label><input type="checkbox" value="${i}" style="display: inline-block; width: auto; min-width: auto;"> &nbsp; ${found[2]}</label>`
@@ -262,7 +262,7 @@ function openBox(type, vals, icon = null, callback = false) {
 
 					popupBox.querySelector("button#c").addEventListener("click", ev => {
 						boxPathNewDirectory.style.display = "flex"
-						boxPathNameNewDirectory.focus();
+						boxPathNameNewDirectory.focus()
 						ev.preventDefault()
 					})
 
