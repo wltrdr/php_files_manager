@@ -183,13 +183,14 @@ return $i;
 return false;
 }
 function create_htrashccess() {
+global $server_infos;
 $path = 'Trash/.htaccess';
 if(!file_or_link_exists($path) || is_dir($path) || is_link($path)) {
 if(file_or_link_exists($path)) {
 if(!rename_exist($path))
 return false;
 }
-if(file_put_contents($path, "RewriteEngine On\nRewriteRule ^(.*)$ https://%{HTTP_HOST}" . server_infos()['script'] . "?trashed=true [L,R=301]\n"))
+if(file_put_contents($path, "RewriteEngine On\nRewriteRule ^(.*)$ https://%{HTTP_HOST}" . $server_infos['script'] . "?trashed=true [L,R=301]\n"))
 return true;
 return false;
 }
@@ -1429,12 +1430,6 @@ checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(copy)}&dir=${currentPa
 copy = []
 }
 }
-function pasteSymLinks() {
-if(copy.length > 0) {
-checkReqRep(`${Date.now()}&sym_links=${formatMultiple(copy)}&dir=${currentPath}&token=${token}`, "linkeds")
-copy = []
-}
-}
 function emptyTrash() {
 checkReqRep(`${Date.now()}&empty_trash=true&token=${token}`, "emptied")
 }
@@ -1466,15 +1461,8 @@ let webUrl = ""
 if(webAccessible !== false)
 webUrl = `<a onclick="window.open(\'${webAccessible}\')">See web version</a>`
 let pasteLink = ""
-if(copy.length > 0) {
+if(copy.length > 0)
 pasteLink = `<a onclick="paste()">Paste</a>`
-if(srvOnWindows == false) {
-pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic link`
-if(copy.length > 1)
-pasteLink += "s"
-pasteLink += "</a>"
-}
-}
 if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
 openMenu(`${pasteLink}
 <a onclick="openBox(\'confirm\', \'Empty trash ?\', \'warn\', () => { emptyTrash() })">Empty trash</a>
@@ -3534,31 +3522,6 @@ exit('moveds');
 else
 exit(substr($return, 0, mb_strlen($return) - 8));
 }
-/* PASTE MULTIPLE SYMLINKS */
-elseif(isset($_POST['sym_links'])) {
-$return = '';
-foreach(explode_multiple_files($_POST['sym_links']) as $file_to_link) {
-$file_to_link = urldecode($file_to_link);
-if(file_or_link_exists($file_to_link)) {
-if(is_link($file_to_link)) {
-}
-elseif(is_file($file_to_link)) {
-}
-elseif(is_file($file_to_link)) {
-// if(@!copy_or_move($file_to_link, $current))
-// $return .= "<b>$file_to_link</b> : File or directory not linked<br><br>";
-}
-else
-$return .= "<b>$file_to_link</b> : Unknown type<br><br>";
-}
-else
-$return .= "<b>$file_to_link</b> : File or directory not found<br><br>";
-}
-if(empty($return))
-exit('linkeds');
-else
-exit(substr($return, 0, mb_strlen($return) - 8));
-}
 /* DELETE MULTIPLE ELEMENTS */
 elseif(isset($_POST['delete_multiple'])) {
 $return = '';
@@ -3666,7 +3629,7 @@ exit('Trash cannot emptied');
 }
 /* UPDATE */
 elseif(isset($_POST['update'])) {
-$script_name = split_filename(server_infos()['script']);
+$script_name = split_filename($server_infos['script']);
 $script_name = $script_name['name'] . $script_name['dot_extension'];
 $i = 1;
 while(file_or_link_exists($script_name . '.update' . $i))
