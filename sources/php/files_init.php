@@ -74,6 +74,12 @@ function parse_size($size) {
 	return round($size);
 }
 
+function file_or_link_exists($filename) {
+	if(is_file($filename) || is_link($filename) || is_dir($filename))
+		return true;
+	return false;
+}
+
 function rename_exist($filename) {
 	$i = 1;
 	while(file_or_link_exists($filename . ' (' + $i + ')'))
@@ -95,10 +101,4 @@ function create_htrashccess() {
 		return false;
 	}
 	return true;
-}
-
-function file_or_link_exists($filename) {
-	if(is_file($filename) || is_link($filename) || is_dir($filename))
-		return true;
-	return false;
 }
