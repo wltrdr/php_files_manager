@@ -28,8 +28,11 @@ elements.addEventListener("contextmenu", ev => {
 			webUrl = `<a onclick="window.open('${webAccessible}')">See web version</a>`
 
 		let pasteLink = ""
-		if(copy.length > 0)
-			pasteLink = `<a onclick="pasteMultiple()">Paste</a>`
+		if(copy.length > 0) {
+			pasteLink = `<a onclick="paste()">Paste</a>`
+			if(1 == 2) // ONLY SERVER LINUX
+				pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic links</a>`
+		}
 
 		if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
 			openMenu(`${pasteLink}
@@ -165,7 +168,7 @@ document.addEventListener("keydown", ev => {
 			copyNotCut = false
 	}
 	else if(ev.key && ev.key === "v" && ev.ctrlKey && ev.ctrlKey === true)
-		pasteMultiple()
+		paste()
 	else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
 		openBox('confirm', `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, 'warn', () => {
 			deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
