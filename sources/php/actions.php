@@ -397,6 +397,36 @@ elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
 		exit(substr($return, 0, mb_strlen($return) - 8));
 }
 
+/* PASTE MULTIPLE SYMLINKS */
+
+elseif(isset($_POST['sym_links'])) {
+	$return = '';
+	foreach(explode_multiple_files($_POST['sym_links']) as $file_to_link) {
+		$file_to_link = urldecode($file_to_link);
+		if(file_or_link_exists($file_to_link)) {
+			if(is_link($file_to_link)) {
+
+			}
+			elseif(is_file($file_to_link)) {
+
+			}
+			elseif(is_file($file_to_link)) {
+
+				// if(@!copy_or_move($file_to_link, $current))
+					// $return .= "<b>$file_to_link</b> : File or directory not linked<br><br>";
+			}
+			else
+				$return .= "<b>$file_to_link</b> : Unknown type<br><br>";
+		}
+		else
+			$return .= "<b>$file_to_link</b> : File or directory not found<br><br>";
+	}
+	if(empty($return))
+		exit('linkeds');
+	else
+		exit(substr($return, 0, mb_strlen($return) - 8));
+}
+
 /* DELETE MULTIPLE ELEMENTS */
 
 elseif(isset($_POST['delete_multiple'])) {
