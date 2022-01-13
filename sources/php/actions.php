@@ -9,7 +9,7 @@ function explode_multiple_files($files) {
 /* SET SETTINGS */
 
 if(isset($_POST['set_settings'])) {
-	$return = "Updated settings :";
+	$return = 'Updated settings :';
 	if(isset($_POST['view'])) {
 		$_SESSION['view'] = $_POST['view'];
 		$return .= "\nview=" . $_POST['view'];
