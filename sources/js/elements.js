@@ -363,12 +363,19 @@ function permaDeleteMultiple(elements) {
 	checkReqRep(`${Date.now()}&permanently_delete_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)), currentPath)}&token=${token}`, "deleteds")
 }
 
-function pasteMultiple() {
+function paste() {
 	if(copy.length > 0) {
 		if(copyNotCut === false)
 			checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
 		else
 			checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
+		copy = []
+	}
+}
+
+function pasteSymLinks() {
+	if(copy.length > 0) {
+		checkReqRep(`${Date.now()}&sym_links=${formatMultiple(copy)}&dir=${currentPath}&token=${token}`, "linkeds")
 		copy = []
 	}
 }
