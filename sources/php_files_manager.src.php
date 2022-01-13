@@ -6,7 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
-define('version_script', '0.9.7');
+define('version_script', '0.9.8');
 include('php/init.php');
 include('php/files_init.php');
 
