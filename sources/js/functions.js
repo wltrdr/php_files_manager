@@ -184,6 +184,10 @@ function changeTypeCopyMoveExists(type) {
 /* GET SETTINGS */
 
 ajaxRequest("GET", "", `${Date.now()}&get_settings=true`, result => {
+	const foundSrvOnWindows = result.match(/\[server_on_windows\]/)
+	if(foundSrvOnWindows)
+		srvOnWindows = true
+
 	const foundView = result.match(/\[view=([0-9])\]/)
 	if(foundView)
 		changeView(typeView, parseInt(foundView[1], 10, false))
