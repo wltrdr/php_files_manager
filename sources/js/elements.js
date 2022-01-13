@@ -254,7 +254,7 @@ function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
 }
 
 function menuMultiple() {
-	let nbSelectedEls = selectedElements.length
+	const nbSelectedEls = selectedElements.length
 	let name = nbSelectedEls + " selected element"
 	if(nbSelectedEls > 1)
 		name += "s"
