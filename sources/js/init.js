@@ -54,6 +54,7 @@ let uploadMaxFileSize = 0
 let uploadMaxTotalSize = 0
 let onLoading = false
 let willBeOnLoading = false
+let srvOnWindows = false
 let typeView = 0
 let typeOrder = 0
 let typeOrderDesc = 0
