@@ -16,7 +16,7 @@ foreach($matches as $matche) {
 $rep = 'str_replace(\'\\\' . version_script . \\\'\', version_script, file_get_contents(\'template/template.html\'))';
 $by = '\'' . m_stripslashes(file_get_contents('template/template.html')) . '\'';
 $file = str_replace($rep, $by, $file);
-$file = str_replace('\\\\\' . version_script . \\\\\'', '\' . version_script . \'', $file);
+$file = str_replace('\\\' . version_script . \\\'', '\' . version_script . \'', $file);
 
 /* INCLUDES */
 preg_match_all('#include\(\'([^\']+)\'\);#', $file, $matches, PREG_SET_ORDER);
