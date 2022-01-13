@@ -19,7 +19,7 @@ Specifications :
     - Loading elements with ajax
     - Automatic update of displayed items
     - Upload multiple files simultaneously
-    - Upload files by drap & drop in the open folder or in its subfolders
+    - Upload files by drap & drop
     - Copy, move, rename, duplicate, delete and change permissions of files and folders
     - Multiple selection of files and folders with the mouse cursor or with the Ctrl, Shift and Ctrl + A keys
     - Keyboard shortcuts Crtl + C, Ctrl + X, Ctrl + V and Del to copy, cut, paste and delete items
