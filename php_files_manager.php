@@ -94,6 +94,10 @@ $return['web_root'] = $web_root;
 $return['web_http'] = $web_http;
 $return['server_root'] = $server_root;
 $return['script'] = $script_name;
+if(strtolower(substr(PHP_OS, 0, 3)) === 'win')
+$return['server_on_windows'] = true;
+else
+$return['server_on_windows'] = false;
 return $return;
 }
 function no_end_slash($str) {
@@ -194,6 +198,7 @@ return true;
 $password = sp_crypt($password);
 if(!isset($_SESSION['token']))
 $_SESSION['token'] = gencode(32);
+$server_infos = server_infos();
 /* JAVASCRIPT & CSS */
 if(isset($_GET['js'])) {
 header('Content-Type: application/javascript; charset=utf-8');
@@ -251,6 +256,7 @@ let uploadMaxFileSize = 0
 let uploadMaxTotalSize = 0
 let onLoading = false
 let willBeOnLoading = false
+let srvOnWindows = false
 let typeView = 0
 let typeOrder = 0
 let typeOrderDesc = 0
@@ -485,6 +491,9 @@ ajaxRequest("POST", "", `${Date.now()}&set_settings=true&copy_move_exists=${type
 }
 /* GET SETTINGS */
 ajaxRequest("GET", "", `${Date.now()}&get_settings=true`, result => {
+const foundSrvOnWindows = result.match(/\\[server_on_windows\\]/)
+if(foundSrvOnWindows)
+srvOnWindows = true
 const foundView = result.match(/\\[view=([0-9])\\]/)
 if(foundView)
 changeView(typeView, parseInt(foundView[1], 10, false))
@@ -1459,8 +1468,12 @@ webUrl = `<a onclick="window.open(\'${webAccessible}\')">See web version</a>`
 let pasteLink = ""
 if(copy.length > 0) {
 pasteLink = `<a onclick="paste()">Paste</a>`
-if(1 == 2) // ONLY SERVER LINUX
-pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic links</a>`
+if(srvOnWindows == false) {
+pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic link`
+if(copy.length > 1)
+pasteLink += "s"
+pasteLink += "</a>"
+}
 }
 if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
 openMenu(`${pasteLink}
@@ -2843,20 +2856,22 @@ exit('[max_upload_sizes=' . parse_size(ini_get('upload_max_filesize')) . '|' . p
 /* GET SETTINGS */
 elseif(isset($_GET['get_settings'])) {
 header('Content-Type: text/plain; charset=utf-8');
+if($server_infos['server_on_windows'] === true)
+echo'[server_on_windows]';
 if(isset($_SESSION['view']))
-echo '[view=' . $_SESSION['view'] . ']';
+echo'[view=' . $_SESSION['view'] . ']';
 if(isset($_SESSION['trash']))
-echo '[trash=' . $_SESSION['trash'] . ']';
+echo'[trash=' . $_SESSION['trash'] . ']';
 else {
 if(is_dir('Trash') && !is_link('Trash')) {
 $_SESSION['trash'] = '1';
-echo '[trash=1]';
+echo'[trash=1]';
 }
 }
 if(isset($_SESSION['upload_exists']))
-echo '[upload_exists=' . $_SESSION['upload_exists'] . ']';
+echo'[upload_exists=' . $_SESSION['upload_exists'] . ']';
 if(isset($_SESSION['copy_move_exists']))
-echo '[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
+echo'[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
 exit();
 }
 /* DOWNLOAD FILE */
@@ -3739,20 +3754,19 @@ return $return;
 }
 }
 /* PATH */
-$server_infos = server_infos();
 if(!$server_infos)
 exit('[fatal=Unable to get server information]');
 $script_path = $server_infos['server_root'] . $server_infos['script'];
-$win_fs = true;
+$no_root = true;
 if(strpos($script_path, '/') === false) {
-$win_fs = false;
+$no_root = false;
 $server_dirs[0]['name'] = '/';
 $server_dirs[0]['path'] = '.';
 $nb_server_dirs = 1;
 }
 else {
 if($script_path[0] === '/')
-$win_fs = false;
+$no_root = false;
 $server_dirs = explode('/', $script_path);
 $nb_server_dirs = sizeof($server_dirs) - 1;
 unset($server_dirs[$nb_server_dirs]);
@@ -3806,7 +3820,7 @@ $nb_dirs++;
 $path = '';
 for($i = 0; $i < $nb_dirs; $i++) {
 $name = $dirs[$i]['name'];
-if($i === 0 && $win_fs === false)
+if($i === 0 && $no_root === false)
 $name = '';
 $path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
 }
