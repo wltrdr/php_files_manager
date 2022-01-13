@@ -167,7 +167,7 @@ document.addEventListener("keydown", ev => {
 	else if(ev.key && ev.key === "v" && ev.ctrlKey && ev.ctrlKey === true)
 		paste()
 	else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
-		openBox('confirm', `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, 'warn', () => {
+		openBox("confirm", `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, "warn", () => {
 			deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
 		})
 })
