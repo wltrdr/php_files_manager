@@ -165,6 +165,11 @@ if($unit)
 return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
 return round($size);
 }
+function file_or_link_exists($filename) {
+if(is_file($filename) || is_link($filename) || is_dir($filename))
+return true;
+return false;
+}
 function rename_exist($filename) {
 $i = 1;
 while(file_or_link_exists($filename . ' (' + $i + ')'))
@@ -185,11 +190,6 @@ return true;
 return false;
 }
 return true;
-}
-function file_or_link_exists($filename) {
-if(is_file($filename) || is_link($filename) || is_dir($filename))
-return true;
-return false;
 }
 $password = sp_crypt($password);
 if(!isset($_SESSION['token']))
@@ -1411,12 +1411,18 @@ checkReqRep(`${Date.now()}&delete_multiple=${formatMultiple(JSON.parse(decodeURI
 function permaDeleteMultiple(elements) {
 checkReqRep(`${Date.now()}&permanently_delete_multiple=${formatMultiple(JSON.parse(decodeURIComponent(elements)), currentPath)}&token=${token}`, "deleteds")
 }
-function pasteMultiple() {
+function paste() {
 if(copy.length > 0) {
 if(copyNotCut === false)
 checkReqRep(`${Date.now()}&move_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "moveds")
 else
 checkReqRep(`${Date.now()}&copy_multiple=${formatMultiple(copy)}&dir=${currentPath}&if_exists=${typeCopyMoveExists}&token=${token}`, "copieds")
+copy = []
+}
+}
+function pasteSymLinks() {
+if(copy.length > 0) {
+checkReqRep(`${Date.now()}&sym_links=${formatMultiple(copy)}&dir=${currentPath}&token=${token}`, "linkeds")
 copy = []
 }
 }
@@ -1451,8 +1457,11 @@ let webUrl = ""
 if(webAccessible !== false)
 webUrl = `<a onclick="window.open(\'${webAccessible}\')">See web version</a>`
 let pasteLink = ""
-if(copy.length > 0)
-pasteLink = `<a onclick="pasteMultiple()">Paste</a>`
+if(copy.length > 0) {
+pasteLink = `<a onclick="paste()">Paste</a>`
+if(1 == 2) // ONLY SERVER LINUX
+pasteLink += `<a onclick="pasteSymLinks()">Paste as symbolic links</a>`
+}
 if(typeTrash !== 0 && currentPath.substring(0, 8) === "Trash%2F")
 openMenu(`${pasteLink}
 <a onclick="openBox(\'confirm\', \'Empty trash ?\', \'warn\', () => { emptyTrash() })">Empty trash</a>
@@ -1576,7 +1585,7 @@ else
 copyNotCut = false
 }
 else if(ev.key && ev.key === "v" && ev.ctrlKey && ev.ctrlKey === true)
-pasteMultiple()
+paste()
 else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
 openBox(\'confirm\', `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, \'warn\', () => {
 deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
@@ -3507,6 +3516,31 @@ $return .= "<b>$file_to_move</b> : File or directory not found<br><br>";
 }
 if(empty($return))
 exit('moveds');
+else
+exit(substr($return, 0, mb_strlen($return) - 8));
+}
+/* PASTE MULTIPLE SYMLINKS */
+elseif(isset($_POST['sym_links'])) {
+$return = '';
+foreach(explode_multiple_files($_POST['sym_links']) as $file_to_link) {
+$file_to_link = urldecode($file_to_link);
+if(file_or_link_exists($file_to_link)) {
+if(is_link($file_to_link)) {
+}
+elseif(is_file($file_to_link)) {
+}
+elseif(is_file($file_to_link)) {
+// if(@!copy_or_move($file_to_link, $current))
+// $return .= "<b>$file_to_link</b> : File or directory not linked<br><br>";
+}
+else
+$return .= "<b>$file_to_link</b> : Unknown type<br><br>";
+}
+else
+$return .= "<b>$file_to_link</b> : File or directory not found<br><br>";
+}
+if(empty($return))
+exit('linkeds');
 else
 exit(substr($return, 0, mb_strlen($return) - 8));
 }
