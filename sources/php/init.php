@@ -100,5 +100,10 @@ function server_infos() {
 	$return['web_http'] = $web_http;
 	$return['server_root'] = $server_root;
 	$return['script'] = $script_name;
+	if(strtolower(substr(PHP_OS, 0, 3)) === 'win')
+		$return['server_on_windows'] = true;
+	else
+		$return['server_on_windows'] = false;
+
 	return $return;
 }
