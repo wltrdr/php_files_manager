@@ -1120,10 +1120,10 @@ tryToMove = el
 }
 }
 }
-function endClic(el, name, pathEncoded, nameEncoded, webUrl, isLink = false) {
+function endClic(el, pathEncoded, nameEncoded, webUrl, isLink = false, isFile = false) {
 if(event.button === 0 && selectWcursor === false) {
 mouseUpOnEl = true
-if(isOnMobile === false && name === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
+if(isOnMobile === false && isFile === false && tryToMove !== false && tryToMove !== el && !returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 moveMultiple(pathEncoded)
 else {
 if(event.ctrlKey === true) {
@@ -1165,10 +1165,10 @@ else if(selectedElements.length > 0 || (isOnMobile === true && popupMenu.style.d
 unselectElements()
 else {
 unselectElements()
-if(name === false)
+if(isFile === false)
 openDir(pathEncoded, isLink)
 else
-menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+menuFile(pathEncoded, nameEncoded, webUrl, isLink)
 }
 }
 tryToMove = false
@@ -1185,20 +1185,21 @@ openDir(pathEncoded)
 tryToMove = false
 }
 }
-function rightClic(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+function rightClic(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 mouseUpOnEl = true
 if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 menuMultiple()
 else {
 unselectElements()
 if(fullPathEncoded !== false)
-menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
+menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink)
 else
-menuFile(name, pathEncoded, nameEncoded, webUrl, isLink)
+menuFile(pathEncoded, nameEncoded, webUrl, isLink)
 }
 }
 /* CONTEXT MENUS */
-function menuDir(name, pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
+const name = decodeURIComponent(nameEncoded).replace(\'\\\'\', \'&#039;\').replace(\'"\', \'&quot;\')
 if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 if(isLink === false)
 openMenu(`<span>${name}/</span>
@@ -1265,7 +1266,8 @@ ${webUrl}
 `, event)
 }
 }
-function menuFile(name, pathEncoded, nameEncoded, webUrl, isLink = false) {
+function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
+const name = decodeURIComponent(nameEncoded).replace(\'\\\'\', \'&#039;\').replace(\'"\', \'&quot;\')
 if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 if(isLink === false)
 openMenu(`<span>${name}</span>
@@ -3990,9 +3992,9 @@ $link_icon = 'linkdir';
 $link_js = '\'' . htmlentities(readlink($link . $elem_dir['name']) . '/', ENT_QUOTES) . '\'';
 }
 if($trash_active === true && $current === '.' && $el_enc === 'Trash')
-$elements .= "<a class=\"trash\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">Trash</span></a>\n";
+$elements .= "<a class=\"trash\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, '$full_path_enc', '$el_enc', false, $link_js, false)\" oncontextmenu=\"rightClic('$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">Trash</span></a>\n";
 else
-$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, false, '$full_path_enc', '$el_enc', false, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
+$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, '$full_path_enc', '$el_enc', false, $link_js, false)\" oncontextmenu=\"rightClic('$cur_enc', '$el_enc', '$full_path_enc', $web_url, $link_js)\" ondragover=\"dragOverAdir(this, '$full_path_enc')\" ondragleave=\"dragLeaveAdir(this)\" ondrop=\"dropOnAdir(this)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span></a>\n";
 }
 if($order === '1')
 $arr_order = 'time';
@@ -4022,7 +4024,7 @@ else {
 $link_icon = css_extension($elem_file['name']);
 $link_js = 'false';
 }
-$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, '$el_html', '$cur_enc', '$el_enc', $web_url, $link_js)\" oncontextmenu=\"rightClic('$el_html', '$cur_enc', '$el_enc', false, $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
+$elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"startClic(this, '$el_enc')\" onmouseup=\"endClic(this, '$cur_enc', '$el_enc', $web_url, $link_js, true)\" oncontextmenu=\"rightClic('$cur_enc', '$el_enc', false, $web_url, $link_js)\"><span class=\"icon\"></span><span class=\"txt\">$el_html</span><span class=\"size\">" . size_of_file($elem_file['size']) . '</span><span class="date">' . date('d/m/Y H:i:s', $elem_file['time']) . "</span></a>\n";
 }
 }
 /* RETURN */
