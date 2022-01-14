@@ -316,7 +316,7 @@ function openBox(type, vals, icon = null, callback = false) {
 						input.value = tmp
 
 						popupBox.querySelector("button#y").addEventListener("click", ev => {
-							ajaxRequest("POST", "", `${Date.now()}&edit_file=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
+							ajaxRequest("POST", "", `${Date.now()}&edit_file=${encodeURIComponent(input.value)}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
 								if(result === "edited")
 									openDir(currentPath, true, true)
 								else {
