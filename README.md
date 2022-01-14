@@ -3,7 +3,7 @@
     //                                  //
     //       - PHP_FILES_MANAGER -      //
     //                                  //
-    //   Version : 0.9.8                //
+    //   Version : 0.9.15               //
     //                                  //
     //   Author : https://wltrdr.dev/   //
     //                                  //
