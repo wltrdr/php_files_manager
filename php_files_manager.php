@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.14');
+define('version_script', '0.9.15');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -397,7 +397,7 @@ try {
 tree.scrollTop = document.querySelector(".treeDefault").offsetTop - (listTree.offsetTop + parseInt(window.getComputedStyle(document.querySelector(".treeFirst"), null).getPropertyValue("margin-top"), 10))
 }
 catch {
-console.log("%cError : %cUnable to access parent", "color: red;", "color: auto;")
+console.log("%c Error : %cUnable to access parent", "color: red;", "color: auto;")
 }
 elements.scrollTop = 0
 }
@@ -524,7 +524,7 @@ callback(true)
 }
 }
 else {
-console.log("%cError : %cUnable to access upload sizes", "color: red;", "color: auto;")
+console.log("%c Error : %cUnable to access upload sizes", "color: red;", "color: auto;")
 if(callback !== false)
 callback(false)
 }
@@ -868,7 +868,7 @@ boxPathNameNewDirectory.value = ""
 boxPathNavigate(currentPath)
 }
 else
-console.log("%cError : %c" + result, "color: red;", "color: auto;")
+console.log("%c Error : %c" + result, "color: red;", "color: auto;")
 })
 ev.preventDefault()
 })
@@ -1926,10 +1926,10 @@ else
 console.log("No Update available !")
 }
 else
-console.log("%cError : %cUnable to access script version", "color: red;", "color: auto;")
+console.log("%c Error : %cUnable to access script version", "color: red;", "color: auto;")
 }
 else
-console.log("%cError : %cUnable to access new script version", "color: red;", "color: auto;")
+console.log("%c Error : %cUnable to access new script version", "color: red;", "color: auto;")
 }, true, true)
 ');
 }
