@@ -515,7 +515,7 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 	if(found) {
 		const found2 = scriptVersion.match(/([0-9]+\.[0-9]+\.[0-9]+)/)
 		if(found2) {
-			if(vNew !== vThis) {
+			if(found[1] !== found2[1]) {
 				wltrdrUpdate.querySelector("span").innerHTML = "&#8681;"
 				wltrdrUpdate.querySelector("a").innerHTML= "<b>UPDATE AVAILABLE</b>"
 				wltrdrUpdate.querySelector("a").removeAttribute("href")
