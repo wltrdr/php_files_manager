@@ -515,14 +515,12 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 	if(found) {
 		const found2 = scriptVersion.match(/([0-9]+\.[0-9]+\.[0-9]+)/)
 		if(found2) {
-			const vNew = parseInt(found[1], 10)
-			const vThis = parseInt(found2[1], 10)
 			if(vNew !== vThis) {
 				wltrdrUpdate.querySelector("span").innerHTML = "&#8681;"
 				wltrdrUpdate.querySelector("a").innerHTML= "<b>UPDATE AVAILABLE</b>"
 				wltrdrUpdate.querySelector("a").removeAttribute("href")
 				wltrdrUpdate.addEventListener("click", () => {
-					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${vThis}</b></p><br><p>Version available : <b>${vNew}</b></p>`, null, () => {
+					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${found2[1]}</b></p><br><p>Version available : <b>${found[1]}</b></p>`, null, () => {
 						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
 							const found3 = result.match(/\[update=([^\|]+)\|([^\|]+)\|([^\]]+)\]/)
 							if(found3)
