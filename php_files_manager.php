@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.9');
+define('version_script', '0.9.8');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -2871,10 +2871,10 @@ elseif(isset($_GET['download'])) {
 if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password)) {
 if(isset($_GET['token']) && $_GET['token'] === $_SESSION['token']) {
 if(isset($_GET['dir'])) {
-$dir = urldecode($_GET['dir']);
+$dir = rawurldecode($_GET['dir']);
 if($dir === '.')
 $dir = '';
-$file = $dir . urldecode($_GET['download']);
+$file = $dir . rawurldecode($_GET['download']);
 if(is_file($file)) {
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
@@ -2914,7 +2914,7 @@ $_SESSION['pfm'] = $password;
 /* LOCATE CURRENT DIRECTORY */
 $current = '.';
 if(isset($_POST['dir']) && !empty($_POST['dir']) && $_POST['dir'] !== '.')
-$current = urldecode($_POST['dir']);
+$current = rawurldecode($_POST['dir']);
 /* ACTIONS */
 $trash_active = false;
 if(isset($_SESSION['trash']) && $_SESSION['trash'] !== '0') {
@@ -3368,14 +3368,14 @@ exit('Apostrophe prohibited');
 }
 /* RENAME ELEMENT */
 elseif(isset($_POST['rename']) && isset($_POST['name'])) {
-if(@rename($current . urldecode($_POST['rename']), $current . $_POST['name']))
+if(@rename($current . rawurldecode($_POST['rename']), $current . $_POST['name']))
 exit('renamed');
 else
 exit('Not renamed');
 }
 /* DUPLICATE ELEMENT */
 elseif(isset($_POST['duplicate'])) {
-$name = urldecode($_POST['duplicate']);
+$name = rawurldecode($_POST['duplicate']);
 if(file_or_link_exists($current . $name)) {
 if(@copy_or_move($current . $name, $current, false, 2, 2, 2))
 exit('duplicated');
@@ -3387,7 +3387,7 @@ exit('File or directory not found');
 }
 /* COPY ELEMENT */
 elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
-$name = urldecode($_POST['copy']);
+$name = rawurldecode($_POST['copy']);
 $if_exists = intval($_POST['if_exists']);
 if(file_or_link_exists($current . $name)) {
 if(@copy_or_move($current . $name, $_POST['path'], false, $if_exists, $if_exists, 1))
@@ -3400,7 +3400,7 @@ exit('File or directory not found');
 }
 /* MOVE ELEMENT */
 elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
-$name = urldecode($_POST['move']);
+$name = rawurldecode($_POST['move']);
 $if_exists = intval($_POST['if_exists']);
 if(file_or_link_exists($current . $name)) {
 if(@copy_or_move($current . $name, $_POST['path'], true, $if_exists, $if_exists, 1))
@@ -3413,7 +3413,7 @@ exit('File or directory not found');
 }
 /* DELETE ELEMENT */
 elseif(isset($_POST['delete'])) {
-$name = urldecode($_POST['delete']);
+$name = rawurldecode($_POST['delete']);
 if(is_file($current . $name) || is_link($current . $name)) {
 if(($trash_active === true && @to_trash($current . $name)) || ($trash_active === false && @unlink($current . $name)))
 exit('deleted');
@@ -3431,16 +3431,16 @@ exit('File not found');
 }
 /* EDIT ELEMENT */
 elseif(isset($_POST['read_file'])) {
-$name = urldecode($_POST['read_file']);
+$name = rawurldecode($_POST['read_file']);
 if(is_file($current . $name) && !is_link($current . $name))
 exit(htmlentities(file_get_contents($current . $name), ENT_QUOTES));
 else
 exit('[file_edit_not_found]');
 }
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
-$name = urldecode($_POST['name']);
+$name = rawurldecode($_POST['name']);
 if(is_file($current . $name) && !is_link($current . $name)) {
-if(@file_put_contents($current . $name, urldecode($_POST['edit_file'])))
+if(@file_put_contents($current . $name, rawurldecode($_POST['edit_file'])))
 exit('edited');
 else
 exit('File not edited');
@@ -3450,7 +3450,7 @@ exit('File not found');
 }
 /* GET CHMODS */
 elseif(isset($_POST['get_chmods'])) {
-$name = urldecode($_POST['get_chmods']);
+$name = rawurldecode($_POST['get_chmods']);
 if(file_or_link_exists($current . $name)) {
 $fileperms = @find_chmods($current . $name);
 if($fileperms !== false)
@@ -3463,7 +3463,7 @@ exit('File not found');
 }
 /* CHANGE CHMODS */
 elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
-$name = urldecode($_POST['name']);
+$name = rawurldecode($_POST['name']);
 if(file_or_link_exists($current . $name)) {
 if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
 exit('chmoded');
@@ -3477,7 +3477,7 @@ exit('File not found');
 elseif(isset($_POST['duplicate_multiple'])) {
 $return = '';
 foreach(explode_multiple_files($_POST['duplicate_multiple']) as $file_to_duplicate) {
-$file_to_duplicate = urldecode($file_to_duplicate);
+$file_to_duplicate = rawurldecode($file_to_duplicate);
 if(file_or_link_exists($file_to_duplicate)) {
 if(@!copy_or_move($file_to_duplicate, $current, false, 2, 2, 2))
 $return .= "<b>$file_to_duplicate</b> : File or directory not duplicated<br><br>";
@@ -3495,7 +3495,7 @@ elseif(isset($_POST['copy_multiple']) && isset($_POST['if_exists'])) {
 $if_exists = intval($_POST['if_exists']);
 $return = '';
 foreach(explode_multiple_files($_POST['copy_multiple']) as $file_to_copy) {
-$file_to_copy = urldecode($file_to_copy);
+$file_to_copy = rawurldecode($file_to_copy);
 if(file_or_link_exists($file_to_copy)) {
 if(@!copy_or_move($file_to_copy, $current, false, $if_exists, $if_exists, 1))
 $return .= "<b>$file_to_copy</b> : File or directory not copied<br><br>";
@@ -3513,7 +3513,7 @@ elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
 $if_exists = intval($_POST['if_exists']);
 $return = '';
 foreach(explode_multiple_files($_POST['move_multiple']) as $file_to_move) {
-$file_to_move = urldecode($file_to_move);
+$file_to_move = rawurldecode($file_to_move);
 if(file_or_link_exists($file_to_move)) {
 if(@!copy_or_move($file_to_move, $current, true, $if_exists, $if_exists, 1))
 $return .= "<b>$file_to_move</b> : File or directory not moved<br><br>";
@@ -3530,7 +3530,7 @@ exit(substr($return, 0, mb_strlen($return) - 8));
 elseif(isset($_POST['delete_multiple'])) {
 $return = '';
 foreach(explode_multiple_files($_POST['delete_multiple']) as $file_to_delete) {
-$file_to_delete = urldecode($file_to_delete);
+$file_to_delete = rawurldecode($file_to_delete);
 if(is_file($file_to_delete) || is_link($file_to_delete)) {
 if(($trash_active === true && @!to_trash($file_to_delete)) || ($trash_active === false && @!unlink($file_to_delete)))
 $return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
@@ -3551,7 +3551,7 @@ exit($return);
 elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
 $return = '';
 foreach(explode_multiple_files($_POST['files']) as $file_to_chmod) {
-$file_to_chmod = urldecode($file_to_chmod);
+$file_to_chmod = rawurldecode($file_to_chmod);
 if(file_or_link_exists($file_to_chmod)) {
 if(@!chmod($file_to_chmod, octdec(intval($_POST['set_multiple_chmods']))))
 $return .= "<b>$file_to_chmod</b> : Chmods not updated<br><br>";
@@ -3568,7 +3568,7 @@ exit(substr($return, 0, mb_strlen($return) - 8));
 elseif(isset($_POST['trash'])) {
 $return = '';
 foreach(explode_multiple_files($_POST['trash']) as $file_to_delete) {
-$file_to_delete = urldecode($file_to_delete);
+$file_to_delete = rawurldecode($file_to_delete);
 if(@!to_trash($file_to_delete))
 $return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
 }
@@ -3579,7 +3579,7 @@ exit($return);
 }
 /* DELETE ELEMENT FROM TRASH */
 elseif(isset($_POST['permanently_delete'])) {
-$name = urldecode($_POST['permanently_delete']);
+$name = rawurldecode($_POST['permanently_delete']);
 if(is_file($current . $name) || is_link($current . $name)) {
 if(@unlink($current . $name))
 exit('deleted');
@@ -3599,7 +3599,7 @@ exit('File not found');
 elseif(isset($_POST['permanently_delete_multiple'])) {
 $return = '';
 foreach(explode_multiple_files($_POST['permanently_delete_multiple']) as $file_to_delete) {
-$file_to_delete = urldecode($file_to_delete);
+$file_to_delete = rawurldecode($file_to_delete);
 if(is_file($file_to_delete) || is_link($file_to_delete)) {
 if(@!unlink($file_to_delete))
 $return .= "<b>$file_to_delete</b> : File not deleted<br><br>";
@@ -3643,7 +3643,7 @@ $i = 1;
 while(file_or_link_exists("update_temp$i.php"))
 $i++;
 $temp_name = "update_temp$i.php";
-if(@file_put_contents($update_name, @file_get_contents(urldecode($_POST['update'])))) {
+if(@file_put_contents($update_name, @file_get_contents(rawurldecode($_POST['update'])))) {
 if(@file_put_contents($temp_name, '<?' . 'php
 unlink($_GET[\'file\']);
 rename($_GET[\'update\'], $_GET[\'file\']);
@@ -3789,7 +3789,7 @@ for($i = 0; $i < $nb_dirs; $i++) {
 $name = $dirs[$i]['name'];
 if($i === 0 && $no_root === false)
 $name = '';
-$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
+$path .= '<a onclick="openDir(\'' . rawurlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
 }
 $parent = 'false';
 if($nb_dirs > 1)
@@ -3819,15 +3819,15 @@ if($nb_dirs === 1) {
 $dir_default = ' treeDefault';
 $move_forbidden = ', true';
 }
-$path_enc = urlencode($path);
-$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" $func_js('$path_enc', '" . urlencode($name) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
+$path_enc = rawurlencode($path);
+$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" $func_js('$path_enc', '" . rawurlencode($name) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
 }
 $next = false;
 if($handle = opendir($path)) {
 while(false !== ($entry = readdir($handle))) {
 if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/') && !is_link($link . $entry)) {
 $entry_html = htmlentities($entry, ENT_QUOTES);
-$entry_enc = urlencode($entry);
+$entry_enc = rawurlencode($entry);
 if(isset($dirs[$lvl]['name']) && $entry === $dirs[$lvl]['name']) {
 $dir_default = $move_forbidden = '';
 if($lvl === $nb_dirs - 1) {
@@ -3838,7 +3838,7 @@ if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry
 $css_class = 'trash' . $dir_default;
 else
 $css_class = 'dirOpen' . $dir_default;
-$path_enc = urlencode($dirs[$lvl]['path']);
+$path_enc = rawurlencode($dirs[$lvl]['path']);
 $return .= "<a class=\"$css_class\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 $next = true;
 }
@@ -3859,7 +3859,7 @@ if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry
 $css_class = 'trash';
 else
 $css_class = 'dir';
-$path_enc = urlencode($dir);
+$path_enc = rawurlencode($dir);
 $return .= "<a class=\"$css_class\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 }
 }
@@ -3872,8 +3872,8 @@ if($lvl === $nb_dirs - 1) {
 $dir_open = 'Open treeDefault';
 $move_forbidden = ', true';
 }
-$path_enc = urlencode($server_dirs[$lvl]['path']);
-$return .= "<a class=\"dir$dir_open\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '" . urlencode($server_dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($server_dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n";
+$path_enc = rawurlencode($server_dirs[$lvl]['path']);
+$return .= "<a class=\"dir$dir_open\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '" . rawurlencode($server_dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($server_dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n";
 if(isset($dirs[$lvl]))
 $return .= show_tree($lvl + 1);
 $next = true;
@@ -3884,8 +3884,8 @@ if($lvl === $nb_dirs - 1) {
 $dir_default = ' treeDefault';
 $move_forbidden = ', true';
 }
-$path_enc = urlencode($dirs[$lvl]['path']);
-$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('" . $path_enc . "', '" . urlencode($dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n" . show_tree($lvl + 1);
+$path_enc = rawurlencode($dirs[$lvl]['path']);
+$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('" . $path_enc . "', '" . rawurlencode($dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n" . show_tree($lvl + 1);
 }
 return $return;
 }
@@ -3919,7 +3919,7 @@ $web_dirs[] = $add_dir;
 foreach($web_dirs as $web_dir)
 $web_accessible .= $web_dir . '/';
 }
-$cur_enc = urlencode($current);
+$cur_enc = rawurlencode($current);
 $link = $current;
 if($current === '.')
 $link = '';
@@ -3976,12 +3976,12 @@ $elems_dirs = array_sort($elems_dirs, 'name_sort', 'DESC');
 else
 $elems_dirs = array_sort($elems_dirs, 'name_sort');
 foreach($elems_dirs as $elem_dir) {
-$el_enc = urlencode($elem_dir['name']);
+$el_enc = rawurlencode($elem_dir['name']);
 $el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
 if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir['name'] === $server_dirs[$nb_dirs]['name'])
-$full_path_enc = urlencode(path_parents($cur_rmvs - 1));
+$full_path_enc = rawurlencode(path_parents($cur_rmvs - 1));
 else
-$full_path_enc = urlencode($link . $elem_dir['name'] . '/');
+$full_path_enc = rawurlencode($link . $elem_dir['name'] . '/');
 $web_url = 'false';
 if($web_accessible !== false)
 $web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
@@ -4013,7 +4013,7 @@ $arr_desc = 'ASC';
 $elems_files = array_sort($elems_files, $arr_order, $arr_desc);
 if(isset($elems_files)) {
 foreach($elems_files as $elem_file) {
-$el_enc = urlencode($elem_file['name']);
+$el_enc = rawurlencode($elem_file['name']);
 $el_html = htmlentities($elem_file['name'], ENT_QUOTES);
 $web_url = 'false';
 if($web_accessible !== false)
@@ -4032,7 +4032,7 @@ $elements .= "<a class=\"$link_icon\" data-name-enc=\"$el_enc\" onmousedown=\"st
 /* RETURN */
 if($web_accessible === false)
 $web_accessible = 'false';
-exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!web!\\\\$web_accessible\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
+exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . rawurlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!web!\\\\$web_accessible\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
 }
 else
 exit("//!tree!\\\\$tree\n//!end!\\\\");
