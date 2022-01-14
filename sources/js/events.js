@@ -142,6 +142,7 @@ elements.addEventListener("scroll", () => {
 	popupMenu.style.display = "none"
 })
 
+popupBox.style.display = "none"
 document.addEventListener("keydown", ev => {
 	if(popupBox.style.display === "none") {
 		if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27)) {
