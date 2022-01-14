@@ -3431,7 +3431,7 @@ exit('File not found');
 elseif(isset($_POST['read_file'])) {
 $name = urldecode($_POST['read_file']);
 if(is_file($current . $name) && !is_link($current . $name))
-exit('' . file_get_contents($current . $name));
+exit(htmlentities(file_get_contents($current . $name), ENT_QUOTES));
 else
 exit('[file_edit_not_found]');
 }
