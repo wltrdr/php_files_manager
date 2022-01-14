@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.15');
+define('version_script', '0.9.16');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -1194,6 +1194,7 @@ tryToMove = false
 }
 function rightClic(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 mouseUpOnEl = true
+rightClicOnEl = true
 if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 menuMultiple()
 else {
