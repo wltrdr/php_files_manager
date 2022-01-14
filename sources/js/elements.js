@@ -128,7 +128,7 @@ function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = fal
 		if(isLink === false)
 			openMenu(`<span>${name}/</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -141,7 +141,7 @@ function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = fal
 			openMenu(`<span>${name}</span>
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -165,7 +165,7 @@ function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = fal
 			openMenu(`<span>${name}/</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
 			${webUrl}
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -179,7 +179,7 @@ function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = fal
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
 			${webUrl}
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -198,7 +198,7 @@ function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
 			openMenu(`<span>${name}</span>
 			<a onclick="downloadElement('${pathEncoded}', '${nameEncoded}')">Download</a>
 			<a onclick="openBox('edit', { name: '${name}', nameEncoded: '${nameEncoded}' })">Edit</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -210,7 +210,7 @@ function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
 		else
 			openMenu(`<span>${name}</span>
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -230,7 +230,7 @@ function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
 			<a onclick="downloadElement('${pathEncoded}', '${nameEncoded}')">Download</a>
 			${webUrl}
 			<a onclick="openBox('edit', { name: '${name}', nameEncoded: '${nameEncoded}' })">Edit</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -243,7 +243,7 @@ function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
 			openMenu(`<span>${name}</span>
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			${webUrl}
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', inputName) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
@@ -292,14 +292,14 @@ function newElement(type, name) {
 	if(name === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
 	else
-		checkReqRep(`${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, "created")
+		checkReqRep(`${Date.now()}&new=${type}&dir=${currentPath}&name=${encodeURIComponent(name)}&token=${token}`, "created")
 }
 
 function renameElement(pathEncoded, oldName, newName) {
 	if(newName === "")
 		openBox("alert", "Error : <b>Name can't be empty</b>", "err")
 	else
-		checkReqRep(`${Date.now()}&rename=${oldName}&dir=${pathEncoded}&name=${newName}&token=${token}`, "renamed")
+		checkReqRep(`${Date.now()}&rename=${oldName}&dir=${pathEncoded}&name=${encodeURIComponent(newName)}&token=${token}`, "renamed")
 }
 
 function duplicateElement(pathEncoded, nameEncoded) {
