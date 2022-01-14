@@ -191,7 +191,7 @@ elseif(isset($_POST['ask']) && isset($_POST['files'])) {
 
 elseif(isset($_POST['new']) && isset($_POST['name'])) {
 	if(strpos($_POST['name'], "'") === false) {
-		$new_name = $_POST['name'];
+		$new_name = rawurldecode($_POST['name']);
 
 		if(file_or_link_exists($current . $new_name))
 			exit('File or directory already exists');
@@ -217,7 +217,7 @@ elseif(isset($_POST['new']) && isset($_POST['name'])) {
 /* RENAME ELEMENT */
 
 elseif(isset($_POST['rename']) && isset($_POST['name'])) {
-	if(@rename($current . rawurldecode($_POST['rename']), $current . $_POST['name']))
+	if(@rename($current . rawurldecode($_POST['rename']), $current . rawurldecode($_POST['name'])))
 		exit('renamed');
 	else
 		exit('Not renamed');
@@ -243,7 +243,7 @@ elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists
 	$name = rawurldecode($_POST['copy']);
 	$if_exists = intval($_POST['if_exists']);
 	if(file_or_link_exists($current . $name)) {
-		if(@copy_or_move($current . $name, $_POST['path'], false, $if_exists, $if_exists, 1))
+		if(@copy_or_move($current . $name, rawurldecode($_POST['path']), false, $if_exists, $if_exists, 1))
 			exit('copied');
 		else
 			exit('File or directory not copied');
@@ -258,7 +258,7 @@ elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists
 	$name = rawurldecode($_POST['move']);
 	$if_exists = intval($_POST['if_exists']);
 	if(file_or_link_exists($current . $name)) {
-		if(@copy_or_move($current . $name, $_POST['path'], true, $if_exists, $if_exists, 1))
+		if(@copy_or_move($current . $name, rawurldecode($_POST['path']), true, $if_exists, $if_exists, 1))
 			exit('moved');
 		else
 			exit('File or directory not moved');
