@@ -109,6 +109,7 @@ function endClicTree(pathEncoded, nameEncoded, moveForbidden = false) {
 
 function rightClic(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
 	mouseUpOnEl = true
+	rightClicOnEl = true
 	if(isOnMobile === false && selectedElements.length > 0 && returnObjInArr(selectedElements, nameEncoded, "nameEncoded", true))
 		menuMultiple()
 	else {
