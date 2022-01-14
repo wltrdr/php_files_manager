@@ -83,10 +83,10 @@ elseif(isset($_GET['download'])) {
 	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password)) {
 		if(isset($_GET['token']) && $_GET['token'] === $_SESSION['token']) {
 			if(isset($_GET['dir'])) {
-				$dir = $_GET['dir'];
+				$dir = rawurldecode($_GET['dir']);
 				if($dir === '.')
 					$dir = '';
-				$file = $dir . $_GET['download'];
+				$file = $dir . rawurldecode($_GET['download']);
 				if(is_file($file)) {
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
@@ -132,7 +132,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 		$current = '.';
 		if(isset($_POST['dir']) && !empty($_POST['dir']) && $_POST['dir'] !== '.')
-			$current = $_POST['dir'];
+			$current = rawurldecode($_POST['dir']);
 
 		/* ACTIONS */
 
