@@ -21,7 +21,7 @@
 /!\ iSSUES TO SOLVE BEFORE FiNAL VERSiON /!\
 ---------------------------------------------
 
-    - Filenames containing double-apostrophes (") or urlEncoded cars (like %20)
+    - Filenames containing double-apostrophes (") or url-encoded characters (like %20)
 
 
 
