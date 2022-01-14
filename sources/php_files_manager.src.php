@@ -6,7 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
-define('version_script', '0.9.18');
+define('version_script', '0.9.19');
 include('php/init.php');
 include('php/files_init.php');
 
@@ -269,6 +269,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 				global $cur_rmvs;
 				global $server_dirs;
 				global $nb_server_dirs;
+				global $trash_active;
 				$name = $dirs[$lvl - 1]['name'];
 				$path = $link = $dirs[$lvl - 1]['path'];
 
@@ -303,7 +304,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 									$dir_default = ' treeDefault';
 									$move_forbidden = ', true';
 								}
-								if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
+								if($trash_active === true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
 									$css_class = 'trash' . $dir_default;
 								else
 									$css_class = 'dirOpen' . $dir_default;
@@ -324,7 +325,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 											$dir = $server_dirs[$lvl]['path'];
 									}
 								}
-								if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
+								if($trash_active === true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
 									$css_class = 'trash';
 								else
 									$css_class = 'dir';
