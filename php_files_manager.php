@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.8');
+define('version_script', '0.9.9');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -862,7 +862,7 @@ boxPathNameNewDirectory.focus()
 ev.preventDefault()
 })
 boxPathCreateNewDirectory.addEventListener("click", ev => {
-ajaxRequest("POST", "", `${Date.now()}&new=dir&dir=${inputEncoded.value}&name=${boxPathNameNewDirectory.value}&token=${token}`, result => {
+ajaxRequest("POST", "", `${Date.now()}&new=dir&dir=${inputEncoded.value}&name=${encodeURIComponent(boxPathNameNewDirectory.value)}&token=${token}`, result => {
 if(result === "created") {
 boxPathNameNewDirectory.value = ""
 boxPathNavigate(currentPath)
@@ -1204,7 +1204,7 @@ if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 if(isLink === false)
 openMenu(`<span>${name}/</span>
 <a onclick="openDir(\'${fullPathEncoded}\')">Open</a>
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}/ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}/ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1217,7 +1217,7 @@ else
 openMenu(`<span>${name}</span>
 <span class="link">&#9755; &nbsp; ${isLink}</span>
 <a onclick="openDir(\'${fullPathEncoded}\')">Open</a>
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1241,7 +1241,7 @@ if(isLink === false)
 openMenu(`<span>${name}/</span>
 <a onclick="openDir(\'${fullPathEncoded}\')">Open</a>
 ${webUrl}
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}/ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}/ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1255,7 +1255,7 @@ openMenu(`<span>${name}</span>
 <span class="link">&#9755; &nbsp; ${isLink}</span>
 <a onclick="openDir(\'${fullPathEncoded}\')">Open</a>
 ${webUrl}
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1273,7 +1273,7 @@ if(isLink === false)
 openMenu(`<span>${name}</span>
 <a onclick="downloadElement(\'${pathEncoded}\', \'${nameEncoded}\')">Download</a>
 <a onclick="openBox(\'edit\', { name: \'${name}\', nameEncoded: \'${nameEncoded}\' })">Edit</a>
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1285,7 +1285,7 @@ openMenu(`<span>${name}</span>
 else
 openMenu(`<span>${name}</span>
 <span class="link">&#9755; &nbsp; ${isLink}</span>
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1305,7 +1305,7 @@ openMenu(`<span>${name}</span>
 <a onclick="downloadElement(\'${pathEncoded}\', \'${nameEncoded}\')">Download</a>
 ${webUrl}
 <a onclick="openBox(\'edit\', { name: \'${name}\', nameEncoded: \'${nameEncoded}\' })">Edit</a>
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1318,7 +1318,7 @@ else
 openMenu(`<span>${name}</span>
 <span class="link">&#9755; &nbsp; ${isLink}</span>
 ${webUrl}
-<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', inputName) })">Rename</a>
+<a onclick="openBox(\'prompt\', { txt: \'Enter the new name for <b>ʿ${name}ʿ</b> :\', value: \'${name}\' }, null, inputName => { renameElement(\'${pathEncoded}\', \'${nameEncoded}\', encodeURIComponent(inputName)) })">Rename</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = true">Copy</a>
 <a onclick="copy = [{ pathEncoded: \'${currentPath}\', nameEncoded: \'${nameEncoded}\' }]; copyNotCut = false">Cut</a>
 <a onclick="duplicateElement(\'${pathEncoded}\', \'${nameEncoded}\')">Duplicate</a>
@@ -1363,13 +1363,13 @@ function newElement(type, name) {
 if(name === "")
 openBox("alert", "Error : <b>Name can\'t be empty</b>", "err")
 else
-checkReqRep(`${Date.now()}&new=${type}&dir=${currentPath}&name=${name}&token=${token}`, "created")
+checkReqRep(`${Date.now()}&new=${type}&dir=${currentPath}&name=${encodeURIComponent(name)}&token=${token}`, "created")
 }
 function renameElement(pathEncoded, oldName, newName) {
 if(newName === "")
 openBox("alert", "Error : <b>Name can\'t be empty</b>", "err")
 else
-checkReqRep(`${Date.now()}&rename=${oldName}&dir=${pathEncoded}&name=${newName}&token=${token}`, "renamed")
+checkReqRep(`${Date.now()}&rename=${oldName}&dir=${pathEncoded}&name=${encodeURIComponent(newName)}&token=${token}`, "renamed")
 }
 function duplicateElement(pathEncoded, nameEncoded) {
 checkReqRep(`${Date.now()}&duplicate=${nameEncoded}&dir=${pathEncoded}&token=${token}`, "duplicated")
@@ -3345,7 +3345,7 @@ exit($return);
 /* NEW FILE OR FOLDER */
 elseif(isset($_POST['new']) && isset($_POST['name'])) {
 if(strpos($_POST['name'], "'") === false) {
-$new_name = $_POST['name'];
+$new_name = rawurldecode($_POST['name']);
 if(file_or_link_exists($current . $new_name))
 exit('File or directory already exists');
 else {
@@ -3368,7 +3368,7 @@ exit('Apostrophe prohibited');
 }
 /* RENAME ELEMENT */
 elseif(isset($_POST['rename']) && isset($_POST['name'])) {
-if(@rename($current . rawurldecode($_POST['rename']), $current . $_POST['name']))
+if(@rename($current . rawurldecode($_POST['rename']), $current . rawurldecode($_POST['name'])))
 exit('renamed');
 else
 exit('Not renamed');
@@ -3390,7 +3390,7 @@ elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists
 $name = rawurldecode($_POST['copy']);
 $if_exists = intval($_POST['if_exists']);
 if(file_or_link_exists($current . $name)) {
-if(@copy_or_move($current . $name, $_POST['path'], false, $if_exists, $if_exists, 1))
+if(@copy_or_move($current . $name, rawurldecode($_POST['path']), false, $if_exists, $if_exists, 1))
 exit('copied');
 else
 exit('File or directory not copied');
@@ -3403,7 +3403,7 @@ elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists
 $name = rawurldecode($_POST['move']);
 $if_exists = intval($_POST['if_exists']);
 if(file_or_link_exists($current . $name)) {
-if(@copy_or_move($current . $name, $_POST['path'], true, $if_exists, $if_exists, 1))
+if(@copy_or_move($current . $name, rawurldecode($_POST['path']), true, $if_exists, $if_exists, 1))
 exit('moved');
 else
 exit('File or directory not moved');
