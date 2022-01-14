@@ -191,7 +191,7 @@ elseif(isset($_POST['ask']) && isset($_POST['files'])) {
 
 elseif(isset($_POST['new']) && isset($_POST['name'])) {
 	if(strpos($_POST['name'], "'") === false) {
-		$new_name = $_POST['name'];
+		$new_name = rawurldecode($_POST['name']);
 
 		if(file_or_link_exists($current . $new_name))
 			exit('File or directory already exists');
@@ -217,7 +217,7 @@ elseif(isset($_POST['new']) && isset($_POST['name'])) {
 /* RENAME ELEMENT */
 
 elseif(isset($_POST['rename']) && isset($_POST['name'])) {
-	if(@rename($current . $_POST['rename'], $current . $_POST['name']))
+	if(@rename($current . rawurldecode($_POST['rename']), $current . rawurldecode($_POST['name'])))
 		exit('renamed');
 	else
 		exit('Not renamed');
@@ -226,7 +226,7 @@ elseif(isset($_POST['rename']) && isset($_POST['name'])) {
 /* DUPLICATE ELEMENT */
 
 elseif(isset($_POST['duplicate'])) {
-	$name = $_POST['duplicate'];
+	$name = rawurldecode($_POST['duplicate']);
 	if(file_or_link_exists($current . $name)) {
 		if(@copy_or_move($current . $name, $current, false, 2, 2, 2))
 			exit('duplicated');
@@ -240,10 +240,10 @@ elseif(isset($_POST['duplicate'])) {
 /* COPY ELEMENT */
 
 elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
-	$name = $_POST['copy'];
+	$name = rawurldecode($_POST['copy']);
 	$if_exists = intval($_POST['if_exists']);
 	if(file_or_link_exists($current . $name)) {
-		if(@copy_or_move($current . $name, $_POST['path'], false, $if_exists, $if_exists, 1))
+		if(@copy_or_move($current . $name, rawurldecode($_POST['path']), false, $if_exists, $if_exists, 1))
 			exit('copied');
 		else
 			exit('File or directory not copied');
@@ -255,10 +255,10 @@ elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists
 /* MOVE ELEMENT */
 
 elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
-	$name = $_POST['move'];
+	$name = rawurldecode($_POST['move']);
 	$if_exists = intval($_POST['if_exists']);
 	if(file_or_link_exists($current . $name)) {
-		if(@copy_or_move($current . $name, $_POST['path'], true, $if_exists, $if_exists, 1))
+		if(@copy_or_move($current . $name, rawurldecode($_POST['path']), true, $if_exists, $if_exists, 1))
 			exit('moved');
 		else
 			exit('File or directory not moved');
@@ -270,7 +270,7 @@ elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists
 /* DELETE ELEMENT */
 
 elseif(isset($_POST['delete'])) {
-	$name = $_POST['delete'];
+	$name = rawurldecode($_POST['delete']);
 	if(is_file($current . $name) || is_link($current . $name)) {
 		if(($trash_active === true && @to_trash($current . $name)) || ($trash_active === false && @unlink($current . $name)))
 			exit('deleted');
@@ -290,7 +290,7 @@ elseif(isset($_POST['delete'])) {
 /* EDIT ELEMENT */
 
 elseif(isset($_POST['read_file'])) {
-	$name = $_POST['read_file'];
+	$name = rawurldecode($_POST['read_file']);
 	if(is_file($current . $name) && !is_link($current . $name))
 		exit(htmlentities(file_get_contents($current . $name), ENT_QUOTES));
 	else
@@ -298,9 +298,9 @@ elseif(isset($_POST['read_file'])) {
 }
 
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
-	$name = $_POST['name'];
+	$name = rawurldecode($_POST['name']);
 	if(is_file($current . $name) && !is_link($current . $name)) {
-		if(@file_put_contents($current . $name, $_POST['edit_file']))
+		if(@file_put_contents($current . $name, rawurldecode($_POST['edit_file'])))
 			exit('edited');
 		else
 			exit('File not edited');
@@ -312,7 +312,7 @@ elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 /* GET CHMODS */
 
 elseif(isset($_POST['get_chmods'])) {
-	$name = $_POST['get_chmods'];
+	$name = rawurldecode($_POST['get_chmods']);
 	if(file_or_link_exists($current . $name)) {
 		$fileperms = @find_chmods($current . $name);
 		if($fileperms !== false)
@@ -327,7 +327,7 @@ elseif(isset($_POST['get_chmods'])) {
 /* CHANGE CHMODS */
 
 elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
-	$name = $_POST['name']);
+	$name = rawurldecode($_POST['name']);
 	if(file_or_link_exists($current . $name)) {
 		if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
 			exit('chmoded');
@@ -457,7 +457,7 @@ elseif(isset($_POST['trash'])) {
 /* DELETE ELEMENT FROM TRASH */
 
 elseif(isset($_POST['permanently_delete'])) {
-	$name = $_POST['permanently_delete'];
+	$name = rawurldecode($_POST['permanently_delete']);
 	if(is_file($current . $name) || is_link($current . $name)) {
 		if(@unlink($current . $name))
 			exit('deleted');
@@ -530,7 +530,7 @@ elseif(isset($_POST['update'])) {
 		$i++;
 	$temp_name = "update_temp$i.php";
 
-	if(@file_put_contents($update_name, @file_get_contents($_POST['update']))) {
+	if(@file_put_contents($update_name, @file_get_contents(rawurldecode($_POST['update'])))) {
 		if(@file_put_contents($temp_name, '<?' . 'php
 unlink($_GET[\'file\']);
 rename($_GET[\'update\'], $_GET[\'file\']);
