@@ -3,7 +3,7 @@
     //                                  //
     //       - PHP_FILES_MANAGER -      //
     //                                  //
-    //   Version : 0.9.15 (beta)        //
+    //   Version : 0.9.17 (beta)        //
     //                                  //
     //   Author : https://wltrdr.dev/   //
     //                                  //
@@ -21,8 +21,8 @@
 /!\ iSSUES TO SOLVE BEFORE FiNAL VERSiON /!\
 ---------------------------------------------
 
-    - Filenames containing apostrophes ('")
-    - Editing files containing complex characters (like %cE)
+    - Filenames containing double-apostrophes (") and complex characters (like %cE)
+    - Editing files containing complex characters
 
 
 
