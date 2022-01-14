@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.18');
+define('version_script', '0.9.19');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -480,7 +480,9 @@ ajaxRequest("POST", "", `${Date.now()}&set_settings=true&view=${typeView}&token=
 function changeTypeTrash(type) {
 typeTrash = type
 ajaxRequest("POST", "", `${Date.now()}&set_settings=true&trash=${type}&token=${token}`, false, true)
+setTimeout(() => {
 openDir(currentPath)
+}, delayMenuMs)
 }
 function changeTypeUploadExists(type) {
 typeUploadExists = type
@@ -3807,6 +3809,7 @@ global $nb_dirs;
 global $cur_rmvs;
 global $server_dirs;
 global $nb_server_dirs;
+global $trash_active;
 $name = $dirs[$lvl - 1]['name'];
 $path = $link = $dirs[$lvl - 1]['path'];
 if($link === '.')
@@ -3836,7 +3839,7 @@ if($lvl === $nb_dirs - 1) {
 $dir_default = ' treeDefault';
 $move_forbidden = ', true';
 }
-if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
+if($trash_active === true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
 $css_class = 'trash' . $dir_default;
 else
 $css_class = 'dirOpen' . $dir_default;
@@ -3857,7 +3860,7 @@ if($parent_on_srv_dirs == true)
 $dir = $server_dirs[$lvl]['path'];
 }
 }
-if($trash_active = true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
+if($trash_active === true && $cur_rmvs === 0 && $lvl === $nb_server_dirs && $entry === 'Trash')
 $css_class = 'trash';
 else
 $css_class = 'dir';
