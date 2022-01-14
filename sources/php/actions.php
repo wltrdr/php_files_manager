@@ -300,7 +300,7 @@ elseif(isset($_POST['read_file'])) {
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 	$name = urldecode($_POST['name']);
 	if(is_file($current . $name) && !is_link($current . $name)) {
-		if(@file_put_contents($current . $name, $_POST['edit_file']))
+		if(@file_put_contents($current . $name, urldecode($_POST['edit_file'])))
 			exit('edited');
 		else
 			exit('File not edited');
