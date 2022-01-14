@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.17');
+define('version_script', '0.9.18');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -3442,7 +3442,7 @@ exit('[file_edit_not_found]');
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 $name = rawurldecode($_POST['name']);
 if(is_file($current . $name) && !is_link($current . $name)) {
-if(@file_put_contents($current . $name, rawurldecode($_POST['edit_file'])))
+if(@file_put_contents($current . $name, $_POST['edit_file']))
 exit('edited');
 else
 exit('File not edited');
@@ -3986,9 +3986,9 @@ else
 $full_path_enc = rawurlencode($link . $elem_dir['name'] . '/');
 $web_url = 'false';
 if($web_accessible !== false)
-$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
+$web_url = '\'' . $web_accessible . rawurlencode($el_html) . '\'';
 elseif($elem_dir['name'] === $web_root_accessible)
-$web_url = '\'' . htmlentities($web_root_url, ENT_QUOTES) . '\'';
+$web_url = '\'' . $web_root_url . '\'';
 $link_icon = 'dir';
 $link_js = 'false';
 if($elem_dir['link']) {
@@ -4019,7 +4019,7 @@ $el_enc = rawurlencode($elem_file['name']);
 $el_html = htmlentities($elem_file['name'], ENT_QUOTES);
 $web_url = 'false';
 if($web_accessible !== false)
-$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
+$web_url = '\'' . $web_accessible . rawurlencode($elem_file['name']) . '\'';
 if($elem_file['link']) {
 $link_icon = 'linkfile';
 $link_js = '\'' . htmlentities(readlink($link . $elem_file['name']) . '/', ENT_QUOTES) . '\'';
