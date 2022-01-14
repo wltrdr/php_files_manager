@@ -21,7 +21,7 @@
 /!\ ISSUES TO SOLVE BEFORE FINAL VERSION /!\
 ---------------------------------------------
 
-    - Filenames containing complex characters (?&+ '")
+    - Filenames containing apostrophes ('")
     - Editing files containing complex characters
 
 
