@@ -4077,7 +4077,7 @@ exit('<!DOCTYPE html>
 </div>
 <div id="contentsCredits">
 <div id="credits">
-<p>Version : <span>' . version_script . '</span></p>
+<p>Version : <span>' . version_script . ' (beta)</span></p>
 <p id="wltrdrUpdate"><span>&copy;</span> <a target="_blank" href="https://wltrdr.dev/">wltrdr.dev</a></p>
 </div>
 </div>
