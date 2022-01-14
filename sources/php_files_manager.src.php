@@ -6,7 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
-define('version_script', '0.9.17');
+define('version_script', '0.9.18');
 include('php/init.php');
 include('php/files_init.php');
 
@@ -472,9 +472,9 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 					$web_url = 'false';
 					if($web_accessible !== false)
-						$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
+						$web_url = '\'' . $web_accessible . rawurlencode($el_html) . '\'';
 					elseif($elem_dir['name'] === $web_root_accessible)
-						$web_url = '\'' . htmlentities($web_root_url, ENT_QUOTES) . '\'';
+						$web_url = '\'' . $web_root_url . '\'';
 
 					$link_icon = 'dir';
 					$link_js = 'false';
@@ -512,7 +512,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 						$web_url = 'false';
 						if($web_accessible !== false)
-							$web_url = '\'' . htmlentities($web_accessible . $el_html, ENT_QUOTES) . '\'';
+							$web_url = '\'' . $web_accessible . rawurlencode($elem_file['name']) . '\'';
 
 						if($elem_file['link']) {
 							$link_icon = 'linkfile';
