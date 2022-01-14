@@ -908,7 +908,7 @@ const tmp = input.value
 input.value = ""
 input.value = tmp
 popupBox.querySelector("button#y").addEventListener("click", ev => {
-ajaxRequest("POST", "", `${Date.now()}&edit_file=${input.value}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
+ajaxRequest("POST", "", `${Date.now()}&edit_file=${encodeURIComponent(input.value)}&dir=${currentPath}&name=${vals.nameEncoded}&token=${token}`, result => {
 if(result === "edited")
 openDir(currentPath, true, true)
 else {
@@ -1566,6 +1566,7 @@ elements.addEventListener("scroll", () => {
 popupMenu.style.display = "none"
 })
 document.addEventListener("keydown", ev => {
+if(popupBox.style.display === "none") {
 if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27)) {
 popupMenu.style.display = "none"
 popupBox.style.display = "none"
@@ -1593,6 +1594,7 @@ else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
 openBox("confirm", `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, "warn", () => {
 deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
 })
+}
 })
 /* UPLOAD */
 function uploadFiles(dir = false) {
@@ -3438,7 +3440,7 @@ exit('[file_edit_not_found]');
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 $name = urldecode($_POST['name']);
 if(is_file($current . $name) && !is_link($current . $name)) {
-if(@file_put_contents($current . $name, $_POST['edit_file']))
+if(@file_put_contents($current . $name, urldecode($_POST['edit_file'])))
 exit('edited');
 else
 exit('File not edited');
