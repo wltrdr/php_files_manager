@@ -6,7 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
-define('version_script', '0.9.9');
+define('version_script', '0.9.8');
 include('php/init.php');
 include('php/files_init.php');
 
@@ -83,10 +83,10 @@ elseif(isset($_GET['download'])) {
 	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password)) {
 		if(isset($_GET['token']) && $_GET['token'] === $_SESSION['token']) {
 			if(isset($_GET['dir'])) {
-				$dir = urldecode($_GET['dir']);
+				$dir = rawurldecode($_GET['dir']);
 				if($dir === '.')
 					$dir = '';
-				$file = $dir . urldecode($_GET['download']);
+				$file = $dir . rawurldecode($_GET['download']);
 				if(is_file($file)) {
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
@@ -132,7 +132,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 		$current = '.';
 		if(isset($_POST['dir']) && !empty($_POST['dir']) && $_POST['dir'] !== '.')
-			$current = urldecode($_POST['dir']);
+			$current = rawurldecode($_POST['dir']);
 
 		/* ACTIONS */
 
@@ -249,7 +249,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 				$name = $dirs[$i]['name'];
 				if($i === 0 && $no_root === false)
 					$name = '';
-				$path .= '<a onclick="openDir(\'' . urlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
+				$path .= '<a onclick="openDir(\'' . rawurlencode($dirs[$i]['path']) . '\')">' . htmlentities($name, ENT_QUOTES) . "<span class=\"gap\">/</span></a>\n";
 			}
 
 			$parent = 'false';
@@ -287,15 +287,15 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$move_forbidden = ', true';
 					}
 
-					$path_enc = urlencode($path);
-					$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" $func_js('$path_enc', '" . urlencode($name) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
+					$path_enc = rawurlencode($path);
+					$return = "<a class=\"dirOpen treeFirst$dir_default\" style=\"margin-left: 1em;\" $func_js('$path_enc', '" . rawurlencode($name) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($name, ENT_QUOTES) . "</a><br>\n";
 				}
 				$next = false;
 				if($handle = opendir($path)) {
 					while(false !== ($entry = readdir($handle))) {
 						if($entry != '.' && $entry != '..' && is_dir($link . $entry . '/') && !is_link($link . $entry)) {
 							$entry_html = htmlentities($entry, ENT_QUOTES);
-							$entry_enc = urlencode($entry);
+							$entry_enc = rawurlencode($entry);
 
 							if(isset($dirs[$lvl]['name']) && $entry === $dirs[$lvl]['name']) {
 								$dir_default = $move_forbidden = '';
@@ -307,7 +307,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 									$css_class = 'trash' . $dir_default;
 								else
 									$css_class = 'dirOpen' . $dir_default;
-								$path_enc = urlencode($dirs[$lvl]['path']);
+								$path_enc = rawurlencode($dirs[$lvl]['path']);
 								$return .= "<a class=\"$css_class\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n" . show_tree($lvl + 1);
 								$next = true;
 							}
@@ -328,7 +328,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 									$css_class = 'trash';
 								else
 									$css_class = 'dir';
-								$path_enc = urlencode($dir);
+								$path_enc = rawurlencode($dir);
 								$return .= "<a class=\"$css_class\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '$entry_enc')\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>$entry_html</a><br>\n";
 							}
 						}
@@ -342,8 +342,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$move_forbidden = ', true';
 					}
 
-					$path_enc = urlencode($server_dirs[$lvl]['path']);
-					$return .= "<a class=\"dir$dir_open\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '" . urlencode($server_dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($server_dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n";
+					$path_enc = rawurlencode($server_dirs[$lvl]['path']);
+					$return .= "<a class=\"dir$dir_open\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('$path_enc', '" . rawurlencode($server_dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($server_dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n";
 
 					if(isset($dirs[$lvl]))
 						$return .= show_tree($lvl + 1);
@@ -356,8 +356,8 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$move_forbidden = ', true';
 					}
 
-					$path_enc = urlencode($dirs[$lvl]['path']);
-					$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('" . $path_enc . "', '" . urlencode($dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n" . show_tree($lvl + 1);
+					$path_enc = rawurlencode($dirs[$lvl]['path']);
+					$return .= "<a class=\"dirOpen$dir_default\" style=\"margin-left: " . ($lvl + 1) . "em;\" $func_js('" . $path_enc . "', '" . rawurlencode($dirs[$lvl]['name']) . "'$move_forbidden)\" ondragover=\"dragOverAtreeDir(this, '$path_enc')\" ondragleave=\"dragLeaveAtreeDir(this)\" ondrop=\"dropOnAtreeDir(this)\"><span class=\"icon\"></span>" . htmlentities($dirs[$lvl]['name'], ENT_QUOTES) . "</a><br>\n" . show_tree($lvl + 1);
 				}
 
 				return $return;
@@ -399,7 +399,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 						$web_accessible .= $web_dir . '/';
 				}
 
-				$cur_enc = urlencode($current);
+				$cur_enc = rawurlencode($current);
 				$link = $current;
 				if($current === '.')
 					$link = '';
@@ -462,13 +462,13 @@ elseif(isset($_POST) && !empty($_POST)) {
 					$elems_dirs = array_sort($elems_dirs, 'name_sort');
 
 				foreach($elems_dirs as $elem_dir) {
-					$el_enc = urlencode($elem_dir['name']);
+					$el_enc = rawurlencode($elem_dir['name']);
 					$el_html = htmlentities($elem_dir['name'], ENT_QUOTES);
 
 					if($cur_rmvs > 0 && $cur_adds === 0 && $elem_dir['name'] === $server_dirs[$nb_dirs]['name'])
-						$full_path_enc = urlencode(path_parents($cur_rmvs - 1));
+						$full_path_enc = rawurlencode(path_parents($cur_rmvs - 1));
 					else
-						$full_path_enc = urlencode($link . $elem_dir['name'] . '/');
+						$full_path_enc = rawurlencode($link . $elem_dir['name'] . '/');
 
 					$web_url = 'false';
 					if($web_accessible !== false)
@@ -507,7 +507,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 				if(isset($elems_files)) {
 					foreach($elems_files as $elem_file) {
-						$el_enc = urlencode($elem_file['name']);
+						$el_enc = rawurlencode($elem_file['name']);
 						$el_html = htmlentities($elem_file['name'], ENT_QUOTES);
 
 						$web_url = 'false';
@@ -530,7 +530,7 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 				if($web_accessible === false)
 					$web_accessible = 'false';
-				exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . urlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!web!\\\\$web_accessible\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
+				exit('//!token!\\\\' . $_SESSION['token'] . "\n//!current!\\\\$cur_enc\n//!parent!\\\\" . rawurlencode($parent) . "\n//!path!\\\\$path\n//!tree!\\\\$tree\n//!elements!\\\\$elements\n//!web!\\\\$web_accessible\n//!order!\\\\$order\n//!desc!\\\\$desc\n//!end!\\\\");
 			}
 			else
 				exit("//!tree!\\\\$tree\n//!end!\\\\");
