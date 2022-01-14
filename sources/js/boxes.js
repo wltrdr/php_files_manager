@@ -304,7 +304,15 @@ function openBox(type, vals, icon = null, callback = false) {
 				btnOk = vals.btnOk
 			if(vals.btnNo)
 				btnNo = vals.btnNo
+			onLoading = true
+			setTimeout(() => {
+				if(onLoading === true)
+					loading.style.display = "block"
+			}, delayLoadingMs)
 			ajaxRequest("POST", "", `${Date.now()}&read_file=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
+				onLoading = false
+				loading.style.display = "none"
+
 				if(result === "[file_edit_not_found]")
 					openBox("alert", `Error : <b>File not found</b>`, "err")
 				else
