@@ -509,9 +509,9 @@ logout.addEventListener("click", () => {
 /* UPDATE */
 
 ajaxRequest("GET", urlRawGithub, "", result => {
-	const found = result.match(/define\('version_script', '([0-9])\.([0-9])\.([0-9])'\);/)
+	const found = result.match(/define\('version_script', '([0-9]+)\.([0-9]+)\.([0-9]+)'\);/)
 	if(found) {
-		const found2 = scriptVersion.match(/([0-9])\.([0-9])\.([0-9])/)
+		const found2 = scriptVersion.match(/([0-9]+)\.([0-9]+)\.([0-9]+)/)
 		if(found2) {
 			const vNew1 = parseInt(found[1], 10)
 			const vNew2 = parseInt(found[2], 10)
@@ -530,7 +530,7 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 				wltrdrUpdate.addEventListener("click", () => {
 					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${vThis1}.${vThis2}.${vThis3}</b></p><br><p>Version available : <b>${vNew1}.${vNew2}.${vNew3}</b></p>`, null, () => {
 						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
-							const found3 = result.match(/\[update=([^,]+)\|([^,]+)\|([^\]]+)\]/)
+							const found3 = result.match(/\[update=([^\|]+)\|([^\|]+)\|([^\]]+)\]/)
 							if(found3)
 								location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
 							else {
