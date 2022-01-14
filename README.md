@@ -18,6 +18,14 @@
 
 
 
+/!\ ISSUES TO SOLVE TO THE FINAL VERSION /!\
+---------------------------------------------
+
+    - Filenames containing complex characters (?&+ '")
+    - Editing files containing complex characters
+
+
+
 Specifications :
 ----------------
 
