@@ -295,7 +295,7 @@ function openBox(type, vals, icon = null, callback = false) {
 		else if(type === "edit") {
 			if(icon === null)
 				icon = "edit"
-			let txt = `Edit <b>ʿ${vals.name}ʿ</b> :`
+			let txt = `Edit <b>ʿ${decodeURIComponent(vals.nameEncoded)}ʿ</b> :`
 			let btnOk = "Ok"
 			let btnNo = "Cancel"
 			if(vals.txt)
@@ -346,7 +346,7 @@ function openBox(type, vals, icon = null, callback = false) {
 		else if(type === "chmods") {
 			if(icon === null)
 				icon = "lock"
-			let txt = `Change chmods for <b>ʿ${vals.name}ʿ</b> :`
+			let txt = `Change chmods for <b>ʿ${decodeURIComponent(vals.nameEncoded)}ʿ</b> :`
 			let files = false
 			let btnOk = "Ok"
 			let btnNo = "Cancel"
