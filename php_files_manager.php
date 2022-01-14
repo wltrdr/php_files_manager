@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.13');
+define('version_script', '0.9.9');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -1920,6 +1920,7 @@ openBox("alert", "Error : <b>" + result + "</b>", "err")
 })
 })
 })
+console.log("Update available : " + found[1])
 }
 else
 console.log("No Update available !")
