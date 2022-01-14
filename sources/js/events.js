@@ -143,33 +143,35 @@ elements.addEventListener("scroll", () => {
 })
 
 document.addEventListener("keydown", ev => {
-	if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27)) {
-		popupMenu.style.display = "none"
-		popupBox.style.display = "none"
-		popupMask.style.display = "none"
-		unselectElements()
-		tryToMove = false
+	if(popupBox.style.display === "none") {
+		if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27)) {
+			popupMenu.style.display = "none"
+			popupBox.style.display = "none"
+			popupMask.style.display = "none"
+			unselectElements()
+			tryToMove = false
+		}
+		else if(ev.key && ev.key === "a" && ev.ctrlKey && ev.ctrlKey === true)
+			selectAllElements()
+		else if(ev.key && (ev.key === "c" || ev.key === "x") && ev.ctrlKey && ev.ctrlKey === true && selectedElements.length > 0) {
+			copy = selectedElements.map(x => {
+				return {
+					pathEncoded: currentPath,
+					nameEncoded: x.nameEncoded
+				}
+			})
+			if(ev.key === "c")
+				copyNotCut = true
+			else
+				copyNotCut = false
+		}
+		else if(ev.key && ev.key === "v" && ev.ctrlKey && ev.ctrlKey === true)
+			paste()
+		else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
+			openBox("confirm", `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, "warn", () => {
+				deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
+			})
 	}
-	else if(ev.key && ev.key === "a" && ev.ctrlKey && ev.ctrlKey === true)
-		selectAllElements()
-	else if(ev.key && (ev.key === "c" || ev.key === "x") && ev.ctrlKey && ev.ctrlKey === true && selectedElements.length > 0) {
-		copy = selectedElements.map(x => {
-			return {
-				pathEncoded: currentPath,
-				nameEncoded: x.nameEncoded
-			}
-		})
-		if(ev.key === "c")
-			copyNotCut = true
-		else
-			copyNotCut = false
-	}
-	else if(ev.key && ev.key === "v" && ev.ctrlKey && ev.ctrlKey === true)
-		paste()
-	else if(ev.key && ev.key === "Delete" && selectedElements.length > 0)
-		openBox("confirm", `Delete <b>ʿ${selectedElements.length} selected elementʿ</b> ?`, "warn", () => {
-			deleteMultiple(encodeURIComponent(JSON.stringify(selectedElements)))
-		})
 })
 
 /* UPLOAD */
