@@ -533,6 +533,7 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 						})
 					})
 				})
+				console.log("Update available : " + found[1])
 			}
 			else
 				console.log("No Update available !")
