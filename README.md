@@ -22,7 +22,7 @@
 ---------------------------------------------
 
     - Filenames containing apostrophes ('")
-    - Editing files containing complex characters
+    - Editing files containing complex characters (like %cE)
 
 
 
