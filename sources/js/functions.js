@@ -79,7 +79,7 @@ function showElements(result, disableFocus = false) {
 				tree.scrollTop = document.querySelector(".treeDefault").offsetTop - (listTree.offsetTop + parseInt(window.getComputedStyle(document.querySelector(".treeFirst"), null).getPropertyValue("margin-top"), 10))
 			}
 			catch {
-				console.log("%cError : %cUnable to access parent", "color: red;", "color: auto;")
+				console.log("%c Error : %cUnable to access parent", "color: red;", "color: auto;")
 			}
 			elements.scrollTop = 0
 		}
@@ -222,7 +222,7 @@ function getUploadSizes(callback = false) {
 				}
 			}
 			else {
-				console.log("%cError : %cUnable to access upload sizes", "color: red;", "color: auto;")
+				console.log("%c Error : %cUnable to access upload sizes", "color: red;", "color: auto;")
 				if(callback !== false)
 					callback(false)
 			}
