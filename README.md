@@ -18,7 +18,7 @@
 
 
 
-/!\ iSSUES T0 S0LVE BEF0RE FiNAL VERSi0N /!\
+/!\ iSSUES TO SOLVE BEFORE FiNAL VERSiON /!\
 ---------------------------------------------
 
     - Filenames containing apostrophes ('")
