@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.12');
+define('version_script', '0.9.13');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -897,7 +897,14 @@ if(vals.btnOk)
 btnOk = vals.btnOk
 if(vals.btnNo)
 btnNo = vals.btnNo
+onLoading = true
+setTimeout(() => {
+if(onLoading === true)
+loading.style.display = "block"
+}, delayLoadingMs)
 ajaxRequest("POST", "", `${Date.now()}&read_file=${vals.nameEncoded}&dir=${currentPath}&token=${token}`, result => {
+onLoading = false
+loading.style.display = "none"
 if(result === "[file_edit_not_found]")
 openBox("alert", `Error : <b>File not found</b>`, "err")
 else
@@ -1565,6 +1572,7 @@ isOnMobile = onMobile()
 elements.addEventListener("scroll", () => {
 popupMenu.style.display = "none"
 })
+popupBox.style.display = "none"
 document.addEventListener("keydown", ev => {
 if(popupBox.style.display === "none") {
 if((ev.key && (ev.key === "Escape" || ev.key === "Esc")) || (ev.keyCode && ev.keyCode === 27)) {
