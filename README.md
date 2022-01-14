@@ -18,7 +18,7 @@
 
 
 
-/!\ ISSUES TO SOLVE TO THE FINAL VERSION /!\
+/!\ ISSUES TO SOLVE BEFORE FINAL VERSION /!\
 ---------------------------------------------
 
     - Filenames containing complex characters (?&+ '")
