@@ -267,7 +267,7 @@ function openBox(type, vals, icon = null, callback = false) {
 					})
 
 					boxPathCreateNewDirectory.addEventListener("click", ev => {
-						ajaxRequest("POST", "", `${Date.now()}&new=dir&dir=${inputEncoded.value}&name=${boxPathNameNewDirectory.value}&token=${token}`, result => {
+						ajaxRequest("POST", "", `${Date.now()}&new=dir&dir=${inputEncoded.value}&name=${encodeURIComponent(boxPathNameNewDirectory.value)}&token=${token}`, result => {
 							if(result === "created") {
 								boxPathNameNewDirectory.value = ""
 								boxPathNavigate(currentPath)
