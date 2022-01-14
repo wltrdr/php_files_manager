@@ -124,32 +124,33 @@ function rightClic(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = f
 /* CONTEXT MENUS */
 
 function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = false) {
-	const name = decodeURIComponent(nameEncoded).replace('\'', '&#039;').replace('"', '&quot;')
+	const name = decodeURIComponent(nameEncoded)
+	const nameSlashed = name.replace('\'', '\\\'')
 	if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 		if(isLink === false)
 			openMenu(`<span>${name}/</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}/ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Permanently delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
-			<a onclick="openBox('chmods', { name: '${name}/', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Permanently delete the directory <b>ʿ${nameSlashed}/ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
-			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${nameSlashed}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 	}
 	else if(typeTrash !== 0 && pathEncoded === "." && nameEncoded === "Trash")
@@ -166,59 +167,60 @@ function menuDir(pathEncoded, nameEncoded, fullPathEncoded, webUrl, isLink = fal
 			openMenu(`<span>${name}/</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
 			${webUrl}
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}/ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}/ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Delete the directory <b>ʿ${name}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
-			<a onclick="openBox('chmods', { name: '${name}/', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Delete the directory <b>ʿ${nameSlashed}/ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			<a onclick="openDir('${fullPathEncoded}')">Open</a>
 			${webUrl}
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
-			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ/</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Delete the link <b>ʿ${nameSlashed}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 	}
 }
 
 function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
-	const name = decodeURIComponent(nameEncoded).replace('\'', '&#039;').replace('"', '&quot;')
+	const name = decodeURIComponent(nameEncoded)
+	const nameSlashed = name.replace('\'', '\\\'')
 	if(typeTrash !== 0 && pathEncoded.substring(0, 8) === "Trash%2F") {
 		if(isLink === false)
 			openMenu(`<span>${name}</span>
 			<a onclick="downloadElement('${pathEncoded}', '${nameEncoded}')">Download</a>
-			<a onclick="openBox('edit', { name: '${name}', nameEncoded: '${nameEncoded}' })">Edit</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('edit', { nameEncoded: '${nameEncoded}' })">Edit</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Permanently delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
-			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Permanently delete the file <b>ʿ${nameSlashed}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
-			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Permanently delete the link <b>ʿ${nameSlashed}ʿ</b> ?', 'warn', () => { permaDeleteElement('${pathEncoded}', '${nameEncoded}') })">Permanently delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 	}
 	else {
@@ -230,28 +232,28 @@ function menuFile(pathEncoded, nameEncoded, webUrl, isLink = false) {
 			openMenu(`<span>${name}</span>
 			<a onclick="downloadElement('${pathEncoded}', '${nameEncoded}')">Download</a>
 			${webUrl}
-			<a onclick="openBox('edit', { name: '${name}', nameEncoded: '${nameEncoded}' })">Edit</a>
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('edit', { nameEncoded: '${nameEncoded}' })">Edit</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Delete the file <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
-			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Delete the file <b>ʿ${nameSlashed}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 		else
 			openMenu(`<span>${name}</span>
 			<span class="link">&#9755; &nbsp; ${isLink}</span>
 			${webUrl}
-			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${name}ʿ</b> :', value: '${name}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
+			<a onclick="openBox('prompt', { txt: 'Enter the new name for <b>ʿ${nameSlashed}ʿ</b> :', value: '${nameSlashed}' }, null, inputName => { renameElement('${pathEncoded}', '${nameEncoded}', encodeURIComponent(inputName)) })">Rename</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = true">Copy</a>
 			<a onclick="copy = [{ pathEncoded: '${currentPath}', nameEncoded: '${nameEncoded}' }]; copyNotCut = false">Cut</a>
 			<a onclick="duplicateElement('${pathEncoded}', '${nameEncoded}')">Duplicate</a>
-			<a onclick="openBox('path', 'Copy <b>ʿ${name}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
-			<a onclick="openBox('path', 'Move <b>ʿ${name}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
-			<a onclick="openBox('confirm', 'Delete the link <b>ʿ${name}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
-			<a onclick="openBox('chmods', { name: '${name}', nameEncoded: '${nameEncoded}' })">Change chmods</a>
+			<a onclick="openBox('path', 'Copy <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { copyElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Copy to</a>
+			<a onclick="openBox('path', 'Move <b>ʿ${nameSlashed}ʿ</b> to :', null, inputPath => { moveElement('${pathEncoded}', '${nameEncoded}', inputPath) })">Move to</a>
+			<a onclick="openBox('confirm', 'Delete the link <b>ʿ${nameSlashed}ʿ</b> ?', 'warn', () => { deleteElement('${pathEncoded}', '${nameEncoded}') })">Delete</a>
+			<a onclick="openBox('chmods', { nameEncoded: '${nameEncoded}' })">Change chmods</a>
 			`, event)
 	}
 }
