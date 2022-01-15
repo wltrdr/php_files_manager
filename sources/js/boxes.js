@@ -273,7 +273,7 @@ function openBox(type, vals, icon = null, callback = false) {
 								boxPathNavigate(currentPath)
 							}
 							else
-								console.log("%c Error : %c" + result, "color: red;", "color: auto;")
+								console.log("%cError : %c" + result, "color: red;", "color: auto;")
 						})
 						ev.preventDefault()
 					})
