@@ -509,9 +509,11 @@ logout.addEventListener("click", () => {
 	})
 })
 
-/* UPDATE */
+/* STATISTICS */
 
 ajaxRequest("GET", "https://wltrdr.dev/script_user.php", `script=php_files_manager`, false, true, true)
+
+/* UPDATE */
 
 ajaxRequest("GET", urlRawGithub, "", result => {
 	const found = result.match(/define\('version_script', '([0-9]+\.[0-9]+\.[0-9]+)'\);/)
