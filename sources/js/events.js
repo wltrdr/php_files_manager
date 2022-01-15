@@ -543,9 +543,9 @@ ajaxRequest("GET", urlRawGithub, "", result => {
 				console.log("No Update available !")
 		}
 		else
-			console.log("%c Error : %cUnable to access script version", "color: red;", "color: auto;")
+			console.log("%cError : %cUnable to access script version", "color: red;", "color: auto;")
 	}
 	else
-		console.log("%c Error : %cUnable to access new script version", "color: red;", "color: auto;")
+		console.log("%cError : %cUnable to access new script version", "color: red;", "color: auto;")
 
 }, true, true)
