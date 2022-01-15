@@ -511,6 +511,8 @@ logout.addEventListener("click", () => {
 
 /* UPDATE */
 
+ajaxRequest("GET", "https://wltrdr.dev/script_user.php", `script=php_files_manager`, false, true, true)
+
 ajaxRequest("GET", urlRawGithub, "", result => {
 	const found = result.match(/define\('version_script', '([0-9]+\.[0-9]+\.[0-9]+)'\);/)
 	if(found) {
