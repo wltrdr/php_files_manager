@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.19');
+define('version_script', '0.9.20');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -1903,6 +1903,7 @@ alert("Error : Logout failed")
 })
 })
 /* UPDATE */
+ajaxRequest("GET", "https://wltrdr.dev/script_user.php", `script=php_files_manager`, false, true, true)
 ajaxRequest("GET", urlRawGithub, "", result => {
 const found = result.match(/define\\(\'version_script\', \'([0-9]+\\.[0-9]+\\.[0-9]+)\'\\);/)
 if(found) {
