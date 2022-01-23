@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.21');
+define('version_script', '0.9.22');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -3641,6 +3641,8 @@ exit('Trash cannot emptied');
 elseif(isset($_POST['update'])) {
 $script_name = split_filename($server_infos['script']);
 $script_name = $script_name['name'] . $script_name['dot_extension'];
+preg_match(file_get_contents($script_name), '#\$password = \'(.+)\';#', $matches);
+$current_pwd = $matches[1];
 $i = 1;
 while(file_or_link_exists($script_name . '.update' . $i))
 $i++;
@@ -3649,7 +3651,7 @@ $i = 1;
 while(file_or_link_exists("update_temp$i.php"))
 $i++;
 $temp_name = "update_temp$i.php";
-if(@file_put_contents($update_name, @file_get_contents(rawurldecode($_POST['update'])))) {
+if(@file_put_contents($update_name, str_replace('mindja!', $current_pwd, @file_get_contents(rawurldecode($_POST['update']))))) {
 if(@file_put_contents($temp_name, '<?' . 'php
 unlink($_GET[\'file\']);
 rename($_GET[\'update\'], $_GET[\'file\']);
