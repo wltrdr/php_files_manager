@@ -3641,7 +3641,7 @@ exit('Trash cannot emptied');
 elseif(isset($_POST['update'])) {
 $script_name = split_filename($server_infos['script']);
 $script_name = $script_name['name'] . $script_name['dot_extension'];
-preg_match(file_get_contents($script_name), '#\$password = \'(.+)\';#', $matches);
+preg_match('#\$password = \'(.+)\';#', @file_get_contents($script_name), $matches);
 $current_pwd = $matches[1];
 $i = 1;
 while(file_or_link_exists($script_name . '.update' . $i))
