@@ -18,13 +18,6 @@
 
 
 
-/!\ iSSUES TO SOLVE BEFORE FiNAL VERSiON /!\
----------------------------------------------
-
-    - Filenames containing double-apostrophes (") or url-encoded characters (like %20)
-
-
-
 Specifications :
 ----------------
 
@@ -48,3 +41,10 @@ Specifications :
     - Password protected file manager access
     - CSRF Anti-piracy protection with a token system
     - 1-click script update
+
+
+
+/!\ iSSUES TO SOLVE BEFORE FiNAL VERSiON /!\
+---------------------------------------------
+
+    - Filenames containing double-apostrophes (") or url-encoded characters (like %20)
