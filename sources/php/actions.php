@@ -9,6 +9,7 @@ function explode_multiple_files($files) {
 /* SET SETTINGS */
 
 if(isset($_POST['set_settings'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$return = 'Updated settings :';
 	if(isset($_POST['view'])) {
 		$_SESSION['view'] = $_POST['view'];
@@ -32,6 +33,7 @@ if(isset($_POST['set_settings'])) {
 /* UPLOAD */
 
 elseif(isset($_FILES['upload'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$return = '';
 	$nb_files = count($_FILES['upload']['name']);
 	$ask_uploads = array();
@@ -119,6 +121,7 @@ elseif(isset($_FILES['upload'])) {
 /* ASK AFTER UPLOAD */
 
 elseif(isset($_POST['ask']) && isset($_POST['files'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$choice = $_POST['ask'];
 	$files_tmp = explode('|', $_POST['files']);
 	$nb_files_tmp = sizeof($files_tmp);
@@ -190,6 +193,7 @@ elseif(isset($_POST['ask']) && isset($_POST['files'])) {
 /* NEW FILE OR FOLDER */
 
 elseif(isset($_POST['new']) && isset($_POST['name'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	if(strpos($_POST['name'], "'") === false) {
 		$new_name = rawurldecode($_POST['name']);
 
@@ -217,6 +221,7 @@ elseif(isset($_POST['new']) && isset($_POST['name'])) {
 /* RENAME ELEMENT */
 
 elseif(isset($_POST['rename']) && isset($_POST['name'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	if(@rename($current . rawurldecode($_POST['rename']), $current . rawurldecode($_POST['name'])))
 		exit('renamed');
 	else
@@ -226,6 +231,7 @@ elseif(isset($_POST['rename']) && isset($_POST['name'])) {
 /* DUPLICATE ELEMENT */
 
 elseif(isset($_POST['duplicate'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['duplicate']);
 	if(file_or_link_exists($current . $name)) {
 		if(@copy_or_move($current . $name, $current, false, 2, 2, 2))
@@ -240,6 +246,7 @@ elseif(isset($_POST['duplicate'])) {
 /* COPY ELEMENT */
 
 elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['copy']);
 	$if_exists = intval($_POST['if_exists']);
 	if(file_or_link_exists($current . $name)) {
@@ -255,6 +262,7 @@ elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists
 /* MOVE ELEMENT */
 
 elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['move']);
 	$if_exists = intval($_POST['if_exists']);
 	if(file_or_link_exists($current . $name)) {
@@ -270,6 +278,7 @@ elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists
 /* DELETE ELEMENT */
 
 elseif(isset($_POST['delete'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['delete']);
 	if(is_file($current . $name) || is_link($current . $name)) {
 		if(($trash_active === true && @to_trash($current . $name)) || ($trash_active === false && @unlink($current . $name)))
@@ -290,6 +299,7 @@ elseif(isset($_POST['delete'])) {
 /* EDIT ELEMENT */
 
 elseif(isset($_POST['read_file'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['read_file']);
 	if(is_file($current . $name) && !is_link($current . $name))
 		exit(htmlentities(file_get_contents($current . $name), ENT_QUOTES));
@@ -298,6 +308,7 @@ elseif(isset($_POST['read_file'])) {
 }
 
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['name']);
 	if(is_file($current . $name) && !is_link($current . $name)) {
 		if(@file_put_contents($current . $name, $_POST['edit_file']))
@@ -312,6 +323,7 @@ elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
 /* GET CHMODS */
 
 elseif(isset($_POST['get_chmods'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['get_chmods']);
 	if(file_or_link_exists($current . $name)) {
 		$fileperms = @find_chmods($current . $name);
@@ -327,6 +339,7 @@ elseif(isset($_POST['get_chmods'])) {
 /* CHANGE CHMODS */
 
 elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['name']);
 	if(file_or_link_exists($current . $name)) {
 		if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
@@ -341,6 +354,7 @@ elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
 /* DUPLICATE MULTIPLE ELEMENTS */
 
 elseif(isset($_POST['duplicate_multiple'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$return = '';
 	foreach(explode_multiple_files($_POST['duplicate_multiple']) as $file_to_duplicate) {
 		$file_to_duplicate = rawurldecode($file_to_duplicate);
@@ -360,6 +374,7 @@ elseif(isset($_POST['duplicate_multiple'])) {
 /* COPY MULTIPLE ELEMENTS */
 
 elseif(isset($_POST['copy_multiple']) && isset($_POST['if_exists'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$if_exists = intval($_POST['if_exists']);
 	$return = '';
 	foreach(explode_multiple_files($_POST['copy_multiple']) as $file_to_copy) {
@@ -380,6 +395,7 @@ elseif(isset($_POST['copy_multiple']) && isset($_POST['if_exists'])) {
 /* MOVE MULTIPLE ELEMENTS */
 
 elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$if_exists = intval($_POST['if_exists']);
 	$return = '';
 	foreach(explode_multiple_files($_POST['move_multiple']) as $file_to_move) {
@@ -400,6 +416,7 @@ elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
 /* DELETE MULTIPLE ELEMENTS */
 
 elseif(isset($_POST['delete_multiple'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$return = '';
 	foreach(explode_multiple_files($_POST['delete_multiple']) as $file_to_delete) {
 		$file_to_delete = rawurldecode($file_to_delete);
@@ -423,6 +440,7 @@ elseif(isset($_POST['delete_multiple'])) {
 /* SET MULTIPLE CHMODS */
 
 elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$return = '';
 	foreach(explode_multiple_files($_POST['files']) as $file_to_chmod) {
 		$file_to_chmod = rawurldecode($file_to_chmod);
@@ -442,6 +460,7 @@ elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
 /* TRASH MULTIPLE ELEMENTS */
 
 elseif(isset($_POST['trash'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$return = '';
 	foreach(explode_multiple_files($_POST['trash']) as $file_to_delete) {
 		$file_to_delete = rawurldecode($file_to_delete);
@@ -457,6 +476,7 @@ elseif(isset($_POST['trash'])) {
 /* DELETE ELEMENT FROM TRASH */
 
 elseif(isset($_POST['permanently_delete'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$name = rawurldecode($_POST['permanently_delete']);
 	if(is_file($current . $name) || is_link($current . $name)) {
 		if(@unlink($current . $name))
@@ -477,6 +497,7 @@ elseif(isset($_POST['permanently_delete'])) {
 /* DELETE MULTIPLE ELEMENTS FROM TRASH */
 
 elseif(isset($_POST['permanently_delete_multiple'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	$return = '';
 	foreach(explode_multiple_files($_POST['permanently_delete_multiple']) as $file_to_delete) {
 		$file_to_delete = rawurldecode($file_to_delete);
@@ -500,6 +521,7 @@ elseif(isset($_POST['permanently_delete_multiple'])) {
 /* EMPTY TRASH */
 
 elseif(isset($_POST['empty_trash'])) {
+	header('Content-Type: text/plain; charset=utf-8');
 	if(@rm_full_dir('Trash')) {
 		if(@mkdir('Trash')) {
 			if(@create_htrashccess())
@@ -517,36 +539,147 @@ elseif(isset($_POST['empty_trash'])) {
 /* UPDATE */
 
 elseif(isset($_POST['update'])) {
-	$script_name = split_filename($server_infos['script']);
-	$script_name = $script_name['name'] . $script_name['dot_extension'];
+	header('Content-Type: text/html; charset=utf-8');
 
-	preg_match('#\$password = \'(.+)\';#', @file_get_contents($script_name), $matches);
-	$current_pwd = $matches[1];
+	echo '<html>
+	<head>
+	<title>Updating</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
+	<style>
+	* {
+		margin: 0px;
+		padding: 0px;
+		box-sizing: border-box;
+	}
+	body {
+		padding: 2em;
+		font-family: \'Roboto Mono\', monospace;
+		background: linear-gradient(#080808, #333);
+		color: #ddd;
+		font-size: 11px;
+	}
+	h1 {
+		margin-bottom: 2em;
+		color: #fa3;
+	}
+	h2 {
+		margin-bottom: 1em;
+		color: #af3;
+	}
+	h2:before {
+		content: "✅";
+		margin-right: 1em;
+	}
+	h2.err {
+		margin-bottom: 1em;
+		color: #f52;
+	}
+	h2.err:before {
+		content: "❌";
+		margin-right: 1em;
+	}
+	textarea, input {
+		margin-left: 1.5em;
+		margin-bottom: 1.5em;
+		padding: 1.25em;
+		background-color: rgba(0, 0, 0, 0.5);
+		font-size: 1em;
+		color: #fff;
+		border: 0px;
+	}
+	a {
+		display: block;
+		margin: 3.5em 0px;
+		font-size: 2em;
+		font-weight: bolder;
+		line-height: 1.5em;
+		text-decoration: none;
+		color: #3bf;
+	}
+	a:before {
+		content: "🔄";
+		margin-right: 1em;
+	}
+	a:hover {
+		color: #3f9;
+	}
+	</style>
+	</head>
+	<body>	
+	<h1>Updating...</h1>';
 
-	$i = 1;
-	while(file_or_link_exists($script_name . '.update' . $i))
-		$i++;
-	$update_name = $script_name . '.update' . $i;
-
-	$i = 1;
-	while(file_or_link_exists("update_temp$i.php"))
-		$i++;
-	$temp_name = "update_temp$i.php";
-
-	if(@file_put_contents($update_name, str_replace('mindja!', $current_pwd, @file_get_contents(rawurldecode($_POST['update']))))) {
-		if(@file_put_contents($temp_name, '<?' . 'php
-unlink($_GET[\'file\']);
-rename($_GET[\'update\'], $_GET[\'file\']);
-unlink($_GET[\'tmp\']);
-header(\'Location: \' . $_GET[\'file\']);
-')) {
-			exit("[update=$script_name|$update_name|$temp_name]");
+	if($last_version_content = file_get_contents('https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php')) {
+		echo '<h2>Last version file downloaded</h2>';
+		echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content, ENT_QUOTES) . '</textarea>';
+		$current_filename = split_filename($server_infos['script']);
+		$current_filename = $current_filename['name'] . $current_filename['dot_extension'];
+		echo '<h2>Filename of current script found</h2>';
+		echo '<input type="text" size="100" value="' . htmlentities($current_filename, ENT_QUOTES) . '">';
+		if($current_content = file_get_contents($current_filename)) {
+			echo '<h2>Current script analysed</h2>';
+			echo '<textarea cols="100" rows="7">' . htmlentities($current_content, ENT_QUOTES) . '</textarea>';
+			if(preg_match('#\$password = \'(.+)\';#', $current_content, $matches)) {
+				$current_pwd = $matches[1];
+				echo '<h2>Current password found</h2>';
+				echo '<input type="text" size="100" value="' . htmlentities($current_pwd, ENT_QUOTES) . '">';
+				$last_version_content_updated = str_replace('mindja!', $current_pwd, $last_version_content);
+				echo '<h2>New password set</h2>';
+				echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content_updated, ENT_QUOTES) . '</textarea>';
+				$i = 1;
+				while(file_or_link_exists($current_filename . '.tmp' . $i))
+					$i++;
+				$updated_filename = $current_filename . '.tmp' . $i;
+				echo '<h2>Updated filename found</h2>';
+				echo '<input type="text" size="100" value="' . htmlentities($updated_filename, ENT_QUOTES) . '">';
+				if(file_put_contents($updated_filename, $last_version_content_updated)) {
+					echo '<h2>New file created</h2>';
+					if($updated_content = file_get_contents($updated_filename)) {
+						echo '<h2>New file opened</h2>';
+						echo '<textarea cols="100" rows="7">' . htmlentities($updated_content, ENT_QUOTES) . '</textarea>';
+						if($updated_content === $last_version_content_updated) {
+							echo '<h2>New file match with the downloaded file</h2>';
+							$i = 1;
+							while(file_or_link_exists("update$i.$current_filename"))
+								$i++;
+							$update_filename = "update$i.$current_filename";
+							echo '<h2>Update filename found</h2>';
+							echo '<input type="text" size="100" value="' . htmlentities($update_filename, ENT_QUOTES) . '">';
+							$update_content = "<?php\nunlink('$current_filename');\nrename('$updated_filename', '$current_filename');\nunlink('$update_filename');\nheader('Location: $current_filename');\n";
+							if(file_put_contents($update_filename, $update_content)) {
+								echo '<h2>Update file created</h2>';
+								echo '<textarea cols="100" rows="7">' . htmlentities($update_content, ENT_QUOTES) . '</textarea>';
+								if($update_content === file_get_contents($update_filename)) {
+									echo '<h2>Update file content is correct</h2>';
+									echo '<a href="' . htmlentities($update_filename, ENT_QUOTES) . '">UPDATE SCRIPT NOW</a>';
+								}
+								else
+									echo '<h2 class="err">Error : Update file content isn\'t correct</h2>';
+							}
+							else
+								echo '<h2 class="err">Error : Cannot create the update file</h2>';
+						}
+						else
+							echo '<h2 class="err">Error : New file don\'t match with the downloaded file</h2>';
+					}
+					else
+						echo '<h2 class="err">Error : Cannot read content of the new file</h2>';
+				}
+				else
+					echo '<h2 class="err">Error : Cannot create the new file</h2>';
+			}
+			else
+				echo '<h2 class="err">Error : Cannot get the current password</h2>';
 		}
 		else
-			exit('Creation of temporary file failed');
+			echo '<h2 class="err">Error : Cannot read content of the current file</h2>';
 	}
 	else
-		exit('Download failed');
+		echo '<h2 class="err">Error : Cannot download the last version file</h2>';
+
+	echo'</body>
+	</html>';
 }
 
 else
