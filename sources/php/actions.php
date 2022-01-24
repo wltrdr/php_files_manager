@@ -540,7 +540,6 @@ elseif(isset($_POST['empty_trash'])) {
 
 elseif(isset($_POST['update'])) {
 	header('Content-Type: text/html; charset=utf-8');
-
 	echo '<html>
 	<head>
 	<title>Updating</title>
@@ -609,7 +608,6 @@ elseif(isset($_POST['update'])) {
 	</head>
 	<body>	
 	<h1>Updating...</h1>';
-
 	if($last_version_content = file_get_contents('https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php')) {
 		echo '<h2>Last version file downloaded</h2>';
 		echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content, ENT_QUOTES) . '</textarea>';
@@ -646,11 +644,11 @@ elseif(isset($_POST['update'])) {
 							$update_filename = "update$i.$current_filename";
 							echo '<h2>Update filename found</h2>';
 							echo '<input type="text" size="100" value="' . htmlentities($update_filename, ENT_QUOTES) . '">';
-							$update_content = "<?php\nunlink('$current_filename');\nrename('$updated_filename', '$current_filename');\nunlink('$update_filename');\nheader('Location: $current_filename');\n";
-							if(file_put_contents($update_filename, $update_content)) {
+							$update_content = "\nunlink('$current_filename');\nrename('$updated_filename', '$current_filename');\nunlink('$update_filename');\nheader('Location: $current_filename');\n";
+							if(file_put_contents($update_filename, '<?php' . $update_content)) {
 								echo '<h2>Update file created</h2>';
-								echo '<textarea cols="100" rows="7">' . htmlentities($update_content, ENT_QUOTES) . '</textarea>';
-								if($update_content === file_get_contents($update_filename)) {
+								echo '<textarea cols="100" rows="7">' . htmlentities('<?php' . $update_content, ENT_QUOTES) . '</textarea>';
+								if('<?php' . $update_content === file_get_contents($update_filename)) {
 									echo '<h2>Update file content is correct</h2>';
 									echo '<a href="' . htmlentities($update_filename, ENT_QUOTES) . '">UPDATE SCRIPT NOW</a>';
 								}
