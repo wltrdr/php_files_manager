@@ -622,7 +622,7 @@ elseif(isset($_POST['update'])) {
 				$current_pwd = $matches[1];
 				echo '<h2>Current password found</h2>';
 				echo '<input type="text" size="100" value="' . htmlentities($current_pwd, ENT_QUOTES) . '">';
-				$last_version_content_updated = str_replace('mindja!', $current_pwd, $last_version_content);
+				$last_version_content_updated = str_replace('$password = \'mindja!\'', '$password = \'' . $current_pwd . "'", $last_version_content);
 				echo '<h2>New password set</h2>';
 				echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content_updated, ENT_QUOTES) . '</textarea>';
 				$i = 1;
