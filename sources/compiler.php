@@ -12,7 +12,7 @@ foreach($matches as $matche) {
 }
 
 /* TEMPLATE.HTML */
-$file = str_replace('\\\' . version_script . \\\'', '\' . version_script . \'', str_replace('str_replace(\'\\\' . version_script . \\\'\', version_script, file_get_contents(\'template/template.html\'))', '\'' . addsomeslashes(file_get_contents('template/template.html')) . '\'', $file));
+$file = str_replace('\\\' . script_version . \\\'', '\' . script_version . \'', str_replace('str_replace(\'\\\' . script_version . \\\'\', script_version, file_get_contents(\'template/template.html\'))', '\'' . addsomeslashes(file_get_contents('template/template.html')) . '\'', $file));
 
 /* INCLUDES */
 preg_match_all('#include\(\'([^\']+)\'\);#', $file, $matches, PREG_SET_ORDER);
