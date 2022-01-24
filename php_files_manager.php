@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('script_version', '0.9.25');
+define('script_version', '0.9.26');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -3767,10 +3767,10 @@ $update_filename = "update$i.$current_filename";
 echo '<h2>Update filename found</h2>';
 echo '<input type="text" size="100" value="' . htmlentities($update_filename, ENT_QUOTES) . '">';
 $update_content = "\nunlink('$current_filename');\nrename('$updated_filename', '$current_filename');\nunlink('$update_filename');\nheader('Location: $current_filename');\n";
-if(file_put_contents($update_filename, $update_content)) {
+if(file_put_contents($update_filename, '' . $update_content)) {
 echo '<h2>Update file created</h2>';
-echo '<textarea cols="100" rows="7">' . htmlentities($update_content, ENT_QUOTES) . '</textarea>';
-if($update_content === file_get_contents($update_filename)) {
+echo '<textarea cols="100" rows="7">' . htmlentities('' . $update_content, ENT_QUOTES) . '</textarea>';
+if('' . $update_content === file_get_contents($update_filename)) {
 echo '<h2>Update file content is correct</h2>';
 echo '<a href="' . htmlentities($update_filename, ENT_QUOTES) . '">UPDATE SCRIPT NOW</a>';
 }
