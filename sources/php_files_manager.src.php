@@ -6,7 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
-define('version_script', '0.9.24');
+define('script_version', '0.9.25');
 include('php/init.php');
 include('php/files_init.php');
 
@@ -77,6 +77,19 @@ elseif(isset($_GET['get_settings'])) {
 	exit();
 }
 
+/* GET LAST SCRIPT VERSION */
+
+elseif(isset($_GET['check_update'])) {
+	header('Content-Type: text/plain; charset=utf-8');
+	$update_content = @file_get_contents('https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php');
+	$update_version = 'false';
+	if(preg_match('#define\(\'script_version\', \'([0-9\.]+)\'\);#', $update_content, $matches)) {
+		if(script_version !== $matches[1])
+			$update_version = $matches[1];
+	}
+	exit("[update_available=$update_version]");
+}
+
 /* DOWNLOAD FILE */
 
 elseif(isset($_GET['download'])) {
@@ -120,7 +133,6 @@ elseif(isset($_POST['logout'])) {
 	exit('bye');
 }
 elseif(isset($_POST) && !empty($_POST)) {
-	header('Content-Type: text/plain; charset=utf-8');
 	if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password)) {
 
 		/* SECURITY */
@@ -159,10 +171,13 @@ elseif(isset($_POST) && !empty($_POST)) {
 
 				include('php/actions.php');
 			}
-			else
+			else {
+				header('Content-Type: text/plain; charset=utf-8');
 				exit('Refresh site');
+			}
 		}
 		else {
+			header('Content-Type: text/plain; charset=utf-8');
 
 			/* RETURN DIR INFORMATIONS */
 
@@ -542,5 +557,5 @@ elseif(isset($_POST) && !empty($_POST)) {
 }
 else {
 	header('Content-Type: text/html; charset=utf-8');
-	exit(str_replace('\' . version_script . \'', version_script, file_get_contents('template/template.html')));
+	exit(str_replace('\' . script_version . \'', script_version, file_get_contents('template/template.html')));
 }
