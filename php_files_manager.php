@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('script_version', '0.9.26');
+define('script_version', '0.9.27');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -2869,9 +2869,12 @@ $update_content = @file_get_contents('https://raw.githubusercontent.com/wltrdr/p
 $update_version = 'false';
 if(preg_match('#define\(\'script_version\', \'([0-9\.]+)\'\);#', $update_content, $matches)) {
 if(script_version !== $matches[1])
-$update_version = $matches[1];
+exit('[update_available=' . $matches[1] . ']');
+else
+exit('[update_available=false]');
 }
-exit("[update_available=$update_version]");
+else
+exit('[update_available=not_found]');
 }
 /* DOWNLOAD FILE */
 elseif(isset($_GET['download'])) {
