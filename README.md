@@ -46,5 +46,5 @@ Specifications :
     - Choice of display order (name, date, size, type, ascending or descending)
     - Choice of actions (replace, rename, do nothing) if a file with the same name exists when uploading, copying or moving an element
     - Password protected file manager access
-    - Anti-piracy protection via known url thanks to a token system
+    - CSRF Anti-piracy protection with a token system
     - 1-click script update
