@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('script_version', '0.9.29');
+define('script_version', '0.9.30');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -3747,7 +3747,7 @@ if(preg_match('#\$password = \'(.+)\';#', $current_content, $matches)) {
 $current_pwd = $matches[1];
 echo '<h2>Current password found</h2>';
 echo '<input type="text" size="100" value="' . htmlentities($current_pwd, ENT_QUOTES) . '">';
-$last_version_content_updated = str_replace('mindja!', $current_pwd, $last_version_content);
+$last_version_content_updated = str_replace('$password = \'mindja!\'', '$password = \'' . $current_pwd . "'", $last_version_content);
 echo '<h2>New password set</h2>';
 echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content_updated, ENT_QUOTES) . '</textarea>';
 $i = 1;
