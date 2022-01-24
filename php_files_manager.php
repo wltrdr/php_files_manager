@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('version_script', '0.9.24');
+define('script_version', '0.9.25');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -245,7 +245,6 @@ const inputConnexionPH = inputConnexion.placeholder
 const h1Default = h1.innerHTML
 const h1Words = h1Default.split(" ")
 const h1NbWords = h1Words.length
-const urlRawGithub = "https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php"
 let token
 let currentPath = "."
 let parentPath = "false"
@@ -1903,41 +1902,32 @@ alert("Error : Logout failed")
 })
 })
 /* STATISTICS */
-ajaxRequest("GET", "https://wltrdr.dev/scripts_stats.php", `script=php_files_manager`, false, true, true)
+ajaxRequest("GET", "https://wltrdr.dev/scripts_stats.php", "script=php_files_manager&version=" + scriptVersion , false, true, true)
 /* UPDATE */
-ajaxRequest("GET", urlRawGithub, "", result => {
-const found = result.match(/define\\(\'version_script\', \'([0-9]+\\.[0-9]+\\.[0-9]+)\'\\);/)
-if(found) {
-const found2 = scriptVersion.match(/([0-9]+\\.[0-9]+\\.[0-9]+)/)
-if(found2) {
-if(found[1] !== found2[1]) {
+ajaxRequest("GET", "", `${Date.now()}&check_update=true`, result => {
+const foundUpdate = result.match(/\\[update_available=([0-9\\.]+)\\]/)
+if(foundUpdate) {
+const updateVersion = foundUpdate[1]
 wltrdrUpdate.querySelector("span").innerHTML = "&#8681;"
 wltrdrUpdate.querySelector("a").innerHTML= "<b>UPDATE AVAILABLE</b>"
 wltrdrUpdate.querySelector("a").removeAttribute("href")
 wltrdrUpdate.addEventListener("click", () => {
-openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${found2[1]}</b></p><br><p>Version available : <b>${found[1]}</b></p>`, null, () => {
-ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
-const found3 = result.match(/\\[update=([^\\|]+)\\|([^\\|]+)\\|([^\\]]+)\\]/)
-if(found3)
-location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
-else {
-openDir(currentPath, true)
-openBox("alert", "Error : <b>" + result + "</b>", "err")
-}
+openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${scriptVersion}</b></p><br><p>Version available : <b>${updateVersion}</b></p>`, null, () => {
+const updateForm = document.createElement(\'form\')
+updateForm.action = ""
+updateForm.method = "post"
+updateForm.innerHTML = `<input type="hidden" name="${Date.now()}">
+<input type="hidden" name="update" value="true">
+<input type="hidden" name="token" value="${token}">`
+document.body.appendChild(updateForm)
+updateForm.submit()
 })
 })
-})
-console.log("Update available : " + found[1])
+console.log("Update available : " + updateVersion)
 }
 else
 console.log("No Update available !")
-}
-else
-console.log("%cError : %cUnable to access script version", "color: red;", "color: auto;")
-}
-else
-console.log("%cError : %cUnable to access new script version", "color: red;", "color: auto;")
-}, true, true)
+}, true)
 ');
 }
 elseif(isset($_GET['css'])) {
@@ -2872,6 +2862,17 @@ if(isset($_SESSION['copy_move_exists']))
 echo'[copy_move_exists=' . $_SESSION['copy_move_exists'] . ']';
 exit();
 }
+/* GET LAST SCRIPT VERSION */
+elseif(isset($_GET['check_update'])) {
+header('Content-Type: text/plain; charset=utf-8');
+$update_content = @file_get_contents('https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php');
+$update_version = 'false';
+if(preg_match('#define\(\'script_version\', \'([0-9\.]+)\'\);#', $update_content, $matches)) {
+if(script_version !== $matches[1])
+$update_version = $matches[1];
+}
+exit("[update_available=$update_version]");
+}
 /* DOWNLOAD FILE */
 elseif(isset($_GET['download'])) {
 if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password)) {
@@ -2912,7 +2913,6 @@ unset($_SESSION['pfm']);
 exit('bye');
 }
 elseif(isset($_POST) && !empty($_POST)) {
-header('Content-Type: text/plain; charset=utf-8');
 if((isset($_SESSION['pfm']) && $_SESSION['pfm'] === $password) || (isset($_POST['pwd']) && sp_crypt($_POST['pwd']) === $password)) {
 /* SECURITY */
 if(!isset($_SESSION['pfm']) || $_SESSION['pfm'] !== $password)
@@ -3179,6 +3179,7 @@ return explode('///', $files);
 }
 /* SET SETTINGS */
 if(isset($_POST['set_settings'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $return = 'Updated settings :';
 if(isset($_POST['view'])) {
 $_SESSION['view'] = $_POST['view'];
@@ -3200,6 +3201,7 @@ exit($return);
 }
 /* UPLOAD */
 elseif(isset($_FILES['upload'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $return = '';
 $nb_files = count($_FILES['upload']['name']);
 $ask_uploads = array();
@@ -3282,6 +3284,7 @@ exit($return);
 }
 /* ASK AFTER UPLOAD */
 elseif(isset($_POST['ask']) && isset($_POST['files'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $choice = $_POST['ask'];
 $files_tmp = explode('|', $_POST['files']);
 $nb_files_tmp = sizeof($files_tmp);
@@ -3350,6 +3353,7 @@ exit($return);
 }
 /* NEW FILE OR FOLDER */
 elseif(isset($_POST['new']) && isset($_POST['name'])) {
+header('Content-Type: text/plain; charset=utf-8');
 if(strpos($_POST['name'], "'") === false) {
 $new_name = rawurldecode($_POST['name']);
 if(file_or_link_exists($current . $new_name))
@@ -3374,6 +3378,7 @@ exit('Apostrophe prohibited');
 }
 /* RENAME ELEMENT */
 elseif(isset($_POST['rename']) && isset($_POST['name'])) {
+header('Content-Type: text/plain; charset=utf-8');
 if(@rename($current . rawurldecode($_POST['rename']), $current . rawurldecode($_POST['name'])))
 exit('renamed');
 else
@@ -3381,6 +3386,7 @@ exit('Not renamed');
 }
 /* DUPLICATE ELEMENT */
 elseif(isset($_POST['duplicate'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['duplicate']);
 if(file_or_link_exists($current . $name)) {
 if(@copy_or_move($current . $name, $current, false, 2, 2, 2))
@@ -3393,6 +3399,7 @@ exit('File or directory not found');
 }
 /* COPY ELEMENT */
 elseif(isset($_POST['copy']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['copy']);
 $if_exists = intval($_POST['if_exists']);
 if(file_or_link_exists($current . $name)) {
@@ -3406,6 +3413,7 @@ exit('File or directory not found');
 }
 /* MOVE ELEMENT */
 elseif(isset($_POST['move']) && isset($_POST['path']) && isset($_POST['if_exists'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['move']);
 $if_exists = intval($_POST['if_exists']);
 if(file_or_link_exists($current . $name)) {
@@ -3419,6 +3427,7 @@ exit('File or directory not found');
 }
 /* DELETE ELEMENT */
 elseif(isset($_POST['delete'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['delete']);
 if(is_file($current . $name) || is_link($current . $name)) {
 if(($trash_active === true && @to_trash($current . $name)) || ($trash_active === false && @unlink($current . $name)))
@@ -3437,6 +3446,7 @@ exit('File not found');
 }
 /* EDIT ELEMENT */
 elseif(isset($_POST['read_file'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['read_file']);
 if(is_file($current . $name) && !is_link($current . $name))
 exit(htmlentities(file_get_contents($current . $name), ENT_QUOTES));
@@ -3444,6 +3454,7 @@ else
 exit('[file_edit_not_found]');
 }
 elseif(isset($_POST['edit_file']) && isset($_POST['name'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['name']);
 if(is_file($current . $name) && !is_link($current . $name)) {
 if(@file_put_contents($current . $name, $_POST['edit_file']))
@@ -3456,6 +3467,7 @@ exit('File not found');
 }
 /* GET CHMODS */
 elseif(isset($_POST['get_chmods'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['get_chmods']);
 if(file_or_link_exists($current . $name)) {
 $fileperms = @find_chmods($current . $name);
@@ -3469,6 +3481,7 @@ exit('File not found');
 }
 /* CHANGE CHMODS */
 elseif(isset($_POST['set_chmods']) && isset($_POST['name'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['name']);
 if(file_or_link_exists($current . $name)) {
 if(@chmod($current . $name, octdec(intval($_POST['set_chmods']))))
@@ -3481,6 +3494,7 @@ exit('File not found');
 }
 /* DUPLICATE MULTIPLE ELEMENTS */
 elseif(isset($_POST['duplicate_multiple'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $return = '';
 foreach(explode_multiple_files($_POST['duplicate_multiple']) as $file_to_duplicate) {
 $file_to_duplicate = rawurldecode($file_to_duplicate);
@@ -3498,6 +3512,7 @@ exit(substr($return, 0, mb_strlen($return) - 8));
 }
 /* COPY MULTIPLE ELEMENTS */
 elseif(isset($_POST['copy_multiple']) && isset($_POST['if_exists'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $if_exists = intval($_POST['if_exists']);
 $return = '';
 foreach(explode_multiple_files($_POST['copy_multiple']) as $file_to_copy) {
@@ -3516,6 +3531,7 @@ exit(substr($return, 0, mb_strlen($return) - 8));
 }
 /* MOVE MULTIPLE ELEMENTS */
 elseif(isset($_POST['move_multiple']) && isset($_POST['if_exists'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $if_exists = intval($_POST['if_exists']);
 $return = '';
 foreach(explode_multiple_files($_POST['move_multiple']) as $file_to_move) {
@@ -3534,6 +3550,7 @@ exit(substr($return, 0, mb_strlen($return) - 8));
 }
 /* DELETE MULTIPLE ELEMENTS */
 elseif(isset($_POST['delete_multiple'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $return = '';
 foreach(explode_multiple_files($_POST['delete_multiple']) as $file_to_delete) {
 $file_to_delete = rawurldecode($file_to_delete);
@@ -3555,6 +3572,7 @@ exit($return);
 }
 /* SET MULTIPLE CHMODS */
 elseif(isset($_POST['set_multiple_chmods']) && isset($_POST['files'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $return = '';
 foreach(explode_multiple_files($_POST['files']) as $file_to_chmod) {
 $file_to_chmod = rawurldecode($file_to_chmod);
@@ -3572,6 +3590,7 @@ exit(substr($return, 0, mb_strlen($return) - 8));
 }
 /* TRASH MULTIPLE ELEMENTS */
 elseif(isset($_POST['trash'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $return = '';
 foreach(explode_multiple_files($_POST['trash']) as $file_to_delete) {
 $file_to_delete = rawurldecode($file_to_delete);
@@ -3585,6 +3604,7 @@ exit($return);
 }
 /* DELETE ELEMENT FROM TRASH */
 elseif(isset($_POST['permanently_delete'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $name = rawurldecode($_POST['permanently_delete']);
 if(is_file($current . $name) || is_link($current . $name)) {
 if(@unlink($current . $name))
@@ -3603,6 +3623,7 @@ exit('File not found');
 }
 /* DELETE MULTIPLE ELEMENTS FROM TRASH */
 elseif(isset($_POST['permanently_delete_multiple'])) {
+header('Content-Type: text/plain; charset=utf-8');
 $return = '';
 foreach(explode_multiple_files($_POST['permanently_delete_multiple']) as $file_to_delete) {
 $file_to_delete = rawurldecode($file_to_delete);
@@ -3624,6 +3645,7 @@ exit($return);
 }
 /* EMPTY TRASH */
 elseif(isset($_POST['empty_trash'])) {
+header('Content-Type: text/plain; charset=utf-8');
 if(@rm_full_dir('Trash')) {
 if(@mkdir('Trash')) {
 if(@create_htrashccess())
@@ -3639,40 +3661,155 @@ exit('Trash cannot emptied');
 }
 /* UPDATE */
 elseif(isset($_POST['update'])) {
-$script_name = split_filename($server_infos['script']);
-$script_name = $script_name['name'] . $script_name['dot_extension'];
-preg_match('#\$password = \'(.+)\';#', @file_get_contents($script_name), $matches);
+header('Content-Type: text/html; charset=utf-8');
+echo '<html>
+<head>
+<title>Updating</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0px;
+padding: 0px;
+box-sizing: border-box;
+}
+body {
+padding: 2em;
+font-family: \'Roboto Mono\', monospace;
+background: linear-gradient(#080808, #333);
+color: #ddd;
+font-size: 11px;
+}
+h1 {
+margin-bottom: 2em;
+color: #fa3;
+}
+h2 {
+margin-bottom: 1em;
+color: #af3;
+}
+h2:before {
+content: "✅";
+margin-right: 1em;
+}
+h2.err {
+margin-bottom: 1em;
+color: #f52;
+}
+h2.err:before {
+content: "❌";
+margin-right: 1em;
+}
+textarea, input {
+margin-left: 1.5em;
+margin-bottom: 1.5em;
+padding: 1.25em;
+background-color: rgba(0, 0, 0, 0.5);
+font-size: 1em;
+color: #fff;
+border: 0px;
+}
+a {
+display: block;
+margin: 3.5em 0px;
+font-size: 2em;
+font-weight: bolder;
+line-height: 1.5em;
+text-decoration: none;
+color: #3bf;
+}
+a:before {
+content: "🔄";
+margin-right: 1em;
+}
+a:hover {
+color: #3f9;
+}
+</style>
+</head>
+<body>
+<h1>Updating...</h1>';
+if($last_version_content = file_get_contents('https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php')) {
+echo '<h2>Last version file downloaded</h2>';
+echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content, ENT_QUOTES) . '</textarea>';
+$current_filename = split_filename($server_infos['script']);
+$current_filename = $current_filename['name'] . $current_filename['dot_extension'];
+echo '<h2>Filename of current script found</h2>';
+echo '<input type="text" size="100" value="' . htmlentities($current_filename, ENT_QUOTES) . '">';
+if($current_content = file_get_contents($current_filename)) {
+echo '<h2>Current script analysed</h2>';
+echo '<textarea cols="100" rows="7">' . htmlentities($current_content, ENT_QUOTES) . '</textarea>';
+if(preg_match('#\$password = \'(.+)\';#', $current_content, $matches)) {
 $current_pwd = $matches[1];
+echo '<h2>Current password found</h2>';
+echo '<input type="text" size="100" value="' . htmlentities($current_pwd, ENT_QUOTES) . '">';
+$last_version_content_updated = str_replace('mindja!', $current_pwd, $last_version_content);
+echo '<h2>New password set</h2>';
+echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content_updated, ENT_QUOTES) . '</textarea>';
 $i = 1;
-while(file_or_link_exists($script_name . '.update' . $i))
+while(file_or_link_exists($current_filename . '.tmp' . $i))
 $i++;
-$update_name = $script_name . '.update' . $i;
+$updated_filename = $current_filename . '.tmp' . $i;
+echo '<h2>Updated filename found</h2>';
+echo '<input type="text" size="100" value="' . htmlentities($updated_filename, ENT_QUOTES) . '">';
+if(file_put_contents($updated_filename, $last_version_content_updated)) {
+echo '<h2>New file created</h2>';
+if($updated_content = file_get_contents($updated_filename)) {
+echo '<h2>New file opened</h2>';
+echo '<textarea cols="100" rows="7">' . htmlentities($updated_content, ENT_QUOTES) . '</textarea>';
+if($updated_content === $last_version_content_updated) {
+echo '<h2>New file match with the downloaded file</h2>';
 $i = 1;
-while(file_or_link_exists("update_temp$i.php"))
+while(file_or_link_exists("update$i.$current_filename"))
 $i++;
-$temp_name = "update_temp$i.php";
-if(@file_put_contents($update_name, str_replace('mindja!', $current_pwd, @file_get_contents(rawurldecode($_POST['update']))))) {
-if(@file_put_contents($temp_name, '<?' . 'php
-unlink($_GET[\'file\']);
-rename($_GET[\'update\'], $_GET[\'file\']);
-unlink($_GET[\'tmp\']);
-header(\'Location: \' . $_GET[\'file\']);
-')) {
-exit("[update=$script_name|$update_name|$temp_name]");
+$update_filename = "update$i.$current_filename";
+echo '<h2>Update filename found</h2>';
+echo '<input type="text" size="100" value="' . htmlentities($update_filename, ENT_QUOTES) . '">';
+$update_content = "\nunlink('$current_filename');\nrename('$updated_filename', '$current_filename');\nunlink('$update_filename');\nheader('Location: $current_filename');\n";
+if(file_put_contents($update_filename, $update_content)) {
+echo '<h2>Update file created</h2>';
+echo '<textarea cols="100" rows="7">' . htmlentities($update_content, ENT_QUOTES) . '</textarea>';
+if($update_content === file_get_contents($update_filename)) {
+echo '<h2>Update file content is correct</h2>';
+echo '<a href="' . htmlentities($update_filename, ENT_QUOTES) . '">UPDATE SCRIPT NOW</a>';
 }
 else
-exit('Creation of temporary file failed');
+echo '<h2 class="err">Error : Update file content isn\'t correct</h2>';
 }
 else
-exit('Download failed');
+echo '<h2 class="err">Error : Cannot create the update file</h2>';
+}
+else
+echo '<h2 class="err">Error : New file don\'t match with the downloaded file</h2>';
+}
+else
+echo '<h2 class="err">Error : Cannot read content of the new file</h2>';
+}
+else
+echo '<h2 class="err">Error : Cannot create the new file</h2>';
+}
+else
+echo '<h2 class="err">Error : Cannot get the current password</h2>';
+}
+else
+echo '<h2 class="err">Error : Cannot read content of the current file</h2>';
+}
+else
+echo '<h2 class="err">Error : Cannot download the last version file</h2>';
+echo'</body>
+</html>';
 }
 else
 exit('Unknown action');
 }
-else
+else {
+header('Content-Type: text/plain; charset=utf-8');
 exit('Refresh site');
 }
+}
 else {
+header('Content-Type: text/plain; charset=utf-8');
 /* RETURN DIR INFORMATIONS */
 function css_extension($file) {
 if(strpos($file, '.') !== false) {
@@ -4086,7 +4223,7 @@ exit('<!DOCTYPE html>
 </div>
 <div id="contentsCredits">
 <div id="credits">
-<p>Version : <span>' . version_script . ' (beta)</span></p>
+<p>Version : <span>' . script_version . ' (beta)</span></p>
 <p id="wltrdrUpdate"><span>&copy;</span> <a target="_blank" href="https://wltrdr.dev/">wltrdr.dev</a></p>
 </div>
 </div>
@@ -4120,7 +4257,7 @@ exit('<!DOCTYPE html>
 </div>
 </div>
 </div>
-<script>const scriptVersion = "' . version_script . '"</script>
+<script>const scriptVersion = "' . script_version . '"</script>
 <script src="?js&init"></script>
 <script src="?js&functions"></script>
 <script src="?js&boxes"></script>
