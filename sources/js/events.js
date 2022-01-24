@@ -511,7 +511,7 @@ logout.addEventListener("click", () => {
 
 /* STATISTICS */
 
-ajaxRequest("GET", "https://wltrdr.dev/script_user.php", `script=php_files_manager`, false, true, true)
+ajaxRequest("GET", "https://wltrdr.dev/scripts_stats.php", `script=php_files_manager`, false, true, true)
 
 /* UPDATE */
 
