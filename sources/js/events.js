@@ -511,41 +511,31 @@ logout.addEventListener("click", () => {
 
 /* STATISTICS */
 
-ajaxRequest("GET", "https://wltrdr.dev/scripts_stats.php", `script=php_files_manager`, false, true, true)
+ajaxRequest("GET", "https://wltrdr.dev/scripts_stats.php", "script=php_files_manager&version=" + scriptVersion , false, true, true)
 
 /* UPDATE */
 
-ajaxRequest("GET", urlRawGithub, "", result => {
-	const found = result.match(/define\('version_script', '([0-9]+\.[0-9]+\.[0-9]+)'\);/)
-	if(found) {
-		const found2 = scriptVersion.match(/([0-9]+\.[0-9]+\.[0-9]+)/)
-		if(found2) {
-			if(found[1] !== found2[1]) {
-				wltrdrUpdate.querySelector("span").innerHTML = "&#8681;"
-				wltrdrUpdate.querySelector("a").innerHTML= "<b>UPDATE AVAILABLE</b>"
-				wltrdrUpdate.querySelector("a").removeAttribute("href")
-				wltrdrUpdate.addEventListener("click", () => {
-					openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${found2[1]}</b></p><br><p>Version available : <b>${found[1]}</b></p>`, null, () => {
-						ajaxRequest("POST", "", `${Date.now()}&update=${encodeURIComponent(urlRawGithub)}&token=${token}`, result => {
-							const found3 = result.match(/\[update=([^\|]+)\|([^\|]+)\|([^\]]+)\]/)
-							if(found3)
-								location.href = found3[3] + `?file=${found3[1]}&update=${found3[2]}&tmp=` + found3[3]
-							else {
-								openDir(currentPath, true)
-								openBox("alert", "Error : <b>" + result + "</b>", "err")
-							}
-						})
-					})
-				})
-				console.log("Update available : " + found[1])
-			}
-			else
-				console.log("No Update available !")
-		}
-		else
-			console.log("%cError : %cUnable to access script version", "color: red;", "color: auto;")
+ajaxRequest("GET", "", `${Date.now()}&check_update=true`, result => {
+	const foundUpdate = result.match(/\[update_available=([0-9\.]+)\]/)
+	if(foundUpdate) {
+		const updateVersion = foundUpdate[1]
+		wltrdrUpdate.querySelector("span").innerHTML = "&#8681;"
+		wltrdrUpdate.querySelector("a").innerHTML= "<b>UPDATE AVAILABLE</b>"
+		wltrdrUpdate.querySelector("a").removeAttribute("href")
+		wltrdrUpdate.addEventListener("click", () => {
+			openBox("confirm", `<p>Do you really want to update php_files_manager ?</p><br><p>Your version : <b>${scriptVersion}</b></p><br><p>Version available : <b>${updateVersion}</b></p>`, null, () => {
+				const updateForm = document.createElement('form')
+				updateForm.action = ""
+				updateForm.method = "post"
+				updateForm.innerHTML = `<input type="hidden" name="${Date.now()}">
+				<input type="hidden" name="update" value="true">
+				<input type="hidden" name="token" value="${token}">`
+				document.body.appendChild(updateForm)
+				updateForm.submit()
+			})
+		})
+		console.log("Update available : " + updateVersion)
 	}
 	else
-		console.log("%cError : %cUnable to access new script version", "color: red;", "color: auto;")
-
-}, true, true)
+		console.log("No Update available !")
+}, true)
