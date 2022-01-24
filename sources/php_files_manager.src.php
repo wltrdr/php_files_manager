@@ -6,7 +6,7 @@ $password = 'mindja!';
 
 /* SECURITY */
 
-define('script_version', '0.9.26');
+define('script_version', '0.9.27');
 include('php/init.php');
 include('php/files_init.php');
 
@@ -85,9 +85,12 @@ elseif(isset($_GET['check_update'])) {
 	$update_version = 'false';
 	if(preg_match('#define\(\'script_version\', \'([0-9\.]+)\'\);#', $update_content, $matches)) {
 		if(script_version !== $matches[1])
-			$update_version = $matches[1];
+			exit('[update_available=' . $matches[1] . ']');
+		else
+			exit('[update_available=false]');
 	}
-	exit("[update_available=$update_version]");
+	else
+		exit('[update_available=not_found]');
 }
 
 /* DOWNLOAD FILE */
