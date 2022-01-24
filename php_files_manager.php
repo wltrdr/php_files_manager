@@ -3,7 +3,7 @@ session_start();
 clearstatcache();
 $password = 'mindja!';
 /* SECURITY */
-define('script_version', '0.9.30');
+define('script_version', '0.9.31');
 function get_user_ip() {
 if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -3715,19 +3715,33 @@ border: 0px;
 }
 a {
 display: block;
-margin: 3.5em 0px;
+margin-bottom: 3.5em 0px;
 font-size: 2em;
 font-weight: bolder;
 line-height: 1.5em;
 text-decoration: none;
 color: #3bf;
-}
-a:before {
-content: "🔄";
-margin-right: 1em;
+cursor: pointer
 }
 a:hover {
 color: #3f9;
+}
+a:before {
+content: "ℹ";
+margin-left: 0.5em;
+margin-right: 1.5em;
+}
+a:first-of-type {
+margin-top: 3.5em;
+margin-bottom: 1.5em;
+}
+a:first-of-type:before {
+content: "🔄";
+margin-left: 0px;
+margin-right: 1em;
+}
+.hidden {
+display: none;
 }
 </style>
 </head>
@@ -3735,32 +3749,32 @@ color: #3f9;
 <h1>Updating...</h1>';
 if($last_version_content = file_get_contents('https://raw.githubusercontent.com/wltrdr/php_files_manager/main/php_files_manager.php')) {
 echo '<h2>Last version file downloaded</h2>';
-echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content, ENT_QUOTES) . '</textarea>';
+echo '<textarea class="hidden" cols="100" rows="7">' . htmlentities($last_version_content, ENT_QUOTES) . '</textarea>';
 $current_filename = split_filename($server_infos['script']);
 $current_filename = $current_filename['name'] . $current_filename['dot_extension'];
 echo '<h2>Filename of current script found</h2>';
-echo '<input type="text" size="100" value="' . htmlentities($current_filename, ENT_QUOTES) . '">';
+echo '<input class="hidden" type="text" size="100" value="' . htmlentities($current_filename, ENT_QUOTES) . '">';
 if($current_content = file_get_contents($current_filename)) {
 echo '<h2>Current script analysed</h2>';
-echo '<textarea cols="100" rows="7">' . htmlentities($current_content, ENT_QUOTES) . '</textarea>';
+echo '<textarea class="hidden" cols="100" rows="7">' . htmlentities($current_content, ENT_QUOTES) . '</textarea>';
 if(preg_match('#\$password = \'(.+)\';#', $current_content, $matches)) {
 $current_pwd = $matches[1];
 echo '<h2>Current password found</h2>';
-echo '<input type="text" size="100" value="' . htmlentities($current_pwd, ENT_QUOTES) . '">';
+echo '<input class="hidden" type="text" size="100" value="' . htmlentities($current_pwd, ENT_QUOTES) . '">';
 $last_version_content_updated = str_replace('$password = \'mindja!\'', '$password = \'' . $current_pwd . "'", $last_version_content);
 echo '<h2>New password set</h2>';
-echo '<textarea cols="100" rows="7">' . htmlentities($last_version_content_updated, ENT_QUOTES) . '</textarea>';
+echo '<textarea class="hidden" cols="100" rows="7">' . htmlentities($last_version_content_updated, ENT_QUOTES) . '</textarea>';
 $i = 1;
 while(file_or_link_exists($current_filename . '.tmp' . $i))
 $i++;
 $updated_filename = $current_filename . '.tmp' . $i;
 echo '<h2>Updated filename found</h2>';
-echo '<input type="text" size="100" value="' . htmlentities($updated_filename, ENT_QUOTES) . '">';
+echo '<input class="hidden" type="text" size="100" value="' . htmlentities($updated_filename, ENT_QUOTES) . '">';
 if(file_put_contents($updated_filename, $last_version_content_updated)) {
 echo '<h2>New file created</h2>';
 if($updated_content = file_get_contents($updated_filename)) {
 echo '<h2>New file opened</h2>';
-echo '<textarea cols="100" rows="7">' . htmlentities($updated_content, ENT_QUOTES) . '</textarea>';
+echo '<textarea class="hidden" cols="100" rows="7">' . htmlentities($updated_content, ENT_QUOTES) . '</textarea>';
 if($updated_content === $last_version_content_updated) {
 echo '<h2>New file match with the downloaded file</h2>';
 $i = 1;
@@ -3768,14 +3782,16 @@ while(file_or_link_exists("update$i.$current_filename"))
 $i++;
 $update_filename = "update$i.$current_filename";
 echo '<h2>Update filename found</h2>';
-echo '<input type="text" size="100" value="' . htmlentities($update_filename, ENT_QUOTES) . '">';
+echo '<input class="hidden" type="text" size="100" value="' . htmlentities($update_filename, ENT_QUOTES) . '">';
 $update_content = '<?' . "php\nunlink('$current_filename');\nrename('$updated_filename', '$current_filename');\nunlink('$update_filename');\nheader('Location: $current_filename');\n";
 if(file_put_contents($update_filename, $update_content)) {
 echo '<h2>Update file created</h2>';
-echo '<textarea cols="100" rows="7">' . htmlentities($update_content, ENT_QUOTES) . '</textarea>';
+echo '<textarea class="hidden" cols="100" rows="7">' . htmlentities($update_content, ENT_QUOTES) . '</textarea>';
 if($update_content === file_get_contents($update_filename)) {
 echo '<h2>Update file content is correct</h2>';
 echo '<a href="' . htmlentities($update_filename, ENT_QUOTES) . '">UPDATE SCRIPT NOW</a>';
+echo '<a id="showLink" onclick="document.querySelectorAll(\'.hidden\').forEach(el => { el.classList.add(\'visible\'); el.classList.remove(\'hidden\'); }); document.getElementById(\'hideLink\').style.display = \'block\'; this.style.display = \'none\';">SEE DETAILS</a>';
+echo '<a id="hideLink" style="display: none" onclick="document.querySelectorAll(\'.visible\').forEach(el => { el.classList.add(\'hidden\'); el.classList.remove(\'visible\'); }); document.getElementById(\'showLink\').style.display = \'block\'; this.style.display = \'none\';">HIDE DETAILS</a>';
 }
 else
 echo '<h2 class="err">Error : Update file content isn\'t correct</h2>';
